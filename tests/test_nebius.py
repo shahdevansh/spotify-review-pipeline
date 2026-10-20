@@ -67,6 +67,14 @@ def test_unknown_model_or_instruct_thinking_rejected_offline():
         validate_nebius_model_settings(MODEL, "low")
 
 
+def test_qwen235b_instruct_omits_thinking_controls():
+    model = "Qwen/Qwen3-235B-A22B-Instruct-2507"
+    body = NebiusProvider.build_request(**{**ARGS, "model": model}, reasoning_effort="none")
+    assert "reasoning_effort" not in body and "chat_template_kwargs" not in body
+    with pytest.raises(ValueError):
+        NebiusProvider.build_request(**{**ARGS, "model": model}, reasoning_effort="low")
+
+
 @pytest.mark.asyncio
 async def test_wire_shape_response_usage_and_secret_safety():
     raw = response()

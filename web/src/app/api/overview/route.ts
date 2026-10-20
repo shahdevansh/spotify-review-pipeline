@@ -20,7 +20,8 @@ export async function GET() {
       FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace
       WHERE n.nspname = current_schema() AND c.relkind = 'r'
         AND c.relname IN ('spotify_runs','spotify_reviews','spotify_issues',
-                         'spotify_membership','spotify_claims','spotify_recommendations')`);
+                         'spotify_membership','spotify_claims','spotify_recommendations',
+                         'spotify_evaluation_reports')`);
     const bytes = Number(sizes[0]?.bytes ?? 0);
     const inputCount = Number(stored.summary.input_count ?? stored.imported_rows);
     return json({

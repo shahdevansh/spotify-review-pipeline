@@ -1,0 +1,171 @@
+{
+  "synthetic": true,
+  "business_evidence": false,
+  "provider_calls": 0,
+  "api_cost_usd": 0,
+  "scratch_dir": "/private/tmp/spotify-synthetic-scaling-v6-gfacqask",
+  "python": "3.14.2 (main, Dec  5 2025, 16:49:16) [Clang 17.0.0 (clang-1700.6.3.2)]",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "filesystem": "/private/tmp (local temporary filesystem)",
+  "production_files_modified": false,
+  "storage_source_sha256": "de9473b8b342a0e7346bfc629019bbff0075f2e48fc01d0db9cee843adef06fb",
+  "steps": [
+    {
+      "kind": "call_journal_and_snapshot",
+      "n": 100,
+      "final_call_mean_bytes": 1608.0,
+      "write_seconds": 0.04505258399876766,
+      "persisted_calls_per_second": 2219.628512378676,
+      "last100_mean_seconds": 0.0004389720995823154,
+      "list_parse_seconds_with_tracemalloc": 0.004737750001368113,
+      "list_parse_peak_bytes": 908276,
+      "atomic_export_seconds": 0.002187749996664934,
+      "append_bytes": 160800,
+      "snapshot_bytes": 160800,
+      "database_bytes": 245760
+    },
+    {
+      "kind": "call_journal_and_snapshot",
+      "n": 1000,
+      "final_call_mean_bytes": 1608.0,
+      "write_seconds": 0.35678166699653957,
+      "persisted_calls_per_second": 2802.834597467417,
+      "last100_mean_seconds": 0.00028306455969868695,
+      "list_parse_seconds_with_tracemalloc": 0.045725582996965386,
+      "list_parse_peak_bytes": 9053804,
+      "atomic_export_seconds": 0.022524666994286235,
+      "append_bytes": 1608000,
+      "snapshot_bytes": 1608000,
+      "database_bytes": 2150400
+    },
+    {
+      "kind": "call_journal_and_snapshot",
+      "n": 10000,
+      "final_call_mean_bytes": 1608.0,
+      "write_seconds": 2.937212292003096,
+      "persisted_calls_per_second": 3404.5887752908325,
+      "last100_mean_seconds": 0.0003045013094379101,
+      "list_parse_seconds_with_tracemalloc": 0.5149081660056254,
+      "list_parse_peak_bytes": 90503444,
+      "atomic_export_seconds": 0.38942250000400236,
+      "append_bytes": 16080000,
+      "snapshot_bytes": 16080000,
+      "database_bytes": 21159936
+    },
+    {
+      "kind": "ledger_reserve_and_settle",
+      "n": 100,
+      "elapsed_seconds": 0.09274270799505757,
+      "last100_mean_seconds": 0.0009271012397948652,
+      "admissions_per_second": 1078.2518880657353,
+      "aggregate_row_visits_estimate": 9900,
+      "explain_query_plan": {
+        "global": [
+          [
+            3,
+            0,
+            216,
+            "SCAN spend"
+          ]
+        ],
+        "run": [
+          [
+            4,
+            0,
+            62,
+            "SEARCH spend USING INDEX spend_run (run_id=?)"
+          ]
+        ]
+      },
+      "database_bytes": 28672,
+      "amounts_are_synthetic": true,
+      "real_cost_usd": 0
+    },
+    {
+      "kind": "ledger_reserve_and_settle",
+      "n": 1000,
+      "elapsed_seconds": 0.424383041994588,
+      "last100_mean_seconds": 0.000267251979894354,
+      "admissions_per_second": 2356.361826570706,
+      "aggregate_row_visits_estimate": 999000,
+      "explain_query_plan": {
+        "global": [
+          [
+            3,
+            0,
+            216,
+            "SCAN spend"
+          ]
+        ],
+        "run": [
+          [
+            4,
+            0,
+            62,
+            "SEARCH spend USING INDEX spend_run (run_id=?)"
+          ]
+        ]
+      },
+      "database_bytes": 184320,
+      "amounts_are_synthetic": true,
+      "real_cost_usd": 0
+    },
+    {
+      "kind": "ledger_reserve_and_settle",
+      "n": 10000,
+      "elapsed_seconds": 6.580023041999084,
+      "last100_mean_seconds": 0.0011273295598948608,
+      "admissions_per_second": 1519.7515170040938,
+      "aggregate_row_visits_estimate": 99990000,
+      "explain_query_plan": {
+        "global": [
+          [
+            3,
+            0,
+            216,
+            "SCAN spend"
+          ]
+        ],
+        "run": [
+          [
+            4,
+            0,
+            62,
+            "SEARCH spend USING INDEX spend_run (run_id=?)"
+          ]
+        ]
+      },
+      "database_bytes": 1703936,
+      "amounts_are_synthetic": true,
+      "real_cost_usd": 0
+    },
+    {
+      "kind": "record_save_then_materialize_rewrite",
+      "n": 100,
+      "initial_save_seconds": 0.017398292002326343,
+      "repeated_read_and_write_seconds": 0.022724207999999635,
+      "atomic_export_seconds": 0.0012207920008222573,
+      "export_bytes": 64580,
+      "database_bytes": 221184
+    },
+    {
+      "kind": "record_save_then_materialize_rewrite",
+      "n": 1000,
+      "initial_save_seconds": 0.15409820799686713,
+      "repeated_read_and_write_seconds": 0.08864887500385521,
+      "atomic_export_seconds": 0.00935412500257371,
+      "export_bytes": 647780,
+      "database_bytes": 1683456
+    },
+    {
+      "kind": "record_save_then_materialize_rewrite",
+      "n": 10000,
+      "initial_save_seconds": 1.2276882090009167,
+      "repeated_read_and_write_seconds": 0.9324580000029528,
+      "atomic_export_seconds": 0.09124529200198594,
+      "export_bytes": 6497780,
+      "database_bytes": 16449536
+    }
+  ],
+  "finished": true
+}

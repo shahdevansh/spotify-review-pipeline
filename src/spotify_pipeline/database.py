@@ -93,8 +93,11 @@ def load_run(
     *,
     ingestion_report: str | Path | None = None,
     evaluation_path: str | Path | None = None,
+    skip_evaluation: bool = False,
 ) -> RunBundle:
     """Read and reconcile a saved run before opening a database connection."""
+    if skip_evaluation and evaluation_path is not None:
+        raise ValueError("skip_evaluation cannot be combined with an explicit evaluation_path.")
     directory = Path(run_dir)
     summary = _json(directory / "run_summary.json", required=True)
     if not isinstance(summary, dict) or not isinstance(summary.get("run_id"), str) or not summary["run_id"]:
@@ -135,9 +138,11 @@ def load_run(
     profile = _json(Path(ingestion_report)) if ingestion_report else summary.get("source_profile")
     if profile is None:
         profile = _json(directory / "ingestion_report.json")
-    evaluation = _json(Path(evaluation_path)) if evaluation_path else summary.get("evaluation")
-    if evaluation is None:
-        evaluation = _json(directory / "evaluation.json")
+    evaluation = None
+    if not skip_evaluation:
+        evaluation = _json(Path(evaluation_path)) if evaluation_path else summary.get("evaluation")
+        if evaluation is None:
+            evaluation = _json(directory / "evaluation.json")
     bundle = RunBundle(
         run_id=summary["run_id"],
         summary=summary,
@@ -349,7 +354,8 @@ def import_run(
                 FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace
                 WHERE n.nspname=current_schema() AND c.relkind='r'
                   AND c.relname IN ('spotify_runs','spotify_reviews','spotify_issues',
-                                   'spotify_membership','spotify_claims','spotify_recommendations')
+                                   'spotify_membership','spotify_claims','spotify_recommendations',
+                                   'spotify_evaluation_reports')
             """)
             size = int(cursor.fetchone()[0])
     return {

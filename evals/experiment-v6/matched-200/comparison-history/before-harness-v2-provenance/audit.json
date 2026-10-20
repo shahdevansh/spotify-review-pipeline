@@ -1,0 +1,9 @@
+{
+  "reason": "Regenerate derived report after per-statistic bootstrap interval sufficiency and synthetic worksheet provenance fixes. Paid prediction/call/config artifacts remain unchanged.",
+  "prior_artifacts_sha256": {
+    "comparison.json": "f864505b200a6c0175b7ef2e20ae90425376703736ef610f3a89473bb0930c53",
+    "comparison.md": "1c63c487442a791e4ff202fb241d9e2f0ef3c1dfe19389768d86df6bce8b2ad8",
+    "comparison-cases.jsonl": "9e58c60c1b9249dbd4e2f05a06b9719675c36f250b52cb039588386637cb807a"
+  },
+  "new_harness_sha256": "c94c9ed706615aca4eb4280c840fd4e5514c933d971e8a191521e1718695dffe"
+}

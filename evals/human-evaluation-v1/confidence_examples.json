@@ -1,0 +1,33 @@
+{
+  "examples": [
+    {
+      "illustrative_successes": 45,
+      "n": 50,
+      "probability_of_zero_1_percent_class_cases": 0.6050060671375364,
+      "wilson_95_lower": 0.7863976856252035,
+      "wilson_95_upper": 0.9565242350681096,
+      "zero_errors_one_sided_95_error_upper": 0.058155079116972264,
+      "zero_errors_two_sided_95_error_upper": 0.07112173646419762
+    },
+    {
+      "illustrative_successes": 135,
+      "n": 150,
+      "probability_of_zero_1_percent_class_cases": 0.22145178723886091,
+      "wilson_95_lower": 0.8415651883318529,
+      "wilson_95_upper": 0.9384586161736859,
+      "zero_errors_one_sided_95_error_upper": 0.019773438164508494,
+      "zero_errors_two_sided_95_error_upper": 0.024292597166108543
+    },
+    {
+      "illustrative_successes": 180,
+      "n": 200,
+      "probability_of_zero_1_percent_class_cases": 0.13397967485796172,
+      "wilson_95_lower": 0.8505941875672826,
+      "wilson_95_upper": 0.9343295513309041,
+      "zero_errors_one_sided_95_error_upper": 0.014867039231272083,
+      "zero_errors_two_sided_95_error_upper": 0.018275340355136227
+    }
+  ],
+  "illustrative_only": true,
+  "observed_human_results": false
+}

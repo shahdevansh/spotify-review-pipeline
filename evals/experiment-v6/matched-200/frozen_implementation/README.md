@@ -1,0 +1,1 @@
+Frozen source files used by this development experiment. SHA-256 values match implementation_hashes in ../manifest.json. Prompts and settings are embedded in ../configs/. These snapshots preserve reproducibility after later engine changes; the main runner rejects changes to its frozen implementation. Human labels are not included.

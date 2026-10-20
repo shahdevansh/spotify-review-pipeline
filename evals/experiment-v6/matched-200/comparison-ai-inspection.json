@@ -1,0 +1,1687 @@
+{
+  "cases": [
+    {
+      "ai_inspection": {
+        "assessment": "Explicit Hindi uninstall statement supports cancellation. Lightning v5 misses departure and assigns blocked-core severity without a described failure. No specific usability defect is stated; GLM other/cancellation/2 is best supported among the returned labels.",
+        "confidence": "high",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "topic",
+        "intent",
+        "severity"
+      ],
+      "differing_fields": [
+        "topic",
+        "intent",
+        "severity"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-other": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "other"
+        },
+        "gptoss-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-other": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "other"
+        },
+        "lightning-v5": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-usability": 4
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 4,
+          "topic": "usability"
+        },
+        "lightning-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-usability": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "usability"
+        },
+        "qwen235-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-usability": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "usability"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 7,
+      "review_id": "45c561b9-cc47-4d80-95d3-f0d20bc84af3",
+      "review_text": "The update made the app useless .... Uninstall krdia ye app ab bekar hai ... Wynk hi theek h",
+      "source_sha256": "3174ae80d1580f71f065a564b58162a3ad923e157f68f261bd7c273175575b1b"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "Explicit conditional personal departure is missed by GPT-OSS and GLM. Restricted song choice supports severity3 more directly than annoyance2 or completely blocked playback4. Topic depends on whether the restriction is sufficiently tied to Premium; flag that ambiguity.",
+        "confidence": "high on intent; moderate on topic",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "topic",
+        "intent",
+        "severity"
+      ],
+      "differing_fields": [
+        "topic",
+        "intent",
+        "severity",
+        "sentiment"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-billing": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "billing"
+        },
+        "gptoss-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-playback": 4
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 4,
+          "topic": "playback"
+        },
+        "lightning-v5": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-usability": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "usability"
+        },
+        "lightning-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-usability": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -0.8,
+          "severity": 2,
+          "topic": "usability"
+        },
+        "qwen235-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-usability": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "usability"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 7,
+      "review_id": "16e229b6-24f0-4362-b922-a48e0e3aa9ad",
+      "review_text": "New version of Spotify is not an updated version but the worst version. Spotify users can't even able to listen to the songs of their choice. Not everyone can afford to have premium membership and any other thing even their are too much ads this is really worst if this kind of things keep going then I have to uninstall my favourite and the only music player which is basically Spotify itself It's really disgusting and a biggest disappointment",
+      "source_sha256": "c38d359980435f9bcae6e322ef55b5c235fb705ac715b870b7ee1eac39b25cf4"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "Both Lightning cancellations lack a personal departure statement. Qwen playback lacks a stated playback problem. Hacking, lost playlists and a substantial financial allegation make the principal harm uncertain; severity5 needs the harm, not merely a price. GLM flags the ambiguity.",
+        "confidence": "high on unsupported intent/topic; otherwise unresolved",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "topic",
+        "intent"
+      ],
+      "differing_fields": [
+        "topic",
+        "intent",
+        "needs_review"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-access": 5
+          },
+          "needs_review": true,
+          "raw_needs_review": true,
+          "review_reasons": [
+            "model_requested_review"
+          ],
+          "sentiment": -1,
+          "severity": 5,
+          "topic": "access"
+        },
+        "gptoss-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-billing": 5
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 5,
+          "topic": "billing"
+        },
+        "lightning-v5": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-billing": 5
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 5,
+          "topic": "billing"
+        },
+        "lightning-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-billing": 5
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 5,
+          "topic": "billing"
+        },
+        "qwen235-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-playback": 5
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 5,
+          "topic": "playback"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 10,
+      "review_id": "d87536c5-6fe0-4b38-b0b1-c47936e4a0d8",
+      "review_text": "Top algorithm, but again hacked ,can't even recover the playlists set by me last week ,cost over three hundred dollars,per week for nothing ,",
+      "source_sha256": "b3f456d9b01b391413554189218102907d4ce724b924f562f38e72eb31441fce"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "Repeated uninstall may be troubleshooting rather than departure; intent deserves review. Unwanted playback and changing controls suggest malfunction beyond cosmetic annoyance. Qwen severity5 relies on a broad spying allegation without a clear serious consequence.",
+        "confidence": "moderate",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "intent",
+        "severity"
+      ],
+      "differing_fields": [
+        "intent",
+        "severity"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-usability": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "usability"
+        },
+        "gptoss-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-usability": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "usability"
+        },
+        "lightning-v5": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-usability": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "usability"
+        },
+        "lightning-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-usability": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "usability"
+        },
+        "qwen235-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-usability": 5
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 5,
+          "topic": "usability"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 3,
+      "review_id": "91132204-877d-4ac1-9d08-20d03f1414f6",
+      "review_text": "I had to delete and uninstall this app more than one time and I still have the same problem with it it's somehow decides to automatically start playing. Even over other media audio applications plus they keep changing the location of where you can shut off the permissions for that. It's absolutely trash and I would suggest that no one use it because it takes takes over too many permissions on your phone and it really really does spy on your privacy",
+      "source_sha256": "2268afa40f11b3b3b05694510e32543065bed0a992513a9cc5d27499b0f27c7d"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "Both Lightning cancellation labels lack source support. Lightning v6 moves an explicit payment/paywall complaint to usability. Billing/complaint is well supported; severity3 is plausible for restricted features, with uncertain breadth.",
+        "confidence": "high on intent/topic",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "topic",
+        "intent",
+        "severity"
+      ],
+      "differing_fields": [
+        "topic",
+        "intent",
+        "severity"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-billing": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "billing"
+        },
+        "gptoss-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-billing": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "billing"
+        },
+        "lightning-v5": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-billing": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "billing"
+        },
+        "lightning-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-usability": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "usability"
+        },
+        "qwen235-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-billing": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "billing"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 5,
+      "review_id": "4c415cc6-dd24-4046-a9fa-2a371e3d4fb5",
+      "review_text": "Naah this is not music player. This is just dumb which is asking you money for what ever you touch in the app. This going too far Spotify. Bring back old Spotify 😭",
+      "source_sha256": "73d809e7fecc18455208a63ec0c76f31f04c1d491b82c3f5d77259f3c9f45527"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "Premium-only controls support billing and severity3. Both Lightning severity2 labels understate functional restriction, and v6 usability misses the payment mechanism. The app wants us to uninstall is rhetorical, so personal cancellation is uncertain and should be flagged.",
+        "confidence": "high on topic/severity; moderate on intent",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "topic",
+        "intent",
+        "severity"
+      ],
+      "differing_fields": [
+        "topic",
+        "intent",
+        "severity"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-billing": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "billing"
+        },
+        "gptoss-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-billing": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "billing"
+        },
+        "lightning-v5": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-billing": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "billing"
+        },
+        "lightning-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-usability": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "usability"
+        },
+        "qwen235-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-billing": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "billing"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 5,
+      "review_id": "170fbc53-d594-42fb-a310-9df8c4001e2b",
+      "review_text": "No shuffle and adjusting song timing is available for premium members only which is really frustrating definitely this app wants us to uninstall it and shift to jio",
+      "source_sha256": "e16590f534d8b9f93eee47f52350b9dddab8d8c5b2ebce22dccead53f6555662"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "Advice not to download is not personal departure: both Lightning cancellation labels conflict with the explicit rule. Qwen unclear misses a clear product complaint. Severity2 versus3 depends on literal listening disruption versus exaggerated ad annoyance.",
+        "confidence": "high on intent; moderate on severity",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "intent",
+        "severity"
+      ],
+      "differing_fields": [
+        "intent",
+        "severity",
+        "needs_review"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-usability": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "usability"
+        },
+        "gptoss-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-usability": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "usability"
+        },
+        "lightning-v5": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-usability": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "usability"
+        },
+        "lightning-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-usability": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "usability"
+        },
+        "qwen235-v6": {
+          "intent": "unclear",
+          "issue_score": {},
+          "needs_review": true,
+          "raw_needs_review": true,
+          "review_reasons": [
+            "model_requested_review",
+            "intent_severity_inconsistency"
+          ],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "usability"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 3,
+      "review_id": "cf6166ae-d71a-4839-9add-088645ad3b78",
+      "review_text": "DON'T DOWNLOAD THIS:Such a worst app ... that always plays adds instead of songs ...if want to enjoy music free without adds don't download this app ..",
+      "source_sha256": "a7b0edb93d55f22abfa6e303f2ee738f59b21352c03297e9d33ef35557f7fc98"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "Uninstall this all can be advice, typo or personal departure. Both Lightning outputs invent a usability defect and severity2. GLM unclear/1 with a flag is cautious; Qwen also flags its cancellation interpretation.",
+        "confidence": "moderate",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "topic",
+        "intent",
+        "severity"
+      ],
+      "differing_fields": [
+        "topic",
+        "intent",
+        "severity",
+        "sentiment",
+        "needs_review"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "unclear",
+          "issue_score": {},
+          "needs_review": true,
+          "raw_needs_review": true,
+          "review_reasons": [
+            "model_requested_review"
+          ],
+          "sentiment": 0,
+          "severity": 1,
+          "topic": "other"
+        },
+        "gptoss-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-other": 1
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 1,
+          "topic": "other"
+        },
+        "lightning-v5": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-usability": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "usability"
+        },
+        "lightning-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-usability": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "usability"
+        },
+        "qwen235-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-other": 1
+          },
+          "needs_review": true,
+          "raw_needs_review": true,
+          "review_reasons": [
+            "model_requested_review"
+          ],
+          "sentiment": -1,
+          "severity": 1,
+          "topic": "other"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 3,
+      "review_id": "1ee942bb-a3de-4380-8c08-a15949687c6c",
+      "review_text": "Uninstall this all",
+      "source_sha256": "761092f75c4937f928e275f6e4ab7e45a565c49f19ec259aef06e4577d8a39ec"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "A bare geopolitical boycott slogan follows the explicit unclear rule. Both Lightning arms infer personal cancellation; v5 also adds a product-problem severity2 without support.",
+        "confidence": "high",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "intent",
+        "severity"
+      ],
+      "differing_fields": [
+        "intent",
+        "severity",
+        "sentiment",
+        "needs_review"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "unclear",
+          "issue_score": {},
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": 0,
+          "severity": 1,
+          "topic": "other"
+        },
+        "gptoss-v6": {
+          "intent": "unclear",
+          "issue_score": {},
+          "needs_review": true,
+          "raw_needs_review": true,
+          "review_reasons": [
+            "model_requested_review"
+          ],
+          "sentiment": 0,
+          "severity": 1,
+          "topic": "other"
+        },
+        "lightning-v5": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-other": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "other"
+        },
+        "lightning-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-other": 1
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 1,
+          "topic": "other"
+        },
+        "qwen235-v6": {
+          "intent": "unclear",
+          "issue_score": {},
+          "needs_review": true,
+          "raw_needs_review": true,
+          "review_reasons": [
+            "model_requested_review"
+          ],
+          "sentiment": 0,
+          "severity": 1,
+          "topic": "other"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 2,
+      "review_id": "fa4b49c5-3e62-4b58-84f3-2a3954180e9c",
+      "review_text": "Boycot sudan",
+      "source_sha256": "d6c47f92d725997840b7124a5eae7d76e7220e3c0816f68b3b53b1c3ae444b08"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "Angry emojis do not support Lightning v6 cancellation. Complaint2 versus unclear1 is arguable for emoji-only text. Qwen complaint1 violates the complaint severity floor. GLM neutral sentiment is questionable despite uncertain intent.",
+        "confidence": "high on cancellation/inconsistency; otherwise ambiguous",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "intent",
+        "severity"
+      ],
+      "differing_fields": [
+        "intent",
+        "severity",
+        "sentiment",
+        "needs_review"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "unclear",
+          "issue_score": {},
+          "needs_review": true,
+          "raw_needs_review": true,
+          "review_reasons": [
+            "model_requested_review"
+          ],
+          "sentiment": 0,
+          "severity": 1,
+          "topic": "other"
+        },
+        "gptoss-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-other": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "other"
+        },
+        "lightning-v5": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-other": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "other"
+        },
+        "lightning-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-other": 1
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 1,
+          "topic": "other"
+        },
+        "qwen235-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-other": 1
+          },
+          "needs_review": true,
+          "raw_needs_review": true,
+          "review_reasons": [
+            "model_requested_review",
+            "complaint_severity_inconsistency"
+          ],
+          "sentiment": -1,
+          "severity": 1,
+          "topic": "other"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 2,
+      "review_id": "ba9059f7-e458-4e4e-9b39-23b58a3e256c",
+      "review_text": "😡😡😡😡",
+      "source_sha256": "64a5d909fba7cc07b7ee1106850e6494599461decb4c848786208f174925bdcb"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "GPT-OSS, GLM and Qwen all miss explicit personal switching to YouTube. Both Lightning arms identify cancellation but treat restricted on-demand choice as severity4. Billing/cancellation/3 is better supported than any complete returned combination.",
+        "confidence": "high",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "intent",
+        "severity"
+      ],
+      "differing_fields": [
+        "intent",
+        "severity"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-billing": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "billing"
+        },
+        "gptoss-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-billing": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "billing"
+        },
+        "lightning-v5": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-billing": 4
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 4,
+          "topic": "billing"
+        },
+        "lightning-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-billing": 4
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 4,
+          "topic": "billing"
+        },
+        "qwen235-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-billing": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "billing"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 1,
+      "review_id": "ead2b9f1-76d0-4934-b397-e2d11d0eff73",
+      "review_text": "1 minute I get to listen to the music that I want to when I want to the next minute. I have to pay to listen to what I want to. It's just b*******, why do you have to pay the premium? To listen to the music that you want to do. I mean, at this point. I'll just go to YouTube and make a playlist there. So it's either you fix it. Or people are going to stop using Spotify. Please change it back.",
+      "source_sha256": "c962c1321c3d79ff9027a61446ea13cb92b1fb8db66ca18f0086d80b7c382e3b"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "Lightning v6 turns clear generic criticism into cancellation/1 with no departure statement. Other/complaint/2 is supported. All five leave this review unflagged.",
+        "confidence": "high",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "intent",
+        "severity"
+      ],
+      "differing_fields": [
+        "intent",
+        "severity"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-other": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "other"
+        },
+        "gptoss-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-other": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "other"
+        },
+        "lightning-v5": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-other": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "other"
+        },
+        "lightning-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-other": 1
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 1,
+          "topic": "other"
+        },
+        "qwen235-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-other": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "other"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 1,
+      "review_id": "b92a7381-b5cd-4c77-9176-e5c4b4818c8a",
+      "review_text": "You deserve 0 star",
+      "source_sha256": "48ac7854ef8079d14b2a701f7923f4c4e58fd35e03cd00cc32e53800b67d32ea"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "Lightning v6 infers departure from generic anger and assigns severity1 despite a clear complaint. Other/complaint/2 is supported. All five leave this review unflagged.",
+        "confidence": "high",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "intent",
+        "severity"
+      ],
+      "differing_fields": [
+        "intent",
+        "severity"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-other": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "other"
+        },
+        "gptoss-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-other": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "other"
+        },
+        "lightning-v5": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-other": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "other"
+        },
+        "lightning-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-other": 1
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 1,
+          "topic": "other"
+        },
+        "qwen235-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-other": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "other"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 1,
+      "review_id": "87200bc4-c742-4f59-bb19-98529dfa714e",
+      "review_text": "Hate this application 🖕🖕",
+      "source_sha256": "10d5e2ab961c57a2855b0d887a2f2b386d7fdd428609197d199e651fa0d4cece"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "Connectivity is stated before absent content; if both issues are severity3, first mention favors playback. Lightning v6 severity2 understates functional/content loss; GPT-OSS severity4 assumes completely blocked listening without explicit support.",
+        "confidence": "moderate",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "topic",
+        "severity"
+      ],
+      "differing_fields": [
+        "topic",
+        "severity"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-playback": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "playback"
+        },
+        "gptoss-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-playback": 4
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 4,
+          "topic": "playback"
+        },
+        "lightning-v5": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-catalog": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "catalog"
+        },
+        "lightning-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-catalog": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "catalog"
+        },
+        "qwen235-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-playback": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "playback"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 7,
+      "review_id": "3df77a78-ad9a-4456-8be8-8178ffd43d67",
+      "review_text": "Always say no internet connection Most of my favourite Bollywood songs are not present",
+      "source_sha256": "3c4594c069fd83e93f0a4939a2d7d58e10f88ec8ede0c9ed249aa36791e099b1"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "Poor sound quality does not establish blocked core playback, making both Lightning severity4 outputs unsupported. Qwen other overlooks the audio-quality complaint. Playback/complaint with severity2 or3 is more defensible.",
+        "confidence": "high on topic/blocked-core inference; moderate on severity",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "topic",
+        "severity"
+      ],
+      "differing_fields": [
+        "topic",
+        "severity"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-playback": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "playback"
+        },
+        "gptoss-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-playback": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "playback"
+        },
+        "lightning-v5": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-playback": 4
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 4,
+          "topic": "playback"
+        },
+        "lightning-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-playback": 4
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 4,
+          "topic": "playback"
+        },
+        "qwen235-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-other": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "other"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 6,
+      "review_id": "ba6409c7-6675-4c01-8fa7-96682336265a",
+      "review_text": "Very very terrible app it's like garbage and the sound is very baaad",
+      "source_sha256": "5e166dbc2d9634442826d4088e2a254f1e64fe3574d1860253f9f8f0c10cd350"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "Departure and feature restriction are explicit. Lightning v6 and GPT-OSS severity1 contradict the stated problem; Lightning v5 severity4 overstates its impact. GLM and Qwen billing/cancellation/3 fit the restriction.",
+        "confidence": "high",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "severity"
+      ],
+      "differing_fields": [
+        "severity"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-billing": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "billing"
+        },
+        "gptoss-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-billing": 1
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 1,
+          "topic": "billing"
+        },
+        "lightning-v5": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-billing": 4
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 4,
+          "topic": "billing"
+        },
+        "lightning-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-billing": 1
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 1,
+          "topic": "billing"
+        },
+        "qwen235-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-billing": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "billing"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 3,
+      "review_id": "d75d0860-2d1e-4634-97a8-ca6ca63d9d0e",
+      "review_text": "This app WAS the best app for listening songs. New updates are making me abandon this app and use other apps. Everything needs premium, even the basic features need premium. This is actually a pretty bad move by you guys. I'm already using other apps now. If you are not bringing the old version back, you guys will be out of the market very soon. You should definitely remove these new updates.",
+      "source_sha256": "a5b932d8e4b93b9468b10e12cc73055e6dd077e20c288eaa11496caaedb44e61"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "Lightning v5 misses the complaint following an audio suggestion. Lightning v6 appears to combine the requested audio feature topic with the recommendation-setting complaint severity. Catalog/complaint is better supported; severity2 versus3 remains arguable.",
+        "confidence": "high on intent/topic; moderate on severity",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "topic",
+        "intent",
+        "severity"
+      ],
+      "differing_fields": [
+        "topic",
+        "intent",
+        "severity",
+        "sentiment"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-catalog": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "catalog"
+        },
+        "gptoss-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-catalog": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "catalog"
+        },
+        "lightning-v5": {
+          "intent": "request",
+          "issue_score": {},
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -0.2,
+          "severity": 1,
+          "topic": "catalog"
+        },
+        "lightning-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-playback": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -0.5,
+          "severity": 3,
+          "topic": "playback"
+        },
+        "qwen235-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-catalog": 2
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 2,
+          "topic": "catalog"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 5,
+      "review_id": "d26566f7-a898-4298-a06a-50bd3f7319c1",
+      "review_text": "Could be doing with hi-res audio don't like getting bombarded with playlist recommendations when the option is turned off",
+      "source_sha256": "25e0586f157c4ee5e737bd6f1a25ab82f4f79a5f5080a3841063945e203ee030"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "Lightning v6 invents personal departure from an explicitly geopolitical rating rationale. The bare-boycott rule supports other/unclear/1.",
+        "confidence": "high",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "intent"
+      ],
+      "differing_fields": [
+        "intent",
+        "sentiment",
+        "needs_review"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "unclear",
+          "issue_score": {},
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 1,
+          "topic": "other"
+        },
+        "gptoss-v6": {
+          "intent": "unclear",
+          "issue_score": {},
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": 0,
+          "severity": 1,
+          "topic": "other"
+        },
+        "lightning-v5": {
+          "intent": "unclear",
+          "issue_score": {},
+          "needs_review": true,
+          "raw_needs_review": true,
+          "review_reasons": [
+            "model_requested_review"
+          ],
+          "sentiment": -1,
+          "severity": 1,
+          "topic": "other"
+        },
+        "lightning-v6": {
+          "intent": "cancellation",
+          "issue_score": {
+            "issue-other": 1
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 1,
+          "topic": "other"
+        },
+        "qwen235-v6": {
+          "intent": "unclear",
+          "issue_score": {},
+          "needs_review": true,
+          "raw_needs_review": true,
+          "review_reasons": [
+            "model_requested_review"
+          ],
+          "sentiment": -1,
+          "severity": 1,
+          "topic": "other"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 1,
+      "review_id": "ce06030b-e366-4fb8-ba24-23a70988aea9",
+      "review_text": "#boycottsweden Giving a rating of 1 for the actions of sweden",
+      "source_sha256": "c6bdbfe35fddc167469376d45ce168b70f44cdcadd99e54e4aadf3a9af9971bd"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "Specific choice, repeat and skipping restrictions are explicitly connected to Premium. GLM billing/complaint/3 follows the premium-control rule. Other arms rely on broad cannot-do-anything wording to treat restricted controls as blocked core playback.",
+        "confidence": "moderate to high",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "topic",
+        "severity"
+      ],
+      "differing_fields": [
+        "topic",
+        "severity"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-billing": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "billing"
+        },
+        "gptoss-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-playback": 4
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 4,
+          "topic": "playback"
+        },
+        "lightning-v5": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-playback": 4
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 4,
+          "topic": "playback"
+        },
+        "lightning-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-playback": 4
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 4,
+          "topic": "playback"
+        },
+        "qwen235-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-playback": 4
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 4,
+          "topic": "playback"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 7,
+      "review_id": "cc39673b-e332-4f1d-a6c6-ce378a715dcb",
+      "review_text": "The recent update of Spotify really affects me a lot . I'm using Spotify since 2020 ,but the latest update doesn't let me do anything thing I can't play the song I want , can't hear the same song on repeat and it doesn't let me change songs too. I know they are pushing the users to buy their premium version but this isn't the way to do it.",
+      "source_sha256": "dd93e7dba335e0576be356811d3f275b5a8e51dd7b27107268ca5605cb66b7ec"
+    },
+    {
+      "ai_inspection": {
+        "assessment": "Failure to open Wrapped does not establish account/login failure or blocked music playback. Access/4 and playback topics are not established by the stated task. Feature-failure severity3 is more plausible, but taxonomy topic remains ambiguous. GLM flags it; access/4 outputs do not.",
+        "confidence": "high on unsupported task inference; moderate on topic",
+        "final_human_adjudication": null
+      },
+      "core_differing_fields": [
+        "topic",
+        "severity"
+      ],
+      "differing_fields": [
+        "topic",
+        "severity",
+        "needs_review"
+      ],
+      "human_ground_truth": false,
+      "labels": {
+        "glm-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-playback": 3
+          },
+          "needs_review": true,
+          "raw_needs_review": true,
+          "review_reasons": [
+            "model_requested_review"
+          ],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "playback"
+        },
+        "gptoss-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-access": 4
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 4,
+          "topic": "access"
+        },
+        "lightning-v5": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-access": 4
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 4,
+          "topic": "access"
+        },
+        "lightning-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-catalog": 3
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 3,
+          "topic": "catalog"
+        },
+        "qwen235-v6": {
+          "intent": "complaint",
+          "issue_score": {
+            "issue-access": 4
+          },
+          "needs_review": false,
+          "raw_needs_review": false,
+          "review_reasons": [],
+          "sentiment": -1,
+          "severity": 4,
+          "topic": "access"
+        }
+      },
+      "maximum_pair_issue_score_l1_difference": 7,
+      "review_id": "c1726764-f0ce-4abc-ad9e-6cd143e1b2c7",
+      "review_text": "I can't open my spotify wrap 2022...",
+      "source_sha256": "ee24594d8a25d56f6c749b5df3e6a7ffda4b2aa8d8b3c71b301fb34686ee582d"
+    }
+  ],
+  "count": 20,
+  "evaluator": "Codex AI qualitative inspection, independently reviewed by a subagent",
+  "frozen_prompt_configs": {
+    "configs/glm-v6.json": "5b273a96fd5f340e61c524db0e9b6380d5968399038266171f81d9d7f04c308c",
+    "configs/gptoss-v6.json": "5997e92621fd557a83cd2604cf5dd7447f314e0acf990d567256360a5289c0e9",
+    "configs/lightning-v5.json": "ffbc7d48986924fc75690fc62c13eba01f24a3e0ca38f78cc1ffa8a8e24e97bf",
+    "configs/lightning-v6.json": "a77a0163ed05246031b2013a73ff8c48120473fd4a8a9392fc8ccdffa06311d6",
+    "configs/qwen235-v6.json": "c535a6e332f1d3ebb994dabf83fbc52c5abdc93df55dc75518dc9c06cf6e5ded"
+  },
+  "human_answers_read": false,
+  "human_ground_truth": false,
+  "limitations": [
+    "Judgments are AI interpretations, not human reference labels.",
+    "No accuracy or prevalence estimate is computed from these targeted cases.",
+    "Agreement by multiple candidates is not used as ground truth."
+  ],
+  "provider_calls": 0,
+  "sampling": "Twenty deliberately selected disagreements after observing candidate outputs, prioritizing cancellation differences, severity spread and per-review ranking contribution changes. This is not a random error-rate sample.",
+  "source_case_file_sha256": "9e58c60c1b9249dbd4e2f05a06b9719675c36f250b52cb039588386637cb807a",
+  "version": "matched-v6-ai-qualitative-inspection-v1"
+}

@@ -1,0 +1,55 @@
+{
+  "browser_storage_read": false,
+  "checks": [
+    "JSON labels envelope and CSV exports accepted",
+    "Boolean/numeric/list fields and blank optional diagnostics preserved",
+    "Unicode, CRLF and quoted source text preserved",
+    "JSON and CSV primary and acceptable-set metrics identical",
+    "Explicit human-reference caller attestation still required",
+    "Incomplete or malformed fake answers rejected",
+    "Wrong review text and row_sha rejected",
+    "Wrapper/row annotator mismatch rejected",
+    "Mixed CSV cohorts rejected",
+    "Wrong source_digest rejected",
+    "Incomplete wrapper status and declared validation errors rejected",
+    "Required50/fresh150 group contracts exercised with disjoint synthetic IDs"
+  ],
+  "code": {
+    "harness.py": {
+      "bytes": 55367,
+      "sha256": "c94c9ed706615aca4eb4280c840fd4e5514c933d971e8a191521e1718695dffe"
+    },
+    "test_worksheet_harness_integration.py": {
+      "bytes": 10061,
+      "sha256": "d33613772fc518dd7960fcb679c17fcb56dc7259bc17412b9b6b54c7138abe77"
+    }
+  },
+  "frozen_worksheet_modified": false,
+  "group_counts": {
+    "fresh_text_disjoint_150": 150,
+    "mandatory_golden_50": 50
+  },
+  "model_calls": 0,
+  "private_prediction_values_read": false,
+  "public_artifacts": {
+    "combined_200.html": {
+      "bytes": 73531,
+      "sha256": "764c6ec8a54efac58c7596e1f1efb8438109957ccddd28ed2ee93664aae189bd"
+    },
+    "groups.json": {
+      "bytes": 8869,
+      "sha256": "602fc42873490cb98e6e0391c72ef45496a163f9f26972c861b1c8f651642b03"
+    },
+    "sources.jsonl": {
+      "bytes": 50515,
+      "sha256": "37d343c6380f3c42bfadf14e684a0aa0d1352cadcba7d424dedfdd1fb4744c0f"
+    }
+  },
+  "real_human_answers_read": false,
+  "scope": "Generated synthetic worksheet in an isolated Node fake DOM; actual JSON/CSV download serializers; no delivered worksheet execution or browser access.",
+  "source_rows": 200,
+  "status": "passed",
+  "test_command": "PYTHONPATH=<isolated-source-snapshot>/src python -m pytest tests/test_worksheet_harness_integration.py -q",
+  "test_count": 14,
+  "version": "synthetic-worksheet-harness-integration-v1"
+}

@@ -1,0 +1,1335 @@
+{
+  "schema_version": "v6-measured-cost-projection-v1",
+  "generated_at": "2026-10-20T08:07:31.124130+00:00",
+  "currency": "USD",
+  "price_basis": "Provider reported input/output usage times exact standard Nebius catalog rates; no verified cash invoice or credit debit.",
+  "source_selection": {
+    "seed": "spotify-model-comparison-v6-2026-10-20",
+    "method": "lowest seeded hashes of eligible original IDs",
+    "source_population": "previously exposed 1000-review development cohort",
+    "sample_size": 200,
+    "distinct_texts": 195,
+    "eligible_count": 979,
+    "excluded_golden_id_or_exact_text_count": 21,
+    "golden_answers_read": false
+  },
+  "calibration_conditions": [
+    "matched"
+  ],
+  "production_projection_uses_batch25_evidence": false,
+  "batch25_stress_measurement_available_separately": true,
+  "denominator_policy": "Paid accepted unique text evaluations (195 per arm); all charged attempts in numerator. Five exact-text aliases restore 200 original IDs without more classification calls.",
+  "reasoning_policy": "Reasoning is included in total output; missing breakdown is null, not zero.",
+  "observations": {
+    "lightning-v5": {
+      "model_id": "nvidia/Nemotron-3_5-Lightning",
+      "label_config": "spotify-c7b3355157c386ba0458de799a6df7f09bf34f19bf91001db4338f11e0a4fea6",
+      "prompt_version": "matched-development-v6-v5",
+      "reasoning_setting": "none",
+      "input_original_ids": 200,
+      "completed_original_ids": 200,
+      "distinct_texts": 195,
+      "accepted_paid_evaluations": 195,
+      "exact_text_aliases_restored": 5,
+      "requests": 20,
+      "failed_attempts": 0,
+      "cache_hits": 0,
+      "batch_size_counts": {
+        "10": 19,
+        "5": 1
+      },
+      "workers": 1,
+      "rates_usd_per_million": {
+        "input": 0.06,
+        "output": 0.24
+      },
+      "input_tokens": 34488,
+      "output_tokens_including_reasoning": 8691,
+      "reported_reasoning_tokens": 0,
+      "reasoning_breakdown_missing_calls": 0,
+      "nominal_token_cost_usd": 0.00415512,
+      "ledger_settled_cost_usd": 0.004155121,
+      "ledger_rounding_difference_usd": 1.0000000003410059e-09,
+      "whole_run_wall_seconds": 45.91480245799903,
+      "primary_request_span_seconds": 44.7672860622406,
+      "api_service_seconds_sum": 43.171059501990385,
+      "admission_wait_seconds_sum": 0.4908316135406494,
+      "estimated_admission_tokens_sum": 348192,
+      "observed_unique_texts_per_second": 4.246996383756152,
+      "observed_original_ids_per_second": 4.355893726929388,
+      "mean_input_tokens_per_paid_text": 176.86153846153846,
+      "mean_output_tokens_per_paid_text": 44.56923076923077,
+      "mean_nominal_cost_usd_per_paid_text": 2.130830769230769e-05,
+      "mean_api_seconds_per_paid_text": 0.22139004872815582,
+      "mean_admission_tokens_per_paid_text": 1785.6,
+      "p95_batch_cost_usd_per_paid_text": 2.2686e-05,
+      "p95_batch_output_tokens_per_paid_text": 46.1,
+      "p95_batch_api_seconds_per_paid_text": 0.2524387541998294,
+      "p95_batch_admission_tokens_per_paid_text": 1856.6,
+      "mean_request_api_seconds": 2.158552975099519,
+      "p95_request_api_seconds": 2.524387541998294,
+      "fallback_enabled": false,
+      "model_reported_fallback_eligible": 15,
+      "human_accuracy_measured": false
+    },
+    "lightning-v6": {
+      "model_id": "nvidia/Nemotron-3_5-Lightning",
+      "label_config": "spotify-f85bf9a9e6512418e98fd8504100d2af935fab6cbd857b5d560defd3823f7355",
+      "prompt_version": "matched-development-v6-v6",
+      "reasoning_setting": "none",
+      "input_original_ids": 200,
+      "completed_original_ids": 200,
+      "distinct_texts": 195,
+      "accepted_paid_evaluations": 195,
+      "exact_text_aliases_restored": 5,
+      "requests": 20,
+      "failed_attempts": 0,
+      "cache_hits": 0,
+      "batch_size_counts": {
+        "10": 19,
+        "5": 1
+      },
+      "workers": 1,
+      "rates_usd_per_million": {
+        "input": 0.06,
+        "output": 0.24
+      },
+      "input_tokens": 44708,
+      "output_tokens_including_reasoning": 8705,
+      "reported_reasoning_tokens": 0,
+      "reasoning_breakdown_missing_calls": 0,
+      "nominal_token_cost_usd": 0.00477168,
+      "ledger_settled_cost_usd": 0.004771683,
+      "ledger_rounding_difference_usd": 2.999999999288294e-09,
+      "whole_run_wall_seconds": 39.60022495899466,
+      "primary_request_span_seconds": 39.45579767227173,
+      "api_service_seconds_sum": 33.98586858402268,
+      "admission_wait_seconds_sum": 5.17362904548645,
+      "estimated_admission_tokens_sum": 402472,
+      "observed_unique_texts_per_second": 4.924214450850193,
+      "observed_original_ids_per_second": 5.0504763598463525,
+      "mean_input_tokens_per_paid_text": 229.27179487179487,
+      "mean_output_tokens_per_paid_text": 44.64102564102564,
+      "mean_nominal_cost_usd_per_paid_text": 2.447015384615385e-05,
+      "mean_api_seconds_per_paid_text": 0.17428650555909067,
+      "mean_admission_tokens_per_paid_text": 2063.9589743589745,
+      "p95_batch_cost_usd_per_paid_text": 2.5895999999999997e-05,
+      "p95_batch_output_tokens_per_paid_text": 45.3,
+      "p95_batch_api_seconds_per_paid_text": 0.20674629579953036,
+      "p95_batch_admission_tokens_per_paid_text": 2128.0,
+      "mean_request_api_seconds": 1.6992934292011341,
+      "p95_request_api_seconds": 2.0674629579953034,
+      "fallback_enabled": false,
+      "model_reported_fallback_eligible": 22,
+      "human_accuracy_measured": false
+    },
+    "gptoss-v6": {
+      "model_id": "openai/gpt-oss-120b",
+      "label_config": "spotify-e31adbfd5cc448267ea8f1885dce1bed0e07c47f9ebdda3ae2e47e3a6fb5eebe",
+      "prompt_version": "matched-development-v6-v6",
+      "reasoning_setting": "low",
+      "input_original_ids": 200,
+      "completed_original_ids": 200,
+      "distinct_texts": 195,
+      "accepted_paid_evaluations": 195,
+      "exact_text_aliases_restored": 5,
+      "requests": 20,
+      "failed_attempts": 0,
+      "cache_hits": 0,
+      "batch_size_counts": {
+        "10": 19,
+        "5": 1
+      },
+      "workers": 1,
+      "rates_usd_per_million": {
+        "input": 0.15,
+        "output": 0.6
+      },
+      "input_tokens": 44319,
+      "output_tokens_including_reasoning": 19198,
+      "reported_reasoning_tokens": null,
+      "reasoning_breakdown_missing_calls": 20,
+      "nominal_token_cost_usd": 0.01816665,
+      "ledger_settled_cost_usd": 0.018166653,
+      "ledger_rounding_difference_usd": 3.0000000018903794e-09,
+      "whole_run_wall_seconds": 56.82440116599901,
+      "primary_request_span_seconds": 56.60083627700806,
+      "api_service_seconds_sum": 55.813136046985164,
+      "admission_wait_seconds_sum": 0.4727292060852051,
+      "estimated_admission_tokens_sum": 401792,
+      "observed_unique_texts_per_second": 3.4316243726062994,
+      "observed_original_ids_per_second": 3.519614741134666,
+      "mean_input_tokens_per_paid_text": 227.27692307692308,
+      "mean_output_tokens_per_paid_text": 98.45128205128205,
+      "mean_nominal_cost_usd_per_paid_text": 9.31623076923077e-05,
+      "mean_api_seconds_per_paid_text": 0.2862212104973598,
+      "mean_admission_tokens_per_paid_text": 2060.471794871795,
+      "p95_batch_cost_usd_per_paid_text": 0.000101355,
+      "p95_batch_output_tokens_per_paid_text": 108.6,
+      "p95_batch_api_seconds_per_paid_text": 0.38337032089984857,
+      "p95_batch_admission_tokens_per_paid_text": 2124.6,
+      "mean_request_api_seconds": 2.7906568023492584,
+      "p95_request_api_seconds": 3.7542954589953297,
+      "fallback_enabled": false,
+      "model_reported_fallback_eligible": 12,
+      "human_accuracy_measured": false
+    },
+    "glm-v6": {
+      "model_id": "zai-org/GLM-5.3-Flash",
+      "label_config": "spotify-9ac979fe9b3688d2a4ca3edce5af6c880e9de765ef5290b8ad7c41b231e27d2b",
+      "prompt_version": "matched-development-v6-v6",
+      "reasoning_setting": "low",
+      "input_original_ids": 200,
+      "completed_original_ids": 200,
+      "distinct_texts": 195,
+      "accepted_paid_evaluations": 195,
+      "exact_text_aliases_restored": 5,
+      "requests": 20,
+      "failed_attempts": 0,
+      "cache_hits": 0,
+      "batch_size_counts": {
+        "10": 19,
+        "5": 1
+      },
+      "workers": 1,
+      "rates_usd_per_million": {
+        "input": 0.15,
+        "output": 0.5
+      },
+      "input_tokens": 43104,
+      "output_tokens_including_reasoning": 9315,
+      "reported_reasoning_tokens": 3524,
+      "reasoning_breakdown_missing_calls": 0,
+      "nominal_token_cost_usd": 0.011123099999999999,
+      "ledger_settled_cost_usd": 0.011123102,
+      "ledger_rounding_difference_usd": 2.0000000006820118e-09,
+      "whole_run_wall_seconds": 71.43438545800018,
+      "primary_request_span_seconds": 71.27027893066406,
+      "api_service_seconds_sum": 70.79568462300085,
+      "admission_wait_seconds_sum": 0.0,
+      "estimated_admission_tokens_sum": 401832,
+      "observed_unique_texts_per_second": 2.7297778058810374,
+      "observed_original_ids_per_second": 2.7997721085959357,
+      "mean_input_tokens_per_paid_text": 221.04615384615386,
+      "mean_output_tokens_per_paid_text": 47.76923076923077,
+      "mean_nominal_cost_usd_per_paid_text": 5.704153846153846e-05,
+      "mean_api_seconds_per_paid_text": 0.36305479293846593,
+      "mean_admission_tokens_per_paid_text": 2060.6769230769232,
+      "p95_batch_cost_usd_per_paid_text": 6.887e-05,
+      "p95_batch_output_tokens_per_paid_text": 68.1,
+      "p95_batch_api_seconds_per_paid_text": 0.5642000917003316,
+      "p95_batch_admission_tokens_per_paid_text": 2124.8,
+      "mean_request_api_seconds": 3.5397842311500427,
+      "p95_request_api_seconds": 5.642000917003315,
+      "fallback_enabled": false,
+      "model_reported_fallback_eligible": 10,
+      "human_accuracy_measured": false
+    },
+    "qwen235-v6": {
+      "model_id": "Qwen/Qwen3-235B-A22B-Instruct-2507",
+      "label_config": "spotify-98ec6757ecbff329f01fdb82ff1b64922e77f59c0a7481a53e82475438d70ec5",
+      "prompt_version": "matched-development-v6-v6",
+      "reasoning_setting": "none",
+      "input_original_ids": 200,
+      "completed_original_ids": 200,
+      "distinct_texts": 195,
+      "accepted_paid_evaluations": 195,
+      "exact_text_aliases_restored": 5,
+      "requests": 20,
+      "failed_attempts": 0,
+      "cache_hits": 0,
+      "batch_size_counts": {
+        "10": 19,
+        "5": 1
+      },
+      "workers": 1,
+      "rates_usd_per_million": {
+        "input": 0.2,
+        "output": 0.6
+      },
+      "input_tokens": 43145,
+      "output_tokens_including_reasoning": 5801,
+      "reported_reasoning_tokens": null,
+      "reasoning_breakdown_missing_calls": 20,
+      "nominal_token_cost_usd": 0.0121096,
+      "ledger_settled_cost_usd": 0.012109605,
+      "ledger_rounding_difference_usd": 5.000000000837668e-09,
+      "whole_run_wall_seconds": 83.13361641699885,
+      "primary_request_span_seconds": 83.00340056419373,
+      "api_service_seconds_sum": 82.6982851250068,
+      "admission_wait_seconds_sum": 0.0,
+      "estimated_admission_tokens_sum": 401592,
+      "observed_unique_texts_per_second": 2.3456215235709044,
+      "observed_original_ids_per_second": 2.405765665200928,
+      "mean_input_tokens_per_paid_text": 221.25641025641025,
+      "mean_output_tokens_per_paid_text": 29.74871794871795,
+      "mean_nominal_cost_usd_per_paid_text": 6.210051282051283e-05,
+      "mean_api_seconds_per_paid_text": 0.4240937698718298,
+      "mean_admission_tokens_per_paid_text": 2059.4461538461537,
+      "p95_batch_cost_usd_per_paid_text": 6.63e-05,
+      "p95_batch_output_tokens_per_paid_text": 30.0,
+      "p95_batch_api_seconds_per_paid_text": 0.577402691799216,
+      "p95_batch_admission_tokens_per_paid_text": 2123.6,
+      "mean_request_api_seconds": 4.13491425625034,
+      "p95_request_api_seconds": 5.306659583002329,
+      "fallback_enabled": false,
+      "model_reported_fallback_eligible": 25,
+      "human_accuracy_measured": false
+    }
+  },
+  "matched_concurrency_observations": {
+    "glm-v6": {
+      "same_input_hash": "0bfda585688f924eed5602e82a37c7b612fa32bcd1f3808da2fc08403608a8d0",
+      "same_label_config": "spotify-9ac979fe9b3688d2a4ca3edce5af6c880e9de765ef5290b8ad7c41b231e27d2b",
+      "completed_original_ids": 200,
+      "paid_distinct_texts": 195,
+      "workers": 4,
+      "requests": 20,
+      "failed_attempts": 0,
+      "input_tokens": 43104,
+      "output_tokens_including_reasoning": 9653,
+      "reported_reasoning_tokens": 3845,
+      "nominal_token_cost_usd": 0.0112921,
+      "ledger_settled_usd": 0.011292102,
+      "whole_run_wall_seconds": 41.37618187499902,
+      "api_service_seconds_sum": 89.01153279401478,
+      "unique_texts_per_second": 4.712856314028966,
+      "one_worker_wall_seconds": 71.43438545800018,
+      "observed_speedup": 1.7264615104846928,
+      "one_worker_mean_request_api_seconds": 3.5397842311500427,
+      "four_worker_mean_request_api_seconds": 4.450576639700739,
+      "independent_trials_per_setting": 1,
+      "fallback_and_verifier_included": false,
+      "included_in_primary_cost_calibration": false,
+      "runtime_interpretation": "Observed small-panel first-pass speedup; not sustained end-to-end throughput."
+    }
+  },
+  "experiment_spend_snapshot": {
+    "condition_logs": [
+      {
+        "arm": "glm-v6",
+        "condition": "batch1",
+        "calls": 25,
+        "nominal_known_cost_usd": 0.007914349999999999,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.007914351,
+        "failed_attempts": 0,
+        "input_tokens": 47229,
+        "output_tokens_including_reasoning": 1660,
+        "completed_original_ids": 25,
+        "distinct_texts": 25,
+        "whole_run_wall_seconds": 47.323303040997416,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "glm-v6",
+        "condition": "batch10",
+        "calls": 3,
+        "nominal_known_cost_usd": 0.00164135,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.00164135,
+        "failed_attempts": 0,
+        "input_tokens": 6419,
+        "output_tokens_including_reasoning": 1357,
+        "completed_original_ids": 25,
+        "distinct_texts": 25,
+        "whole_run_wall_seconds": 10.398519374997704,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "glm-v6",
+        "condition": "batch25",
+        "calls": 1,
+        "nominal_known_cost_usd": 0.00095185,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.00095185,
+        "failed_attempts": 0,
+        "input_tokens": 2709,
+        "output_tokens_including_reasoning": 1091,
+        "completed_original_ids": 25,
+        "distinct_texts": 25,
+        "whole_run_wall_seconds": 6.874388290998468,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "glm-v6",
+        "condition": "concurrency4",
+        "calls": 20,
+        "nominal_known_cost_usd": 0.0112921,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.011292102,
+        "failed_attempts": 0,
+        "input_tokens": 43104,
+        "output_tokens_including_reasoning": 9653,
+        "completed_original_ids": 200,
+        "distinct_texts": 195,
+        "whole_run_wall_seconds": 41.37618187499902,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "glm-v6",
+        "condition": "matched",
+        "calls": 20,
+        "nominal_known_cost_usd": 0.0111231,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.011123102,
+        "failed_attempts": 0,
+        "input_tokens": 43104,
+        "output_tokens_including_reasoning": 9315,
+        "completed_original_ids": 200,
+        "distinct_texts": 195,
+        "whole_run_wall_seconds": 71.43438545800018,
+        "included_in_unit_calibration": true
+      },
+      {
+        "arm": "glm-v6",
+        "condition": "repeat",
+        "calls": 3,
+        "nominal_known_cost_usd": 0.0016028499999999998,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.00160285,
+        "failed_attempts": 0,
+        "input_tokens": 6419,
+        "output_tokens_including_reasoning": 1280,
+        "completed_original_ids": 25,
+        "distinct_texts": 25,
+        "whole_run_wall_seconds": 10.418089665996376,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "glm-v6",
+        "condition": "shuffle",
+        "calls": 3,
+        "nominal_known_cost_usd": 0.0016308499999999999,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.00163085,
+        "failed_attempts": 0,
+        "input_tokens": 6419,
+        "output_tokens_including_reasoning": 1336,
+        "completed_original_ids": 25,
+        "distinct_texts": 25,
+        "whole_run_wall_seconds": 12.042341041000327,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "glm-v6",
+        "condition": "synthetic",
+        "calls": 2,
+        "nominal_known_cost_usd": 0.00089865,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.00089865,
+        "failed_attempts": 0,
+        "input_tokens": 4081,
+        "output_tokens_including_reasoning": 573,
+        "completed_original_ids": 15,
+        "distinct_texts": 15,
+        "whole_run_wall_seconds": 4.500025583001843,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "gptoss-v6",
+        "condition": "matched",
+        "calls": 20,
+        "nominal_known_cost_usd": 0.01816665,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.018166653,
+        "failed_attempts": 0,
+        "input_tokens": 44319,
+        "output_tokens_including_reasoning": 19198,
+        "completed_original_ids": 200,
+        "distinct_texts": 195,
+        "whole_run_wall_seconds": 56.82440116599901,
+        "included_in_unit_calibration": true
+      },
+      {
+        "arm": "gptoss-v6",
+        "condition": "synthetic",
+        "calls": 2,
+        "nominal_known_cost_usd": 0.0016202999999999999,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.0016203,
+        "failed_attempts": 0,
+        "input_tokens": 4206,
+        "output_tokens_including_reasoning": 1649,
+        "completed_original_ids": 15,
+        "distinct_texts": 15,
+        "whole_run_wall_seconds": 5.472772000000987,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "lightning-v5",
+        "condition": "matched",
+        "calls": 20,
+        "nominal_known_cost_usd": 0.00415512,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.004155121,
+        "failed_attempts": 0,
+        "input_tokens": 34488,
+        "output_tokens_including_reasoning": 8691,
+        "completed_original_ids": 200,
+        "distinct_texts": 195,
+        "whole_run_wall_seconds": 45.91480245799903,
+        "included_in_unit_calibration": true
+      },
+      {
+        "arm": "lightning-v5",
+        "condition": "synthetic",
+        "calls": 2,
+        "nominal_known_cost_usd": 0.0003542399999999999,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.00035424,
+        "failed_attempts": 0,
+        "input_tokens": 3196,
+        "output_tokens_including_reasoning": 677,
+        "completed_original_ids": 15,
+        "distinct_texts": 15,
+        "whole_run_wall_seconds": 3.0020308750026743,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "lightning-v6",
+        "condition": "batch1",
+        "calls": 25,
+        "nominal_known_cost_usd": 0.00322638,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.00322638,
+        "failed_attempts": 0,
+        "input_tokens": 48717,
+        "output_tokens_including_reasoning": 1264,
+        "completed_original_ids": 25,
+        "distinct_texts": 25,
+        "whole_run_wall_seconds": 45.927100166001765,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "lightning-v6",
+        "condition": "batch10",
+        "calls": 3,
+        "nominal_known_cost_usd": 0.0006720599999999999,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.00067206,
+        "failed_attempts": 0,
+        "input_tokens": 6657,
+        "output_tokens_including_reasoning": 1136,
+        "completed_original_ids": 25,
+        "distinct_texts": 25,
+        "whole_run_wall_seconds": 6.944645999996283,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "lightning-v6",
+        "condition": "batch25",
+        "calls": 1,
+        "nominal_known_cost_usd": 0.00044574,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.00044574,
+        "failed_attempts": 0,
+        "input_tokens": 2861,
+        "output_tokens_including_reasoning": 1142,
+        "completed_original_ids": 25,
+        "distinct_texts": 25,
+        "whole_run_wall_seconds": 4.862740042000951,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "lightning-v6",
+        "condition": "matched",
+        "calls": 20,
+        "nominal_known_cost_usd": 0.0047716799999999995,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.004771683,
+        "failed_attempts": 0,
+        "input_tokens": 44708,
+        "output_tokens_including_reasoning": 8705,
+        "completed_original_ids": 200,
+        "distinct_texts": 195,
+        "whole_run_wall_seconds": 39.60022495899466,
+        "included_in_unit_calibration": true
+      },
+      {
+        "arm": "lightning-v6",
+        "condition": "repeat",
+        "calls": 3,
+        "nominal_known_cost_usd": 0.0006720599999999999,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.00067206,
+        "failed_attempts": 0,
+        "input_tokens": 6657,
+        "output_tokens_including_reasoning": 1136,
+        "completed_original_ids": 25,
+        "distinct_texts": 25,
+        "whole_run_wall_seconds": 5.699439874995733,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "lightning-v6",
+        "condition": "shuffle",
+        "calls": 3,
+        "nominal_known_cost_usd": 0.0006723,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.0006723,
+        "failed_attempts": 0,
+        "input_tokens": 6657,
+        "output_tokens_including_reasoning": 1137,
+        "completed_original_ids": 25,
+        "distinct_texts": 25,
+        "whole_run_wall_seconds": 5.108495499996934,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "lightning-v6",
+        "condition": "synthetic",
+        "calls": 2,
+        "nominal_known_cost_usd": 0.00041604,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.00041604,
+        "failed_attempts": 0,
+        "input_tokens": 4218,
+        "output_tokens_including_reasoning": 679,
+        "completed_original_ids": 15,
+        "distinct_texts": 15,
+        "whole_run_wall_seconds": 3.437815208999382,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "qwen235-v6",
+        "condition": "batch1",
+        "calls": 25,
+        "nominal_known_cost_usd": 0.009969,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.009969014,
+        "failed_attempts": 0,
+        "input_tokens": 47232,
+        "output_tokens_including_reasoning": 871,
+        "completed_original_ids": 25,
+        "distinct_texts": 25,
+        "whole_run_wall_seconds": 50.27521287499985,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "qwen235-v6",
+        "condition": "batch10",
+        "calls": 3,
+        "nominal_known_cost_usd": 0.0017340000000000003,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.001734002,
+        "failed_attempts": 0,
+        "input_tokens": 6426,
+        "output_tokens_including_reasoning": 748,
+        "completed_original_ids": 25,
+        "distinct_texts": 25,
+        "whole_run_wall_seconds": 10.448114209000778,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "qwen235-v6",
+        "condition": "batch25",
+        "calls": 1,
+        "nominal_known_cost_usd": 0.0010012,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.0010012,
+        "failed_attempts": 0,
+        "input_tokens": 2744,
+        "output_tokens_including_reasoning": 754,
+        "completed_original_ids": 25,
+        "distinct_texts": 25,
+        "whole_run_wall_seconds": 7.9354617499993765,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "qwen235-v6",
+        "condition": "matched",
+        "calls": 20,
+        "nominal_known_cost_usd": 0.0121096,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.012109605,
+        "failed_attempts": 0,
+        "input_tokens": 43145,
+        "output_tokens_including_reasoning": 5801,
+        "completed_original_ids": 200,
+        "distinct_texts": 195,
+        "whole_run_wall_seconds": 83.13361641699885,
+        "included_in_unit_calibration": true
+      },
+      {
+        "arm": "qwen235-v6",
+        "condition": "repeat",
+        "calls": 3,
+        "nominal_known_cost_usd": 0.0017346000000000002,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.001734603,
+        "failed_attempts": 0,
+        "input_tokens": 6426,
+        "output_tokens_including_reasoning": 749,
+        "completed_original_ids": 25,
+        "distinct_texts": 25,
+        "whole_run_wall_seconds": 12.311839083995437,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "qwen235-v6",
+        "condition": "shuffle",
+        "calls": 3,
+        "nominal_known_cost_usd": 0.001737,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.001737,
+        "failed_attempts": 0,
+        "input_tokens": 6426,
+        "output_tokens_including_reasoning": 753,
+        "completed_original_ids": 25,
+        "distinct_texts": 25,
+        "whole_run_wall_seconds": 11.143144624998968,
+        "included_in_unit_calibration": false
+      },
+      {
+        "arm": "qwen235-v6",
+        "condition": "synthetic",
+        "calls": 2,
+        "nominal_known_cost_usd": 0.0010866,
+        "unknown_usage_calls": 0,
+        "complete_summary_available": true,
+        "ledger_settled_usd": 0.0010866,
+        "failed_attempts": 0,
+        "input_tokens": 4083,
+        "output_tokens_including_reasoning": 450,
+        "completed_original_ids": 15,
+        "distinct_texts": 15,
+        "whole_run_wall_seconds": 5.612597583000024,
+        "included_in_unit_calibration": false
+      }
+    ],
+    "matched_nominal_usage_usd": 0.05032615,
+    "matched_ledger_settled_usd": 0.050326164,
+    "all_logged_conditions_known_nominal_usd": 0.10159967,
+    "logged_attempt_count": 235,
+    "calibration_excludes_other_conditions": true
+  },
+  "budget_snapshot": {
+    "captured_at": "2026-10-20T08:07:31.120850+00:00",
+    "ledger_path": "data/spend.sqlite3",
+    "states": {
+      "settled": {
+        "attempt_count": 498,
+        "reserved_nano": 2199687782,
+        "charged_nano": 316556800
+      },
+      "unknown": {
+        "attempt_count": 5,
+        "reserved_nano": 16446200,
+        "charged_nano": 0
+      }
+    },
+    "known_settled_nominal_usd": 0.3165568,
+    "unknown_charge_holds_usd": 0.0164462,
+    "inflight_reservations_usd": 0.0,
+    "total_committed_usd": 0.33300300000000005,
+    "pre_v6_snapshot": {
+      "spent_usd": 0.214957094,
+      "reserved_usd": 0.0,
+      "unknown_charge_hold_usd": 0.0164462,
+      "committed_usd": 0.231403294,
+      "attempts": 268
+    },
+    "new_settled_since_pre_v6_usd": 0.10159970600000004,
+    "authorized_total_usd": 50,
+    "actual_operating_ceiling_usd": 48,
+    "separate_reserve_usd": 2,
+    "experiment_allocation_usd_not_spend": 3,
+    "remaining_under_operating_ceiling_usd": 47.666997,
+    "later_activity_changes_this_snapshot": true
+  },
+  "assumptions": {
+    "fresh_run_no_cache_savings_assumed": true,
+    "primary_input_and_output_units": "Observed per accepted distinct text, including partial last batch and amortized prompt/schema",
+    "fallback_provider_and_model": "nebius/openai/gpt-oss-120b",
+    "fallback_unit_usd_proxy": 9.210652173913043e-05,
+    "verifier_unit_usd_proxy": 8.325537735849057e-05,
+    "helper_role_evidence": "Final v5 pilot; not measured under v6 prompts",
+    "retry_fraction_assumed": 0.1,
+    "measured_matched_retry_fraction": 0,
+    "stage_allowance_usd_once": 0.25,
+    "stage_allowance_interpretation": "Explicit 25-cent planning allowance for bounded final group/memo and possible retries; replaces, not adds to, the historical pair charge.",
+    "historical_final_group_memo_observed_usd": 0.0039936,
+    "p95_definition": "Nearest rank 19th of 20 measured per-batch primary unit costs; old v5 empirical high units for fallback/verify; a sensitivity, not statistical confidence bound.",
+    "double_output_definition": "Hold observed input constant, double total primary output, retain old mean helper units, then apply assumed10% variable retries.",
+    "four_worker_runtime_definition": "Planning max(mean API/text /4, admission tokens/text /10000, requests/text /2, observed four-worker small-panel span/text where available), plus serial helper proxies. Only GLM has a four-worker observation; no full-scope runtime is measured.",
+    "fixed_analysis_runtime_base_seconds_proxy": 16.011538040998857,
+    "fixed_analysis_runtime_stress_seconds_proxy": 40.773962166000274,
+    "local_request_rate_per_second": 2,
+    "local_estimated_token_rate_per_second": 10000,
+    "local_pacing_not_verified_account_quota": true,
+    "runtime_exclusions": [
+      "full ingestion",
+      "database import/indexing",
+      "deployment",
+      "human review",
+      "sustained throttling/outages"
+    ],
+    "quality_cleared": false,
+    "cash_invoice_reconciled": false
+  },
+  "projections": {
+    "selected_210000": {
+      "original_nonempty_ids": 210000,
+      "distinct_texts": 159657,
+      "primary_batches_at_most_10": 15966,
+      "fallback_cap_5pct_floor_distinct": 7982,
+      "verifier_sample_1pct_ceil_original": 2100,
+      "fallback_nominal_proxy_usd": 0.7351942565217391,
+      "verifier_nominal_proxy_usd": 0.1748362924528302,
+      "common_downstream_variable_nominal_proxy_usd": 0.9100305489745693,
+      "stage_allowance_usd_once": 0.25,
+      "proxy_serial_role_hours": 0.886271734026526,
+      "arms": {
+        "lightning-v5": {
+          "primary_nominal_usd": 3.4020204812307693,
+          "fresh_production_mean_usd_including_stage_allowance": 4.562051030205339,
+          "fresh_production_mean_plus_10pct_variable_retry_usd": 4.993256133225874,
+          "project_nominal_mean_usd_including_known_prior_spend": 4.878607830205339,
+          "project_budget_mean_usd_including_holds": 4.895054030205339,
+          "project_budget_mean_plus_10pct_retry_usd": 5.326259133225873,
+          "project_budget_empirical_p95_units_plus_10pct_retry_usd": 6.1495495922,
+          "project_budget_double_primary_output_plus_10pct_retry_usd": 7.204827607933566,
+          "project_budget_mean_plus_retry_with_full_3usd_experiment_allocation": 8.224659427225873,
+          "headroom_under_48_operating_at_mean_plus_retry_usd": 42.673740866774125,
+          "headroom_under_50_total_at_mean_plus_retry_usd": 44.673740866774125,
+          "one_worker_primary_linear_wall_hours": 10.442478085522438,
+          "four_worker_primary_idealized_scheduling_hours": 7.918987199999999,
+          "four_worker_primary_binding_mean_term": "local estimated-token pacing",
+          "four_worker_with_proxy_serial_roles_scheduling_hours": 8.809706583482358,
+          "four_worker_p95_terms_plus_10pct_retry_with_proxy_serial_roles_hours": 10.625227702370804,
+          "four_worker_small_panel_runtime_measured": false,
+          "full_scope_runtime_measured": false
+        },
+        "lightning-v6": {
+          "primary_nominal_usd": 3.906831352615385,
+          "fresh_production_mean_usd_including_stage_allowance": 5.066861901589954,
+          "fresh_production_mean_plus_10pct_variable_retry_usd": 5.54854809174895,
+          "project_nominal_mean_usd_including_known_prior_spend": 5.383418701589954,
+          "project_budget_mean_usd_including_holds": 5.399864901589954,
+          "project_budget_mean_plus_10pct_retry_usd": 5.88155109174895,
+          "project_budget_empirical_p95_units_plus_10pct_retry_usd": 6.713298459199999,
+          "project_budget_double_primary_output_plus_10pct_retry_usd": 7.763145680672026,
+          "project_budget_mean_plus_retry_with_full_3usd_experiment_allocation": 8.77995138574895,
+          "headroom_under_48_operating_at_mean_plus_retry_usd": 42.118448908251054,
+          "headroom_under_50_total_at_mean_plus_retry_usd": 44.118448908251054,
+          "one_worker_primary_linear_wall_hours": 9.00634347048178,
+          "four_worker_primary_idealized_scheduling_hours": 9.153486054700855,
+          "four_worker_primary_binding_mean_term": "local estimated-token pacing",
+          "four_worker_with_proxy_serial_roles_scheduling_hours": 10.044205438183214,
+          "four_worker_p95_terms_plus_10pct_retry_with_proxy_serial_roles_hours": 11.94922772403747,
+          "four_worker_small_panel_runtime_measured": false,
+          "full_scope_runtime_measured": false
+        },
+        "gptoss-v6": {
+          "primary_nominal_usd": 14.874014559230769,
+          "fresh_production_mean_usd_including_stage_allowance": 16.03404510820534,
+          "fresh_production_mean_plus_10pct_variable_retry_usd": 17.612449619025874,
+          "project_nominal_mean_usd_including_known_prior_spend": 16.35060190820534,
+          "project_budget_mean_usd_including_holds": 16.367048108205342,
+          "project_budget_mean_plus_10pct_retry_usd": 17.945452619025875,
+          "project_budget_empirical_p95_units_plus_10pct_retry_usd": 19.965611778500005,
+          "project_budget_double_primary_output_plus_10pct_retry_usd": 28.31962060241049,
+          "project_budget_mean_plus_retry_with_full_3usd_experiment_allocation": 20.843852913025874,
+          "headroom_under_48_operating_at_mean_plus_retry_usd": 30.054547380974125,
+          "headroom_under_50_total_at_mean_plus_retry_usd": 32.05454738097413,
+          "one_worker_primary_linear_wall_hours": 12.923665836125219,
+          "four_worker_primary_idealized_scheduling_hours": 9.138020704273504,
+          "four_worker_primary_binding_mean_term": "local estimated-token pacing",
+          "four_worker_with_proxy_serial_roles_scheduling_hours": 10.028740087755864,
+          "four_worker_p95_terms_plus_10pct_retry_with_proxy_serial_roles_hours": 11.932641135704134,
+          "four_worker_small_panel_runtime_measured": false,
+          "full_scope_runtime_measured": false
+        },
+        "glm-v6": {
+          "primary_nominal_usd": 9.107080906153845,
+          "fresh_production_mean_usd_including_stage_allowance": 10.267111455128415,
+          "fresh_production_mean_plus_10pct_variable_retry_usd": 11.268822600641258,
+          "project_nominal_mean_usd_including_known_prior_spend": 10.583668255128416,
+          "project_budget_mean_usd_including_holds": 10.600114455128415,
+          "project_budget_mean_plus_10pct_retry_usd": 11.601825600641257,
+          "project_budget_empirical_p95_units_plus_10pct_retry_usd": 14.260508369000002,
+          "project_budget_double_primary_output_plus_10pct_retry_usd": 15.796506242948949,
+          "project_budget_mean_plus_retry_with_full_3usd_experiment_allocation": 14.500225894641257,
+          "headroom_under_48_operating_at_mean_plus_retry_usd": 36.398174399358744,
+          "headroom_under_50_total_at_mean_plus_retry_usd": 38.398174399358744,
+          "one_worker_primary_linear_wall_hours": 16.24643828927056,
+          "four_worker_primary_idealized_scheduling_hours": 9.410252235921252,
+          "four_worker_primary_binding_mean_term": "observed four-worker small-panel span per distinct text",
+          "four_worker_with_proxy_serial_roles_scheduling_hours": 10.300971619403612,
+          "four_worker_p95_terms_plus_10pct_retry_with_proxy_serial_roles_hours": 11.933616817370806,
+          "four_worker_small_panel_runtime_measured": true,
+          "full_scope_runtime_measured": false
+        },
+        "qwen235-v6": {
+          "primary_nominal_usd": 9.914781575384616,
+          "fresh_production_mean_usd_including_stage_allowance": 11.074812124359186,
+          "fresh_production_mean_plus_10pct_variable_retry_usd": 12.157293336795105,
+          "project_nominal_mean_usd_including_known_prior_spend": 11.391368924359186,
+          "project_budget_mean_usd_including_holds": 11.407815124359185,
+          "project_budget_mean_plus_10pct_retry_usd": 12.490296336795105,
+          "project_budget_empirical_p95_units_plus_10pct_retry_usd": 13.809158030000003,
+          "project_budget_double_primary_output_plus_10pct_retry_usd": 15.62502643741049,
+          "project_budget_mean_plus_retry_with_full_3usd_experiment_allocation": 15.388696630795105,
+          "headroom_under_48_operating_at_mean_plus_retry_usd": 35.509703663204895,
+          "headroom_under_50_total_at_mean_plus_retry_usd": 37.509703663204895,
+          "one_worker_primary_linear_wall_hours": 18.907213385026758,
+          "four_worker_primary_idealized_scheduling_hours": 9.13347207179487,
+          "four_worker_primary_binding_mean_term": "local estimated-token pacing",
+          "four_worker_with_proxy_serial_roles_scheduling_hours": 10.024191455277231,
+          "four_worker_p95_terms_plus_10pct_retry_with_proxy_serial_roles_hours": 11.927762727370801,
+          "four_worker_small_panel_runtime_measured": false,
+          "full_scope_runtime_measured": false
+        }
+      }
+    },
+    "full_660609": {
+      "original_nonempty_ids": 660609,
+      "distinct_texts": 484189,
+      "primary_batches_at_most_10": 48419,
+      "fallback_cap_5pct_floor_distinct": 24209,
+      "verifier_sample_1pct_ceil_original": 6607,
+      "fallback_nominal_proxy_usd": 2.2298067847826086,
+      "verifier_nominal_proxy_usd": 0.5500682782075472,
+      "common_downstream_variable_nominal_proxy_usd": 2.779875062990156,
+      "stage_allowance_usd_once": 0.25,
+      "proxy_serial_role_hours": 2.706173030979104,
+      "arms": {
+        "lightning-v5": {
+          "primary_nominal_usd": 10.31724819323077,
+          "fresh_production_mean_usd_including_stage_allowance": 13.347123256220925,
+          "fresh_production_mean_plus_10pct_variable_retry_usd": 14.65683558184302,
+          "project_nominal_mean_usd_including_known_prior_spend": 13.663680056220926,
+          "project_budget_mean_usd_including_holds": 13.680126256220925,
+          "project_budget_mean_plus_10pct_retry_usd": 14.989838581843019,
+          "project_budget_empirical_p95_units_plus_10pct_retry_usd": 17.488975945400004,
+          "project_budget_double_primary_output_plus_10pct_retry_usd": 20.686940438950717,
+          "project_budget_mean_plus_retry_with_full_3usd_experiment_allocation": 17.88823887584302,
+          "headroom_under_48_operating_at_mean_plus_retry_usd": 33.01016141815698,
+          "headroom_under_50_total_at_mean_plus_retry_usd": 35.01016141815698,
+          "one_worker_primary_linear_wall_hours": 31.66872120703147,
+          "four_worker_primary_idealized_scheduling_hours": 24.0157744,
+          "four_worker_primary_binding_mean_term": "local estimated-token pacing",
+          "four_worker_with_proxy_serial_roles_scheduling_hours": 26.726395080434937,
+          "four_worker_p95_terms_plus_10pct_retry_with_proxy_serial_roles_hours": 32.22584980664381,
+          "four_worker_small_panel_runtime_measured": false,
+          "full_scope_runtime_measured": false
+        },
+        "lightning-v6": {
+          "primary_nominal_usd": 11.848179320615387,
+          "fresh_production_mean_usd_including_stage_allowance": 14.878054383605543,
+          "fresh_production_mean_plus_10pct_variable_retry_usd": 16.3408598219661,
+          "project_nominal_mean_usd_including_known_prior_spend": 15.194611183605543,
+          "project_budget_mean_usd_including_holds": 15.211057383605542,
+          "project_budget_mean_plus_10pct_retry_usd": 16.6738628219661,
+          "project_budget_empirical_p95_units_plus_10pct_retry_usd": 19.198647304400005,
+          "project_budget_double_primary_output_plus_10pct_retry_usd": 22.380141922889177,
+          "project_budget_mean_plus_retry_with_full_3usd_experiment_allocation": 19.5722631159661,
+          "headroom_under_48_operating_at_mean_plus_retry_usd": 31.3261371780339,
+          "headroom_under_50_total_at_mean_plus_retry_usd": 33.3261371780339,
+          "one_worker_primary_linear_wall_hours": 27.313380801525163,
+          "four_worker_primary_idealized_scheduling_hours": 27.759617550997152,
+          "four_worker_primary_binding_mean_term": "local estimated-token pacing",
+          "four_worker_with_proxy_serial_roles_scheduling_hours": 30.47023823143209,
+          "four_worker_p95_terms_plus_10pct_retry_with_proxy_serial_roles_hours": 36.241121586088255,
+          "four_worker_small_panel_runtime_measured": false,
+          "full_scope_runtime_measured": false
+        },
+        "gptoss-v6": {
+          "primary_nominal_usd": 45.10816459923077,
+          "fresh_production_mean_usd_including_stage_allowance": 48.138039662220926,
+          "fresh_production_mean_plus_10pct_variable_retry_usd": 52.926843628443024,
+          "project_nominal_mean_usd_including_known_prior_spend": 48.45459646222093,
+          "project_budget_mean_usd_including_holds": 48.471042662220924,
+          "project_budget_mean_plus_10pct_retry_usd": 53.25984662844302,
+          "project_budget_empirical_p95_units_plus_10pct_retry_usd": 59.3887068305,
+          "project_budget_double_primary_output_plus_10pct_retry_usd": 84.72140497982765,
+          "project_budget_mean_plus_retry_with_full_3usd_experiment_allocation": 56.15824692244303,
+          "headroom_under_48_operating_at_mean_plus_retry_usd": -5.259846628443022,
+          "headroom_under_50_total_at_mean_plus_retry_usd": -3.2598466284430216,
+          "one_worker_primary_linear_wall_hours": 39.193376034421505,
+          "four_worker_primary_idealized_scheduling_hours": 27.712716052421655,
+          "four_worker_primary_binding_mean_term": "local estimated-token pacing",
+          "four_worker_with_proxy_serial_roles_scheduling_hours": 30.42333673285659,
+          "four_worker_p95_terms_plus_10pct_retry_with_proxy_serial_roles_hours": 36.19081972886603,
+          "four_worker_small_panel_runtime_measured": false,
+          "full_scope_runtime_measured": false
+        },
+        "glm-v6": {
+          "primary_nominal_usd": 27.618885466153845,
+          "fresh_production_mean_usd_including_stage_allowance": 30.648760529144,
+          "fresh_production_mean_plus_10pct_variable_retry_usd": 33.6886365820584,
+          "project_nominal_mean_usd_including_known_prior_spend": 30.965317329144,
+          "project_budget_mean_usd_including_holds": 30.981763529144,
+          "project_budget_mean_plus_10pct_retry_usd": 34.0216395820584,
+          "project_budget_empirical_p95_units_plus_10pct_retry_usd": 42.08693919899999,
+          "project_budget_double_primary_output_plus_10pct_retry_usd": 46.7427744243661,
+          "project_budget_mean_plus_retry_with_full_3usd_experiment_allocation": 36.920039876058404,
+          "headroom_under_48_operating_at_mean_plus_retry_usd": 13.978360417941602,
+          "headroom_under_50_total_at_mean_plus_retry_usd": 15.978360417941602,
+          "one_worker_primary_linear_wall_hours": 49.27029011470604,
+          "four_worker_primary_idealized_scheduling_hours": 28.538307871615245,
+          "four_worker_primary_binding_mean_term": "observed four-worker small-panel span per distinct text",
+          "four_worker_with_proxy_serial_roles_scheduling_hours": 31.24892855205018,
+          "four_worker_p95_terms_plus_10pct_retry_with_proxy_serial_roles_hours": 36.19377866164381,
+          "four_worker_small_panel_runtime_measured": true,
+          "full_scope_runtime_measured": false
+        },
+        "qwen235-v6": {
+          "primary_nominal_usd": 30.068385202051285,
+          "fresh_production_mean_usd_including_stage_allowance": 33.09826026504144,
+          "fresh_production_mean_plus_10pct_variable_retry_usd": 36.38308629154559,
+          "project_nominal_mean_usd_including_known_prior_spend": 33.41481706504144,
+          "project_budget_mean_usd_including_holds": 33.43126326504144,
+          "project_budget_mean_plus_10pct_retry_usd": 36.716089291545586,
+          "project_budget_empirical_p95_units_plus_10pct_retry_usd": 40.718136896,
+          "project_budget_double_primary_output_plus_10pct_retry_usd": 46.22273060816097,
+          "project_budget_mean_plus_retry_with_full_3usd_experiment_allocation": 39.61448958554559,
+          "headroom_under_48_operating_at_mean_plus_retry_usd": 11.283910708454414,
+          "headroom_under_50_total_at_mean_plus_retry_usd": 13.283910708454414,
+          "one_worker_primary_linear_wall_hours": 57.3395763523223,
+          "four_worker_primary_idealized_scheduling_hours": 27.69892149401709,
+          "four_worker_primary_binding_mean_term": "local estimated-token pacing",
+          "four_worker_with_proxy_serial_roles_scheduling_hours": 30.409542174452028,
+          "four_worker_p95_terms_plus_10pct_retry_with_proxy_serial_roles_hours": 36.176025064977146,
+          "four_worker_small_panel_runtime_measured": false,
+          "full_scope_runtime_measured": false
+        }
+      }
+    }
+  },
+  "formulae": {
+    "primary": "distinct_texts * matched_nominal_token_cost / 195",
+    "variable": "primary + floor(.05*distinct_texts)*v5_fallback_unit + ceil(.01*original_ids)*v5_verifier_unit",
+    "fresh_production_mean": "variable + .25",
+    "project_budget_retry": "snapshot_committed + variable*1.10 + .25",
+    "full_experiment_allocation_alternative": "pre_v6_committed + 3 + variable*1.10 + .25; do not also add current experiment spending"
+  },
+  "sources": [
+    {
+      "path": "evals/experiment-v6/matched-200/manifest.json",
+      "sha256": "ea904bf0910a590c537d500f70c523701ad3d110637fb2a41dab7e816c759b3a"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/sources.jsonl",
+      "sha256": "0024ccd444326bad3c163f2279168d3219e945ad2a1d0c80fca09838dd1e650a"
+    },
+    {
+      "path": "evals/experiment-v6/catalog.json",
+      "sha256": "8527a31e3d6b1bbd6b8f241c95cd0f96d841b26ecdaef9f9fec2c5604c52cb8e"
+    },
+    {
+      "path": "docs/scaling-economics.json",
+      "sha256": "282c306b987890335d62fc77a394b07eb37504eaad3a8897c4b2b7a9b7a73d8c"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/lightning-v5/matched/run_summary.json",
+      "sha256": "ecabeb56d74b7099fdf7ae1d1adf1f4d60f4054a63aeb58335f849052f9cf771"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/lightning-v5/matched/calls.jsonl",
+      "sha256": "e93200ab5d6783cbd119ba0262b17b63c4f320f6832c94f26d11873c7ccab5b7"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/configs/lightning-v5.json",
+      "sha256": "ffbc7d48986924fc75690fc62c13eba01f24a3e0ca38f78cc1ffa8a8e24e97bf"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/lightning-v6/matched/run_summary.json",
+      "sha256": "783c2224f6fc9f74bd64b6e31b8f120f20186416a07deba12643e5e23e21959b"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/lightning-v6/matched/calls.jsonl",
+      "sha256": "103b394c0d2f011212e1aac4e7eee63462b1ebd4dbe53d006036b103f8e2cc82"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/configs/lightning-v6.json",
+      "sha256": "a77a0163ed05246031b2013a73ff8c48120473fd4a8a9392fc8ccdffa06311d6"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/gptoss-v6/matched/run_summary.json",
+      "sha256": "fa41d0ef011f96c281cef4e2890aa07255a5d9897cf1e826c582c6982a6ae499"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/gptoss-v6/matched/calls.jsonl",
+      "sha256": "b2c2078cff586cfc12f568ca2a7d2a6885a0a7e240ffe17192648e740b99aefb"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/configs/gptoss-v6.json",
+      "sha256": "5997e92621fd557a83cd2604cf5dd7447f314e0acf990d567256360a5289c0e9"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/glm-v6/matched/run_summary.json",
+      "sha256": "28f639cb2a115e0d47eef7866ba2e850648904a02db2c7c52e5c257634e55997"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/glm-v6/matched/calls.jsonl",
+      "sha256": "2c8e9ffe876cda482528a5a350c515aa3f2f0a909184bec9eb990655af9dc5fa"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/configs/glm-v6.json",
+      "sha256": "5b273a96fd5f340e61c524db0e9b6380d5968399038266171f81d9d7f04c308c"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/qwen235-v6/matched/run_summary.json",
+      "sha256": "847b630e95c5129bba1facff0a37250b315945ccd3e1a6bbfa05c89ba1c94357"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/qwen235-v6/matched/calls.jsonl",
+      "sha256": "2b8ca112535a58830bdff6a903f5e79431a9c5a43dd3500a06a7a30130c47f22"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/configs/qwen235-v6.json",
+      "sha256": "c535a6e332f1d3ebb994dabf83fbc52c5abdc93df55dc75518dc9c06cf6e5ded"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/glm-v6/concurrency4/run_summary.json",
+      "sha256": "54be8eacac9b8763867a16ba60dcca68ca2bcdefeeabdf10e9109ddbe2bde1b6"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/glm-v6/concurrency4/condition_manifest.json",
+      "sha256": "5bcf9449b6ae04c0f9a40602a3e02deb34270a17017d6e9dd058ccf2f4e73eda"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/glm-v6/matched/condition_manifest.json",
+      "sha256": "b06c9fb5ba2e371f081a8a70ae4cebc747535393f883d97f936d175864966423"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/glm-v6/batch1/calls.jsonl",
+      "sha256": "9dcba7ae5eb86456e8233f8943f78538306cedecb9fbe51b6b5befc58c9f4578"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/glm-v6/batch10/calls.jsonl",
+      "sha256": "68642dedb2184d16808a079678d551890049e0bc6fedab983c7b9c39043fddce"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/glm-v6/batch25/calls.jsonl",
+      "sha256": "65e35409a6be2e766cf0c22519e28d5fb31b52803c86e62af798189152e652ed"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/glm-v6/concurrency4/calls.jsonl",
+      "sha256": "21fa0bf234266975fb4ddaffef930e3dca7ab57ca72d0c3793d414f693752bf9"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/glm-v6/matched/calls.jsonl",
+      "sha256": "2c8e9ffe876cda482528a5a350c515aa3f2f0a909184bec9eb990655af9dc5fa"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/glm-v6/repeat/calls.jsonl",
+      "sha256": "2cfb8d1b8a6f44a4f31aabff4a30b627f3389adce92306f14ffd03884b7d25e2"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/glm-v6/shuffle/calls.jsonl",
+      "sha256": "1f541f2d0732a668f5b17effb397e5e6fdc4e0287cd254180ed2b8fdd87bff9a"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/glm-v6/synthetic/calls.jsonl",
+      "sha256": "3d62f034ba5d675a432b9755154fa36decf751aba60bce8e632c54887f4de17b"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/gptoss-v6/matched/calls.jsonl",
+      "sha256": "b2c2078cff586cfc12f568ca2a7d2a6885a0a7e240ffe17192648e740b99aefb"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/gptoss-v6/synthetic/calls.jsonl",
+      "sha256": "1881c6673b34ab405bb19bf2455da1d34e5317b27c783f730d3702e25a216e02"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/lightning-v5/matched/calls.jsonl",
+      "sha256": "e93200ab5d6783cbd119ba0262b17b63c4f320f6832c94f26d11873c7ccab5b7"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/lightning-v5/synthetic/calls.jsonl",
+      "sha256": "df5fa2e43c7b6f1901696bc7664dbb59bc7014cdea48f0e16dec1647daedf859"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/lightning-v6/batch1/calls.jsonl",
+      "sha256": "66f56c8d31d05bee667995e9f82d879dabde16cf3951f85653b160f3ba0165ed"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/lightning-v6/batch10/calls.jsonl",
+      "sha256": "35af52b21465bf9ed866704c7c500f1c072d740a523074b9c385f7f327016cdc"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/lightning-v6/batch25/calls.jsonl",
+      "sha256": "e77be306316dddcb5bdd215cc037a5eef766a0398702d8335e43da41d6d4257e"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/lightning-v6/matched/calls.jsonl",
+      "sha256": "103b394c0d2f011212e1aac4e7eee63462b1ebd4dbe53d006036b103f8e2cc82"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/lightning-v6/repeat/calls.jsonl",
+      "sha256": "a8c532191982743f41a417138735f2a584e299770d86ed242a4e5c4158ea83bb"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/lightning-v6/shuffle/calls.jsonl",
+      "sha256": "aa728e40d5701d655965882539cf0af2b0ab0870a3102d762da7142d25fcec23"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/lightning-v6/synthetic/calls.jsonl",
+      "sha256": "0d44d1444b6f9384312751b9009f781a84731ca047a5fc16d953882d76e2d6cc"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/qwen235-v6/batch1/calls.jsonl",
+      "sha256": "78ddad7db1f5cf6f7a2a5fb6584628e61d1b61bcc442b9336f7cb41c4ef8ca87"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/qwen235-v6/batch10/calls.jsonl",
+      "sha256": "3b00e36bf75ccfed58ba64c5e31042dd5005eaf9b2364d1d7cdf5ceb356b623e"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/qwen235-v6/batch25/calls.jsonl",
+      "sha256": "cff64c237989fc0bc9043d5d08de12f6c70edb23c8e48543590becf73ec64e46"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/qwen235-v6/matched/calls.jsonl",
+      "sha256": "2b8ca112535a58830bdff6a903f5e79431a9c5a43dd3500a06a7a30130c47f22"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/qwen235-v6/repeat/calls.jsonl",
+      "sha256": "f5a3cf0e386757506731ff0555d251cdddac40350fb8928d53841e8885b7472d"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/qwen235-v6/shuffle/calls.jsonl",
+      "sha256": "2df5f52d60ff3bbf709072d741989a569e7ec3af9fdb804dab335f164fcef3d1"
+    },
+    {
+      "path": "evals/experiment-v6/matched-200/runs/qwen235-v6/synthetic/calls.jsonl",
+      "sha256": "ddde44ce1216a6d272a0e9e22a0218a4885908119308834cd2c01aba14222759"
+    },
+    {
+      "path": "validation/sealed_human_predictions_v1.json",
+      "sha256": "d497524f368d38bf8b8d3bda0b9ae758064f22e4bc301b823daadcbc3a32b48f"
+    },
+    {
+      "path": "validation/dashboard_evaluation_database.json",
+      "sha256": "bc828e972df224984d2d8dbfcc0992be1b7e202844b54ac92d8ca07697630b65"
+    }
+  ],
+  "verification": {
+    "independent_arithmetic_audit": "Passed after final235-call snapshot. Raw billingitems repriced with Decimal; all ten scope/arm projections, P95 and output sensitivities, headroom, runtime formulas and source hashes verified.",
+    "concurrency_identity_checks": "Same GLM input hash, ID order, label configuration, saved configuration and dispatched batches; completion order may differ.",
+    "budget_snapshot_is_frozen": true,
+    "later_activity_requires_new_snapshot": true,
+    "sealed_receipt_supplement": "Counts-only sensitivity independently audited; preserved original matched195 calibration and historical08:07budget snapshot; no private output or label access."
+  },
+  "sealed_prediction_operational_sensitivity": {
+    "receipt_path": "validation/sealed_human_predictions_v1.json",
+    "receipt_created_at": "2026-10-20T08:20:11.860440+00:00",
+    "source_access": "Public counts-only receipt only; private predictions and human labels were not inspected.",
+    "receipt_arms": [
+      {
+        "arm": "lightning-v5",
+        "completed": 200,
+        "input_count": 200,
+        "requests": 20,
+        "failed_attempts": 0,
+        "api_cost_usd": 0.004193642,
+        "api_cost_complete": true,
+        "artifacts_sha256": "f5fd256cc47cd9ff26718af16efc397d44e0b8e4f39f58adff035afe3752ea54",
+        "unique_texts": 197
+      },
+      {
+        "arm": "glm-v6",
+        "completed": 200,
+        "input_count": 200,
+        "requests": 21,
+        "failed_attempts": 1,
+        "api_cost_usd": 0.015163551,
+        "api_cost_complete": true,
+        "artifacts_sha256": "8877d7a2833ac1630a2c27c7a806dafe3996847925094760cc98452b8f829de7",
+        "unique_texts": 197
+      }
+    ],
+    "unique_text_count_source": "evals/human-evaluation-v1/sources_manifest.json; exact-text count, not prediction inspection",
+    "receipt_budget_snapshot": {
+      "known_nominal_usd": 0.335913993,
+      "in_flight_reserved_usd": 0.0,
+      "unknown_charge_hold_usd": 0.0164462,
+      "committed_usd": 0.352360193
+    },
+    "glm_reported_all_attempt_cost_usd": 0.015163551,
+    "glm_paid_distinct_text_denominator": 197,
+    "glm_all_attempt_unit_usd": 7.697234010152284e-05,
+    "glm_unit_increase_percent_vs_matched_195": 34.940855694877825,
+    "observed_failed_attempts_already_in_unit": 1,
+    "additional_10pct_is_assumed_not_observed_failure_rate": true,
+    "helper_units_and_counts": "Retain v5 helper costs:5% floor distinct fallback,1%ceil original-ID verification; one .25USD final-stage allowance.",
+    "primary_denominator_policy": "197 accepted distinct texts; full reported cost includes all21attempts including one failed attempt.",
+    "original_matched_calibration_preserved": true,
+    "token_and_runtime_breakdown_available_in_public_receipt": false,
+    "human_accuracy_available": false,
+    "quality_conclusion": "None; labels remain sealed.",
+    "projections": {
+      "selected_210000": {
+        "original_nonempty_ids": 210000,
+        "distinct_texts": 159657,
+        "primary_all_attempt_unit_projection_usd": 12.289172903588833,
+        "helper_proxy_variable_usd": 0.9100305489745694,
+        "base_project_budget_usd_including_observed_failure": 13.801563645563402,
+        "project_budget_with_additional_10pct_variable_allowance_usd": 15.121483990819742,
+        "base_headroom_under_48_usd": 34.198436354436595,
+        "base_headroom_under_50_usd": 36.198436354436595,
+        "additional_allowance_headroom_under_48_usd": 32.87851600918026,
+        "additional_allowance_headroom_under_50_usd": 34.87851600918026
+      },
+      "full_660609": {
+        "original_nonempty_ids": 660609,
+        "distinct_texts": 484189,
+        "primary_all_attempt_unit_projection_usd": 37.26916038141624,
+        "helper_proxy_variable_usd": 2.779875062990156,
+        "base_project_budget_usd_including_observed_failure": 40.6513956374064,
+        "project_budget_with_additional_10pct_variable_allowance_usd": 44.65629918184704,
+        "base_headroom_under_48_usd": 7.3486043625936,
+        "base_headroom_under_50_usd": 9.348604362593601,
+        "additional_allowance_headroom_under_48_usd": 3.3437008181529606,
+        "additional_allowance_headroom_under_50_usd": 5.343700818152961
+      }
+    },
+    "independent_arithmetic_audit": "Passed using Decimal and only public receipt counts/costs."
+  },
+  "free_hosting_storage_gate": {
+    "evidence_path": "validation/dashboard_evaluation_database.json",
+    "checked_at": "2026-10-20T08:06:35.811851+00:00",
+    "measured_application_bytes": 1490944,
+    "measured_original_reviews": 1000,
+    "projection_method": "Simple measured bytes per original review times target count; fixed overhead and future schema/index changes make this uncertain.",
+    "projected_210000_bytes": 313098240,
+    "projected_660609_bytes_ceiling": 984931025,
+    "projected_210000_decimal_MB": 313.09824,
+    "projected_660609_decimal_MB": 984.931024896,
+    "conservative_gate_as_documented": "700 MB",
+    "selected_210000_linear_projection_below_gate": true,
+    "full_source_linear_projection_below_gate": false,
+    "full_source_free_hosting_fit_proven": false,
+    "required_before_full_source": "Measure actual10k database/table/index sizes, update full-scope projection and compression/storage design, and verify free-hosting fit. API cost alone does not establish hosting affordability.",
+    "no_paid_hosting_cost_assumed": true
+  },
+  "finalized_at_utc": "2026-10-20T08:23:34.573734+00:00"
+}

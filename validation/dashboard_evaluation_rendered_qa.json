@@ -1,0 +1,29 @@
+{
+  "recorded_at": "2026-10-20T08:14:49.740887+00:00",
+  "url": "https://spotify-review-observatory.vercel.app",
+  "deployment_id": "dpl_Cgzup9BsNXn4njWShJoPNyBnWByq",
+  "reported_by": "Parent agent /root using an isolated in-app browser and desktop screenshot inspection",
+  "status": "passed_for_inspected_desktop_view",
+  "checks": [
+    "Data-driven quality hold is visible.",
+    "Human evaluation shows 200 planned reviews as separate mandatory 50 and conditional fresh 150 groups; accuracy is not measured.",
+    "Topic agreement shows 82.8% and 828/1,000 with its model-comparison definition.",
+    "All four disagreement definitions are visible.",
+    "Routing flags are explicitly uncalibrated.",
+    "Synthetic operational success remains separate from failed model behavior.",
+    "Ranking sensitivity shows published usability score 291 and verifier playback score 319 without replacing the published ranking.",
+    "Evaluation header and human-cohort cards showed no clipping in the inspected desktop screenshot."
+  ],
+  "limits": [
+    "Shared browser was not resized while the user was annotating; responsive behavior was not newly verified by this inspection.",
+    "This receipt records the parent agent's observed QA; it is not a new model-quality or human-accuracy evaluation."
+  ],
+  "human_worksheet_touched": false,
+  "model_calls": 0,
+  "related_evidence": [
+    "validation/dashboard_evaluation_preview.json",
+    "validation/dashboard_evaluation_production.json",
+    "validation/dashboard_evaluation_database.json",
+    "validation/pilot_publication_after_evaluation.json"
+  ]
+}

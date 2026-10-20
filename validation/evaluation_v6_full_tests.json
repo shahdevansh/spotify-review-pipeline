@@ -1,0 +1,24 @@
+{
+  "generated_at": "2026-10-20T08:18:58.416486+00:00",
+  "scope": "Full Python suite on an APFS source snapshot with frozen pilot fixture files",
+  "result": {
+    "passed": 441,
+    "skipped": 3,
+    "failed": 0,
+    "seconds": 4.82
+  },
+  "command": "PYTHONPATH=src python -m pytest -q --tb=short",
+  "skips": [
+    "Official checker file was not included in this isolated snapshot",
+    "Two opt-in local PostgreSQL integration tests; separate dashboard validation records their successful execution"
+  ],
+  "inference_calls": 0,
+  "human_answers_read": false,
+  "code_sha256": {
+    "src/spotify_pipeline/engine.py": "274881ca8aa3f34564995989c65ca8c80079fa75f88a15bb6a8ffd0e511173e9",
+    "src/spotify_pipeline/nebius.py": "0b7336a34419c0c044f717565900f7b4e4a6fb6ccf41bca87aef32058b94e141",
+    "src/spotify_pipeline/harness.py": "c94c9ed706615aca4eb4280c840fd4e5514c933d971e8a191521e1718695dffe",
+    "src/spotify_pipeline/evaluation_publication.py": "c832ceb668f4fc6b1d777bd9a631601d7cf829218d5f74f8e580a19071ea091b",
+    "tools/freeze_human_predictions.py": "5a0c39ad8bba06b3345213dd40c6cd38dc3a3cb53f71fffe4f7b73c2b32e6453"
+  }
+}

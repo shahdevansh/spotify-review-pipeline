@@ -1,0 +1,47 @@
+{
+  "version": "sealed-human-prediction-receipt-v1",
+  "created_at": "2026-10-20T08:20:11.860440+00:00",
+  "provenance": "Whitelisted counts, costs and hashes emitted by the sealed prediction runner; no prediction content read",
+  "prediction_plan_sha256": "05ae9ab3a6707f25c90619fc10b413bb4cdfdc7a4d8a0df47c8415050d0ada8d",
+  "source_sha256": "37d343c6380f3c42bfadf14e684a0aa0d1352cadcba7d424dedfdd1fb4744c0f",
+  "human_answers_read": false,
+  "model_prediction_labels_inspected": false,
+  "arms": [
+    {
+      "arm": "lightning-v5",
+      "completed": 200,
+      "input_count": 200,
+      "requests": 20,
+      "failed_attempts": 0,
+      "api_cost_usd": 0.004193642,
+      "api_cost_complete": true,
+      "artifacts_sha256": "f5fd256cc47cd9ff26718af16efc397d44e0b8e4f39f58adff035afe3752ea54",
+      "unique_texts": 197
+    },
+    {
+      "arm": "glm-v6",
+      "completed": 200,
+      "input_count": 200,
+      "requests": 21,
+      "failed_attempts": 1,
+      "api_cost_usd": 0.015163551,
+      "api_cost_complete": true,
+      "artifacts_sha256": "8877d7a2833ac1630a2c27c7a806dafe3996847925094760cc98452b8f829de7",
+      "unique_texts": 197
+    }
+  ],
+  "all_inputs_completed": true,
+  "human_accuracy_available": false,
+  "ledger": {
+    "known_nominal_usd": 0.335913993,
+    "in_flight_reserved_usd": 0.0,
+    "unknown_charge_hold_usd": 0.0164462,
+    "committed_usd": 0.352360193
+  },
+  "limits": [
+    "Outputs stay under ignored private/human-predictions-v1 until authorized scoring.",
+    "The matched human comparison is first-pass only; fallback remains disabled.",
+    "Provider nominal usage is not cash spend or a reconciled credit balance."
+  ],
+  "unique_text_count_source": "evals/human-evaluation-v1/sources_manifest.json; exact-text count, not prediction inspection"
+}

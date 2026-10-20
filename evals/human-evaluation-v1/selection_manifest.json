@@ -1,0 +1,149 @@
+{
+  "accounting": {
+    "conditional_design_weight": 3864.68,
+    "conditional_inclusion_probability": 0.0002587536354885786,
+    "counts": {
+      "both_development_and_golden_matches": 18778,
+      "development_text_or_id_matches": 80690,
+      "eligible_distinct_texts": 483217,
+      "eligible_original_ids": 579702,
+      "empty_text_excluded": 13,
+      "excluded_development_priority": 80690,
+      "excluded_golden_after_development": 217,
+      "golden_text_or_id_matches": 18995,
+      "nonempty_source_rows": 660609,
+      "selected_development_exact_text_overlap": 0,
+      "selected_development_id_overlap": 0,
+      "selected_distinct_texts": 148,
+      "selected_golden_exact_text_overlap": 0,
+      "selected_golden_id_overlap": 0,
+      "selected_original_ids": 150,
+      "source_distinct_nonempty_texts": 484189,
+      "source_rows": 660622
+    },
+    "eligible_ids_source_order_sha256": "18263c49804fcbac57efeb1889cf26390e1bc1b262d5a4390fc29b72c01a7ab9",
+    "mandatory_golden_text_exposure": {
+      "golden_development_id_overlap": 0,
+      "golden_ids_with_development_exact_text": 4,
+      "golden_ids_with_inspected_development_exact_text": 2,
+      "golden_original_ids": 50,
+      "inspected_development_ids": 60,
+      "interpretation": "Source-text exposure only. No human-answer access or label leakage was measured.",
+      "shared_golden_development_exact_text_clusters": 3
+    }
+  },
+  "combined_200": {
+    "count": 200,
+    "future_development_exclusion": "Reserve every exact text in protected_text_hashes.txt from all subsequent prompt/model/routing tuning.",
+    "human_label_status": "Blank worksheet; no human judgments supplied.",
+    "ordering": "Original mandatory golden50 first, then optional fresh150.",
+    "strata_file": "combined_200_strata.csv"
+  },
+  "development_input": {
+    "bytes": 148261,
+    "count": 1000,
+    "sha256": "3354adeefe65c2251e0db48fdcf83a5d98f2a7905686ac5ab0ce951398189936"
+  },
+  "estimand_limit": "The fresh sample represents eligible unseen-text original IDs, not all full-corpus or 210,000-cohort IDs. Do not pool 50+150 into one representative population estimate.",
+  "files": {
+    "combined_200_membership.csv": {
+      "bytes": 47146,
+      "sha256": "98c2179399d28f4328a962cb1af2cd67101252e78c62f934d4447c699a0eaebe"
+    },
+    "combined_200_strata.csv": {
+      "bytes": 12719,
+      "sha256": "10cbfa329039197cf8b9b1f11a0ffc7d28c495300356ab1518530f3958a065b8"
+    },
+    "combined_200_to_label.csv": {
+      "bytes": 39404,
+      "sha256": "fc04b850482ba15b47b2e9753a69df2a58190cf347217c9278295296da3e2b61"
+    },
+    "holdout_150_membership.csv": {
+      "bytes": 35346,
+      "sha256": "80ffa8c685e746a5c518d26a42a4815c012d2cb201a64926240e26cd3ce61916"
+    },
+    "holdout_150_to_label.csv": {
+      "bytes": 29628,
+      "sha256": "49e490fc33d93d32893cacb7eafcb7b47aaa671dea55ebbec82b9fb636366d6c"
+    },
+    "protected_text_hashes.txt": {
+      "bytes": 12805,
+      "sha256": "06c7bd199512ec947c8251ef7b6ff674b2fd92e4a5baa1ae1f1caf51d09e16fb"
+    },
+    "second_annotator_200_option_membership.csv": {
+      "bytes": 9445,
+      "sha256": "4978d5895c69aabba3b8dd01bcb27fa3b185f9ff96fdbc75eb66a9748fca6e73"
+    },
+    "second_annotator_200_option_to_label.csv": {
+      "bytes": 9165,
+      "sha256": "82fa12ba07904970c562db4ae3c545915bd38cf0c8fcba72f0426fa6b9f9006a"
+    },
+    "second_annotator_50_option_membership.csv": {
+      "bytes": 2395,
+      "sha256": "bebc670ad7863b67ef0266d4230e8dfb5beb7e05245b4c9f6d82f656d7bae3b6"
+    },
+    "second_annotator_50_option_to_label.csv": {
+      "bytes": 2131,
+      "sha256": "313c01ae3ea1c45c5f140aa1c2d277ecfcea9f3850766ef452ce9f766462ceff"
+    }
+  },
+  "holdout_size": 150,
+  "label_definitions": {
+    "bytes": 4345,
+    "sha256": "ec32f784bd5d76c82ebb0cb386d54e5ccb03c17e72ff119970095914dec2b634",
+    "version": "spotify-labels-v1"
+  },
+  "mandatory_golden_original": {
+    "bytes": 7905,
+    "count": 50,
+    "modified": false,
+    "sha256": "1a125c3e509f58b0246ba16d0ea332675a53ffadb1928be4338a0bd7053a11c7"
+  },
+  "rubric": {
+    "bytes": 4579,
+    "sha256": "ccbaff1af87f90f3938ba897dcf7e33e472f1ffa2432c7521789aa6ad6040599",
+    "version": "spotify-human-rubric-v1"
+  },
+  "second_annotator": {
+    "200_option": {
+      "display_seed": "spotify-human-unseen-text-holdout-v1:2026-10-20:display:second",
+      "fresh": 30,
+      "fresh_seed": "spotify-human-unseen-text-holdout-v1:2026-10-20:second:fresh",
+      "golden": 10
+    },
+    "50_option": {
+      "fresh": 0,
+      "golden": 10,
+      "seed": "spotify-human-unseen-text-holdout-v1:2026-10-20:second:golden"
+    },
+    "rule": "Independent labels before discussion; retain pre-adjudication agreement."
+  },
+  "seed": "spotify-human-unseen-text-holdout-v1:2026-10-20",
+  "selection": {
+    "answers_or_predictions_used": false,
+    "counts_only_exposure_reporting": true,
+    "disjoint_exclusion_priority": [
+      "empty text",
+      "development text or ID",
+      "golden text or ID",
+      "eligible"
+    ],
+    "frame": "All authentic nonempty source rows after excluding every development or golden ID and exact text.",
+    "method": "Lowest SHA-256(UTF-8(seed + ':' + original review_id)); tie-break by original ID.",
+    "model_calls": 0,
+    "sampling_unit": "Original review ID; do not collapse within-holdout exact-text duplicates.",
+    "synthetic_rows": "Excluded by verified original-source-only provenance; no generated/test rows are introduced.",
+    "synthetic_rows_in_source_frame": 0,
+    "text_matching": "Exact original string; no whitespace, case or Unicode normalization."
+  },
+  "source": {
+    "bytes": 97400616,
+    "filename": "spotify_reviews_18months.csv",
+    "sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6"
+  },
+  "source_manifest": {
+    "bytes": 3546,
+    "sha256": "07afdd96dd7f97ff5fbf967961e14d6d9f48170ba3f417399e20d5b620291011"
+  },
+  "version": "spotify-human-evaluation-kit-v1"
+}

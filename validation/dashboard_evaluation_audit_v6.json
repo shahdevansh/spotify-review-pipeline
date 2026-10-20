@@ -1,0 +1,2228 @@
+{
+  "captured_at": "2026-10-20T07:31:30.511173+00:00",
+  "base_url": "https://spotify-review-observatory.vercel.app",
+  "mode": "unauthenticated_read_only",
+  "responses": {
+    "/api/overview": {
+      "status_code": 200,
+      "payload": {
+        "status": "ready",
+        "run": {
+          "run_id": "1000-1ad0e35d239c3e9d",
+          "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+          "input_count": 1000,
+          "completed": 1000,
+          "quarantined": 0,
+          "pending": 0,
+          "unique_texts": 926,
+          "cache_hits": 549,
+          "task_cache_hits": 0,
+          "requests": 123,
+          "attempts": 123,
+          "failed_attempts": 0,
+          "api_cost_usd": 0.096661512,
+          "api_cost_complete": true,
+          "spending": {
+            "attempts": 123,
+            "spent_usd": 0.096661512,
+            "reserved_usd": 0,
+            "committed_usd": 0.096661512,
+            "unknown_charge_hold_usd": 0
+          },
+          "global_spending": {
+            "attempts": 231,
+            "spent_usd": 0.19274566,
+            "reserved_usd": 0,
+            "committed_usd": 0.20693976,
+            "unknown_charge_hold_usd": 0.0141941
+          },
+          "budget_usd": 1.5,
+          "global_budget_usd": 1.5,
+          "wall_seconds": 335.3336921670016,
+          "phase": "initial",
+          "model_settings": {
+            "models": {
+              "memo": "zai-org/GLM-5.3-Flash",
+              "group": "openai/gpt-oss-120b",
+              "enrich": "nvidia/Nemotron-3_5-Lightning",
+              "verify": "openai/gpt-oss-120b",
+              "fallback": "openai/gpt-oss-120b"
+            },
+            "providers": {
+              "memo": "nebius",
+              "group": "nebius",
+              "enrich": "nebius",
+              "verify": "nebius",
+              "fallback": "nebius"
+            },
+            "reasoning_effort": {
+              "memo": "low",
+              "group": "low",
+              "enrich": "none",
+              "verify": "low",
+              "fallback": "low"
+            }
+          },
+          "stages": {
+            "enrich": {
+              "model": "nvidia/Nemotron-3_5-Lightning",
+              "workers": 4,
+              "provider": "nebius",
+              "cache_hits": 549,
+              "input_count": 1000,
+              "wall_seconds": 44.687254917000246,
+              "unique_nonempty_texts": 926
+            },
+            "verify": {
+              "blind": true,
+              "failed": 0,
+              "selected": 1000,
+              "completed": 1000,
+              "unprocessed": 0,
+              "wall_seconds": 272.5311810000021,
+              "disagreements": 339,
+              "requested_sample_count": 1000
+            },
+            "fallback": {
+              "already_used": 23,
+              "maximum_unique_texts": 46,
+              "eligible_unique_texts": 68,
+              "selected_unique_texts": 23
+            },
+            "exact_text_aliases": 74
+          },
+          "limitations": [],
+          "created_at": "2026-10-20T06:15:19.835Z",
+          "imported_at": "2026-10-20T06:15:19.835Z",
+          "imported_rows": 1000
+        },
+        "source": {
+          "empty_rows": 13,
+          "total_rows": 660622,
+          "file_sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6",
+          "nonempty_rows": 660609
+        },
+        "evaluation": {
+          "status": "compared",
+          "limitations": [
+            "Independent model agreement is not human accuracy.",
+            "Initial model agreement uses saved pre-fallback predictions; final agreement includes routed fallback answers.",
+            "A fallback sharing the verifier's model can have correlated errors; agreement gains are not proof of correctness.",
+            "Targeted difficult cases must be reported separately from the seeded random sample."
+          ],
+          "ground_truth": false,
+          "verified_count": 1000,
+          "comparison_type": "independent_model_agreement",
+          "field_agreement": {
+            "topic": 0.828,
+            "intent": 0.906,
+            "severity": 0.838,
+            "sentiment": 0.902,
+            "needs_review": 0.948
+          },
+          "comparable_count": 1000,
+          "disagreement_count": 354,
+          "fallback_used_count": 46,
+          "classification_signals": {
+            "sources": {
+              "not_available": 1000
+            },
+            "interpretation": "needs_review is a prediction from model ambiguity flags and/or deterministic checks; it is not a calibrated probability of error. Missing provider confidence remains unknown.",
+            "classifier_models": {
+              "openai/gpt-oss-120b": 46,
+              "nvidia/Nemotron-3_5-Lightning": 954
+            },
+            "completed_records": 1000,
+            "needs_review_count": 60,
+            "numeric_signal_max": null,
+            "numeric_signal_min": null,
+            "classifier_providers": {
+              "nebius": 1000
+            },
+            "numeric_signal_available": 0,
+            "numeric_signal_unavailable": 1000,
+            "calibrated_accuracy_confidence": false
+          },
+          "initial_comparable_count": 1000,
+          "initial_disagreement_count": 365,
+          "initial_model_field_agreement": {
+            "topic": 0.825,
+            "intent": 0.898,
+            "severity": 0.827,
+            "sentiment": 0.897,
+            "needs_review": 0.931
+          },
+          "severity_mean_absolute_difference": 0.201,
+          "sentiment_mean_absolute_difference": 0.0843
+        },
+        "claims": [
+          {
+            "claim_id": "claim-access-complaint-count",
+            "issue_id": "issue-access",
+            "metric": "complaint_count",
+            "value": "26"
+          },
+          {
+            "claim_id": "claim-access-mean-severity",
+            "issue_id": "issue-access",
+            "metric": "mean_severity",
+            "value": "3.653846"
+          },
+          {
+            "claim_id": "claim-access-priority-score",
+            "issue_id": "issue-access",
+            "metric": "priority_score",
+            "value": "95"
+          },
+          {
+            "claim_id": "claim-access-severity-sum",
+            "issue_id": "issue-access",
+            "metric": "severity_sum",
+            "value": "95"
+          },
+          {
+            "claim_id": "claim-billing-complaint-count",
+            "issue_id": "issue-billing",
+            "metric": "complaint_count",
+            "value": "83"
+          },
+          {
+            "claim_id": "claim-billing-mean-severity",
+            "issue_id": "issue-billing",
+            "metric": "mean_severity",
+            "value": "2.879518"
+          },
+          {
+            "claim_id": "claim-billing-priority-score",
+            "issue_id": "issue-billing",
+            "metric": "priority_score",
+            "value": "239"
+          },
+          {
+            "claim_id": "claim-billing-severity-sum",
+            "issue_id": "issue-billing",
+            "metric": "severity_sum",
+            "value": "239"
+          },
+          {
+            "claim_id": "claim-catalog-complaint-count",
+            "issue_id": "issue-catalog",
+            "metric": "complaint_count",
+            "value": "21"
+          },
+          {
+            "claim_id": "claim-catalog-mean-severity",
+            "issue_id": "issue-catalog",
+            "metric": "mean_severity",
+            "value": "2.380952"
+          },
+          {
+            "claim_id": "claim-catalog-priority-score",
+            "issue_id": "issue-catalog",
+            "metric": "priority_score",
+            "value": "50"
+          },
+          {
+            "claim_id": "claim-catalog-severity-sum",
+            "issue_id": "issue-catalog",
+            "metric": "severity_sum",
+            "value": "50"
+          },
+          {
+            "claim_id": "claim-downloads-complaint-count",
+            "issue_id": "issue-downloads",
+            "metric": "complaint_count",
+            "value": "9"
+          },
+          {
+            "claim_id": "claim-downloads-mean-severity",
+            "issue_id": "issue-downloads",
+            "metric": "mean_severity",
+            "value": "3.000000"
+          },
+          {
+            "claim_id": "claim-downloads-priority-score",
+            "issue_id": "issue-downloads",
+            "metric": "priority_score",
+            "value": "27"
+          },
+          {
+            "claim_id": "claim-downloads-severity-sum",
+            "issue_id": "issue-downloads",
+            "metric": "severity_sum",
+            "value": "27"
+          },
+          {
+            "claim_id": "claim-other-complaint-count",
+            "issue_id": "issue-other",
+            "metric": "complaint_count",
+            "value": "118"
+          },
+          {
+            "claim_id": "claim-other-mean-severity",
+            "issue_id": "issue-other",
+            "metric": "mean_severity",
+            "value": "1.974576"
+          },
+          {
+            "claim_id": "claim-other-priority-score",
+            "issue_id": "issue-other",
+            "metric": "priority_score",
+            "value": "233"
+          },
+          {
+            "claim_id": "claim-other-severity-sum",
+            "issue_id": "issue-other",
+            "metric": "severity_sum",
+            "value": "233"
+          },
+          {
+            "claim_id": "claim-playback-complaint-count",
+            "issue_id": "issue-playback",
+            "metric": "complaint_count",
+            "value": "60"
+          },
+          {
+            "claim_id": "claim-playback-mean-severity",
+            "issue_id": "issue-playback",
+            "metric": "mean_severity",
+            "value": "3.400000"
+          },
+          {
+            "claim_id": "claim-playback-priority-score",
+            "issue_id": "issue-playback",
+            "metric": "priority_score",
+            "value": "204"
+          },
+          {
+            "claim_id": "claim-playback-severity-sum",
+            "issue_id": "issue-playback",
+            "metric": "severity_sum",
+            "value": "204"
+          },
+          {
+            "claim_id": "claim-support-complaint-count",
+            "issue_id": "issue-support",
+            "metric": "complaint_count",
+            "value": "1"
+          },
+          {
+            "claim_id": "claim-support-mean-severity",
+            "issue_id": "issue-support",
+            "metric": "mean_severity",
+            "value": "2.000000"
+          },
+          {
+            "claim_id": "claim-support-priority-score",
+            "issue_id": "issue-support",
+            "metric": "priority_score",
+            "value": "2"
+          },
+          {
+            "claim_id": "claim-support-severity-sum",
+            "issue_id": "issue-support",
+            "metric": "severity_sum",
+            "value": "2"
+          },
+          {
+            "claim_id": "claim-usability-complaint-count",
+            "issue_id": "issue-usability",
+            "metric": "complaint_count",
+            "value": "127"
+          },
+          {
+            "claim_id": "claim-usability-mean-severity",
+            "issue_id": "issue-usability",
+            "metric": "mean_severity",
+            "value": "2.291339"
+          },
+          {
+            "claim_id": "claim-usability-priority-score",
+            "issue_id": "issue-usability",
+            "metric": "priority_score",
+            "value": "291"
+          },
+          {
+            "claim_id": "claim-usability-severity-sum",
+            "issue_id": "issue-usability",
+            "metric": "severity_sum",
+            "value": "291"
+          }
+        ],
+        "storage": {
+          "bytes": 1425408,
+          "projected_bytes_210k": 299335680,
+          "projection_note": "Linear estimate from current table and index size; verify again at 10,000 reviews."
+        },
+        "scope": "pilot"
+      }
+    },
+    "/api/issues": {
+      "status_code": 200,
+      "payload": {
+        "status": "ready",
+        "run_id": "1000-1ad0e35d239c3e9d",
+        "issues": [
+          {
+            "issue_id": "issue-usability",
+            "name": "Usability and quality issues",
+            "description": "Feedback highlights poor sound, intrusive ads, UI crashes and difficulty accessing playlists",
+            "rank": 1,
+            "complaint_count": 127,
+            "severity_sum": 291,
+            "mean_severity": 2.291339,
+            "priority_score": 291
+          },
+          {
+            "issue_id": "issue-billing",
+            "name": "Billing concerns",
+            "description": "Customers experience issues with subscription status and premium features",
+            "rank": 2,
+            "complaint_count": 83,
+            "severity_sum": 239,
+            "mean_severity": 2.879518,
+            "priority_score": 239
+          },
+          {
+            "issue_id": "issue-other",
+            "name": "Other complaints",
+            "description": "General negative feedback not covered by other categories",
+            "rank": 3,
+            "complaint_count": 118,
+            "severity_sum": 233,
+            "mean_severity": 1.974576,
+            "priority_score": 233
+          },
+          {
+            "issue_id": "issue-playback",
+            "name": "Playback interruptions",
+            "description": "Listeners experience random stops, forced shuffle and inability to select songs",
+            "rank": 4,
+            "complaint_count": 60,
+            "severity_sum": 204,
+            "mean_severity": 3.4,
+            "priority_score": 204
+          },
+          {
+            "issue_id": "issue-access",
+            "name": "Access problems",
+            "description": "Users report being unable to log in or connect their accounts",
+            "rank": 5,
+            "complaint_count": 26,
+            "severity_sum": 95,
+            "mean_severity": 3.653846,
+            "priority_score": 95
+          },
+          {
+            "issue_id": "issue-catalog",
+            "name": "Catalog issues",
+            "description": "Listeners encounter missing songs, lyrics problems and reduced recommendation quality",
+            "rank": 6,
+            "complaint_count": 21,
+            "severity_sum": 50,
+            "mean_severity": 2.380952,
+            "priority_score": 50
+          },
+          {
+            "issue_id": "issue-downloads",
+            "name": "Download failures",
+            "description": "Users report that offline content disappears or requires internet to play",
+            "rank": 7,
+            "complaint_count": 9,
+            "severity_sum": 27,
+            "mean_severity": 3,
+            "priority_score": 27
+          },
+          {
+            "issue_id": "issue-support",
+            "name": "Support and privacy concerns",
+            "description": "User mentions lack of assistance and worries about account security",
+            "rank": 8,
+            "complaint_count": 1,
+            "severity_sum": 2,
+            "mean_severity": 2,
+            "priority_score": 2
+          }
+        ]
+      }
+    },
+    "/api/recommendations": {
+      "status_code": 200,
+      "payload": {
+        "status": "ready",
+        "run_id": "1000-1ad0e35d239c3e9d",
+        "document": {
+          "summary": "The saved baseline ranking places usability and quality issues first by priority score, driven by the largest complaint volume in this self-selected historical review sample, with billing concerns second and the coarse other-complaints bucket third. Playback interruptions rank lower in volume but show the highest mean severity among the larger topics, and the bounded examples include expressed cancellation intent, which is distinct from observed churn; no actual churn outcome is established by this dataset. The recommended next-quarter priority is the usability and quality topic, with a focus on the subtopics visible in the bounded examples: app crashes after updates, difficulty accessing saved playlists, and sound quality complaints. Billing subscription-state confusion is the strongest alternative given its higher mean severity than usability. All proposed benefits are hypotheses to be tested; the sample is self-selected app-store feedback and cannot establish prevalence, revenue at risk, or causal retention effects.",
+          "limitations": [
+            "The dataset is a self-selected sample of app-store reviews and cannot establish population prevalence, revenue at risk, or causal retention improvement from any proposed fix.",
+            "Expressed cancellation intent appears in some bounded examples but is distinct from observed churn; no churn outcomes are present in the supplied data.",
+            "A portion of reviews were flagged as needing review and their labels are uncertain; the saved ranking may shift once those labels are resolved.",
+            "Topic grouping is coarse; the other-complaints bucket aggregates heterogeneous negative feedback, and a topic's aggregate count does not establish the prevalence of any particular subtopic within it.",
+            "Severity is a model-assigned label under a shared rubric, not a score reported by reviewers, and human benchmark accuracy for the labeling is unestablished in the supplied data.",
+            "The bounded examples cover only a subset of reviews per topic; subtopic conclusions such as crash-after-update or playlist-display failures are supported only by the quoted examples shown.",
+            "Proposed product benefits are hypotheses to be validated through controlled evaluation, not measured causal effects."
+          ],
+          "alternatives": [
+            {
+              "title": "Billing subscription-state fixes as the primary priority",
+              "claim_ids": [
+                "claim-billing-complaint-count",
+                "claim-billing-mean-severity",
+                "claim-billing-priority-score"
+              ],
+              "issue_ids": [
+                "issue-billing"
+              ],
+              "rationale": "This alternative is attractive because its mean severity exceeds that of the top-ranked topic, and the bounded examples include paying users blocked from their music. It was not chosen as primary because its complaint volume is lower than the top topic in this self-selected sample, and the examples mix subscription-state confusion with feature-gating complaints that may need different owners.",
+              "review_ids": [
+                "b06534cf-f48e-4a2f-97a1-47e89c28554f",
+                "16929558-ce1e-4b87-8738-a1de3f557f66",
+                "aa8fec15-2de4-46af-a911-1b49bcb4eb4c"
+              ]
+            },
+            {
+              "title": "Playback reliability as the primary priority",
+              "claim_ids": [
+                "claim-playback-complaint-count",
+                "claim-playback-mean-severity",
+                "claim-playback-priority-score"
+              ],
+              "issue_ids": [
+                "issue-playback"
+              ],
+              "rationale": "Playback interruptions show the highest mean severity among the larger topics in the saved claims, and the bounded examples include random stops on tablets with explicit cancellation intent and forced-shuffle frustration. It was not chosen as primary because its complaint volume is materially lower than the top topic in this sample, and the examples span distinct subtopics such as shuffle restrictions and mobile-data failures that may not share a single fix.",
+              "review_ids": [
+                "1cdc5bb2-8e8d-4267-8853-6c1dd4c7ef13",
+                "f9cf3b4a-c40e-4578-9f6f-358807450b0f",
+                "47ab8a7e-e9da-45ef-bcfd-036fff3896a3"
+              ]
+            },
+            {
+              "title": "Offline download reliability as the primary priority",
+              "claim_ids": [
+                "claim-downloads-complaint-count",
+                "claim-downloads-mean-severity",
+                "claim-downloads-priority-score"
+              ],
+              "issue_ids": [
+                "issue-downloads"
+              ],
+              "rationale": "Download failures have a small volume in this sample but the bounded examples include a paying subscriber whose downloaded content disappears and who states intent to move elsewhere, which is expressed cancellation intent rather than observed churn. It was not chosen as primary because the sample volume is the smallest among actionable topics, limiting confidence that the subtopic generalizes.",
+              "review_ids": [
+                "5be3399d-dcd2-405b-a931-29b02ffc966e",
+                "9397488c-6376-4fb9-9b34-747fc7559df9"
+              ]
+            }
+          ],
+          "recommendations": [
+            {
+              "title": "Prioritize post-update stability and playlist access fixes",
+              "claim_ids": [
+                "claim-usability-complaint-count",
+                "claim-usability-severity-sum",
+                "claim-usability-mean-severity",
+                "claim-usability-priority-score"
+              ],
+              "issue_ids": [
+                "issue-usability"
+              ],
+              "rationale": "This topic holds the top rank in the saved baseline by priority score and complaint volume, and the bounded examples describe crashes following a new interface, playlists not displaying saved music, and sound quality complaints. Some examples express cancellation intent, which is not the same as observed churn. A focused fix-and-validate effort on these subtopics is the highest-ranked actionable area; expected retention benefit is a hypothesis to test, not a measured effect.",
+              "review_ids": [
+                "2b855f9f-b1c2-42e2-bc67-f45bd98fbcb4",
+                "45f50a2d-4f73-49b3-8c92-02e6950ff041",
+                "f11035b1-51b7-4bca-be50-7c17deb6ff53",
+                "62e3e595-9ae3-499d-ba74-e43b4fb81e8e",
+                "16e229b6-24f0-4362-b922-a48e0e3aa9ad"
+              ]
+            },
+            {
+              "title": "Instrument and triage subscription-state confusion signals",
+              "claim_ids": [
+                "claim-billing-complaint-count",
+                "claim-billing-severity-sum",
+                "claim-billing-mean-severity",
+                "claim-billing-priority-score"
+              ],
+              "issue_ids": [
+                "issue-billing"
+              ],
+              "rationale": "Billing ranks second by priority score and shows a higher mean severity than the top-ranked topic in the saved claims. The bounded examples describe paying subscribers seeing upgrade prompts and pause-subscription screens despite active premium status. Because these examples touch paying users, a diagnostic instrumentation effort is warranted as a companion action, with any retention benefit treated as untested.",
+              "review_ids": [
+                "b06534cf-f48e-4a2f-97a1-47e89c28554f",
+                "16929558-ce1e-4b87-8738-a1de3f557f66",
+                "d87536c5-6fe0-4b38-b0b1-c47936e4a0d8"
+              ]
+            }
+          ],
+          "priority_issue_id": "issue-usability"
+        }
+      }
+    },
+    "/api/issues/issue-usability/reviews": {
+      "status_code": 200,
+      "payload": {
+        "status": "ready",
+        "run_id": "1000-1ad0e35d239c3e9d",
+        "issue_id": "issue-usability",
+        "reviews": [
+          {
+            "review_id": "0070e713-4cb7-4d78-954f-1764d5593c91",
+            "review_text": "I've loved Spotify but it's baffling to me how every update they make seems to make the app LESS user friendly. When they removed the daily mixes from the home page, that was a swing and miss. When they first reworked the home page to have a bunch of unnecessary recommendations instead of access to recently played options (which they later reverted) that was a fail. And now they've removed the ability to move episode to episode on podcasts from the toolbar in exchange for playback speed? WHY??",
+            "review_rating": "3",
+            "review_likes": "5",
+            "app_version": "8.7.92.521",
+            "review_timestamp": "2022-12-21 04:11:49",
+            "source_sha256": "0e0a620314947e628cad07685862a99e31dacf9160a5240ff5ebeaa53459f45a",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [
+              "Spotify",
+              "podcasts"
+            ],
+            "evidence_quote": "I've loved Spotify but it's baffling to me how every update they make seems to make the app LESS user friendly. When they removed the daily mixes from the home page, that was a swing and miss. When they first reworked the home page to have a bunch of unnecessary recommendations instead of access to recently played options (which they later reverted) that was a fail. And now they've removed the ability to move episode to episode on podcasts from the toolbar in exchange for playback speed? WHY??",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "01124066-b5dd-4c79-8618-d1bea99d197a",
+            "review_text": "Sometimes has connection issues with google home and tends to get \"tunnel vision\" with its song picks. If there's a few songs that get listened to that aren't the usual, the next update to release radar is crawling with similar songs. Gotten pretty slow loading lately. Really don't understand why some of the settings aren't available. Looks like the equalizer that was built in is gone.",
+            "review_rating": "4",
+            "review_likes": "4",
+            "app_version": "8.8.14.575",
+            "review_timestamp": "2023-03-18 21:05:52",
+            "source_sha256": "fe8fcecf56ea010c11709bbf6535934fdddf6a1db03cc7b737189fc9ce58fca9",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [
+              "google home"
+            ],
+            "evidence_quote": "Sometimes has connection issues with google home and tends to get \"tunnel vision\" with its song picks. If there's a few songs that get listened to that aren't the usual, the next update to release radar is crawling with similar songs. Gotten pretty slow loading lately. Really don't understand why some of the settings aren't available. Looks like the equalizer that was built in is gone.",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "035213ba-b1b9-411c-b028-70296e5f0e73",
+            "review_text": "I m using this app from 5 to 6 year but now m uninstald this app cz his premium adds are everywhere now .",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "",
+            "review_timestamp": "2023-11-09 19:07:11",
+            "source_sha256": "686415ddd2c82158a2da265efbc953603cfea1f9a5ca6c9ebd085f9fe6503000",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "cancellation",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [
+              "premium"
+            ],
+            "evidence_quote": "I m using this app from 5 to 6 year but now m uninstald this app cz his premium adds are everywhere now .",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "0853c56b-0fa1-4d12-9cb9-6817d52233f5",
+            "review_text": "This app is so hard to navigate on phone if I click a a song a have liked it goes to didn't song I never heard or it might play a demo of the song that is dumb it should play the song",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.7.44.968",
+            "review_timestamp": "2022-07-07 22:20:20",
+            "source_sha256": "ad51ad5e78f82209a88ff3cc8c4dc6e2a4ae4b2d7bfe00a87491904c9327f058",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 3,
+            "entities": [],
+            "evidence_quote": "This app is so hard to navigate on phone if I click a a song a have liked it goes to didn't song I never heard or it might play a demo of the song that is dumb it should play the song",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "08d3a5a9-1ec1-4b10-a5c8-393da33843e1",
+            "review_text": "For free subscription I find this to be a cancerous and even dangerous app while driving. Will try to make your life difficult finding your songs, esp. while on the go, e.g. will not let you go to any random song in a playlist while on mobile, except for the first few uses. For the paid plan, no such ugly surprises, just still not as easy to find your stuff as it should be.",
+            "review_rating": "2",
+            "review_likes": "0",
+            "app_version": "8.8.28.409",
+            "review_timestamp": "2023-05-04 21:47:57",
+            "source_sha256": "f3ab63e87b2c1fe4f91691331611cd2738086cbd3ec7793f37ae0da548b1cc8d",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "For free subscription I find this to be a cancerous and even dangerous app while driving. Will try to make your life difficult finding your songs, esp. while on the go, e.g. will not let you go to any random song in a playlist while on mobile, except for the first few uses. For the paid plan, no such ugly surprises, just still not as easy to find your stuff as it should be.",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "0b54bc56-5956-4aea-9b6c-051f3902370f",
+            "review_text": "Not very user friendly only upside is the offline playing",
+            "review_rating": "2",
+            "review_likes": "0",
+            "app_version": "8.8.80.599",
+            "review_timestamp": "2023-10-25 19:59:39",
+            "source_sha256": "4059a9206468a065a91d1c1d99071bfbfc3b118981efe36aed2eb931d3e45571",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "Not very user friendly only upside is the offline playing",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "0d9c62d1-2b53-4887-8156-a28eeac86e82",
+            "review_text": "Recent update bad and needs rework",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.8.76.667",
+            "review_timestamp": "2023-10-12 14:55:09",
+            "source_sha256": "cc8d1632ce748cb0631a6b4e2c5435df808a518c9d68da6805c054369f6c86a2",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -0.5,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "Recent update bad and needs rework",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "0e71515c-ecf1-4b23-b783-00f58e51d96a",
+            "review_text": "The new home screen is terrible, I was listening to a playlist I had found the previous day and now I am unable to find it again because of the new update.",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.8.22.510",
+            "review_timestamp": "2023-04-04 17:39:42",
+            "source_sha256": "5d6990cb06fd548c4c051082b12b3e47eacc1863904174e510ac6af379b9f492",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "The new home screen is terrible, I was listening to a playlist I had found the previous day and now I am unable to find it again because of the new update.",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "131c2c68-4e7f-413e-9618-94d032c7ac5d",
+            "review_text": "Spotify does not load my playlist on my Samsung phone...it used to work. Very annoying.",
+            "review_rating": "1",
+            "review_likes": "1",
+            "app_version": "8.7.56.421",
+            "review_timestamp": "2022-08-17 11:31:43",
+            "source_sha256": "77cb5dde3b5544d2ba301f2c07dc29fcefb3bf44dfa1575eedb78eee37ff8651",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [
+              "Spotify"
+            ],
+            "evidence_quote": "Spotify does not load my playlist on my Samsung phone...it used to work. Very annoying.",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "16e229b6-24f0-4362-b922-a48e0e3aa9ad",
+            "review_text": "New version of Spotify is not an updated version but the worst version. Spotify users can't even able to listen to the songs of their choice. Not everyone can afford to have premium membership and any other thing even their are too much ads this is really worst if this kind of things keep going then I have to uninstall my favourite and the only music player which is basically Spotify itself It's really disgusting and a biggest disappointment",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "",
+            "review_timestamp": "2023-09-07 10:59:22",
+            "source_sha256": "c38d359980435f9bcae6e322ef55b5c235fb705ac715b870b7ee1eac39b25cf4",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 4,
+            "entities": [
+              "Spotify",
+              "premium"
+            ],
+            "evidence_quote": "New version of Spotify is not an updated version but the worst version. Spotify users can't even able to listen to the songs of their choice. Not everyone can afford to have premium membership and any other thing even their are too much ads this is really worst if this kind of things keep going then I have to uninstall my favourite and the only music player which is basically Spotify itself It's really disgusting and a biggest disappointment",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "172adc2b-5e3e-44ab-976d-f35ed1d1a10d",
+            "review_text": "If you want to listen to it and but it gives you 30 minutes of free listening and it will give you six skips just skip this song per hour and go to use them wisely but again a very good app",
+            "review_rating": "5",
+            "review_likes": "0",
+            "app_version": "8.7.44.968",
+            "review_timestamp": "2022-07-04 18:41:19",
+            "source_sha256": "2c1b78f94be648614dbce30ef6e9fd01bb81ba254f27bd4cf2832516cdfafebb",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": 0,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "If you want to listen to it and but it gives you 30 minutes of free listening and it will give you six skips just skip this song per hour and go to use them wisely but again a very good app",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": true,
+              "fallback_reason": [
+                "model_requested_review"
+              ],
+              "classifier_model": "openai/gpt-oss-120b",
+              "initial_prediction": {
+                "topic": "other",
+                "intent": "unclear",
+                "entities": [],
+                "severity": 1,
+                "sentiment": 0,
+                "needs_review": true,
+                "fallback_used": false,
+                "evidence_quote": "If you want to listen to it and but it gives you 30 minutes of free listening and it will give you six skips just skip this song per hour and go to use them wisely but again a very good app",
+                "review_reasons": [
+                  "model_requested_review"
+                ],
+                "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+                "confidence_source": "not_available",
+                "uncertainty_score": null,
+                "classifier_provider": "nebius",
+                "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+              },
+              "classifier_provider": "nebius"
+            }
+          },
+          {
+            "review_id": "1808ac89-62c5-4b88-bb00-016b1d5e9303",
+            "review_text": "Guys, this new home screen is horrible....the endless feed makes it impossible to find my go-to selections and weekly recommendations. It also keeps removing podcasts I regularly listen to and I have to locate them and add them back every day. Please revert back to the last version or fix the UI.",
+            "review_rating": "2",
+            "review_likes": "3",
+            "app_version": "8.8.24.307",
+            "review_timestamp": "2023-04-14 09:15:22",
+            "source_sha256": "b97639dc47f2b90878fe883e9010ee3e1dd8c0b01e24969949a88a36fa3fa447",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 3,
+            "entities": [
+              "podcasts"
+            ],
+            "evidence_quote": "Guys, this new home screen is horrible....the endless feed makes it impossible to find my go-to selections and weekly recommendations. It also keeps removing podcasts I regularly listen to and I have to locate them and add them back every day. Please revert back to the last version or fix the UI.",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "1dceb7ea-09da-44d4-9cc5-fbc4fa604d48",
+            "review_text": "Exellent on music but there the ads",
+            "review_rating": "4",
+            "review_likes": "0",
+            "app_version": "8.7.44.968",
+            "review_timestamp": "2022-07-07 10:06:11",
+            "source_sha256": "01a1e22493f683e263e9aabb15e7977316db5a4b5c5d31cf511fced02ce559ae",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "Exellent on music but there the ads",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "232c669e-8bfe-4642-b0c9-229c2911cc6c",
+            "review_text": "Sometimes the shuffle doesn't work. The app will play a total of 3 songs from my library, figured out how to fix this issue. Back to being a great app.",
+            "review_rating": "4",
+            "review_likes": "0",
+            "app_version": "8.8.0.347",
+            "review_timestamp": "2023-01-18 11:50:54",
+            "source_sha256": "166068fd2564bb8c007aeca9896391ad206e0230c1a1c6836c2bd9743e502bd4",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -0.5,
+            "severity": 3,
+            "entities": [],
+            "evidence_quote": "Sometimes the shuffle doesn't work. The app will play a total of 3 songs from my library, figured out how to fix this issue. Back to being a great app.",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "23685af6-de32-4187-91d8-9471fd69fc20",
+            "review_text": "I am using Spotify for so long. But this time I am totally disappointed with this app as it removed the \"repeat\" option from it.",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.8.50.466",
+            "review_timestamp": "2023-07-09 10:18:05",
+            "source_sha256": "2c202d54d9573c33cc4cec82b15542c1890ef6a6decbd10f9751e08a6ba91f2c",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [
+              "Spotify"
+            ],
+            "evidence_quote": "I am using Spotify for so long. But this time I am totally disappointed with this app as it removed the \"repeat\" option from it.",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "273cb2d7-7f93-458c-bf3b-4bf7b54427a2",
+            "review_text": "It stays on even when u turn off wasting data",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.7.78.373",
+            "review_timestamp": "2022-10-30 03:16:44",
+            "source_sha256": "a99ea2cf4af1b0517994c2ed6aac4f08a2a7a3fd4a38cf514956bf2b7ad5aafa",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 3,
+            "entities": [],
+            "evidence_quote": "It stays on even when u turn off wasting data",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "2aae0ce4-ae4a-46ce-b2fe-0d901eb23c06",
+            "review_text": "The new layout is awful. I have oversized icons and I have to scroll forever to get to my daily mixes, please go back.",
+            "review_rating": "2",
+            "review_likes": "2",
+            "app_version": "8.7.68.568",
+            "review_timestamp": "2022-10-01 04:03:58",
+            "source_sha256": "1b2d52260a28d145848fde9f2e27eeddfda4aa6ad1653ae9717b60c03cd35724",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -0.8,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "The new layout is awful. I have oversized icons and I have to scroll forever to get to my daily mixes, please go back.",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "2b1d12ec-0d44-479f-9c97-8cf04dab52db",
+            "review_text": "Terrible, I just wanted to listen to a song and it gave me like 50 others, I than liked the song and went to liked and it didn't play the song instead it played a demo of the song, and finally, I tried to put it in a playlist but played suggested songs, and now you only get a limited amount of skips so I couldn't skip to my song",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.8.24.307",
+            "review_timestamp": "2023-04-12 15:04:30",
+            "source_sha256": "bf11562d7d8422c634fe4e2276a9a4e1066ecfa135fb917244b9ee8a4f826164",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 3,
+            "entities": [],
+            "evidence_quote": "Terrible, I just wanted to listen to a song and it gave me like 50 others, I than liked the song and went to liked and it didn't play the song instead it played a demo of the song, and finally, I tried to put it in a playlist but played suggested songs, and now you only get a limited amount of skips so I couldn't skip to my song",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "2b855f9f-b1c2-42e2-bc67-f45bd98fbcb4",
+            "review_text": "New UI is horrible and crashes the app after about five seconds",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.8.26.408",
+            "review_timestamp": "2023-04-18 21:26:54",
+            "source_sha256": "391d0d91129cf4bbcec7ebf647d2931d03d3996868e90116bcf717555c4488ae",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 4,
+            "entities": [],
+            "evidence_quote": "New UI is horrible and crashes the app after about five seconds",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "2e2480c1-7799-4a66-be67-a947a2d99680",
+            "review_text": "Ahhhhhh why change the layout. If it aint broke... Don't fix it. The new layout is horrible, takes ages tk find things and is just plain annoying. Sack your deaign team because they are clueless.",
+            "review_rating": "1",
+            "review_likes": "11",
+            "app_version": "8.8.18.509",
+            "review_timestamp": "2023-03-19 09:58:12",
+            "source_sha256": "ea46ee8d491cb6f189229b94549584b63ce40b99b4db2a4dc0132949e4747a18",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -0.8,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "Ahhhhhh why change the layout. If it aint broke... Don't fix it. The new layout is horrible, takes ages tk find things and is just plain annoying. Sack your deaign team because they are clueless.",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "30e002be-ad0a-40ef-9a05-9d28eedbcde6",
+            "review_text": "Nowhere in the blend Playlist does it say that it's limited to 50 songs. Added 50 songs and killed my friends joint Playlist. Fix the concept you developed to help us share music with friends and I'll update my review",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.8.52.458",
+            "review_timestamp": "2023-07-12 18:37:14",
+            "source_sha256": "ea7d2a4408965bcca7d6828af20665ffe0b00cf2f41fb8f3592bbaf786a3ee9a",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 3,
+            "entities": [],
+            "evidence_quote": "Nowhere in the blend Playlist does it say that it's limited to 50 songs. Added 50 songs and killed my friends joint Playlist. Fix the concept you developed to help us share music with friends and I'll update my review",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "3252de76-f17f-47e2-9517-fe47f66a1fdb",
+            "review_text": "This app is full worse And contains a lot of ads I request you for don't download it",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "",
+            "review_timestamp": "2023-02-03 17:57:54",
+            "source_sha256": "9d041bec6d79c2bf2e301ab035e35181441ea199f238643cfb308e0d62f4692a",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "cancellation",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "This app is full worse And contains a lot of ads I request you for don't download it",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "392fe633-9df7-4f43-a807-f478c658695f",
+            "review_text": "I'm not sure what I'm doing wrong, but it plays tons and tons of ads. Like, four or five ads to every one or two songs.",
+            "review_rating": "2",
+            "review_likes": "0",
+            "app_version": "",
+            "review_timestamp": "2022-08-22 02:28:59",
+            "source_sha256": "572b056b1eeddd7c73b7a2e4aab6adea3352df66c1d761c9bd9c0c39e51f5a63",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "I'm not sure what I'm doing wrong, but it plays tons and tons of ads. Like, four or five ads to every one or two songs.",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "396d6639-37bc-41e1-a5db-773c26884f6e",
+            "review_text": "The new update just ruined everything, #bringbackoldspotify otherwise there are many other options",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.8.76.667",
+            "review_timestamp": "2023-10-11 06:24:22",
+            "source_sha256": "9e581b57857e75ad40076b1b0aa2ed318803a216fe660e3a9a62e948d5721605",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "cancellation",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "The new update just ruined everything, #bringbackoldspotify otherwise there are many other options",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "39764e4d-eea8-4ff4-a42f-2bd61d1a107a",
+            "review_text": "Ok so first off I (with many others) LOVED Spotify as it had so many cool features and I was a person who literally never cared about ads because we all have to make money but even with the recent update I was chill about shuffle but THE NO GOING BACK AND THE LYRICS THING......NO!!! I MEAN IF THESE TWO THINGS ARE CHANGED I BET YOU NO ONE WILL BE COMPLAINING",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "",
+            "review_timestamp": "2023-10-28 14:09:29",
+            "source_sha256": "492a36f5600b24b9b9a4c3cb37106fdf1b9626a8274bf93a37d7bb71c09500db",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 3,
+            "entities": [
+              "Spotify",
+              "LYRICS"
+            ],
+            "evidence_quote": "Ok so first off I (with many others) LOVED Spotify as it had so many cool features and I was a person who literally never cared about ads because we all have to make money but even with the recent update I was chill about shuffle but THE NO GOING BACK AND THE LYRICS THING......NO!!! I MEAN IF THESE TWO THINGS ARE CHANGED I BET YOU NO ONE WILL BE COMPLAINING",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "3b002c9f-0a4c-453c-9aee-1bbfca885c06",
+            "review_text": "The app automatically starts every time I connect to my car. The developer offers no way to turn this feature off, so I'm uninstalling this app and switching to a different service.",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "",
+            "review_timestamp": "2023-04-25 11:08:44",
+            "source_sha256": "e06d3c8359b6a25870aa8a78e789fb409689629c333fba651ab85cce5fed4f5b",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "cancellation",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "The app automatically starts every time I connect to my car. The developer offers no way to turn this feature off, so I'm uninstalling this app and switching to a different service.",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "3e8bdc92-4934-457e-85cc-8b9d14bf51c0",
+            "review_text": "Decent,just let me have a solid 4-5 songs without an ad bro, it's always every 1 or 2 song then instant ads, that's all thanks",
+            "review_rating": "3",
+            "review_likes": "0",
+            "app_version": "8.8.80.599",
+            "review_timestamp": "2023-11-03 12:58:07",
+            "source_sha256": "4e19ecb42c0430b730e1577b7352374576cad8eff92998439a5766363d3a41af",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "Decent,just let me have a solid 4-5 songs without an ad bro, it's always every 1 or 2 song then instant ads, that's all thanks",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": true,
+              "fallback_reason": [
+                "intent_severity_inconsistency"
+              ],
+              "classifier_model": "openai/gpt-oss-120b",
+              "initial_prediction": {
+                "topic": "usability",
+                "intent": "request",
+                "entities": [],
+                "severity": 2,
+                "sentiment": 0,
+                "needs_review": true,
+                "fallback_used": false,
+                "evidence_quote": "Decent,just let me have a solid 4-5 songs without an ad bro, it's always every 1 or 2 song then instant ads, that's all thanks",
+                "review_reasons": [
+                  "intent_severity_inconsistency"
+                ],
+                "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+                "confidence_source": "not_available",
+                "uncertainty_score": null,
+                "classifier_provider": "nebius",
+                "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+              },
+              "classifier_provider": "nebius"
+            }
+          },
+          {
+            "review_id": "3feb5ba7-4a0d-47e0-a803-eb2dce85dd5e",
+            "review_text": "Like this new update sucks! Old SPOTIFY was better! Just give up your dreams I want to play my song",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.7.44.968",
+            "review_timestamp": "2022-07-01 18:04:37",
+            "source_sha256": "512c9f10911161943659929516a87d194e4556ae83983241b31ae0eff02b4a4b",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "cancellation",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [
+              "SPOTIFY"
+            ],
+            "evidence_quote": "Like this new update sucks! Old SPOTIFY was better! Just give up your dreams I want to play my song",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "419da0ac-1a53-43fb-8f14-418d50a38282",
+            "review_text": "I love this app, but the ads are too much😩😩",
+            "review_rating": "4",
+            "review_likes": "0",
+            "app_version": "8.7.90.544",
+            "review_timestamp": "2022-12-12 14:39:14",
+            "source_sha256": "fffe4f3afba8e03f46aff5949a0e2ed47f07a80d18a8d4acece73b233cd07194",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "I love this app, but the ads are too much😩😩",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "4218fa17-bb19-46bc-8af6-a5d25bb77df5",
+            "review_text": "It was a 5 until they updated with \"Smart Shuffle\" which you cannot disable. If I wanted to discover new music, I would usually search a song in the genre of what I wanted to explore and then \"Start Radio\" from that song. \"Smart Shuffle\" is just annoying.",
+            "review_rating": "4",
+            "review_likes": "0",
+            "app_version": "8.8.78.587",
+            "review_timestamp": "2023-10-16 14:15:53",
+            "source_sha256": "bbdd4acfb70470c0c7c0941c158975dd91ef0d1d5c345dd1f3f58057061c0e42",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "It was a 5 until they updated with \"Smart Shuffle\" which you cannot disable. If I wanted to discover new music, I would usually search a song in the genre of what I wanted to explore and then \"Start Radio\" from that song. \"Smart Shuffle\" is just annoying.",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "45c561b9-cc47-4d80-95d3-f0d20bc84af3",
+            "review_text": "The update made the app useless .... Uninstall krdia ye app ab bekar hai ... Wynk hi theek h",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "",
+            "review_timestamp": "2023-07-14 08:02:31",
+            "source_sha256": "3174ae80d1580f71f065a564b58162a3ad923e157f68f261bd7c273175575b1b",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "cancellation",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "The update made the app useless .... Uninstall krdia ye app ab bekar hai ... Wynk hi theek h",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "45f50a2d-4f73-49b3-8c92-02e6950ff041",
+            "review_text": "I have a problem if i enter my playlist it will not show me my music",
+            "review_rating": "2",
+            "review_likes": "0",
+            "app_version": "8.7.48.1062",
+            "review_timestamp": "2022-07-20 20:51:11",
+            "source_sha256": "a3ef9f80dd9f3e70c6efb838788a34ac74f53a897f6bc0fdc685f42566f49c26",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 3,
+            "entities": [],
+            "evidence_quote": "I have a problem if i enter my playlist it will not show me my music",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "479aa1c3-1e32-4966-ba0e-0c518efad911",
+            "review_text": "مرهه يع الإعلانات كثيرة و مزعجة",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "",
+            "review_timestamp": "2023-07-04 13:29:10",
+            "source_sha256": "c58b966398c09109d66d0ca780deb8bba04034017ff79c4b1390b756d8b7f789",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "مرهه يع الإعلانات كثيرة و مزعجة",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "4d7c1b3b-b7f8-417e-a984-6ae27c3acef5",
+            "review_text": "Too much of advertisements... Make irritated",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.7.18.1138",
+            "review_timestamp": "2022-08-04 08:05:21",
+            "source_sha256": "313fef9821ed2ff1568c1f1520dfb3849f9d0778c5b1955b6d2087ec1f7e24a3",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "Too much of advertisements... Make irritated",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "50626053-301c-42fa-91aa-2f88aef82e64",
+            "review_text": "I say it's great for music but the ads is unbearable not only it's unskippable it's all 25+ sec long and you get 2 ads and when you want to choose a song in your playlist your getting another ad so shuffle is the only option here and I don't understand why would you need to pay to play songs in order aren't you earning enough Spotify?",
+            "review_rating": "2",
+            "review_likes": "0",
+            "app_version": "8.8.80.599",
+            "review_timestamp": "2023-11-02 15:36:24",
+            "source_sha256": "249bb34075fc83f2e3d1fb5df9b71ca45fb7343428740d189f6f516026de9836",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 3,
+            "entities": [
+              "Spotify"
+            ],
+            "evidence_quote": "I say it's great for music but the ads is unbearable not only it's unskippable it's all 25+ sec long and you get 2 ads and when you want to choose a song in your playlist your getting another ad so shuffle is the only option here and I don't understand why would you need to pay to play songs in order aren't you earning enough Spotify?",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "57fc92cc-3266-4d9b-b6c5-0fa09c2c0a6f",
+            "review_text": "That black shade on the notification bar must be removed now! That seriously looks ugly and I am shocked that the screenshots here in the play store don't have that black shade and the app looks amazing! The navigation bar is not transparent yet...! Spotify should consider we android users also like to have our apps look great too like ios.",
+            "review_rating": "3",
+            "review_likes": "0",
+            "app_version": "8.7.48.1062",
+            "review_timestamp": "2022-07-23 13:29:05",
+            "source_sha256": "ae820a11bb24ed41383ed35d7794c6fb93307550629a6ac324b9ba51e54cebf4",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [
+              "Spotify",
+              "android",
+              "ios"
+            ],
+            "evidence_quote": "That black shade on the notification bar must be removed now! That seriously looks ugly and I am shocked that the screenshots here in the play store don't have that black shade and the app looks amazing! The navigation bar is not transparent yet...! Spotify should consider we android users also like to have our apps look great too like ios.",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "5c9c17d3-9d6a-4fa1-a2a4-ae98eefbbd25",
+            "review_text": "Your new features are really bad thing that I found because it plays any song of the Playlist randomly it really really disappointing for and listeners who don't need disturbance in their song patterns. I apologise to your team for reverse your updated or change the new features to old features . Thanks 😊",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.8.76.667",
+            "review_timestamp": "2023-10-12 21:33:21",
+            "source_sha256": "300c32078b0b7bcbb591499c7b958eec2a663bf04001c7dcb0503f6a253e9ec9",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "Your new features are really bad thing that I found because it plays any song of the Playlist randomly it really really disappointing for and listeners who don't need disturbance in their song patterns. I apologise to your team for reverse your updated or change the new features to old features . Thanks 😊",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "5d50e8f0-18d7-4510-8b1d-eb6b2323f3c9",
+            "review_text": "It was my favorite Intel it got an update I only have 6 skips and I can't put songs on loop anymore. This update ruined it please fix it",
+            "review_rating": "3",
+            "review_likes": "0",
+            "app_version": "8.7.32.1554",
+            "review_timestamp": "2022-05-20 21:45:00",
+            "source_sha256": "c911c4e17ed64c51e30a24a067c99c6fccfac05e442da0770ccca9d182a26594",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 3,
+            "entities": [],
+            "evidence_quote": "It was my favorite Intel it got an update I only have 6 skips and I can't put songs on loop anymore. This update ruined it please fix it",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "5d5e08d1-1686-4c86-b9bd-cb0f3a719e0b",
+            "review_text": "Time to switch to another platform. Spotify team has made a bad decision with the new updates.",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.8.72.630",
+            "review_timestamp": "2023-10-14 10:14:33",
+            "source_sha256": "c6ce477be681eb2cd74417bd063583c46ab52a6ea8311615921db239db62fa3c",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "cancellation",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [
+              "Spotify"
+            ],
+            "evidence_quote": "Time to switch to another platform. Spotify team has made a bad decision with the new updates.",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "5e42046c-b29b-4035-ba83-a8e222789e98",
+            "review_text": "Listen to my music almost everyday,this app is great. But the bad thing is that it gives too many ads, i would have hiven it 5 stars. Apart from that this app is great",
+            "review_rating": "4",
+            "review_likes": "2",
+            "app_version": "8.8.40.470",
+            "review_timestamp": "2023-06-12 12:14:46",
+            "source_sha256": "c7c2fd43fde12d020343375839bffa9e1a1591e69f9d20216a693e33b8fd5a23",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -0.5,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "Listen to my music almost everyday,this app is great. But the bad thing is that it gives too many ads, i would have hiven it 5 stars. Apart from that this app is great",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "60e06ce2-5691-4620-a009-e91ed3b145d9",
+            "review_text": "Songs are shuffling after update.Very Annoying😡",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.8.48.523",
+            "review_timestamp": "2023-09-08 03:09:15",
+            "source_sha256": "eb553937c104862af7a5513e26bf05c2e3b1b9c5eef3730566de044c8875e2b9",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "Songs are shuffling after update.Very Annoying😡",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "62e3e595-9ae3-499d-ba74-e43b4fb81e8e",
+            "review_text": "This new update has ruined the entire app, now I can't even listen to my favorite parts of the song. I am deleting this app now. Earlier I used to like this app so much but no everything got spoiled...",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.8.80.599",
+            "review_timestamp": "2023-10-23 13:01:44",
+            "source_sha256": "051e8b5b37bfafe84300c308348509f30fac395315eba3dd34290c884a1a9ecc",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "cancellation",
+            "sentiment": -1,
+            "severity": 4,
+            "entities": [],
+            "evidence_quote": "This new update has ruined the entire app, now I can't even listen to my favorite parts of the song. I am deleting this app now. Earlier I used to like this app so much but no everything got spoiled...",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "6a2cd434-9ad2-4e66-8968-ad066659d4df",
+            "review_text": "Ads",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.8.82.634",
+            "review_timestamp": "2023-11-11 11:21:23",
+            "source_sha256": "aa1868e12962b3d32312ca4137b31414b8a488494991d9f228cf61d46e8e1782",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "Ads",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "6a98ee7f-af2e-4d1e-b4a2-27536dca19fc",
+            "review_text": "The older update was good. Well now, Spotify doesn't support streamline listening. In the free version, you can't queue up songs, there is constant shuffling disrupting attention, again and again one needs to pick phone to change it, million ads irrevalent, and you can't skip to the favourite part of your songs. Do they want the free users to use their app or not? I guess not. I won't buy premium, do what you want. It's time to test out other apps in the market. Afterall, it's all about business",
+            "review_rating": "1",
+            "review_likes": "117",
+            "app_version": "8.8.38.444",
+            "review_timestamp": "2023-05-30 07:33:15",
+            "source_sha256": "da7281fbfd84e56ea4e30757d8f729865c9b9382a155e5a1cea057da385a6f2a",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 3,
+            "entities": [
+              "Spotify",
+              "premium"
+            ],
+            "evidence_quote": "The older update was good. Well now, Spotify doesn't support streamline listening. In the free version, you can't queue up songs, there is constant shuffling disrupting attention, again and again one needs to pick phone to change it, million ads irrevalent, and you can't skip to the favourite part of your songs. Do they want the free users to use their app or not? I guess not. I won't buy premium, do what you want. It's time to test out other apps in the market. Afterall, it's all about business",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "6ba8fc67-700c-4d33-ad84-ef67a05b2ae1",
+            "review_text": "With the new update, I lose the pleasure of listening to songs in the application, for example, why do I only have 6 skips per hour",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.8.12.545",
+            "review_timestamp": "2023-02-24 20:11:56",
+            "source_sha256": "f476891998f093b31f6e5cf2f6c0baa20c24bd55790b23909b49ed484c9fce56",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "With the new update, I lose the pleasure of listening to songs in the application, for example, why do I only have 6 skips per hour",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "6cf35ef1-96f5-4508-9972-0f022a5398a1",
+            "review_text": "So many ads",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.8.10.582",
+            "review_timestamp": "2023-03-04 18:47:13",
+            "source_sha256": "65a1130e91b2d2efdc09d020fdb5c94d6ad45c91104704cca6d29054b1dd50ad",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "So many ads",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "6eb64519-37d4-4591-a47a-bbb96357de36",
+            "review_text": "useless music app music k naam pe khaali ad dikhata hai.",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.8.12.545",
+            "review_timestamp": "2023-03-01 02:21:55",
+            "source_sha256": "27db8f50cb14afac901a49a53e0e95bab7a25b606f4570fc3a558cfe7c52f463",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "useless music app music k naam pe khaali ad dikhata hai.",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "6ecd5837-917a-45de-b811-278da3a26a7a",
+            "review_text": "This new update sucks.",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.8.52.458",
+            "review_timestamp": "2023-07-13 03:42:47",
+            "source_sha256": "36b3967a69704879e098011e748641d28711e2123b69db01921ba2239266b17b",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "This new update sucks.",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "7084ced1-0428-4093-9328-442f74719b4f",
+            "review_text": "I am using Spotify from past two years From last update they removed basic features of music player",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.8.78.587",
+            "review_timestamp": "2023-10-21 11:22:06",
+            "source_sha256": "ddaa2cf2070614a6f848936d0a8bcb8c55c55f1393467c4fcc7eb6b947cf1f57",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [
+              "Spotify"
+            ],
+            "evidence_quote": "I am using Spotify from past two years From last update they removed basic features of music player",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          },
+          {
+            "review_id": "70b76b68-4876-42a9-b1fe-80087693908b",
+            "review_text": "Same on you sportify team. There is 5 advertisement of 30 sec each. Ahhh thooo",
+            "review_rating": "1",
+            "review_likes": "0",
+            "app_version": "8.8.28.409",
+            "review_timestamp": "2023-04-27 18:33:59",
+            "source_sha256": "2bb6b69f9993b6e588e6a0f1460ed3b13bcf1aa1a6fe9cab62f2bf2018b9366e",
+            "status": "completed",
+            "reason": null,
+            "topic": "usability",
+            "intent": "complaint",
+            "sentiment": -1,
+            "severity": 2,
+            "entities": [],
+            "evidence_quote": "Same on you sportify team. There is 5 advertisement of 30 sec each. Ahhh thooo",
+            "needs_review": false,
+            "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+            "cache_source_id": null,
+            "provenance": {
+              "fallback_used": false,
+              "review_reasons": [],
+              "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+              "confidence_source": "not_available",
+              "uncertainty_score": null,
+              "classifier_provider": "nebius",
+              "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"
+            }
+          }
+        ],
+        "next_cursor": "eyJydW5faWQiOiIxMDAwLTFhZDBlMzVkMjM5YzNlOWQiLCJpc3N1ZV9pZCI6Imlzc3VlLXVzYWJpbGl0eSIsInJldmlld19pZCI6IjcwYjc2YjY4LTQ4NzYtNDJhOS1iMWZlLTgwMDg3NjkzOTA4YiJ9"
+      }
+    }
+  },
+  "offline_checks": {
+    "live_summary_matches_frozen_saved": {
+      "run_id": true,
+      "label_config": true,
+      "completed": true,
+      "api_cost_usd": true,
+      "global_spending": true,
+      "model_settings": true
+    },
+    "human_golden_report_exists": false,
+    "current_local_global_ledger": {
+      "captured_at": "2026-10-20T07:33:08.452107+00:00",
+      "spent_usd": 0.214957094,
+      "reserved_usd": 0.0,
+      "unknown_charge_hold_usd": 0.0164462,
+      "committed_usd": 0.231403294,
+      "attempts": 268,
+      "last_settled_at": "2026-10-20T06:21:47.174326+00:00"
+    },
+    "published_global_snapshot": {
+      "attempts": 231,
+      "spent_usd": 0.19274566,
+      "reserved_usd": 0,
+      "committed_usd": 0.20693976,
+      "unknown_charge_hold_usd": 0.0141941
+    },
+    "published_label_ranking": [
+      {
+        "rank": 1,
+        "topic": "usability",
+        "count": 127,
+        "severity_sum": 291
+      },
+      {
+        "rank": 2,
+        "topic": "billing",
+        "count": 83,
+        "severity_sum": 239
+      },
+      {
+        "rank": 3,
+        "topic": "other",
+        "count": 118,
+        "severity_sum": 233
+      },
+      {
+        "rank": 4,
+        "topic": "playback",
+        "count": 60,
+        "severity_sum": 204
+      },
+      {
+        "rank": 5,
+        "topic": "access",
+        "count": 26,
+        "severity_sum": 95
+      },
+      {
+        "rank": 6,
+        "topic": "catalog",
+        "count": 21,
+        "severity_sum": 50
+      },
+      {
+        "rank": 7,
+        "topic": "downloads",
+        "count": 9,
+        "severity_sum": 27
+      },
+      {
+        "rank": 8,
+        "topic": "support",
+        "count": 1,
+        "severity_sum": 2
+      }
+    ],
+    "verifier_label_sensitivity_NOT_GROUND_TRUTH": [
+      {
+        "rank": 1,
+        "topic": "playback",
+        "count": 88,
+        "severity_sum": 319
+      },
+      {
+        "rank": 2,
+        "topic": "other",
+        "count": 153,
+        "severity_sum": 309
+      },
+      {
+        "rank": 3,
+        "topic": "usability",
+        "count": 100,
+        "severity_sum": 234
+      },
+      {
+        "rank": 4,
+        "topic": "billing",
+        "count": 69,
+        "severity_sum": 221
+      },
+      {
+        "rank": 5,
+        "topic": "access",
+        "count": 23,
+        "severity_sum": 91
+      },
+      {
+        "rank": 6,
+        "topic": "catalog",
+        "count": 17,
+        "severity_sum": 46
+      },
+      {
+        "rank": 7,
+        "topic": "downloads",
+        "count": 8,
+        "severity_sum": 32
+      }
+    ],
+    "unique_source_review_ids": 1000,
+    "unique_source_texts": 926,
+    "human_golden_report_path": "evals/golden-results/golden_report.json",
+    "golden_worksheet_rows": 50,
+    "verifier_original_ids_match_final_records": true,
+    "all_published_ranking_scores_counts_order_recomputed": true,
+    "golden_worksheet_complete_label_rows": 0
+  },
+  "artifact_sha256": {
+    "runs/pilot/1000/records.jsonl": "d7d107cf8b390d4c2f311aa2b2e4d0d29d9a2ba19cb40059e32e91670500be02",
+    "runs/pilot/1000/verification.jsonl": "0a4b30575399c28a967bf0ba8867a3994433178ea622231a460955f9337bf82f",
+    "runs/pilot/1000/run_summary.json": "c9d259fc2783feedb4bb495bf6fd52d39014456c22cb291188e97c2e9554fec5",
+    "runs/pilot/1000/evals/verifier_report.json": "9114dbf88fb45124ebd27e3fd7fc39c593e6264146c912b9157e4cd8dbe389a8",
+    "evals/pilot_inspection_report.json": "10d4af1d2f2018d54223d3eb8eb0614af0c103226d59d054dcd77df609083728",
+    "web/src/app/page.tsx": "3866f4cc325d4e753319518f443e89260711e8b04078ac87c5508b232670af25",
+    "web/src/lib/run-display.ts": "e0b728501aa8e7312dccd03d848090ec644938bbce6b20d9c14ff8154c3672e8"
+  }
+}

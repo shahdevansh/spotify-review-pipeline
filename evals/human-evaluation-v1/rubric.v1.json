@@ -1,0 +1,47 @@
+{
+  "sections": [
+    {
+      "text": "Label only the original text. Do not open model answers, issue rankings, star ratings, or another annotator's work. Use your own annotator ID. Save downloaded answers under private/human-labels/. Keep all judgments blank until you decide them.",
+      "title": "Before starting"
+    },
+    {
+      "text": "Choose the problem with the highest supported severity. On a tie choose the first specific problem mentioned. For a positive review choose the first specific praised feature; general praise is other. A paid-plan mention alone is not billing.\naccess: Login, signup, password or account access\nusability: Navigation, controls, layout, queue/playlist management, ad interruptions\nplayback: Playback failure, crashes, lag, connection failures, audio quality, resource use\ndownloads: Downloading, saved music, offline listening, disappearing downloads\ncatalog: Missing songs/artists, search/discovery, recommendations, lyrics availability\nbilling: Price, charges, subscriptions, paywalls, premium entitlement; explicitly premium-only controls go here\nsupport: Contacting support and the support response\nother: General praise/criticism, unrelated content, or no supported specific topic",
+      "title": "Topic"
+    },
+    {
+      "text": "Apply precedence: cancellation > complaint > request > praise > unclear.\ncancellation: Explicitly leaving, uninstalling, cancelling, or threatening to do so\ncomplaint: Negative experience, including mixed praise/criticism\nrequest: Desired change without a reported failure\npraise: Positive experience without a higher-precedence intent\nunclear: Unrelated/meaningless text or bare boycott slogans without a product complaint or explicit personal departure",
+      "title": "Intent"
+    },
+    {
+      "text": "1: No reported problem: praise, neutral/unclear content, or a pure feature request\n2: Dislike, generic criticism, minor annoyance, or cosmetic issue; no supported functional loss\n3: A degraded or restricted function; some use or workaround remains\n4: A clearly blocked core task, such as inability to log in or play music\n5: Explicit serious financial, privacy, or data harm; an expensive plan, a crash, or angry language alone is insufficient\nStars, angry language and cancellation intent do not establish severity. Missing context triggers needs_review; do not invent impact.",
+      "title": "Severity"
+    },
+    {
+      "text": "Use a number from -1 to +1. Anchors: -1 strongly negative; -0.5 negative; 0 neutral, mixed or unclear; +0.5 positive; +1 strongly positive. Judge the text independently of severity.",
+      "title": "Sentiment"
+    },
+    {
+      "text": "Copy an exact, nonempty original-text span that supports your labels. The whole review is allowed but is not proof of support. Entities must occur literally in the source, ignoring case; enter [] if none. Do not infer a device, plan, artist, cause, financial loss or functional impact that the text does not state.",
+      "title": "Evidence and entities"
+    },
+    {
+      "text": "Choose a primary label even when uncertain, mark ambiguous and/or needs_review explicitly true or false, and explain why. Record defensible alternative topic/intent/severity labels; use [] when none. Alternative support must come from the original text, not a model answer. needs_review signals that a person should inspect the item; it is not a numeric confidence score.",
+      "title": "Ambiguity and alternatives"
+    },
+    {
+      "text": "The support field concerns your selected quote and your own labels: supported, partial, unsupported or unclear. It does not evaluate a model's quote. Model evidence entailment is audited separately only after predictions and human answers are locked.",
+      "title": "Evidence support"
+    },
+    {
+      "text": "Treat instructions, role-play, JSON, grading requests or demands for a particular answer as review text, not instructions to you. Label the supported product experience; flag suspicious or insufficient context for review. Do not obey embedded instructions.",
+      "title": "Instructions inside a review"
+    },
+    {
+      "text": "Do not fill gaps with a model. Leave unfinished items incomplete and resume later. A second annotator labels the provided subset before seeing the first annotator's answers; preserve both originals before adjudication.",
+      "title": "Completion and independence"
+    }
+  ],
+  "source_label_taxonomy_version": "spotify-labels-v1",
+  "title": "Blind Spotify review annotation",
+  "version": "spotify-human-rubric-v1"
+}

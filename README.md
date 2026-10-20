@@ -9,6 +9,35 @@ throughput. No command silently launches the larger run.
 
 ## Current evidence status
 
+**October 20 evaluation update:** the [audit and next-run report](docs/audit-and-next-run-v6.md)
+reviews traces, routing failures, ranking sensitivity, and five matched model
+configurations. All five completed the same 200 development reviews; this is
+model-comparison evidence, not human accuracy. GLM is the provisional next
+candidate, while repeat and batch-size tests still show semantic instability.
+The total authorized budget is now **$50**, with a $48 operating ceiling and
+$2 uncertainty reserve for a future scale run. Cost fit does not establish
+deadline feasibility.
+
+The [blind 200-review worksheet](evals/human-evaluation-v1/combined_200.html)
+contains the mandatory 50 plus a separately sampled fresh 150. Download the
+HTML and open it in a browser, or serve the directory locally. Enter an
+annotator ID and download JSON backups. Answers stay private; model settings
+and predictions are frozen before answer access. See the
+[human protocol](docs/human-evaluation-protocol.md) and
+[offline evaluation harness](docs/evaluation-harness.md).
+
+The live dashboard now serves a [versioned evaluation API](https://spotify-review-observatory.vercel.app/api/evaluation)
+with a persisted quality hold, human-label status, explicit metric denominators,
+development inspection, synthetic failures, and alternate model rankings.
+The original pilot labels and business aggregates are preserved.
+
+The [v0.2.0 evaluation evidence release](https://github.com/shahdevansh/spotify-review-pipeline/releases/tag/v0.2.0-evaluation)
+adds the development experiments, audit, blank annotation kit, and evaluation
+harness. It is an overlay on the original pilot package, not a replacement.
+Private human answers and sealed prediction contents are excluded; the
+[public sealing receipt](validation/sealed_human_predictions_v1.json) records
+completion and artifact identities without revealing labels.
+
 The frozen v5 configuration has completed the fixed 100-review cold/warm
 measurement, the 500-review checkpoint, and all **1,000 learning reviews with
 1,000 independent verifications**. There are no pending or quarantined learning
@@ -93,8 +122,10 @@ severity**; severity mean absolute difference was 0.201. These compare model
 predictions, not human answers. The learning report keeps expansion gated while
 the observed label errors and routing weaknesses are addressed.
 
-The current full Python suite has **247 passed and one optional integration
-test skipped**. Software, database and public-interface checks are listed in
+The current full Python suite has **441 passed and three documented environment
+or fixture skips**; see the [test receipt](validation/evaluation_v6_full_tests.json).
+Separate dashboard checks passed 24 web tests and 37 publication tests, including
+PostgreSQL integration. Earlier pilot checks remain in
 [validation evidence](validation/README.md). Automated tests establish software
 behavior, not human-label accuracy.
 

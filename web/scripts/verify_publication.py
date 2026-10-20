@@ -22,7 +22,7 @@ sys.path.insert(0, str(ROOT / 'src'))
 from spotify_pipeline.database import load_run, SOURCE_FIELDS  # noqa: E402
 
 TABLES = ('spotify_runs', 'spotify_reviews', 'spotify_issues', 'spotify_membership',
-          'spotify_claims', 'spotify_recommendations')
+          'spotify_claims', 'spotify_recommendations', 'spotify_evaluation_reports')
 CLASSIFICATION = ('topic','intent','sentiment','severity','entities','evidence_quote',
                   'needs_review','label_config','cache_source_id')
 

@@ -1,0 +1,70 @@
+{
+  "archive_bytes": 2097184,
+  "archive_filename": "spotify-evaluation-v6.tar.gz",
+  "archive_member_count": 1161,
+  "archive_sha256": "eef75bc25f5fc8841421a4fa65f46013bddff6ee3428270faa989cec701ba8e1",
+  "credential_scan": "passed",
+  "dependency": {
+    "archive": "spotify-learning-1000.tar.gz",
+    "bytes": 4489358,
+    "download": "https://github.com/shahdevansh/spotify-review-pipeline/releases/download/v0.1.0-pilot/spotify-learning-1000.tar.gz",
+    "release": "https://github.com/shahdevansh/spotify-review-pipeline/releases/tag/v0.1.0-pilot",
+    "repository": "https://github.com/shahdevansh/spotify-review-pipeline",
+    "sha256": "8675a22ee7008b0036f5e8226223a8ab65b16dfc14f6a745ff7248ccc3b988b8"
+  },
+  "exclusions": [
+    "private/ and all human answers and sealed human predictions",
+    "Credentials and .env files; only the two blank .env.example templates are admitted",
+    "Databases, SQLite caches, node_modules, .next, .vercel, .git, Python caches",
+    "Full raw 660,622-row source, ingestion ledger, and 210,000-row proposed input",
+    "Original v5 run evidence, grading, recovery and measured-cost artifacts: obtain v0.1.0",
+    "Arbitrary files in evals/ or the human-kit directory: only exact named human-kit files"
+  ],
+  "inventory_sha256": "0c04b55ec3e8561f5de0314b6cbcc19f275cca160c02930d69954d7d61b636e0",
+  "packaging_self_tests": {
+    "check_count": 8,
+    "checks": [
+      "protected directories pruned; human answers and databases excluded",
+      "allowlisted symlinks rejected",
+      "exact-file ancestor symlinks rejected",
+      "public-tree ancestor symlinks rejected before traversal",
+      "credential detection exposes only filename",
+      "deterministic archive, exact inventory and tamper rejection",
+      "traversal and unlisted human files rejected",
+      "blank CSV exact header, width, source identity and judgment checks"
+    ],
+    "status": "passed"
+  },
+  "payload_file_count": 1159,
+  "private_directories_traversed": false,
+  "skipped_within_public_roots": [
+    "src/spotify_pipeline/__pycache__/",
+    "tests/__pycache__/",
+    "tools/__pycache__/",
+    "web/scripts/__pycache__/"
+  ],
+  "source_bytes": 12915849,
+  "source_file_count": 1158,
+  "source_snapshot_mode": "apfs-clone",
+  "source_snapshot_validation": {
+    "metadata_transition_count": 0,
+    "metadata_transition_files": [],
+    "method": "Stable path/symlink/size guards; metadata transitions require identical independent byte snapshots."
+  },
+  "validation": {
+    "blank_worksheet_files": "passed",
+    "environment_templates_blank": true,
+    "frozen_worksheet_source_and_group_hashes": "passed",
+    "groups": {
+      "fresh_text_disjoint_150": 150,
+      "mandatory_golden_50": 50
+    },
+    "human_answers_or_private_predictions_read": false,
+    "human_source_rows": 200,
+    "public_kit_integrity_files_verified": 21,
+    "public_sealed_receipt_exact_aggregate_schema": "passed",
+    "six_original_source_fields_and_order": "passed"
+  },
+  "verified": true,
+  "version": "spotify-public-evaluation-overlay-v6"
+}

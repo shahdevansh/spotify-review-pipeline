@@ -1,0 +1,10 @@
+{
+  "golden_source_count": 50,
+  "development_source_count": 1000,
+  "original_id_overlap_count": 0,
+  "exact_text_overlap_unique_count": 3,
+  "golden_original_ids_with_development_text_overlap": 4,
+  "golden_original_ids_with_prior60_inspected_text_overlap": 2,
+  "method": "Only original source ID/text columns were processed; no human answer fields read or displayed. Original golden IDs/texts omitted from this overlap summary.",
+  "golden_original_ids_with_prior60_plus_fresh12_inspected_text_overlap": 2
+}

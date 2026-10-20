@@ -1,0 +1,103 @@
+{
+  "budget": {
+    "new_authorization_or_credit_purchase": false,
+    "per_arm_ceiling_usd": 0.5,
+    "shared_admission_ceiling_usd": 3.231403294
+  },
+  "comparison": {
+    "arms": [
+      "lightning-v5",
+      "glm-v6"
+    ],
+    "baseline": "lightning-v5",
+    "challenger": "glm-v6",
+    "selection": "Declared before human labels are available."
+  },
+  "config_identities": {
+    "glm-v6": {
+      "config_file_sha256": "5b273a96fd5f340e61c524db0e9b6380d5968399038266171f81d9d7f04c308c",
+      "label_config": "spotify-9ac979fe9b3688d2a4ca3edce5af6c880e9de765ef5290b8ad7c41b231e27d2b",
+      "model": "zai-org/GLM-5.3-Flash",
+      "prompt_version": "matched-development-v6-v6",
+      "provider": "nebius",
+      "reasoning_effort": "low"
+    },
+    "lightning-v5": {
+      "config_file_sha256": "ffbc7d48986924fc75690fc62c13eba01f24a3e0ca38f78cc1ffa8a8e24e97bf",
+      "label_config": "spotify-c7b3355157c386ba0458de799a6df7f09bf34f19bf91001db4338f11e0a4fea6",
+      "model": "nvidia/Nemotron-3_5-Lightning",
+      "prompt_version": "matched-development-v6-v5",
+      "provider": "nebius",
+      "reasoning_effort": "none"
+    }
+  },
+  "controls": {
+    "batch_size": 10,
+    "cache": "Separate empty private cache per arm; original-ID metrics.",
+    "fallback_fraction": 0,
+    "inference_configuration_unchanged": true,
+    "private_artifacts": "private/human-predictions-v1",
+    "same_original_ids_and_order": true,
+    "workers": 1
+  },
+  "created_at": "2026-10-20T08:14:36.669464+00:00",
+  "experiment_manifest_sha256": "ea904bf0910a590c537d500f70c523701ad3d110637fb2a41dab7e816c759b3a",
+  "groups": {
+    "fresh_text_disjoint_150": 150,
+    "mandatory_golden_50": 50
+  },
+  "implementation_hashes": {
+    "src/spotify_pipeline/analysis.py": "b9c12cf2a8ddb37fce771aa97baff13eb35701a5beb080292327791608903331",
+    "src/spotify_pipeline/data.py": "343074be736d5043d92497af2491f705e40f42e6c34ff9f2acf04ab72caf4372",
+    "src/spotify_pipeline/engine.py": "274881ca8aa3f34564995989c65ca8c80079fa75f88a15bb6a8ffd0e511173e9",
+    "src/spotify_pipeline/models.py": "f7708fa68061f1b006f907cc6e235c10738dbd34fa05243859b2ad8057845884",
+    "src/spotify_pipeline/nebius.py": "0b7336a34419c0c044f717565900f7b4e4a6fb6ccf41bca87aef32058b94e141",
+    "src/spotify_pipeline/providers.py": "abb6b6226685b2247fddf614ccfc6e3c4bfa0fd46ff876ee8067aad577ac3954",
+    "src/spotify_pipeline/storage.py": "de9473b8b342a0e7346bfc629019bbff0075f2e48fc01d0db9cee843adef06fb",
+    "tools/run_model_experiment.py": "0a8b72bb97803d3b136d1dbe2e69f391d763fca1496bca449f30484b32d3d32d"
+  },
+  "metrics": {
+    "ambiguous_or_missing_human_labels": "Report counts; omit unlabeled dimensions without adjudicating them by model output.",
+    "ground_truth": "Only independently supplied human labels, after both arms are sealed.",
+    "human_answers_read": false,
+    "missing_predictions": "Count as incorrect for accuracy; report missingness and MAE coverage explicitly.",
+    "model_outputs_inspected": false,
+    "primary": {
+      "comparison": "Paired challenger-minus-baseline accuracy on the same original IDs.",
+      "name": "topic_accuracy",
+      "reporting": "Report golden50 and fresh150 separately; pooled200 is descriptive."
+    },
+    "secondary": {
+      "intent_macro_f1": "Unweighted macro F1 across the five fixed intent labels; zero division is zero.",
+      "joint_core_accuracy": "Topic, intent, and integer severity all exactly correct.",
+      "routing": "Raw and audited needs_review rates, error capture and unflagged error rate.",
+      "sentiment_mae": "Mean absolute difference on the -1..1 sentiment scale.",
+      "severity_mae": "Mean absolute difference on the 1..5 severity scale."
+    }
+  },
+  "purpose": "Freeze model predictions before independently supplied human labels.",
+  "runner_sha256": "5a0c39ad8bba06b3345213dd40c6cd38dc3a3cb53f71fffe4f7b73c2b32e6453",
+  "source_identities": {
+    "distinct_exact_texts": 197,
+    "groups": {
+      "bytes": 8869,
+      "sha256": "602fc42873490cb98e6e0391c72ef45496a163f9f26972c861b1c8f651642b03"
+    },
+    "manifest": {
+      "bytes": 1730,
+      "sha256": "020d3563ea0e894ab2c91d568a4d6439c581fd75b0a54a988776a485321af07d"
+    },
+    "parsed_rows_sha256": "1d8da1c5f2a98bf20a18f3e58c0f54e6e9a470fbeae0503ba91495dc9224f85a",
+    "rows": 200,
+    "source_population_identity": {
+      "bytes": 97400616,
+      "filename": "spotify_reviews_18months.csv",
+      "sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6"
+    },
+    "sources": {
+      "bytes": 50515,
+      "sha256": "37d343c6380f3c42bfadf14e684a0aa0d1352cadcba7d424dedfdd1fb4744c0f"
+    }
+  },
+  "version": "sealed-human-predictions-v1"
+}

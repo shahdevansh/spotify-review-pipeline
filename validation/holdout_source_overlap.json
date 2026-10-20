@@ -1,0 +1,38 @@
+{
+  "fresh_holdout_distinct_texts": 148,
+  "human_answers_read": false,
+  "method": "SHA-256 of exact original UTF-8 text; no normalization, model labels or human answers. Counts only; matching IDs/texts are omitted.",
+  "model_calls": 0,
+  "model_predictions_read": false,
+  "protected_distinct_texts": 197,
+  "sources": {
+    "sources.jsonl": {
+      "distinct_exact_texts": 195,
+      "distinct_fresh_text_matches": 0,
+      "distinct_protected_text_matches": 0,
+      "rows_matching_fresh_150_texts": 0,
+      "rows_matching_protected_200_texts": 0,
+      "source_file_sha256": "0024ccd444326bad3c163f2279168d3219e945ad2a1d0c80fca09838dd1e650a",
+      "source_rows": 200
+    },
+    "stress_sources.jsonl": {
+      "distinct_exact_texts": 25,
+      "distinct_fresh_text_matches": 0,
+      "distinct_protected_text_matches": 0,
+      "rows_matching_fresh_150_texts": 0,
+      "rows_matching_protected_200_texts": 0,
+      "source_file_sha256": "1bfb67f8a8b73a3a6f09e8539f35aa2e6ec5ecfcb1f7fc0bf674f6bb3350363f",
+      "source_rows": 25
+    },
+    "synthetic_cases.json": {
+      "distinct_exact_texts": 15,
+      "distinct_fresh_text_matches": 0,
+      "distinct_protected_text_matches": 0,
+      "rows_matching_fresh_150_texts": 0,
+      "rows_matching_protected_200_texts": 0,
+      "source_file_sha256": "f1f321d4b6d866d9381863a02caa5b30b0b866f0243f357c7619e8b48b579ccd",
+      "source_rows": 15
+    }
+  },
+  "version": "source-only-holdout-overlap-v1"
+}

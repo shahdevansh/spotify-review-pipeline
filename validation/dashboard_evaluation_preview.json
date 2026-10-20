@@ -1,0 +1,76 @@
+{
+  "checked_at": "2026-10-20T08:10:19.819866+00:00",
+  "deployment_id": "dpl_4F98atEamAXppbUHvbuVoKWypDzS",
+  "url": "https://spotify-review-observatory-ehog1z303.vercel.app",
+  "environment": "preview",
+  "authenticated_owner_cli": true,
+  "public_signout_claimed": false,
+  "cloud_build": "Next.js16.4.2 compilation and TypeScript passed; READY",
+  "checks": [
+    {
+      "path": "/api/evaluation",
+      "http_status": 200,
+      "status": "ready"
+    },
+    {
+      "path": "/api/evaluation?run_id=1000-1ad0e35d239c3e9d",
+      "http_status": 200,
+      "status": "ready"
+    },
+    {
+      "path": "/api/evaluation?run_id=missing-synthetic-test",
+      "http_status": 404,
+      "status": "empty"
+    },
+    {
+      "path": "/api/evaluation?run_id=bad%20id",
+      "http_status": 400,
+      "status": "empty"
+    },
+    {
+      "path": "/api/overview",
+      "http_status": 200,
+      "status": "ready"
+    },
+    {
+      "path": "/api/issues",
+      "http_status": 200,
+      "status": "ready"
+    },
+    {
+      "path": "/api/recommendations",
+      "http_status": 200,
+      "status": "ready"
+    }
+  ],
+  "aggregate_report_matches_saved": true,
+  "human_metrics_count": 0,
+  "quality_gate": "hold",
+  "candidate_comparison_published": false,
+  "mutations_performed": false,
+  "model_calls": 0,
+  "source_sha256": {
+    "web/src/app/api/evaluation/route.ts": "9646dcc24a49667316eb32911efea03a2ab30bb5070483446137d5af1f03b5f1",
+    "web/src/app/api/issues/[id]/reviews/route.ts": "32933dcfd6259ca70f1a5b5ae255d0d9f8b12c90fd4cc79110e39aad47555f29",
+    "web/src/app/api/issues/route.ts": "157e6a718b46a46604f943dacb1330177bde6d36cadbc40e7bed34ca08d5a64d",
+    "web/src/app/api/overview/route.ts": "a00a0d4237f1ba9848b38820af7e764d47b3b303ca169224f7508ebbc55527e3",
+    "web/src/app/api/recommendations/route.ts": "be83a62b5a19aa88253c2a3a71a5cb6c49aeda01bc05f2dc1bc672ac1d5cfeab",
+    "web/src/app/api/reviews/[id]/route.ts": "35ffb359c9006f16985dd05c4ca29678388863a04e115259c5d4f05674c44edf",
+    "web/src/app/globals.css": "f42c1caf90e31aa7cd0fe9962c7670f204df78e016f0c42aae192c5df2931214",
+    "web/src/app/layout.tsx": "c9475773672548cdd696c37765a852d274ccccee1b211e707c0f17f6ce20e919",
+    "web/src/app/page.tsx": "8ed1af8e2b17e5130b1d0da74644037d5d6d05b22567885852d40ec10d1a8fb3",
+    "web/src/components/evaluation-panel.tsx": "21dab31f118e75643f42b82c7b974b27f28bce750db6394e3b37fc3314f307f3",
+    "web/src/lib/cursor.ts": "d3e3dab59e3957e56f7bb8e7fb87080127c68811f94523a0850805bc266ea328",
+    "web/src/lib/database.ts": "a1aba3809f13b0d730b54a667b148ffd38c8de4cf097a01506deb48ffeb35890",
+    "web/src/lib/evaluation-query.ts": "d616cf9206b2c65078b1690c702e375a4df44767fec50a89fa235df96c87ce12",
+    "web/src/lib/evaluation-report.ts": "7d4ad797e922d7297a7174aa325dc0e4214fabe201f00da41185745b66fc14a8",
+    "web/src/lib/evaluation-validation.ts": "5b858c421c5f95742bec6a5d3c700377126ec83ca79a2eaff5613e2f5e219913",
+    "web/src/lib/evaluation-view.ts": "23caaae0586a3a07a6fd4332b31813b16116abd9d837005e85bc340eb16686db",
+    "web/src/lib/public-data.ts": "d9bc0542ef81491cdd8021dd3b8dacc363ff6ad03daffde9ce211973f2d2c282",
+    "web/src/lib/responses.ts": "e4727aea686c1eaeb45f80842897efa496f9e6281a745a1db011b17c55f64921",
+    "web/src/lib/run-display.ts": "e0b728501aa8e7312dccd03d848090ec644938bbce6b20d9c14ff8154c3672e8",
+    "web/database/dashboard-evaluation.schema.json": "f9b73c72de334c550406e91030d28b36011303d1f01883045c04b8bcfd0a3176",
+    "web/database/evaluation_schema.sql": "5e645e1e2a576f065d5d4f2cfe5cf11e67dd2f060340f9fbca26f893eb9151e2",
+    "web/database/schema.sql": "556f62784a146cdf06e1a67b1ec9acf27b6f62f24f2b0c6de5eb0deebe8910af"
+  }
+}

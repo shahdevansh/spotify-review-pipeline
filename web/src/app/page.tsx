@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { evaluationMeasurements, hasCompletedHumanEvaluation, savedModelRoles } from "../lib/run-display";
+import { savedModelRoles } from "../lib/run-display";
+import type { EvaluationResponse } from "../lib/evaluation-report";
+import { matchedEvaluation, publicPredictionProvenance, responseMatchesRun } from "../lib/evaluation-view";
+import EvaluationPanel, { CostSnapshotContext, QualityGateNotice } from "../components/evaluation-panel";
 
 type Status = "ready" | "empty" | "unavailable";
-type Envelope = { status: Status; message?: string };
+type Envelope = { status: Status; message?: string; run_id?: string | null; label_config?: string | null };
 type Claim = {
   claim_id: string;
   issue_id: string;
@@ -74,6 +77,7 @@ type Review = {
   needs_review?: boolean;
   label_config?: string;
   cache_source_id?: string | null;
+  provenance?: Record<string, unknown> | null;
 };
 type Recommendation = {
   title: string;
@@ -130,7 +134,7 @@ const duration = (seconds: number | undefined | null) => {
   return `${(seconds / 3600).toFixed(1)}h`;
 };
 const bytes = (value: number | undefined | null) =>
-  typeof value === "number" ? `${(value / 1024 / 1024).toFixed(1)} MB` : "Not reported";
+  typeof value === "number" ? `${(value / 1024 / 1024).toFixed(1)} MiB` : "Not reported";
 
 async function fetchJSON<T>(url: string, signal?: AbortSignal): Promise<T> {
   const timeout = AbortSignal.timeout(30_000);
@@ -181,7 +185,7 @@ function ReviewCard({ review, onOpen }: { review: Review; onOpen: (id: string) =
       <blockquote>{review.evidence_quote || review.review_text}</blockquote>
       <div className="review-card-bottom">
         <div className="review-flags">
-          {review.needs_review && <span className="flag">Needs review</span>}
+          {review.needs_review && <span className="flag">Uncalibrated review flag</span>}
           {review.cache_source_id && <span className="text-muted">Exact-text reuse</span>}
           {!review.needs_review && !review.cache_source_id && <span className="text-muted">Original record</span>}
         </div>
@@ -191,31 +195,9 @@ function ReviewCard({ review, onOpen }: { review: Review; onOpen: (id: string) =
   );
 }
 
-function scalarMetrics(value: Record<string, unknown> | null): [string, string][] {
-  if (!value) return [];
-  const output: [string, string][] = [];
-  function collect(object: Record<string, unknown>, prefix = "", depth = 0) {
-    for (const [key, val] of Object.entries(object)) {
-      if (["review_id", "run_id", "label_config", "source_path", "path"].includes(key)) continue;
-      const label = `${prefix}${humanize(key)}`;
-      if (val === null) continue;
-      if (typeof val === "number") {
-        output.push([label, Number.isInteger(val) ? count(val) : val.toLocaleString("en-US", { maximumFractionDigits: 4 })]);
-      } else if (typeof val === "boolean") {
-        output.push([label, val ? "Yes" : "No"]);
-      } else if (typeof val === "string" && val.length < 120) {
-        output.push([label, val]);
-      } else if (val && typeof val === "object" && !Array.isArray(val) && depth < 2) {
-        collect(val as Record<string, unknown>, `${label} · `, depth + 1);
-      }
-    }
-  }
-  collect(value);
-  return output.slice(0, 18);
-}
-
 export default function Dashboard() {
   const [overview, setOverview] = useState<Overview | null>(null);
+  const [evaluationResponse, setEvaluationResponse] = useState<EvaluationResponse | null>(null);
   const [issues, setIssues] = useState<Issue[]>([]);
   const [recommendations, setRecommendations] = useState<RecommendationDocument | null>(null);
   const [loading, setLoading] = useState(true);
@@ -232,17 +214,29 @@ export default function Dashboard() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const selectedRef = useRef(selectedIssue);
   selectedRef.current = selectedIssue;
+  const runRef = useRef(overview?.run);
+  runRef.current = overview?.run;
 
   useEffect(() => {
     const controller = new AbortController();
     setLoading(true);
     setError(null);
+    setEvaluationResponse(null);
     Promise.all([
       fetchJSON<Overview>("/api/overview", controller.signal),
       fetchJSON<Envelope & { issues: Issue[] }>("/api/issues", controller.signal),
       fetchJSON<Envelope & { document: RecommendationDocument | null }>("/api/recommendations", controller.signal),
-    ]).then(([overviewData, issueData, recommendationData]) => {
+      fetchJSON<EvaluationResponse>("/api/evaluation", controller.signal).catch((failure) => {
+        if (controller.signal.aborted) throw failure;
+        return null;
+      }),
+    ]).then(([overviewData, issueData, recommendationData, evaluationData]) => {
+      const identity = overviewData.run;
+      if (identity && [issueData, recommendationData].some((data) => !responseMatchesRun(data, identity))) {
+        throw new Error("The result responses belong to different saved runs. Refresh to load a consistent snapshot.");
+      }
       setOverview(overviewData);
+      setEvaluationResponse(evaluationData);
       const sorted = (issueData.issues || []).slice().sort((a, b) => a.rank - b.rank);
       setIssues(sorted);
       setRecommendations(recommendationData.document);
@@ -256,7 +250,8 @@ export default function Dashboard() {
   }, [loadVersion]);
 
   useEffect(() => {
-    if (!selectedIssue) return;
+    const expectedRun = overview?.run;
+    if (!selectedIssue || !expectedRun) return;
     const controller = new AbortController();
     setReviews([]);
     setNextCursor(null);
@@ -264,6 +259,10 @@ export default function Dashboard() {
     setReviewLoading(true);
     fetchJSON<ReviewPage>(`/api/issues/${encodeURIComponent(selectedIssue)}/reviews`, controller.signal)
       .then((data) => {
+        if (!responseMatchesRun(data, expectedRun) ||
+            (data.reviews || []).some((review) => !responseMatchesRun(review, expectedRun))) {
+          throw new Error("A different run or configuration supplied these reviews. Refresh the dashboard to load matching evidence.");
+        }
         setReviews(data.reviews || []);
         setNextCursor(data.next_cursor);
         if (data.status === "unavailable") setReviewError(data.message || "Review evidence is unavailable.");
@@ -275,9 +274,10 @@ export default function Dashboard() {
         if (!controller.signal.aborted) setReviewLoading(false);
       });
     return () => controller.abort();
-  }, [selectedIssue, loadVersion]);
+  }, [selectedIssue, loadVersion, overview?.run?.run_id, overview?.run?.label_config]);
 
   useEffect(() => {
+    const expectedRun = overview?.run;
     if (!activeReviewId) {
       dialogRef.current?.close();
       return;
@@ -288,6 +288,10 @@ export default function Dashboard() {
     setDetailError(null);
     fetchJSON<Envelope & { review: Review | null }>(`/api/reviews/${encodeURIComponent(activeReviewId)}`, controller.signal)
       .then((data) => {
+        if (expectedRun && (!responseMatchesRun(data, expectedRun) ||
+            (data.review && !responseMatchesRun(data.review, expectedRun)))) {
+          throw new Error("This review belongs to a different published run or configuration. Refresh the dashboard before inspecting it.");
+        }
         setActiveReview(data.review);
         if (!data.review) setDetailError(data.message || "This review is not available in the saved run.");
       })
@@ -295,25 +299,33 @@ export default function Dashboard() {
         if (failure.name !== "AbortError") setDetailError(failure.message);
       });
     return () => controller.abort();
-  }, [activeReviewId]);
+  }, [activeReviewId, overview?.run?.run_id, overview?.run?.label_config]);
 
   async function loadMore() {
-    if (!selectedIssue || !nextCursor || reviewLoading) return;
+    const expectedRun = overview?.run;
+    if (!selectedIssue || !nextCursor || reviewLoading || !expectedRun) return;
     const issueId = selectedIssue;
+    const stillCurrent = () => selectedRef.current === issueId &&
+      runRef.current?.run_id === expectedRun.run_id &&
+      runRef.current?.label_config === expectedRun.label_config;
     setReviewLoading(true);
     setReviewError(null);
     try {
       const data = await fetchJSON<ReviewPage>(`/api/issues/${encodeURIComponent(issueId)}/reviews?cursor=${encodeURIComponent(nextCursor)}`);
-      if (selectedRef.current !== issueId) return;
+      if (!stillCurrent()) return;
+      if (!responseMatchesRun(data, expectedRun) ||
+          (data.reviews || []).some((review) => !responseMatchesRun(review, expectedRun))) {
+        throw new Error("A different run or configuration supplied these reviews. Refresh the dashboard to continue.");
+      }
       setReviews((previous) => {
         const seen = new Set(previous.map((review) => review.review_id));
         return [...previous, ...(data.reviews || []).filter((review) => !seen.has(review.review_id))];
       });
       setNextCursor(data.next_cursor);
     } catch (failure) {
-      if (selectedRef.current === issueId) setReviewError(failure instanceof Error ? failure.message : "More reviews could not be loaded.");
+      if (stillCurrent()) setReviewError(failure instanceof Error ? failure.message : "More reviews could not be loaded.");
     } finally {
-      if (selectedRef.current === issueId) setReviewLoading(false);
+      if (stillCurrent()) setReviewLoading(false);
     }
   }
 
@@ -321,10 +333,9 @@ export default function Dashboard() {
   const selected = issues.find((issue) => issue.issue_id === selectedIssue);
   const maxScore = Math.max(1, ...issues.map((issue) => issue.priority_score));
   const completedPercent = run?.input_count ? Math.min(100, (run.completed / run.input_count) * 100) : 0;
-  const metrics = scalarMetrics(evaluationMeasurements(overview?.evaluation || null));
-  const humanEvaluated = hasCompletedHumanEvaluation(overview?.evaluation);
+  const evaluation = matchedEvaluation(evaluationResponse, run);
+  const activeProvenance = publicPredictionProvenance(activeReview?.provenance);
   const ready = !loading && !error && overview?.status === "ready" && !!run;
-  const isReviewedPilot = overview?.scope === "pilot" && run?.run_id === "1000-1ad0e35d239c3e9d";
   const exactTextDuplicates = run?.stages && !Array.isArray(run.stages) && typeof run.stages.exact_text_aliases === "number"
     ? run.stages.exact_text_aliases : undefined;
   const scopeLabel = overview?.scope === "pilot" ? "Pilot run" : overview?.scope === "development" ? "Development run" : overview?.scope === "selected-cohort" ? "Selected cohort" : "Saved analysis";
@@ -338,7 +349,7 @@ export default function Dashboard() {
       <a href="#main" className="skip-link">Skip to analysis</a>
       <header className="site-header">
         <a className="brand" href="#main" aria-label="Listening Room home"><span className="brand-icon"><Icon name="headphones" size={23} /></span><span>Listening Room<span className="brand-subtitle">SPOTIFY REVIEW INTELLIGENCE</span></span></a>
-        <nav aria-label="Main navigation"><a href="#priorities">Priorities</a><a href="#recommendations">Recommendations</a><a href="#method">Method & evidence</a></nav>
+        <nav aria-label="Main navigation"><a href="#priorities">Priorities</a><a href="#evaluation" className="evaluation-nav-link">Evaluation</a><a href="#recommendations">Recommendations</a><a href="#method">Method & evidence</a></nav>
         <div className="header-note"><span className="small-dot" /> Read-only analysis</div>
       </header>
 
@@ -357,7 +368,7 @@ export default function Dashboard() {
         {error && <div className="notice notice-error" role="alert"><div><strong>We couldn’t load this run.</strong><p>{error}</p></div><button className="button button-small" onClick={() => setLoadVersion((version) => version + 1)}>Try again</button></div>}
         {!loading && !error && overview?.status !== "ready" && <div className="notice" role="status"><Icon name="database" /><div><strong>No results have been published yet.</strong><p>{overview?.message || "This dashboard displays saved pipeline results. No review counts or model outcomes are simulated."}</p></div><button className="text-button" onClick={() => setLoadVersion((version) => version + 1)}>Refresh <Icon name="arrow" size={16} /></button></div>}
         {loading && <p className="loading-message" role="status">Reading saved analysis…</p>}
-        {ready && isReviewedPilot && <div className="notice notice-error" role="status"><Icon name="shield" /><div><strong>Pilot inspection found label errors; recommendations are provisional.</strong><p>Expansion is on hold.</p></div><a className="text-button" href="https://github.com/shahdevansh/spotify-review-pipeline/blob/main/docs/learning-report.md">Read the learning report <Icon name="arrow" size={16} /></a></div>}
+        {ready && <QualityGateNotice report={evaluation.report} compact />}
 
         <section className="metrics-grid" aria-label="Run measurements">
           <Metric label="Selected input" value={count(run?.input_count)} detail="Records in this run’s analysis scope" accent />
@@ -365,7 +376,7 @@ export default function Dashboard() {
           <Metric label="Exact-text duplicates" value={count(exactTextDuplicates)} detail={run ? `${count(run.unique_texts)} distinct texts · ${count(run.cache_hits)} saved results reused` : "Duplicates within this selected input"} />
           <Metric label="Pipeline wall time" value={duration(run?.wall_seconds)} detail={run ? `${count(run.requests)} requests · ${count(run.attempts)} attempts` : "Measured execution time"} />
         </section>
-        {run && <div className="cost-context"><p>Earlier cached results add no new model usage to this run. Their original cost belongs to the earlier experiment.</p><p><strong>All experiments, at this snapshot: {dollars(run.global_spending?.spent_usd)}</strong>{(run.global_spending?.unknown_charge_hold_usd ?? 0) > 0 && <> · {dollars(run.global_spending?.unknown_charge_hold_usd)} held for uncertain charges</>}{(run.global_spending?.reserved_usd ?? 0) > 0 && <> · {dollars(run.global_spending?.reserved_usd)} reserved for in-flight calls</>}. Nominal usage is calculated from saved rates; it does not establish cash purchases or remaining provider credits.</p></div>}
+        {run && <div className="cost-context"><p>Earlier cached results add no new model usage to this run. Their original cost belongs to the earlier experiment.</p><CostSnapshotContext report={evaluation.report} /></div>}
 
         <section className="coverage-strip" aria-label="Source and analysis coverage">
           <div className="coverage-heading"><Icon name="database" size={19} /><span>Coverage at a glance</span></div>
@@ -376,10 +387,10 @@ export default function Dashboard() {
         </section>
 
         <section id="priorities" className="section-block" aria-labelledby="priorities-title">
-          <div className="section-heading"><div><p className="eyebrow section-eyebrow">01 / LISTENER SIGNALS</p><h2 id="priorities-title">Where the friction lives</h2><p>Complaint and cancellation topics, ranked by total reported severity.</p></div><span className="formula-label"><span className="small-dot" /> Score = sum of severity</span></div>
+          <div className="section-heading"><div><p className="eyebrow section-eyebrow">01 / LISTENER SIGNALS</p><h2 id="priorities-title">Where the friction lives</h2><p>Provisional ranking from model labels for complaint and cancellation reviews.</p></div><span className="formula-label"><span className="small-dot" /> Score = sum of model-assigned severity</span></div>
           <div className="priority-layout">
             <div className="panel ranking-panel">
-              <div className="panel-heading"><h3>Priority ranking</h3><span className="subtle-label">{issues.length ? `${issues.length} issues` : "Baseline method"}</span></div>
+              <div className="panel-heading"><h3>Provisional ranking from model labels</h3><span className="subtle-label">{issues.length ? `${issues.length} issues` : "Baseline method"}</span></div>
               {issues.length ? <div className="issue-list">{issues.map((issue) => <button key={issue.issue_id} className={`issue-row ${selectedIssue === issue.issue_id ? "selected" : ""}`} onClick={() => setSelectedIssue(issue.issue_id)} aria-pressed={selectedIssue === issue.issue_id} aria-label={`Show evidence for ${issue.name || humanize(issue.issue_id)}`}><span className="issue-rank">{String(issue.rank).padStart(2, "0")}</span><span className="issue-main"><span className="issue-title-row"><span className="issue-title">{issue.name || humanize(issue.issue_id)}</span><strong>{count(issue.priority_score)}</strong></span><span className="issue-bar"><span style={{ width: `${Math.max(0, (issue.priority_score / maxScore) * 100)}%` }} /></span><span className="issue-meta"><span>{count(issue.complaint_count)} reviews</span><span>{Number(issue.mean_severity).toFixed(2)} mean severity</span></span></span><span className="issue-arrow"><Icon name="arrow" size={17} /></span></button>)}</div> : <EmptyState title="The ranking starts with evidence">Issue scores will appear after classification and deterministic aggregation are complete.</EmptyState>}
               <div className="panel-foot"><Icon name="shield" size={15} /><span>Calculated from saved records. Ties resolve by issue ID.</span></div>
             </div>
@@ -393,13 +404,14 @@ export default function Dashboard() {
                 {!reviewLoading && !reviews.length && !reviewError && <EmptyState icon="search" title={selected ? "No review evidence available" : "Explore the original reviews"}>{selected ? "No matching evidence was returned for this issue." : "Choose a ranked issue to inspect original text, model labels, and record provenance."}</EmptyState>}
                 {nextCursor && <button className="button load-more" onClick={loadMore} disabled={reviewLoading}>{reviewLoading ? "Loading…" : "Load more reviews"}<Icon name="arrow" size={16} /></button>}
               </div>
-              <div className="panel-foot"><span>Evidence is quoted directly from the original source text.</span></div>
+              <div className="panel-foot"><span>Original-text evidence in ID order, not a representative sample. No review flag does not establish correctness.</span></div>
             </div>
           </div>
         </section>
 
         <section id="recommendations" className="section-block" aria-labelledby="recommendations-title">
           <div className="section-heading"><div><p className="eyebrow section-eyebrow">02 / THE PRODUCT READOUT</p><h2 id="recommendations-title">What deserves attention next</h2><p>Saved AI recommendations, connected to measurable claims and source reviews.</p></div><span className="subtle-label">No live model calls</span></div>
+          {ready && <QualityGateNotice report={evaluation.report} compact />}
           {recommendations ? <>
             {recommendations.summary && <div className="recommendation-summary"><span className="summary-marker"><Icon name="arrow" size={24} /></span><div><p className="eyebrow">THE READOUT</p><p>{recommendations.summary}</p></div></div>}
             <div className="recommendation-grid">{recommendations.recommendations.map((recommendation, index) => <article className="recommendation-card" key={`${recommendation.title}-${index}`}><div className="recommendation-number">{String(index + 1).padStart(2, "0")}</div><h3>{recommendation.title}</h3><p>{recommendation.rationale}</p><div className="recommendation-links">{(recommendation.claim_ids || []).map((id) => <a className="claim-link" key={id} href={`#claim-${id}`}>{id}<Icon name="arrow" size={12} /></a>)}{(recommendation.review_ids || []).slice(0, 3).map((id, reviewIndex) => <button className="claim-link review-link" key={id} onClick={() => setActiveReviewId(id)}>Review {reviewIndex + 1}<Icon name="arrow" size={12} /></button>)}</div></article>)}</div>
@@ -407,10 +419,12 @@ export default function Dashboard() {
           </> : <div className="panel"><EmptyState icon="arrow" title="Recommendations follow the analysis">The recommendation stage will use ranked issues and a bounded evidence pack. Its saved conclusions will appear here.</EmptyState></div>}
         </section>
 
+        <EvaluationPanel report={evaluation.report} legacyEvaluation={overview?.evaluation || null} warning={loading ? null : evaluation.warning} />
+
         <section id="method" className="section-block" aria-labelledby="method-title">
-          <div className="section-heading"><div><p className="eyebrow section-eyebrow">03 / SHOW THE WORK</p><h2 id="method-title">Built to be checked</h2><p>Model judgments, numerical calculations, and human evaluation remain distinct.</p></div><Icon name="shield" size={26} /></div>
-          <div className="method-grid">
-            <article className="panel method-card"><div className="panel-heading"><h3>Evaluation</h3><span className="tag">{humanEvaluated ? "Human evaluation saved" : "Human accuracy pending"}</span></div><p className="evaluation-context">{humanEvaluated ? "These measurements use the saved human labels." : "Model agreement compares predictions. Accuracy against the 50 human golden labels remains pending."}</p>{metrics.length ? <dl className="evaluation-metrics">{metrics.map(([label, value], index) => <div key={`${label}-${index}`}><dt>{label}</dt><dd>{value}</dd></div>)}</dl> : <div className="method-empty"><p>No evaluation measurements have been published for this run.</p><span>Human golden-set labels provide a separate evaluation.</span></div>}<p className="method-note">Initial agreement uses predictions before escalation; final agreement includes escalated answers. When escalation and verification share a model, their errors may be correlated. The blind golden set stays outside tuning and routing.</p></article>
+          <div className="section-heading"><div><p className="eyebrow section-eyebrow">04 / SHOW THE WORK</p><h2 id="method-title">Built to be checked</h2><p>Model judgments, numerical calculations, and human evaluation remain distinct.</p></div><Icon name="shield" size={26} /></div>
+          <div className="method-grid method-grid-single">
+
             <article className="panel method-card"><div className="panel-heading"><h3>How this analysis works</h3><span className="tag">Reproducible</span></div><ol className="method-steps"><li><span>01</span><div><strong>Preserve & select</strong><p>Source fields stay intact. Seeded selection, row hashes, and a scope ledger establish coverage.</p></div></li><li><span>02</span><div><strong>Classify & verify</strong><p>The enrichment model assigns structured labels. A separate blind pass compares original texts; bounded escalation handles difficult cases. Saved model IDs and providers appear below.</p></div></li><li><span>03</span><div><strong>Group & rank</strong><p>Complaint and cancellation records form topic issues. Code sums severity and retains each original review.</p></div></li><li><span>04</span><div><strong>Recommend with evidence</strong><p>A separate model role receives aggregates and source examples. Every material claim can be traced.</p></div></li></ol></article>
           </div>
           {!!modelRoles.length && <div className="panel model-panel"><div className="panel-heading"><h3>Models in this saved configuration</h3><span className="subtle-label">Provider and model ID are recorded separately</span></div><div className="table-scroll"><table><caption className="sr-only">Saved model configuration by pipeline role</caption><thead><tr><th scope="col">Role</th><th scope="col">Provider</th><th scope="col">Model ID</th><th scope="col">Reasoning</th></tr></thead><tbody>{modelRoles.map((item) => <tr key={item.role}><th scope="row">{roleLabels[item.role] || humanize(item.role)}</th><td>{item.provider || "Not reported"}</td><td className="mono">{item.model}</td><td>{item.reasoning || "Not reported"}</td></tr>)}</tbody></table></div></div>}
@@ -427,7 +441,9 @@ export default function Dashboard() {
           <div className="dialog-heading"><div><p className="eyebrow">ORIGINAL REVIEW</p><h2 id="review-dialog-title">Inspect the evidence</h2></div><button className="icon-button" aria-label="Close review details" onClick={() => setActiveReviewId(null)} autoFocus><Icon name="close" /></button></div>
           {detailError && <div className="inline-error" role="alert">{detailError}</div>}
           {!activeReview && !detailError && <p className="loading-message" role="status">Loading original record…</p>}
-          {activeReview && <><blockquote className="detail-quote">{activeReview.review_text}</blockquote><div className="detail-tags"><span className="tag">{humanize(activeReview.topic || "unclassified")}</span><span className="tag">{humanize(activeReview.intent || activeReview.status)}</span>{activeReview.needs_review && <span className="flag">Needs review</span>}</div><dl className="detail-metrics"><div><dt>Severity</dt><dd>{activeReview.severity ?? "—"} <span>/ 5</span></dd></div><div><dt>Sentiment</dt><dd>{activeReview.sentiment?.toFixed(2) ?? "—"}</dd></div><div><dt>Original rating</dt><dd>{activeReview.review_rating || "—"}</dd></div></dl>{activeReview.evidence_quote && <div className="detail-evidence"><h3>Saved evidence quote</h3><p>{activeReview.evidence_quote}</p><span><Icon name={activeReview.review_text.includes(activeReview.evidence_quote) ? "check" : "close"} size={14} />{activeReview.review_text.includes(activeReview.evidence_quote) ? "Exact substring of the source" : "Quote does not match the source"}</span></div>}<dl className="provenance-list"><div><dt>Review ID</dt><dd className="mono">{activeReview.review_id}</dd></div><div><dt>Timestamp</dt><dd>{activeReview.review_timestamp || "Not supplied"}</dd></div><div><dt>App version</dt><dd>{activeReview.app_version || "Not supplied"}</dd></div><div><dt>Entities</dt><dd>{activeReview.entities?.length ? activeReview.entities.join(", ") : "None extracted"}</dd></div><div><dt>Label configuration</dt><dd className="mono">{activeReview.label_config || "Not supplied"}</dd></div><div><dt>Source SHA-256</dt><dd className="mono">{activeReview.source_sha256 || "Not supplied"}</dd></div><div><dt>Cache provenance</dt><dd>{activeReview.cache_source_id ? <button className="text-button mono" onClick={() => setActiveReviewId(activeReview.cache_source_id || null)}>{activeReview.cache_source_id}<Icon name="arrow" size={14} /></button> : "Original classification"}</dd></div></dl></>}
+          {activeReview && <><blockquote className="detail-quote">{activeReview.review_text}</blockquote><div className="detail-tags"><span className="tag">{humanize(activeReview.topic || "unclassified")}</span><span className="tag">{humanize(activeReview.intent || activeReview.status)}</span>{activeReview.needs_review && <span className="flag">Uncalibrated review flag</span>}</div><dl className="detail-metrics"><div><dt>Severity</dt><dd>{activeReview.severity ?? "—"} <span>/ 5</span></dd></div><div><dt>Sentiment</dt><dd>{activeReview.sentiment?.toFixed(2) ?? "—"}</dd></div><div><dt>Original rating</dt><dd>{activeReview.review_rating || "—"}</dd></div></dl>{activeReview.evidence_quote && <div className="detail-evidence"><h3>Saved evidence quote</h3><p>{activeReview.evidence_quote}</p><span><Icon name={activeReview.review_text.includes(activeReview.evidence_quote) ? "check" : "close"} size={14} />{activeReview.review_text.includes(activeReview.evidence_quote) ? "Source integrity: exact substring" : "Source integrity: quote mismatch"}</span><p className="evaluation-note">Semantic support of the labels has not been established by this containment check.</p></div>}
+          {activeReview.provenance && <div className="prediction-provenance"><h3>Prediction provenance</h3><p>{activeProvenance.classifier || "Classifier identity not published"}</p><p>{activeProvenance.fallback}</p>{activeProvenance.reasons.length > 0 && <p>Saved routing reason: {activeProvenance.reasons.join("; ")}</p>}{activeProvenance.initial.length > 0 && <details><summary>Initial labels before escalation</summary><dl>{activeProvenance.initial.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl></details>}<p className="evaluation-note">No flag does not establish correctness. The public record does not provide a human semantic assessment.</p></div>}
+          <dl className="provenance-list"><div><dt>Review ID</dt><dd className="mono">{activeReview.review_id}</dd></div><div><dt>Timestamp</dt><dd>{activeReview.review_timestamp || "Not supplied"}</dd></div><div><dt>App version</dt><dd>{activeReview.app_version || "Not supplied"}</dd></div><div><dt>Entities</dt><dd>{activeReview.entities?.length ? activeReview.entities.join(", ") : "None extracted"}</dd></div><div><dt>Label configuration</dt><dd className="mono">{activeReview.label_config || "Not supplied"}</dd></div><div><dt>Source SHA-256</dt><dd className="mono">{activeReview.source_sha256 || "Not supplied"}</dd></div><div><dt>Cache provenance</dt><dd>{activeReview.cache_source_id ? <button className="text-button mono" onClick={() => setActiveReviewId(activeReview.cache_source_id || null)}>{activeReview.cache_source_id}<Icon name="arrow" size={14} /></button> : "Original classification"}</dd></div></dl></>}
         </div>
       </dialog>
     </>

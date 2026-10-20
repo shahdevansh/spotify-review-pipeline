@@ -1,0 +1,375 @@
+{
+  "schema_version": "spotify-dashboard-evaluation-v1",
+  "kind": "pilot_audit",
+  "report_id": "pilot-audit-a932fc8f8dcf549e48b92b32a0d234de5468b1343153e5f3709d00b08c9ec253",
+  "run_id": "1000-1ad0e35d239c3e9d",
+  "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+  "generated_at": "2026-10-20T08:01:49.552285+00:00",
+  "records_sha256": "d7d107cf8b390d4c2f311aa2b2e4d0d29d9a2ba19cb40059e32e91670500be02",
+  "artifact_refs": [
+    {
+      "path": "runs/pilot/1000/records.jsonl",
+      "sha256": "d7d107cf8b390d4c2f311aa2b2e4d0d29d9a2ba19cb40059e32e91670500be02",
+      "role": "records"
+    },
+    {
+      "path": "runs/pilot/1000/run_summary.json",
+      "sha256": "c9d259fc2783feedb4bb495bf6fd52d39014456c22cb291188e97c2e9554fec5",
+      "role": "summary"
+    },
+    {
+      "path": "runs/pilot/1000/configuration.json",
+      "sha256": "47d9eba2fc4f3b7776b2f3d95cf758c92db200416743512266c14650852877da",
+      "role": "configuration"
+    },
+    {
+      "path": "runs/pilot/1000/run_manifest.json",
+      "sha256": "85b737d0d24e2214fa6e8f6acd3875182cdedd5b8c906851e1a4ab5142cf0550",
+      "role": "manifest"
+    },
+    {
+      "path": "runs/pilot/1000/verification.jsonl",
+      "sha256": "0a4b30575399c28a967bf0ba8867a3994433178ea622231a460955f9337bf82f",
+      "role": "verification"
+    },
+    {
+      "path": "runs/pilot/1000/evals/verifier_report.json",
+      "sha256": "9114dbf88fb45124ebd27e3fd7fc39c593e6264146c912b9157e4cd8dbe389a8",
+      "role": "comparison"
+    },
+    {
+      "path": "runs/pilot/1000/ranking.csv",
+      "sha256": "69208d44a7722ac8168ef7cecfef922143d67f9dd3a5ac674f9877db4bde9fb3",
+      "role": "ranking"
+    },
+    {
+      "path": "evals/pilot_inspection_report.json",
+      "sha256": "10d4af1d2f2018d54223d3eb8eb0614af0c103226d59d054dcd77df609083728",
+      "role": "inspection"
+    },
+    {
+      "path": "evals/synthetic-live/v5-live-001/safety_report.json",
+      "sha256": "68b063881c91205e1aaffb6177a9c17dd2bbf5a343f4a2f81416bdef3ab6b8ff",
+      "role": "synthetic"
+    },
+    {
+      "path": "validation/dashboard_evaluation_audit_v6.json",
+      "sha256": "1f34b4bc17c54522db7caba5b930ac69609bcbcbcd737e714976604d4f9d5a47",
+      "role": "cost_snapshot"
+    },
+    {
+      "path": "evals/audit-v6/audit_summary.json",
+      "sha256": "8eb8699ca34989e8c0a79500cd89e8c466f83a1d2d1b8650946bdfb8b92a215b",
+      "role": "text_exposure_audit"
+    }
+  ],
+  "coverage": {
+    "selected": 1000,
+    "completed": 1000,
+    "unique_texts": 926,
+    "exact_text_aliases": 74,
+    "cache_hits": 549,
+    "compared": 1000
+  },
+  "quality_gate": {
+    "status": "hold",
+    "summary": "Hold expansion for focused repair and remeasurement.",
+    "reasons": [
+      "Random inspection found seven concerns, six unflagged. The existing ambiguity flag plus capped fallback does not catch observed errors. The verifier also makes mistakes.",
+      "The live synthetic test passed operational checks but failed model conformance.",
+      "Changing model labels changes the highest-ranked issue; neither ranking establishes human correctness."
+    ],
+    "recommendations_provisional": true
+  },
+  "human": {
+    "status": "pending_labels",
+    "ground_truth_available": false,
+    "cohorts": [
+      {
+        "id": "mandatory_golden_50",
+        "label": "Course golden set",
+        "expected_count": 50,
+        "status": "pending",
+        "sampling_note": "Mandatory, label-blind course 50. The source-only audit found 4 original IDs sharing exact text with development; this is not an unseen-text holdout. Answers are not read by this builder."
+      },
+      {
+        "id": "fresh_text_disjoint_150",
+        "label": "Fresh holdout",
+        "expected_count": 150,
+        "status": "pending",
+        "sampling_note": "Planned fresh 150 with unseen text from the conditional frame of 579,702 original IDs; report this conditional sampling frame separately."
+      }
+    ],
+    "metrics": [],
+    "interpretation": "The planned human evaluation totals 200 (golden 50 plus fresh 150). These cohorts are not pooled as a representative sample. No human worksheet or answer fields were read; this publication contains no human metrics."
+  },
+  "model_comparison": {
+    "status": "compared",
+    "answer_blind": true,
+    "ground_truth": false,
+    "shared_fallback_verifier_model": true,
+    "verifier_provider": "nebius",
+    "verifier_model": "openai/gpt-oss-120b",
+    "metrics": [
+      {
+        "id": "topic",
+        "label": "Topic exact agreement",
+        "initial_numerator": 825,
+        "final_numerator": 828,
+        "denominator": 1000,
+        "unit": "fraction",
+        "initial_value": 0.825,
+        "final_value": 0.828,
+        "definition": "Exact equality with blind verifier predictions; not accuracy against human labels."
+      },
+      {
+        "id": "intent",
+        "label": "Intent exact agreement",
+        "initial_numerator": 898,
+        "final_numerator": 906,
+        "denominator": 1000,
+        "unit": "fraction",
+        "initial_value": 0.898,
+        "final_value": 0.906,
+        "definition": "Exact equality with blind verifier predictions; not accuracy against human labels."
+      },
+      {
+        "id": "severity",
+        "label": "Severity exact agreement",
+        "initial_numerator": 827,
+        "final_numerator": 838,
+        "denominator": 1000,
+        "unit": "fraction",
+        "initial_value": 0.827,
+        "final_value": 0.838,
+        "definition": "Exact equality with blind verifier predictions; not accuracy against human labels."
+      },
+      {
+        "id": "sentiment",
+        "label": "Sentiment exact agreement",
+        "initial_numerator": 897,
+        "final_numerator": 902,
+        "denominator": 1000,
+        "unit": "fraction",
+        "initial_value": 0.897,
+        "final_value": 0.902,
+        "definition": "Exact equality with blind verifier predictions; not accuracy against human labels."
+      },
+      {
+        "id": "needs_review",
+        "label": "Needs review exact agreement",
+        "initial_numerator": 931,
+        "final_numerator": 948,
+        "denominator": 1000,
+        "unit": "fraction",
+        "initial_value": 0.931,
+        "final_value": 0.948,
+        "definition": "Exact equality with blind verifier predictions; not accuracy against human labels."
+      },
+      {
+        "id": "severity_mean_absolute_difference",
+        "label": "Severity mean absolute difference",
+        "initial_numerator": null,
+        "final_numerator": null,
+        "denominator": 1000,
+        "unit": "severity_points",
+        "initial_value": 0.216,
+        "final_value": 0.201,
+        "definition": "Mean absolute distance between model outputs across all 1,000 comparable original IDs."
+      },
+      {
+        "id": "sentiment_mean_absolute_difference",
+        "label": "Sentiment mean absolute difference",
+        "initial_numerator": null,
+        "final_numerator": null,
+        "denominator": 1000,
+        "unit": "sentiment_points",
+        "initial_value": 0.0878,
+        "final_value": 0.0843,
+        "definition": "Mean absolute distance between model outputs across all 1,000 comparable original IDs."
+      }
+    ],
+    "disagreements": [
+      {
+        "id": "categorical",
+        "label": "Topic, intent, or severity",
+        "count": 310,
+        "denominator": 1000,
+        "definition": "At least one exact topic, intent, or severity difference."
+      },
+      {
+        "id": "categorical_or_sentiment_gt_025",
+        "label": "Categorical or sentiment gap >0.25",
+        "count": 339,
+        "denominator": 1000,
+        "definition": "Exact topic/intent/severity difference OR absolute sentiment distance strictly greater than 0.25; engine definition."
+      },
+      {
+        "id": "business_exact",
+        "label": "Any exact business-label difference",
+        "count": 341,
+        "denominator": 1000,
+        "definition": "Any exact topic, intent, severity, or sentiment difference; excludes the review flag."
+      },
+      {
+        "id": "all_exact",
+        "label": "Any exact field, including review flag",
+        "count": 354,
+        "denominator": 1000,
+        "definition": "Any exact topic, intent, severity, sentiment, or needs_review difference; evaluator definition."
+      }
+    ]
+  },
+  "routing": {
+    "numeric_signal_available": 0,
+    "confidence_calibrated": false,
+    "initial_flagged": 93,
+    "final_flagged": 60,
+    "fallback_count": 46,
+    "fallback_cap": 46,
+    "unique_text_denominator": 926,
+    "interpretation": "Flags combine model ambiguity and deterministic checks, not calibrated error probabilities. The configured 0.6 Jev confidence threshold does not apply to Lightning, which supplied no numeric confidence. Fallback and verifier share a model; improved agreement is not proof of correction."
+  },
+  "inspection": {
+    "reviewer_type": "ai_assisted",
+    "ground_truth": false,
+    "cohorts": [
+      {
+        "id": "random",
+        "label": "Seeded random 30",
+        "count": 30,
+        "supported": 15,
+        "concerns": 7,
+        "ambiguous": 8,
+        "concerns_flagged": 1,
+        "selection_method": "30 lowest SHA256(seed + review_id) among all 1000 original IDs, without replacement"
+      },
+      {
+        "id": "targeted",
+        "label": "Targeted disagreements 30",
+        "count": 30,
+        "supported": 4,
+        "concerns": 23,
+        "ambiguous": 3,
+        "concerns_flagged": 3,
+        "selection_method": "Exclude 30 random IDs. Select 10 highest absolute severity differences (tie SHA256(seed+ID)), then 10 intent differences (lowest hash), then 10 topic differences (lowest hash), without replacement. Purposeful cases; not representative."
+      }
+    ],
+    "interpretation": "AI-assisted qualitative review. Random and deliberately targeted cases have different selection mechanisms; do not pool them into an accuracy estimate. Ambiguous is separate from concern."
+  },
+  "synthetic": {
+    "status": "failed",
+    "operational_status": "passed",
+    "model_behavior_status": "failed",
+    "case_count": 4,
+    "scope": "Four fixed synthetic cases, not population accuracy or broad injection robustness. Fallback, grouping and memo behavior are not tested.",
+    "artifact_path": "evals/synthetic-live/v5-live-001/safety_report.json"
+  },
+  "ranking_sensitivity": {
+    "status": "available",
+    "ground_truth": false,
+    "interpretation": "Offline reranking of all 1,000 blind verifier predictions using the same complaint/cancellation membership and severity-sum rule. This is label sensitivity, not a corrected ranking or ground truth; saved production ranking is unchanged.",
+    "compared_count": 1000,
+    "rows": [
+      {
+        "issue_id": "issue-usability",
+        "final_rank": 1,
+        "final_score": 291,
+        "comparison_rank": 3,
+        "comparison_score": 234
+      },
+      {
+        "issue_id": "issue-billing",
+        "final_rank": 2,
+        "final_score": 239,
+        "comparison_rank": 4,
+        "comparison_score": 221
+      },
+      {
+        "issue_id": "issue-other",
+        "final_rank": 3,
+        "final_score": 233,
+        "comparison_rank": 2,
+        "comparison_score": 309
+      },
+      {
+        "issue_id": "issue-playback",
+        "final_rank": 4,
+        "final_score": 204,
+        "comparison_rank": 1,
+        "comparison_score": 319
+      },
+      {
+        "issue_id": "issue-access",
+        "final_rank": 5,
+        "final_score": 95,
+        "comparison_rank": 5,
+        "comparison_score": 91
+      },
+      {
+        "issue_id": "issue-catalog",
+        "final_rank": 6,
+        "final_score": 50,
+        "comparison_rank": 6,
+        "comparison_score": 46
+      },
+      {
+        "issue_id": "issue-downloads",
+        "final_rank": 7,
+        "final_score": 27,
+        "comparison_rank": 7,
+        "comparison_score": 32
+      },
+      {
+        "issue_id": "issue-support",
+        "final_rank": 8,
+        "final_score": 2,
+        "comparison_rank": null,
+        "comparison_score": 0
+      }
+    ]
+  },
+  "structural": {
+    "status": "passed",
+    "checks": [
+      {
+        "id": "source_identity",
+        "label": "Original source strings and official row hashes",
+        "passed_count": 1000,
+        "total": 1000
+      },
+      {
+        "id": "quote_substring",
+        "label": "Evidence quote is an exact source substring",
+        "passed_count": 1000,
+        "total": 1000
+      },
+      {
+        "id": "literal_entities",
+        "label": "Every extracted entity occurs literally in its source",
+        "passed_count": 1000,
+        "total": 1000
+      }
+    ],
+    "semantic_support_established": false
+  },
+  "cost_snapshot": {
+    "as_of": "2026-10-20T07:33:08.452107+00:00",
+    "source": "validation/dashboard_evaluation_audit_v6.json",
+    "known_usd": 0.214957094,
+    "unknown_hold_usd": 0.0164462,
+    "reserved_usd": 0.0,
+    "committed_usd": 0.231403294,
+    "attempts": 268,
+    "basis": "nominal_usage_reprice",
+    "scope": "project_snapshot"
+  },
+  "limitations": [
+    "Model agreement is not human accuracy; blind answers can still share model errors.",
+    "Structural validity and exact source quotations do not establish semantic support or entity recall.",
+    "Qualitative inspection is AI-assisted; its targeted cohort is not representative.",
+    "The cost figure is a dated project snapshot at nominal saved rates, not a live balance or verified cash purchase.",
+    "Human benchmark metrics remain unpublished; human worksheets and answer rows are excluded.",
+    "The report was assembled from saved evidence; generated_at is report construction time and cost_snapshot.as_of is the earlier ledger observation time."
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "checked_at": "2026-10-20T08:12:27.823539+00:00",
+  "deployment_id": "dpl_Cgzup9BsNXn4njWShJoPNyBnWByq",
+  "url": "https://spotify-review-observatory.vercel.app",
+  "immutable_url": "https://spotify-review-observatory-gp8zq7cyz.vercel.app",
+  "target": "production",
+  "ready_state": "READY",
+  "public_signed_out": true,
+  "checks": [
+    {
+      "path": "/",
+      "http_status": 200
+    },
+    {
+      "path": "/api/evaluation",
+      "http_status": 200,
+      "report_exact_match": true
+    },
+    {
+      "path": "/api/evaluation?run_id=1000-1ad0e35d239c3e9d",
+      "http_status": 200,
+      "report_exact_match": true
+    },
+    {
+      "path": "/api/evaluation?run_id=missing-synthetic-test",
+      "http_status": 404
+    },
+    {
+      "path": "/api/evaluation?run_id=bad%20id",
+      "http_status": 400
+    }
+  ],
+  "quality_gate": "hold",
+  "human_metrics_count": 0,
+  "pending_human_cohorts": [
+    {
+      "id": "mandatory_golden_50",
+      "expected_count": 50,
+      "status": "pending"
+    },
+    {
+      "id": "fresh_text_disjoint_150",
+      "expected_count": 150,
+      "status": "pending"
+    }
+  ],
+  "candidate_comparison_published": false,
+  "report_id": "pilot-audit-a932fc8f8dcf549e48b92b32a0d234de5468b1343153e5f3709d00b08c9ec253",
+  "cost_snapshot_as_of": "2026-10-20T07:33:08.452107+00:00",
+  "report_generated_at": "2026-10-20T08:01:49.552285+00:00",
+  "model_calls": 0,
+  "mutations_performed": false
+}

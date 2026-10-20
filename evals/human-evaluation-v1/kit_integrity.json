@@ -1,0 +1,133 @@
+{
+  "files": {
+    "README.md": {
+      "bytes": 3026,
+      "sha256": "520ad492936430cbcb8ecc4683a6d74c0be4ac6476d46868b3a8984ada00cbe4"
+    },
+    "combined_200.html": {
+      "bytes": 73531,
+      "sha256": "764c6ec8a54efac58c7596e1f1efb8438109957ccddd28ed2ee93664aae189bd"
+    },
+    "combined_200_membership.csv": {
+      "bytes": 47146,
+      "sha256": "98c2179399d28f4328a962cb1af2cd67101252e78c62f934d4447c699a0eaebe"
+    },
+    "combined_200_strata.csv": {
+      "bytes": 12719,
+      "sha256": "10cbfa329039197cf8b9b1f11a0ffc7d28c495300356ab1518530f3958a065b8"
+    },
+    "combined_200_to_label.csv": {
+      "bytes": 39404,
+      "sha256": "fc04b850482ba15b47b2e9753a69df2a58190cf347217c9278295296da3e2b61"
+    },
+    "confidence_examples.json": {
+      "bytes": 1172,
+      "sha256": "d2b1c96f7a891dd7f8bbebc29b1386a1ce8e951fa8d57aa0ada8222703474c5e"
+    },
+    "groups.json": {
+      "bytes": 8869,
+      "sha256": "602fc42873490cb98e6e0391c72ef45496a163f9f26972c861b1c8f651642b03"
+    },
+    "holdout_150.html": {
+      "bytes": 62322,
+      "sha256": "fa4e10fbe89008307c5dbf3c5108947fbe6dcf1f184faf950f8b70af6a33e721"
+    },
+    "holdout_150_membership.csv": {
+      "bytes": 35346,
+      "sha256": "80ffa8c685e746a5c518d26a42a4815c012d2cb201a64926240e26cd3ce61916"
+    },
+    "holdout_150_to_label.csv": {
+      "bytes": 29628,
+      "sha256": "49e490fc33d93d32893cacb7eafcb7b47aaa671dea55ebbec82b9fb636366d6c"
+    },
+    "protected_text_hashes.txt": {
+      "bytes": 12805,
+      "sha256": "06c7bd199512ec947c8251ef7b6ff674b2fd92e4a5baa1ae1f1caf51d09e16fb"
+    },
+    "rubric.v1.json": {
+      "bytes": 4579,
+      "sha256": "ccbaff1af87f90f3938ba897dcf7e33e472f1ffa2432c7521789aa6ad6040599"
+    },
+    "second_annotator_200_option.html": {
+      "bytes": 38731,
+      "sha256": "3fe3a8299f9c0d089e34cb9ecbbc904d32f40634fa7de392b79e15fa20a8b43e"
+    },
+    "second_annotator_200_option_membership.csv": {
+      "bytes": 9445,
+      "sha256": "4978d5895c69aabba3b8dd01bcb27fa3b185f9ff96fdbc75eb66a9748fca6e73"
+    },
+    "second_annotator_200_option_to_label.csv": {
+      "bytes": 9165,
+      "sha256": "82fa12ba07904970c562db4ae3c545915bd38cf0c8fcba72f0426fa6b9f9006a"
+    },
+    "second_annotator_50_option.html": {
+      "bytes": 30828,
+      "sha256": "19fa081801f6df920d6390fec9f31db8a05856d88e1e0de66a64fb372c26d5d4"
+    },
+    "second_annotator_50_option_membership.csv": {
+      "bytes": 2395,
+      "sha256": "bebc670ad7863b67ef0266d4230e8dfb5beb7e05245b4c9f6d82f656d7bae3b6"
+    },
+    "second_annotator_50_option_to_label.csv": {
+      "bytes": 2131,
+      "sha256": "313c01ae3ea1c45c5f140aa1c2d277ecfcea9f3850766ef452ce9f766462ceff"
+    },
+    "selection_manifest.json": {
+      "bytes": 5953,
+      "sha256": "a4245fda9ef02bdde524c41a809cf41199ef8dc878f5bb3f1b80042033a6536e"
+    },
+    "sources.jsonl": {
+      "bytes": 50515,
+      "sha256": "37d343c6380f3c42bfadf14e684a0aa0d1352cadcba7d424dedfdd1fb4744c0f"
+    },
+    "sources_manifest.json": {
+      "bytes": 1730,
+      "sha256": "020d3563ea0e894ab2c91d568a4d6439c581fd75b0a54a988776a485321af07d"
+    }
+  },
+  "human_answers_read": false,
+  "judgment_status_at_preparation": "All public CSV fields blank; browser-local user progress was not accessed.",
+  "model_calls": 0,
+  "preserved_original_artifacts": {
+    "evals/golden-labels.html": {
+      "byte_identical_to_published_pilot": true,
+      "sha256": "851689650c8a86537a6ef9a55cebb95193b7925bb0e74e0f2d82a197c166b187"
+    },
+    "evals/golden_50_to_label.csv": {
+      "byte_identical_to_published_pilot": true,
+      "sha256": "1a125c3e509f58b0246ba16d0ea332675a53ffadb1928be4338a0bd7053a11c7"
+    }
+  },
+  "regeneration": {
+    "combined_200": {
+      "blank_labels": true,
+      "byte_identical": true,
+      "rows": 200
+    },
+    "holdout_150": {
+      "blank_labels": true,
+      "byte_identical": true,
+      "rows": 150
+    },
+    "second_annotator_200_option": {
+      "blank_labels": true,
+      "byte_identical": true,
+      "rows": 40
+    },
+    "second_annotator_50_option": {
+      "blank_labels": true,
+      "byte_identical": true,
+      "rows": 10
+    }
+  },
+  "validation": {
+    "frozen_combined_html_unchanged": true,
+    "holdout_tests": 6,
+    "scope": "Source inputs and generated blank kit only; no private answers or browser storage read.",
+    "source_checksum_verified": true,
+    "worksheet_harness_integration_status": "passed on synthetic fake labels only",
+    "worksheet_harness_integration_tests": 14,
+    "worksheet_tests": 16
+  },
+  "version": "spotify-human-kit-integrity-v1"
+}

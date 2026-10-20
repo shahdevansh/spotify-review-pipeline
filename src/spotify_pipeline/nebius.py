@@ -27,6 +27,7 @@ NEBIUS_ENDPOINT = "https://api.tokenfactory.nebius.com/v1/chat/completions"
 # architectural non-thinking; it is not an unsupported reasoning_effort flag.
 NEBIUS_MODEL_CONTROLS = {
     "Qwen/Qwen3-30B-A3B-Instruct-2507": "instruct",
+    "Qwen/Qwen3-235B-A22B-Instruct-2507": "instruct",
     "openai/gpt-oss-120b": "reasoning_effort",
     "nvidia/Nemotron-3_5-Lightning": "template_toggle",
     "Qwen/Qwen3.8-27B": "template_toggle",

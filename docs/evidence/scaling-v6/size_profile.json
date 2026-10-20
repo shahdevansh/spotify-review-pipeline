@@ -1,0 +1,36 @@
+{
+  "real_v5_call_jsonl_bytes": {
+    "count": 123,
+    "mean": 2947.3252032520327,
+    "median": 2724,
+    "max": 4266
+  },
+  "real_v5_record_jsonl_bytes": {
+    "count": 1000,
+    "mean": 954.451,
+    "median": 860.0,
+    "max": 2509
+  },
+  "real_v5_handoff_file_sizes_only": {
+    "request": {
+      "files": 123,
+      "total_bytes": 1578423,
+      "mean_bytes": 12832.707317073171
+    },
+    "response": {
+      "files": 123,
+      "total_bytes": 593116,
+      "mean_bytes": 4822.081300813008
+    },
+    "task": {
+      "files": 123,
+      "total_bytes": 644047,
+      "mean_bytes": 5236.154471544715
+    }
+  },
+  "source_hashes": {
+    "src/spotify_pipeline/engine.py": "274881ca8aa3f34564995989c65ca8c80079fa75f88a15bb6a8ffd0e511173e9",
+    "src/spotify_pipeline/storage.py": "de9473b8b342a0e7346bfc629019bbff0075f2e48fc01d0db9cee843adef06fb"
+  },
+  "raw_response_content_read": false
+}

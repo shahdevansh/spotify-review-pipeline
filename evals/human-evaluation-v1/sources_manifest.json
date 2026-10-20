@@ -1,0 +1,54 @@
+{
+  "distinct_exact_texts": 197,
+  "fields": [
+    "review_id",
+    "review_text",
+    "review_rating",
+    "review_likes",
+    "app_version",
+    "review_timestamp"
+  ],
+  "groups": {
+    "bytes": 8869,
+    "filename": "groups.json",
+    "sha256": "602fc42873490cb98e6e0391c72ef45496a163f9f26972c861b1c8f651642b03"
+  },
+  "membership": {
+    "bytes": 47146,
+    "filename": "combined_200_membership.csv",
+    "sha256": "98c2179399d28f4328a962cb1af2cd67101252e78c62f934d4447c699a0eaebe"
+  },
+  "ordering": "Frozen worksheet order: mandatory golden50 followed by fresh150.",
+  "parsed_rows_sha256": "1d8da1c5f2a98bf20a18f3e58c0f54e6e9a470fbeae0503ba91495dc9224f85a",
+  "rows": 200,
+  "source": {
+    "bytes": 97400616,
+    "filename": "spotify_reviews_18months.csv",
+    "sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6"
+  },
+  "sources_jsonl": {
+    "bytes": 50515,
+    "sha256": "37d343c6380f3c42bfadf14e684a0aa0d1352cadcba7d424dedfdd1fb4744c0f"
+  },
+  "use": "Machine evaluation/prediction input only. The blind worksheet does not display ratings or source metadata.",
+  "validation": {
+    "all_200_exact_text_hashes_match": true,
+    "all_200_membership_row_hashes_match": true,
+    "exactly_six_original_fields": true,
+    "group_counts": {
+      "fresh_text_disjoint_150": 150,
+      "mandatory_golden_50": 50
+    },
+    "human_answers_read": false,
+    "label_columns_read": false,
+    "model_calls": 0,
+    "model_predictions_read": false,
+    "source_checksum_verified": true
+  },
+  "version": "spotify-human-evaluation-sources-v1",
+  "worksheet": {
+    "bytes": 73531,
+    "filename": "combined_200.html",
+    "sha256": "764c6ec8a54efac58c7596e1f1efb8438109957ccddd28ed2ee93664aae189bd"
+  }
+}

@@ -1,0 +1,903 @@
+{
+  "$defs": {
+    "ComparisonMetric": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "initial_numerator": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Initial Numerator"
+        },
+        "final_numerator": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Final Numerator"
+        },
+        "denominator": {
+          "exclusiveMinimum": 0,
+          "title": "Denominator",
+          "type": "integer"
+        },
+        "unit": {
+          "enum": [
+            "fraction",
+            "severity_points",
+            "sentiment_points"
+          ],
+          "title": "Unit",
+          "type": "string"
+        },
+        "initial_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Initial Value"
+        },
+        "final_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Final Value"
+        },
+        "definition": {
+          "title": "Definition",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "initial_numerator",
+        "final_numerator",
+        "denominator",
+        "unit",
+        "initial_value",
+        "final_value",
+        "definition"
+      ],
+      "title": "ComparisonMetric",
+      "type": "object"
+    },
+    "CostSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "as_of": {
+          "title": "As Of",
+          "type": "string"
+        },
+        "source": {
+          "title": "Source",
+          "type": "string"
+        },
+        "known_usd": {
+          "minimum": 0,
+          "title": "Known Usd",
+          "type": "number"
+        },
+        "unknown_hold_usd": {
+          "minimum": 0,
+          "title": "Unknown Hold Usd",
+          "type": "number"
+        },
+        "reserved_usd": {
+          "minimum": 0,
+          "title": "Reserved Usd",
+          "type": "number"
+        },
+        "committed_usd": {
+          "minimum": 0,
+          "title": "Committed Usd",
+          "type": "number"
+        },
+        "attempts": {
+          "minimum": 0,
+          "title": "Attempts",
+          "type": "integer"
+        },
+        "basis": {
+          "const": "nominal_usage_reprice",
+          "title": "Basis",
+          "type": "string"
+        },
+        "scope": {
+          "const": "project_snapshot",
+          "title": "Scope",
+          "type": "string"
+        }
+      },
+      "required": [
+        "as_of",
+        "source",
+        "known_usd",
+        "unknown_hold_usd",
+        "reserved_usd",
+        "committed_usd",
+        "attempts",
+        "basis",
+        "scope"
+      ],
+      "title": "CostSnapshot",
+      "type": "object"
+    },
+    "Coverage": {
+      "additionalProperties": false,
+      "properties": {
+        "selected": {
+          "exclusiveMinimum": 0,
+          "title": "Selected",
+          "type": "integer"
+        },
+        "completed": {
+          "minimum": 0,
+          "title": "Completed",
+          "type": "integer"
+        },
+        "unique_texts": {
+          "exclusiveMinimum": 0,
+          "title": "Unique Texts",
+          "type": "integer"
+        },
+        "exact_text_aliases": {
+          "minimum": 0,
+          "title": "Exact Text Aliases",
+          "type": "integer"
+        },
+        "cache_hits": {
+          "minimum": 0,
+          "title": "Cache Hits",
+          "type": "integer"
+        },
+        "compared": {
+          "minimum": 0,
+          "title": "Compared",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "selected",
+        "completed",
+        "unique_texts",
+        "exact_text_aliases",
+        "cache_hits",
+        "compared"
+      ],
+      "title": "Coverage",
+      "type": "object"
+    },
+    "Disagreement": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "count": {
+          "minimum": 0,
+          "title": "Count",
+          "type": "integer"
+        },
+        "denominator": {
+          "exclusiveMinimum": 0,
+          "title": "Denominator",
+          "type": "integer"
+        },
+        "definition": {
+          "title": "Definition",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "count",
+        "denominator",
+        "definition"
+      ],
+      "title": "Disagreement",
+      "type": "object"
+    },
+    "EvaluationArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "role": {
+          "title": "Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "role"
+      ],
+      "title": "EvaluationArtifact",
+      "type": "object"
+    },
+    "HumanCohort": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "enum": [
+            "mandatory_golden_50",
+            "fresh_text_disjoint_150"
+          ],
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "expected_count": {
+          "exclusiveMinimum": 0,
+          "title": "Expected Count",
+          "type": "integer"
+        },
+        "status": {
+          "const": "pending",
+          "title": "Status",
+          "type": "string"
+        },
+        "sampling_note": {
+          "title": "Sampling Note",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "expected_count",
+        "status",
+        "sampling_note"
+      ],
+      "title": "HumanCohort",
+      "type": "object"
+    },
+    "HumanPending": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "const": "pending_labels",
+          "title": "Status",
+          "type": "string"
+        },
+        "ground_truth_available": {
+          "const": false,
+          "title": "Ground Truth Available",
+          "type": "boolean"
+        },
+        "cohorts": {
+          "items": {
+            "$ref": "#/$defs/HumanCohort"
+          },
+          "title": "Cohorts",
+          "type": "array"
+        },
+        "metrics": {
+          "items": {
+            "type": "null"
+          },
+          "maxItems": 0,
+          "title": "Metrics",
+          "type": "array"
+        },
+        "interpretation": {
+          "title": "Interpretation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "ground_truth_available",
+        "cohorts",
+        "metrics",
+        "interpretation"
+      ],
+      "title": "HumanPending",
+      "type": "object"
+    },
+    "Inspection": {
+      "additionalProperties": false,
+      "properties": {
+        "reviewer_type": {
+          "const": "ai_assisted",
+          "title": "Reviewer Type",
+          "type": "string"
+        },
+        "ground_truth": {
+          "const": false,
+          "title": "Ground Truth",
+          "type": "boolean"
+        },
+        "cohorts": {
+          "items": {
+            "$ref": "#/$defs/InspectionCohort"
+          },
+          "title": "Cohorts",
+          "type": "array"
+        },
+        "interpretation": {
+          "title": "Interpretation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reviewer_type",
+        "ground_truth",
+        "cohorts",
+        "interpretation"
+      ],
+      "title": "Inspection",
+      "type": "object"
+    },
+    "InspectionCohort": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "count": {
+          "exclusiveMinimum": 0,
+          "title": "Count",
+          "type": "integer"
+        },
+        "supported": {
+          "minimum": 0,
+          "title": "Supported",
+          "type": "integer"
+        },
+        "concerns": {
+          "minimum": 0,
+          "title": "Concerns",
+          "type": "integer"
+        },
+        "ambiguous": {
+          "minimum": 0,
+          "title": "Ambiguous",
+          "type": "integer"
+        },
+        "concerns_flagged": {
+          "minimum": 0,
+          "title": "Concerns Flagged",
+          "type": "integer"
+        },
+        "selection_method": {
+          "title": "Selection Method",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "count",
+        "supported",
+        "concerns",
+        "ambiguous",
+        "concerns_flagged",
+        "selection_method"
+      ],
+      "title": "InspectionCohort",
+      "type": "object"
+    },
+    "ModelComparison": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "compared",
+            "not_available"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "answer_blind": {
+          "title": "Answer Blind",
+          "type": "boolean"
+        },
+        "ground_truth": {
+          "const": false,
+          "title": "Ground Truth",
+          "type": "boolean"
+        },
+        "shared_fallback_verifier_model": {
+          "title": "Shared Fallback Verifier Model",
+          "type": "boolean"
+        },
+        "verifier_provider": {
+          "title": "Verifier Provider",
+          "type": "string"
+        },
+        "verifier_model": {
+          "title": "Verifier Model",
+          "type": "string"
+        },
+        "metrics": {
+          "items": {
+            "$ref": "#/$defs/ComparisonMetric"
+          },
+          "title": "Metrics",
+          "type": "array"
+        },
+        "disagreements": {
+          "items": {
+            "$ref": "#/$defs/Disagreement"
+          },
+          "title": "Disagreements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "status",
+        "answer_blind",
+        "ground_truth",
+        "shared_fallback_verifier_model",
+        "verifier_provider",
+        "verifier_model",
+        "metrics",
+        "disagreements"
+      ],
+      "title": "ModelComparison",
+      "type": "object"
+    },
+    "QualityGate": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "hold",
+            "pass",
+            "not_evaluated"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "summary": {
+          "title": "Summary",
+          "type": "string"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        },
+        "recommendations_provisional": {
+          "title": "Recommendations Provisional",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "status",
+        "summary",
+        "reasons",
+        "recommendations_provisional"
+      ],
+      "title": "QualityGate",
+      "type": "object"
+    },
+    "RankingSensitivity": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "available",
+            "not_available"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "ground_truth": {
+          "const": false,
+          "title": "Ground Truth",
+          "type": "boolean"
+        },
+        "interpretation": {
+          "title": "Interpretation",
+          "type": "string"
+        },
+        "compared_count": {
+          "minimum": 0,
+          "title": "Compared Count",
+          "type": "integer"
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/RankingSensitivityRow"
+          },
+          "title": "Rows",
+          "type": "array"
+        }
+      },
+      "required": [
+        "status",
+        "ground_truth",
+        "interpretation",
+        "compared_count",
+        "rows"
+      ],
+      "title": "RankingSensitivity",
+      "type": "object"
+    },
+    "RankingSensitivityRow": {
+      "additionalProperties": false,
+      "properties": {
+        "issue_id": {
+          "title": "Issue Id",
+          "type": "string"
+        },
+        "final_rank": {
+          "exclusiveMinimum": 0,
+          "title": "Final Rank",
+          "type": "integer"
+        },
+        "final_score": {
+          "minimum": 0,
+          "title": "Final Score",
+          "type": "integer"
+        },
+        "comparison_rank": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Comparison Rank"
+        },
+        "comparison_score": {
+          "minimum": 0,
+          "title": "Comparison Score",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "issue_id",
+        "final_rank",
+        "final_score",
+        "comparison_rank",
+        "comparison_score"
+      ],
+      "title": "RankingSensitivityRow",
+      "type": "object"
+    },
+    "Routing": {
+      "additionalProperties": false,
+      "properties": {
+        "numeric_signal_available": {
+          "minimum": 0,
+          "title": "Numeric Signal Available",
+          "type": "integer"
+        },
+        "confidence_calibrated": {
+          "const": false,
+          "title": "Confidence Calibrated",
+          "type": "boolean"
+        },
+        "initial_flagged": {
+          "minimum": 0,
+          "title": "Initial Flagged",
+          "type": "integer"
+        },
+        "final_flagged": {
+          "minimum": 0,
+          "title": "Final Flagged",
+          "type": "integer"
+        },
+        "fallback_count": {
+          "minimum": 0,
+          "title": "Fallback Count",
+          "type": "integer"
+        },
+        "fallback_cap": {
+          "minimum": 0,
+          "title": "Fallback Cap",
+          "type": "integer"
+        },
+        "unique_text_denominator": {
+          "exclusiveMinimum": 0,
+          "title": "Unique Text Denominator",
+          "type": "integer"
+        },
+        "interpretation": {
+          "title": "Interpretation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "numeric_signal_available",
+        "confidence_calibrated",
+        "initial_flagged",
+        "final_flagged",
+        "fallback_count",
+        "fallback_cap",
+        "unique_text_denominator",
+        "interpretation"
+      ],
+      "title": "Routing",
+      "type": "object"
+    },
+    "Structural": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "not_available"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "checks": {
+          "items": {
+            "$ref": "#/$defs/StructuralCheck"
+          },
+          "title": "Checks",
+          "type": "array"
+        },
+        "semantic_support_established": {
+          "const": false,
+          "title": "Semantic Support Established",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "status",
+        "checks",
+        "semantic_support_established"
+      ],
+      "title": "Structural",
+      "type": "object"
+    },
+    "StructuralCheck": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "passed_count": {
+          "minimum": 0,
+          "title": "Passed Count",
+          "type": "integer"
+        },
+        "total": {
+          "exclusiveMinimum": 0,
+          "title": "Total",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "passed_count",
+        "total"
+      ],
+      "title": "StructuralCheck",
+      "type": "object"
+    },
+    "Synthetic": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "passed",
+            "failed",
+            "not_available"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "operational_status": {
+          "enum": [
+            "passed",
+            "failed",
+            "not_available"
+          ],
+          "title": "Operational Status",
+          "type": "string"
+        },
+        "model_behavior_status": {
+          "enum": [
+            "passed",
+            "failed",
+            "not_available"
+          ],
+          "title": "Model Behavior Status",
+          "type": "string"
+        },
+        "case_count": {
+          "minimum": 0,
+          "title": "Case Count",
+          "type": "integer"
+        },
+        "scope": {
+          "title": "Scope",
+          "type": "string"
+        },
+        "artifact_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Artifact Path"
+        }
+      },
+      "required": [
+        "status",
+        "operational_status",
+        "model_behavior_status",
+        "case_count",
+        "scope",
+        "artifact_path"
+      ],
+      "title": "Synthetic",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "spotify-dashboard-evaluation-v1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "kind": {
+      "const": "pilot_audit",
+      "title": "Kind",
+      "type": "string"
+    },
+    "report_id": {
+      "pattern": "^pilot-audit-[0-9a-f]{64}$",
+      "title": "Report Id",
+      "type": "string"
+    },
+    "run_id": {
+      "const": "1000-1ad0e35d239c3e9d",
+      "title": "Run Id",
+      "type": "string"
+    },
+    "label_config": {
+      "const": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "title": "Label Config",
+      "type": "string"
+    },
+    "generated_at": {
+      "title": "Generated At",
+      "type": "string"
+    },
+    "records_sha256": {
+      "const": "d7d107cf8b390d4c2f311aa2b2e4d0d29d9a2ba19cb40059e32e91670500be02",
+      "title": "Records Sha256",
+      "type": "string"
+    },
+    "artifact_refs": {
+      "items": {
+        "$ref": "#/$defs/EvaluationArtifact"
+      },
+      "title": "Artifact Refs",
+      "type": "array"
+    },
+    "coverage": {
+      "$ref": "#/$defs/Coverage"
+    },
+    "quality_gate": {
+      "$ref": "#/$defs/QualityGate"
+    },
+    "human": {
+      "$ref": "#/$defs/HumanPending"
+    },
+    "model_comparison": {
+      "$ref": "#/$defs/ModelComparison"
+    },
+    "routing": {
+      "$ref": "#/$defs/Routing"
+    },
+    "inspection": {
+      "$ref": "#/$defs/Inspection"
+    },
+    "synthetic": {
+      "$ref": "#/$defs/Synthetic"
+    },
+    "ranking_sensitivity": {
+      "$ref": "#/$defs/RankingSensitivity"
+    },
+    "structural": {
+      "$ref": "#/$defs/Structural"
+    },
+    "cost_snapshot": {
+      "$ref": "#/$defs/CostSnapshot"
+    },
+    "limitations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Limitations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "report_id",
+    "run_id",
+    "label_config",
+    "generated_at",
+    "records_sha256",
+    "artifact_refs",
+    "coverage",
+    "quality_gate",
+    "human",
+    "model_comparison",
+    "routing",
+    "inspection",
+    "synthetic",
+    "ranking_sensitivity",
+    "structural",
+    "cost_snapshot",
+    "limitations"
+  ],
+  "title": "PilotAuditReport",
+  "type": "object"
+}

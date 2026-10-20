@@ -1,0 +1,51 @@
+{
+  "checked_at": "2026-10-20T08:06:35.811851+00:00",
+  "run_id": "1000-1ad0e35d239c3e9d",
+  "report_id": "pilot-audit-a932fc8f8dcf549e48b92b32a0d234de5468b1343153e5f3709d00b08c9ec253",
+  "tables": {
+    "spotify_runs": {
+      "rows": 1,
+      "sha256": "ce8170be05424a2f7f3f42ba08f3ddd36d61c7ffa9879c98fe48c76306a062f2",
+      "unchanged": true
+    },
+    "spotify_reviews": {
+      "rows": 1000,
+      "sha256": "3a03c2e575156c46b2d085f0f13462c2961a61ccdbf809eb51453f38b91f5306",
+      "unchanged": true
+    },
+    "spotify_issues": {
+      "rows": 8,
+      "sha256": "0ede98ea01c07019845336199404473f4cc8e0954b567ad0c71c1f873ffeac0f",
+      "unchanged": true
+    },
+    "spotify_membership": {
+      "rows": 445,
+      "sha256": "9935764b6dca78b4455333e2fa48a8177fb8ea740e4aa7aaa5397b718c0f4e9d",
+      "unchanged": true
+    },
+    "spotify_claims": {
+      "rows": 32,
+      "sha256": "d6da6792523ebd8200b638f70f1fd0575164f655bf8603628374710819f67fda",
+      "unchanged": true
+    },
+    "spotify_recommendations": {
+      "rows": 1,
+      "sha256": "5a1fae9c31f81c1c4c8c83873a90a5eea5ae396efa3fbefc547efc439258eda5",
+      "unchanged": true
+    }
+  },
+  "mode": "live_read_only",
+  "current_run_id": "1000-1ad0e35d239c3e9d",
+  "reader_permissions": {
+    "can_read": true,
+    "can_write": false,
+    "default_read_only": "on"
+  },
+  "application_bytes": 1490944,
+  "projected_210000_bytes": 313098240,
+  "below_700_mb": true,
+  "frozen_tables_unchanged": true,
+  "aggregate_report_matches_saved": true,
+  "human_answers_read": false,
+  "model_calls": 0
+}

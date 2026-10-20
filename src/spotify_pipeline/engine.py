@@ -13,6 +13,8 @@ import re
 import time
 import uuid
 from decimal import Decimal, InvalidOperation
+from datetime import timezone
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 from typing import Any, Callable
 
@@ -32,6 +34,25 @@ CLASSIFICATION_FIELDS = tuple(Classification.model_fields)
 ENTITY_PATTERN = re.compile(r"\b(?:Spotify Premium|Android Auto|Google Home|Chromecast|Bluetooth|CarPlay|AirPlay|Android|Premium|Spotify|Alexa|iOS|lyrics|podcasts)\b", re.IGNORECASE)
 ROLE_PROVIDERS = {"enrich": "jev", "fallback": "openai", "verify": "openai",
                   "group": "openai", "memo": "openai"}
+CLASSIFICATION_AUDIT_VERSION = "shared-classification-audit-v1"
+INJECTION_PATTERN = re.compile(r"ignore (?:all |previous )?instructions|system prompt|output (?:only|the)|return (?:only|json)", re.I)
+
+
+def retry_after_seconds(value: str | None, *, now: float | None = None) -> float | None:
+    """Honor both HTTP Retry-After forms; malformed hints use normal backoff."""
+    if value is None:
+        return None
+    try:
+        delay = float(value)
+        return max(0.0, delay) if math.isfinite(delay) else None
+    except (ValueError, TypeError):
+        try:
+            moment = parsedate_to_datetime(value)
+            if moment.tzinfo is None:
+                moment = moment.replace(tzinfo=timezone.utc)
+            return max(0.0, moment.timestamp() - (time.time() if now is None else now))
+        except (ValueError, TypeError, OverflowError):
+            return None
 
 
 def role_provider(config: dict, role: str) -> str:
@@ -43,6 +64,8 @@ def role_provider(config: dict, role: str) -> str:
 def validate_config(config: dict) -> None:
     """Reject an undeclared provider, model, rate, or control before reservation."""
     declared = config.get("providers", {})
+    if config.get("classification_audit_policy", CLASSIFICATION_AUDIT_VERSION) != CLASSIFICATION_AUDIT_VERSION:
+        raise ValueError("Unsupported classification_audit_policy")
     if not isinstance(declared, dict) or set(declared) - set(ROLE_PROVIDERS):
         raise ValueError("providers must map only the five supported pipeline roles")
     batch_limits = config.get("max_reviews_by_role", {})
@@ -83,9 +106,13 @@ def _hydrate(config: dict) -> dict:
     prompts_dir = Path(config.get("prompts_dir", "prompts"))
     if not prompts_dir.is_absolute():
         prompts_dir = root / prompts_dir
+    names = ("labels", "enrich", "fallback", "verify", "group", "memo")
+    prompt_files = config.get("prompt_files", {})
+    if not isinstance(prompt_files, dict) or set(prompt_files) - set(names):
+        raise ValueError("prompt_files must map only known prompt roles")
     config["_prompts"] = dict(config.get("_prompts") or {
-        name: (prompts_dir / f"{name}.md").read_text(encoding="utf-8")
-        for name in ("labels", "enrich", "fallback", "verify", "group", "memo")
+        name: (prompts_dir / prompt_files.get(name, f"{name}.md")).read_text(encoding="utf-8")
+        for name in names
     })
     config["_root"] = str(root)
     return config
@@ -118,6 +145,9 @@ def fingerprint(config: dict) -> str:
     payload["analysis_schemas"] = {"group": GROUP_SCHEMA, "memo": MEMO_SCHEMA, "prose": PROSE_SCHEMA}
     payload["analysis_logic_version"] = ANALYSIS_LOGIC_VERSION
     payload["entity_pattern"] = ENTITY_PATTERN.pattern
+    payload["classification_audit_policy"] = config.get("classification_audit_policy", CLASSIFICATION_AUDIT_VERSION)
+    payload["classification_audit_implementation"] = CLASSIFICATION_AUDIT_VERSION
+    payload["injection_pattern"] = INJECTION_PATTERN.pattern
     payload["engine_logic_version"] = "compact-bounded-alias-batches-v4"
     return "spotify-" + hashlib.sha256(canonical(payload).encode()).hexdigest()
 
@@ -422,7 +452,8 @@ class Engine:
                     "input_tokens": None, "output_tokens": None, "usage_source": "unknown", "cost_usd": None,
                     "estimated_admission_tokens": estimated_input_bound + estimated_output_bound,
                     "token_pacing_limit_per_second": token_rate,
-                    "billing_items": [], "error": "in_flight_or_interrupted", "duration_seconds": 0}
+                    "billing_items": [], "error": "in_flight_or_interrupted", "duration_seconds": 0,
+                    "dispatch_status": "queued"}
             if review_id_mapping is not None:
                 call.update(review_id_mapping=review_id_mapping, model_input_ids=list(review_id_mapping),
                             review_id_policy="validated_per_request_aliases_to_original_ids")
@@ -438,6 +469,7 @@ class Engine:
                 if delay:
                     await asyncio.sleep(delay)
                 api_timer = time.monotonic()
+                call["dispatch_status"] = "dispatched"
                 response = await dispatch()
                 data = response.data
                 if validator:
@@ -446,8 +478,13 @@ class Engine:
                 call.update(outcome="succeeded", model=response.model, error=None, provider_request_id=getattr(response, "request_id", None))
                 atomic_json(self.handoffs / f"{request_id}.response.json", response.raw)
             except asyncio.CancelledError:
-                error = "cancelled_in_flight_usage_unknown"
-                call["error"] = error
+                if api_timer is None:
+                    error = "cancelled_before_dispatch"
+                    call.update(error=error, dispatch_status="not_dispatched", usage_source="not_dispatched",
+                                cost_usd=0.0, input_tokens=0, output_tokens=0, billing_items=[])
+                else:
+                    error = "cancelled_in_flight_usage_unknown"
+                    call["error"] = error
                 raise
             except (ValueError, ValidationError) as exc:
                 error = exc
@@ -462,9 +499,11 @@ class Engine:
                 call["error"] = f"{type(exc).__name__}: {exc}"
                 call["http_status"] = exc.status_code
                 call["provider_request_id"] = exc.request_id
+                call["provider_retry_after"] = exc.retry_after
                 call.update(self._billing(provider, exc.usage, exc.raw, model=model))
                 if exc.usage is None and not exc.usage_unknown:
-                    call.update(cost_usd=0.0, usage_source="not_dispatched", input_tokens=0, output_tokens=0)
+                    call.update(cost_usd=0.0, usage_source="not_dispatched", input_tokens=0, output_tokens=0,
+                                dispatch_status="not_dispatched")
                 if exc.raw is not None:
                     atomic_json(self.handoffs / f"{request_id}.response.json", exc.raw)
                 if isinstance(exc, (AuthenticationProviderError, ProviderPolicyError)):
@@ -501,12 +540,12 @@ class Engine:
             import random
             base_delay = self.config.get("retry_backoff_seconds", 1)
             retry_delay = base_delay * 2 ** (attempt - 1) + random.uniform(0, base_delay / 4)
-            if isinstance(error, ProviderError) and error.retry_after:
-                try:
-                    retry_delay = max(retry_delay, float(error.retry_after))
-                except ValueError:
-                    pass
-            await asyncio.sleep(min(30, retry_delay))
+            retry_delay = min(30, retry_delay)
+            if isinstance(error, ProviderError):
+                hint = retry_after_seconds(error.retry_after)
+                if hint is not None:
+                    retry_delay = max(retry_delay, hint)
+            await asyncio.sleep(retry_delay)
 
     def _validate_batch(self, data: dict, rows: list[dict]):
         validate_schema(data, classification_schema())
@@ -543,9 +582,15 @@ class Engine:
                                        _validator=lambda result: self._validate_primary_batch(result, aliased_rows),
                                        _review_id_mapping=mapping)
         originals = {row["review_id"]: row for row in rows}
-        return {"reviews": [{"review_id": mapping[item["review_id"]],
-                             **self._assemble_classification(item, originals[mapping[item["review_id"]]])}
-                            for item in compact["reviews"]]}
+        predictions = []
+        for item in compact["reviews"]:
+            original_id = mapping[item["review_id"]]
+            original = originals[original_id]
+            value = self._assemble_classification(item, original)
+            if purpose == "verify":
+                value = self._audit_classification(value, original, source_role="verify")
+            predictions.append({"review_id": original_id, **value})
+        return {"reviews": predictions}
 
     def _assemble_classification(self, data: dict, row: dict) -> dict:
         """Attach source-derived fields without changing any model's judgments."""
@@ -555,22 +600,38 @@ class Engine:
         Classification.model_validate(result)
         return result
 
-    def _llm_result(self, data: dict, row: dict) -> dict:
-        result = self._assemble_classification(data, row)
-        reasons = ["model_requested_review"] if result["needs_review"] else []
+    def _audit_classification(self, data: dict, row: dict, *, source_role: str,
+                              prior_reasons=(), extra_reasons=()) -> dict:
+        """Flag unresolved concerns identically across roles; never relabel text."""
+        result = {key: data[key] for key in CLASSIFICATION_FIELDS}
+        raw_flag = result["needs_review"]
+        reasons = ["model_requested_review"] if raw_flag else []
+        deterministic = []
         if result["intent"] == "complaint" and result["severity"] == 1:
-            reasons.append("complaint_severity_inconsistency")
+            deterministic.append("complaint_severity_inconsistency")
         if result["intent"] in {"praise", "request", "unclear"} and result["severity"] > 1:
-            reasons.append("intent_severity_inconsistency")
+            deterministic.append("intent_severity_inconsistency")
         if result["intent"] in {"complaint", "cancellation"} and result["sentiment"] > .5:
-            reasons.append("mixed_positive_complaint")
-        if re.search(r"ignore (?:all |previous )?instructions|system prompt|output (?:only|the)|return (?:only|json)", row["review_text"], re.I):
-            reasons.append("possible_prompt_injection")
+            deterministic.append("mixed_positive_complaint")
+        if INJECTION_PATTERN.search(row["review_text"]):
+            deterministic.append("possible_prompt_injection")
+        # A second model can resolve an initial ambiguity/consistency concern,
+        # but cannot remove the fact that the source contains an injection flag.
+        retained = sorted(set(prior_reasons) & {"possible_prompt_injection"})
+        reasons = list(dict.fromkeys([*reasons, *deterministic, *extra_reasons, *retained]))
         result["needs_review"] = bool(reasons)
         Classification.model_validate(result)
+        return {**result, "raw_needs_review": raw_flag, "review_reasons": reasons,
+                "review_audit": {"version": CLASSIFICATION_AUDIT_VERSION, "source_role": source_role,
+                                 "deterministic_reasons": deterministic, "retained_reasons": retained,
+                                 "extra_reasons": list(extra_reasons),
+                                 "labels_modified": False},
+                "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks"}
+
+    def _llm_result(self, data: dict, row: dict) -> dict:
+        result = self._audit_classification(self._assemble_classification(data, row), row, source_role="enrich")
         return {**result, "uncertainty_score": None, "confidence_source": "not_available",
-                "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
-                "review_reasons": reasons, "classifier_provider": role_provider(self.config, "enrich"),
+                "classifier_provider": role_provider(self.config, "enrich"),
                 "classifier_model": self.config["models"]["enrich"], "fallback_used": False}
 
     def _jev_result(self, data: dict, row: dict) -> dict:
@@ -585,16 +646,10 @@ class Engine:
             reasons.append("provider_confidence_unavailable")
         elif uncertainty < self.config.get("uncertainty_threshold", .60):
             reasons.append("low_provider_confidence")
-        if result["intent"] in {"praise", "request", "unclear"} and result["severity"] > 1:
-            reasons.append("intent_severity_inconsistency")
-        if result["intent"] in {"complaint", "cancellation"} and result["sentiment"] > .5:
-            reasons.append("mixed_positive_complaint")
-        if re.search(r"ignore (?:all |previous )?instructions|system prompt|output (?:only|the)|return (?:only|json)", row["review_text"], re.I):
-            reasons.append("possible_prompt_injection")
-        result["needs_review"] = bool(reasons)
-        Classification.model_validate(result)
+        result["needs_review"] = False  # Jev has no model-supplied ambiguity flag.
+        result = self._audit_classification(result, row, source_role="enrich", extra_reasons=reasons)
         return {**result, "confidence": confidence, "uncertainty_score": uncertainty,
-                "review_reasons": reasons, "classifier_provider": "jev", "classifier_model": self._provider("jev").model,
+                "classifier_provider": "jev", "classifier_model": self._provider("jev").model,
                 "classifier_transport": self.config.get("jev_transport", "direct"),
                 "fallback_used": False}
 
@@ -763,6 +818,8 @@ class Engine:
                 # enrichment route, including the bounded second-model pass.
                 value["evidence_quote"] = row["review_text"]
                 value["entities"] = list(dict.fromkeys(match.group() for match in ENTITY_PATTERN.finditer(row["review_text"])))
+                value = self._audit_classification(value, row, source_role="fallback",
+                                                   prior_reasons=old.get("review_reasons", []))
                 value.update(classifier_provider=role_provider(self.config, "fallback"),
                              classifier_model=self.config["models"]["fallback"],
                              fallback_used=True, fallback_reason=old["review_reasons"], initial_prediction=old)

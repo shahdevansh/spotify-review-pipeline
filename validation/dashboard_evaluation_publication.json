@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-10-20T08:06:04.710006+00:00",
+  "mode": "published",
+  "report_id": "pilot-audit-a932fc8f8dcf549e48b92b32a0d234de5468b1343153e5f3709d00b08c9ec253",
+  "run_id": "1000-1ad0e35d239c3e9d",
+  "report_path": "evals/dashboard/pilot-v5-audit-v1.json",
+  "report_sha256": "306f812c10fe76e868851e44386cf9e1a47596f08d44deade749ccf072e71091",
+  "human_answers_read": false,
+  "model_calls": 0,
+  "run_data_modified": false,
+  "publication": {
+    "report_id": "pilot-audit-a932fc8f8dcf549e48b92b32a0d234de5468b1343153e5f3709d00b08c9ec253",
+    "run_id": "1000-1ad0e35d239c3e9d",
+    "kind": "pilot_audit",
+    "inserted": true,
+    "idempotent": false,
+    "validated_records": 1000,
+    "canonical_records_sha256": "c210e98bdb8aabf08ab91699269e154db2f104246404dd8f766b0c0af2f6829d",
+    "run_data_modified": false
+  }
+}

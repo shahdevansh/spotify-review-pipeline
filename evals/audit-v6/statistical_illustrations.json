@@ -1,0 +1,18 @@
+{
+  "measured_accuracy": false,
+  "wilson_95_correct_45_of_50": [
+    0.7863976856252035,
+    0.9565242350681096
+  ],
+  "wilson_95_correct_27_of_30": [
+    0.7437891742081593,
+    0.9654001112526658
+  ],
+  "zero_errors_50_upper_95_one_sided": 0.058155079116972264,
+  "zero_errors_300_upper_95_one_sided": 0.00993608194445772,
+  "zero_errors_50_upper_95_two_sided": 0.07112173646419762,
+  "zero_errors_300_upper_95_two_sided": 0.012220974694293507,
+  "no_rare_class_1pct_in_50": 0.6050060671375364,
+  "no_rare_class_1pct_in_300": 0.04904089407128572,
+  "exact_mcnemar_5_wins_0_losses_two_sided_p": 0.0625
+}

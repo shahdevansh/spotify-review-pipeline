@@ -1,0 +1,34 @@
+{
+  "recorded_at": "2026-10-20T08:14:49.741298+00:00",
+  "web_tests": {
+    "command": "npm test",
+    "passed": 24,
+    "failed": 0
+  },
+  "combined_python_tests_before_test_only_portability_refinement": {
+    "command": "SPOTIFY_TEST_DATABASE_URL=<loopback-test-database> python -m pytest tests/test_evaluation_publication.py tests/test_database.py -q",
+    "passed": 51,
+    "failed": 0
+  },
+  "latest_publication_tests_reported_by_child": {
+    "with_release_artifacts_and_local_postgres": {
+      "passed": 37,
+      "failed": 0
+    },
+    "simulated_source_only_checkout": {
+      "passed": 27,
+      "skipped_missing_release_evidence": 10,
+      "failed": 0
+    }
+  },
+  "cloud_build": {
+    "preview_deployment_id": "dpl_4F98atEamAXppbUHvbuVoKWypDzS",
+    "next_version": "16.4.2",
+    "compilation": "passed",
+    "typescript": "passed",
+    "ready_state": "READY"
+  },
+  "local_build": "Local Next/TypeScript startup stalled; those processes were stopped. Build success is established by the clean Vercel build, not by local completion.",
+  "independent_boundary_review": "Actual saved report accepted; unknown human-answer and inherited-name fields, inconsistent numeric payloads, and unsupported candidate reports rejected.",
+  "model_calls": 0
+}

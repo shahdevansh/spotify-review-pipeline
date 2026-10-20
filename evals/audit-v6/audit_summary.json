@@ -1,0 +1,224 @@
+{
+  "human_gold": false,
+  "audit_kind": "AI-assisted development review",
+  "source": "Frozen v5 publication archive; no run/config changes",
+  "original_ids": 12,
+  "distinct_texts": 11,
+  "sample_counts": {
+    "fresh_random": {
+      "ambiguous": 1,
+      "supported": 5
+    },
+    "targeted": {
+      "supported": 2,
+      "concern": 3,
+      "ambiguous": 1
+    }
+  },
+  "golden_text_overlap": {
+    "golden_source_count": 50,
+    "development_source_count": 1000,
+    "original_id_overlap_count": 0,
+    "exact_text_overlap_unique_count": 3,
+    "golden_original_ids_with_development_text_overlap": 4,
+    "golden_original_ids_with_prior60_inspected_text_overlap": 2,
+    "method": "Only original source ID/text columns were processed; no human answer fields read or displayed. Original golden IDs/texts omitted from this overlap summary.",
+    "golden_original_ids_with_prior60_plus_fresh12_inspected_text_overlap": 2
+  },
+  "routing_census_original_id_basis": {
+    "final_flagged": 60,
+    "flagged_without_fallback": 47,
+    "request_severity_over_one": 8,
+    "request_severity_over_one_flagged": 8,
+    "complaint_severity_one": 3
+  },
+  "predicted_topic_counts_not_human_labels": {
+    "other": 604,
+    "playback": 62,
+    "billing": 94,
+    "usability": 150,
+    "downloads": 13,
+    "catalog": 49,
+    "access": 26,
+    "support": 2
+  },
+  "ranking_sensitivity": {
+    "initial": [
+      {
+        "rank": 1,
+        "issue_id": "issue-usability",
+        "score": 287,
+        "count": 125
+      },
+      {
+        "rank": 2,
+        "issue_id": "issue-billing",
+        "score": 235,
+        "count": 82
+      },
+      {
+        "rank": 3,
+        "issue_id": "issue-other",
+        "score": 218,
+        "count": 112
+      },
+      {
+        "rank": 4,
+        "issue_id": "issue-playback",
+        "score": 204,
+        "count": 60
+      },
+      {
+        "rank": 5,
+        "issue_id": "issue-access",
+        "score": 87,
+        "count": 24
+      },
+      {
+        "rank": 6,
+        "issue_id": "issue-catalog",
+        "score": 48,
+        "count": 20
+      },
+      {
+        "rank": 7,
+        "issue_id": "issue-downloads",
+        "score": 27,
+        "count": 9
+      },
+      {
+        "rank": 8,
+        "issue_id": "issue-support",
+        "score": 3,
+        "count": 2
+      }
+    ],
+    "final": [
+      {
+        "rank": 1,
+        "issue_id": "issue-usability",
+        "score": 291,
+        "count": 127
+      },
+      {
+        "rank": 2,
+        "issue_id": "issue-billing",
+        "score": 239,
+        "count": 83
+      },
+      {
+        "rank": 3,
+        "issue_id": "issue-other",
+        "score": 233,
+        "count": 118
+      },
+      {
+        "rank": 4,
+        "issue_id": "issue-playback",
+        "score": 204,
+        "count": 60
+      },
+      {
+        "rank": 5,
+        "issue_id": "issue-access",
+        "score": 95,
+        "count": 26
+      },
+      {
+        "rank": 6,
+        "issue_id": "issue-catalog",
+        "score": 50,
+        "count": 21
+      },
+      {
+        "rank": 7,
+        "issue_id": "issue-downloads",
+        "score": 27,
+        "count": 9
+      },
+      {
+        "rank": 8,
+        "issue_id": "issue-support",
+        "score": 2,
+        "count": 1
+      }
+    ],
+    "fresh_ai_case_repair_sensitivity": [
+      {
+        "rank": 1,
+        "issue_id": "issue-usability",
+        "score": 294,
+        "count": 128
+      },
+      {
+        "rank": 2,
+        "issue_id": "issue-billing",
+        "score": 242,
+        "count": 84
+      },
+      {
+        "rank": 3,
+        "issue_id": "issue-other",
+        "score": 233,
+        "count": 118
+      },
+      {
+        "rank": 4,
+        "issue_id": "issue-playback",
+        "score": 208,
+        "count": 61
+      },
+      {
+        "rank": 5,
+        "issue_id": "issue-access",
+        "score": 91,
+        "count": 25
+      },
+      {
+        "rank": 6,
+        "issue_id": "issue-catalog",
+        "score": 50,
+        "count": 21
+      },
+      {
+        "rank": 7,
+        "issue_id": "issue-downloads",
+        "score": 27,
+        "count": 9
+      },
+      {
+        "rank": 8,
+        "issue_id": "issue-support",
+        "score": 2,
+        "count": 1
+      }
+    ],
+    "sensitivity_definition": "Offline what-if only; three source-supported AI development judgments, not human-corrected production labels. Uncertain severity for access→playback case retained at existing4."
+  },
+  "statistical_illustrations": {
+    "measured_accuracy": false,
+    "wilson_95_correct_45_of_50": [
+      0.7863976856252035,
+      0.9565242350681096
+    ],
+    "wilson_95_correct_27_of_30": [
+      0.7437891742081593,
+      0.9654001112526658
+    ],
+    "zero_errors_50_upper_95_one_sided": 0.058155079116972264,
+    "zero_errors_300_upper_95_one_sided": 0.00993608194445772,
+    "zero_errors_50_upper_95_two_sided": 0.07112173646419762,
+    "zero_errors_300_upper_95_two_sided": 0.012220974694293507,
+    "no_rare_class_1pct_in_50": 0.6050060671375364,
+    "no_rare_class_1pct_in_300": 0.04904089407128572,
+    "exact_mcnemar_5_wins_0_losses_two_sided_p": 0.0625
+  },
+  "limitations": [
+    "Six random original IDs cannot estimate population accuracy precisely; six targeted cases are not representative.",
+    "Two targeted original IDs share the same exact text and are one semantic check.",
+    "No human answer columns or golden source text were displayed or used as tuning examples in this audit.",
+    "Source-only golden hashing detects text exposure, not human answer leakage.",
+    "No audited case received fallback, so these fresh cases do not estimate fallback correction effectiveness.",
+    "Rank sensitivity applies only explicit hypothetical edits to an in-memory copy; production outputs remain unchanged."
+  ]
+}

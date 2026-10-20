@@ -1,0 +1,201 @@
+{
+  "checked_at": "2026-10-20T08:12:32.492405+00:00",
+  "mode": "live_read_only",
+  "run_id": "1000-1ad0e35d239c3e9d",
+  "expected_count": 1000,
+  "source_rows": 660622,
+  "completed": 1000,
+  "quarantined": 0,
+  "issues": 8,
+  "claims": 32,
+  "membership_rows": 445,
+  "human_accuracy_claimed": false,
+  "mutations_performed": false,
+  "artifact_sha256": {
+    "records.jsonl": "d7d107cf8b390d4c2f311aa2b2e4d0d29d9a2ba19cb40059e32e91670500be02",
+    "ranking.csv": "69208d44a7722ac8168ef7cecfef922143d67f9dd3a5ac674f9877db4bde9fb3",
+    "claims.csv": "5f7a3e1cb0f1e01ffcf78ed366b8dba218f98e107ebf4e390b1d2ea5436a6f8e",
+    "membership.csv": "261a9034e0144f8bb67b2b24a62fa5fd2e9b024f56f9927d37184305cf11e971",
+    "recommendations.json": "7c7179b60a5f7ab3f661bfa810b0220b6b18a6e15f2cb627dac5029bf3cf6837",
+    "run_summary.json": "c9d259fc2783feedb4bb495bf6fd52d39014456c22cb291188e97c2e9554fec5"
+  },
+  "status": "passed",
+  "api_requests": [
+    {
+      "path": "/api/overview",
+      "http_status": 200
+    },
+    {
+      "path": "/api/issues",
+      "http_status": 200
+    },
+    {
+      "path": "/api/issues/issue-usability/reviews",
+      "http_status": 200
+    },
+    {
+      "path": "/api/issues/issue-usability/reviews",
+      "http_status": 200
+    },
+    {
+      "path": "/api/issues/issue-usability/reviews",
+      "http_status": 200
+    },
+    {
+      "path": "/api/issues/issue-billing/reviews",
+      "http_status": 200
+    },
+    {
+      "path": "/api/issues/issue-billing/reviews",
+      "http_status": 200
+    },
+    {
+      "path": "/api/issues/issue-other/reviews",
+      "http_status": 200
+    },
+    {
+      "path": "/api/issues/issue-other/reviews",
+      "http_status": 200
+    },
+    {
+      "path": "/api/issues/issue-other/reviews",
+      "http_status": 200
+    },
+    {
+      "path": "/api/issues/issue-playback/reviews",
+      "http_status": 200
+    },
+    {
+      "path": "/api/issues/issue-playback/reviews",
+      "http_status": 200
+    },
+    {
+      "path": "/api/issues/issue-access/reviews",
+      "http_status": 200
+    },
+    {
+      "path": "/api/issues/issue-catalog/reviews",
+      "http_status": 200
+    },
+    {
+      "path": "/api/issues/issue-downloads/reviews",
+      "http_status": 200
+    },
+    {
+      "path": "/api/issues/issue-support/reviews",
+      "http_status": 200
+    },
+    {
+      "path": "/api/reviews/04750628-d5b6-4492-a94e-1cb611a5d96b",
+      "http_status": 200
+    },
+    {
+      "path": "/api/reviews/10cef081-06c5-4a80-8ba6-e62f5e537614",
+      "http_status": 200
+    },
+    {
+      "path": "/api/reviews/16929558-ce1e-4b87-8738-a1de3f557f66",
+      "http_status": 200
+    },
+    {
+      "path": "/api/reviews/2af6b060-b468-4d20-9ad6-28e7a1d49a55",
+      "http_status": 200
+    },
+    {
+      "path": "/api/reviews/3f218ef6-e886-4bbb-b63d-dc680a1f7276",
+      "http_status": 200
+    },
+    {
+      "path": "/api/reviews/4c0242ca-099a-4c89-b11b-219ef28f1e16",
+      "http_status": 200
+    },
+    {
+      "path": "/api/reviews/54fdf931-7807-4af4-9c9b-d87845129bcb",
+      "http_status": 200
+    },
+    {
+      "path": "/api/reviews/5e42046c-b29b-4035-ba83-a8e222789e98",
+      "http_status": 200
+    },
+    {
+      "path": "/api/reviews/884e8712-da13-4890-a39e-731b69f42d6c",
+      "http_status": 200
+    },
+    {
+      "path": "/api/reviews/ab0b8f97-5844-4167-9b8a-84cf24101436",
+      "http_status": 200
+    },
+    {
+      "path": "/api/reviews/ab67a772-c3b7-42ba-9b80-8d21d3857018",
+      "http_status": 200
+    },
+    {
+      "path": "/api/reviews/ad730d1a-829a-4dc4-9561-7e1cd07e2c30",
+      "http_status": 200
+    },
+    {
+      "path": "/api/reviews/b4a19b9c-6b4f-4dc8-8c29-0065c59a6c63",
+      "http_status": 200
+    },
+    {
+      "path": "/api/reviews/d5d18196-7a49-4d7e-8ded-9cdf0c074514",
+      "http_status": 200
+    },
+    {
+      "path": "/api/reviews/e956f3a5-3f54-4335-b59c-61a1436c265b",
+      "http_status": 200
+    },
+    {
+      "path": "/api/recommendations",
+      "http_status": 200
+    },
+    {
+      "path": "/api/issues/issue-playback/reviews",
+      "http_status": 400
+    },
+    {
+      "path": "/api/reviews/definitely-not-a-source-review",
+      "http_status": 404
+    },
+    {
+      "path": "/api/issues/issue-usability/reviews",
+      "http_status": 409
+    },
+    {
+      "path": "/api/issues/issue-billing/reviews",
+      "http_status": 400
+    },
+    {
+      "path": "/api/overview",
+      "http_status": 200
+    }
+  ],
+  "review_pages_checked": 14,
+  "paginated_review_records_checked": 445,
+  "review_detail_ids_checked": [
+    "04750628-d5b6-4492-a94e-1cb611a5d96b",
+    "10cef081-06c5-4a80-8ba6-e62f5e537614",
+    "16929558-ce1e-4b87-8738-a1de3f557f66",
+    "2af6b060-b468-4d20-9ad6-28e7a1d49a55",
+    "3f218ef6-e886-4bbb-b63d-dc680a1f7276",
+    "4c0242ca-099a-4c89-b11b-219ef28f1e16",
+    "54fdf931-7807-4af4-9c9b-d87845129bcb",
+    "5e42046c-b29b-4035-ba83-a8e222789e98",
+    "884e8712-da13-4890-a39e-731b69f42d6c",
+    "ab0b8f97-5844-4167-9b8a-84cf24101436",
+    "ab67a772-c3b7-42ba-9b80-8d21d3857018",
+    "ad730d1a-829a-4dc4-9561-7e1cd07e2c30",
+    "b4a19b9c-6b4f-4dc8-8c29-0065c59a6c63",
+    "d5d18196-7a49-4d7e-8ded-9cdf0c074514",
+    "e956f3a5-3f54-4335-b59c-61a1436c265b"
+  ],
+  "database_records_checked": 1000,
+  "api_app_storage_bytes": 1490944,
+  "database_app_storage_bytes": 1490944,
+  "total_database_bytes": 9428992,
+  "projected_bytes_210k": 313098240,
+  "storage_gate_bytes": 700000000,
+  "storage_gate_passed": true,
+  "storage_projection_limitations": "Linear pilot projection; includes retained historical runs. Refresh at 10,000 reviews before scaling.",
+  "neon_sleep_recovery": "Not claimed by this check; verify after at least five minutes of database inactivity."
+}

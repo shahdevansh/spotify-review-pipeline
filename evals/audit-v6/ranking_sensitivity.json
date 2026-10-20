@@ -1,0 +1,153 @@
+{
+  "initial": [
+    {
+      "rank": 1,
+      "issue_id": "issue-usability",
+      "score": 287,
+      "count": 125
+    },
+    {
+      "rank": 2,
+      "issue_id": "issue-billing",
+      "score": 235,
+      "count": 82
+    },
+    {
+      "rank": 3,
+      "issue_id": "issue-other",
+      "score": 218,
+      "count": 112
+    },
+    {
+      "rank": 4,
+      "issue_id": "issue-playback",
+      "score": 204,
+      "count": 60
+    },
+    {
+      "rank": 5,
+      "issue_id": "issue-access",
+      "score": 87,
+      "count": 24
+    },
+    {
+      "rank": 6,
+      "issue_id": "issue-catalog",
+      "score": 48,
+      "count": 20
+    },
+    {
+      "rank": 7,
+      "issue_id": "issue-downloads",
+      "score": 27,
+      "count": 9
+    },
+    {
+      "rank": 8,
+      "issue_id": "issue-support",
+      "score": 3,
+      "count": 2
+    }
+  ],
+  "final": [
+    {
+      "rank": 1,
+      "issue_id": "issue-usability",
+      "score": 291,
+      "count": 127
+    },
+    {
+      "rank": 2,
+      "issue_id": "issue-billing",
+      "score": 239,
+      "count": 83
+    },
+    {
+      "rank": 3,
+      "issue_id": "issue-other",
+      "score": 233,
+      "count": 118
+    },
+    {
+      "rank": 4,
+      "issue_id": "issue-playback",
+      "score": 204,
+      "count": 60
+    },
+    {
+      "rank": 5,
+      "issue_id": "issue-access",
+      "score": 95,
+      "count": 26
+    },
+    {
+      "rank": 6,
+      "issue_id": "issue-catalog",
+      "score": 50,
+      "count": 21
+    },
+    {
+      "rank": 7,
+      "issue_id": "issue-downloads",
+      "score": 27,
+      "count": 9
+    },
+    {
+      "rank": 8,
+      "issue_id": "issue-support",
+      "score": 2,
+      "count": 1
+    }
+  ],
+  "fresh_ai_case_repair_sensitivity": [
+    {
+      "rank": 1,
+      "issue_id": "issue-usability",
+      "score": 294,
+      "count": 128
+    },
+    {
+      "rank": 2,
+      "issue_id": "issue-billing",
+      "score": 242,
+      "count": 84
+    },
+    {
+      "rank": 3,
+      "issue_id": "issue-other",
+      "score": 233,
+      "count": 118
+    },
+    {
+      "rank": 4,
+      "issue_id": "issue-playback",
+      "score": 208,
+      "count": 61
+    },
+    {
+      "rank": 5,
+      "issue_id": "issue-access",
+      "score": 91,
+      "count": 25
+    },
+    {
+      "rank": 6,
+      "issue_id": "issue-catalog",
+      "score": 50,
+      "count": 21
+    },
+    {
+      "rank": 7,
+      "issue_id": "issue-downloads",
+      "score": 27,
+      "count": 9
+    },
+    {
+      "rank": 8,
+      "issue_id": "issue-support",
+      "score": 2,
+      "count": 1
+    }
+  ],
+  "sensitivity_definition": "Offline what-if only; three source-supported AI development judgments, not human-corrected production labels. Uncertain severity for access→playback case retained at existing4."
+}

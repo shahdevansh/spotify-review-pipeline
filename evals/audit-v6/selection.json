@@ -1,0 +1,142 @@
+{
+  "seed": "spotify-fresh-audit-v6-20261020:",
+  "record_file_sha256": "d7d107cf8b390d4c2f311aa2b2e4d0d29d9a2ba19cb40059e32e91670500be02",
+  "excluded_prior_inspection_ids": [
+    "04afd9e2-8f9c-4a02-8b46-e01b2d5e2c51",
+    "0658feaa-5bec-416e-b6b0-3de2a4c14580",
+    "065c418e-7f18-42a3-b241-fe693b7a2b0c",
+    "0ea3b30d-23a6-4c70-a191-ec0fa67cfd36",
+    "204d2d4c-4660-436f-a6e7-1ea2fd3c445e",
+    "232c669e-8bfe-4642-b0c9-229c2911cc6c",
+    "23685af6-de32-4187-91d8-9471fd69fc20",
+    "284a011f-14b8-4b00-b9a3-6fa2bd209213",
+    "35dbe927-6402-4c9c-99c4-985f2f18aecb",
+    "394b1e3e-205a-48a7-a9ca-64170fa5f6a0",
+    "3a6481bb-c892-4b3e-aaa4-6a7a8fdcebc2",
+    "3bfefa06-133c-419b-a435-1fea919d6a44",
+    "47ab8a7e-e9da-45ef-bcfd-036fff3896a3",
+    "4ab2089a-ffa8-49e7-a8a3-aeb583a96796",
+    "4b55243e-33aa-4d29-bc0b-7fd737ce034c",
+    "4d5b9506-3ae8-41e0-b5fd-381eda6ca773",
+    "51bfd887-24a0-4741-8b59-68e0a726dd7a",
+    "55cc3abf-c295-4591-8c3a-78085cfdefaa",
+    "58297e3a-f0e3-41c3-ab0f-aa593946c169",
+    "58e901c3-5ef3-45f9-80c1-111738c979e3",
+    "618d1dbb-0186-4537-923a-7b4dabf19afb",
+    "62b53e0a-0397-4200-826f-122d18fdde32",
+    "6524068a-cff5-45b9-bd37-b91a6cb71475",
+    "6ecd5837-917a-45de-b811-278da3a26a7a",
+    "74135a47-3232-441f-a2c5-8050d3e820fa",
+    "7856217f-e060-4f55-a992-afcf0f02e4fc",
+    "78adfe35-9414-4c3c-8521-4ea85902c349",
+    "7a824d6b-d4cf-4a3d-8fd5-eef2f40108a3",
+    "84b41322-1103-4d20-b246-847f4d34a490",
+    "864337a6-c23e-49f1-b47a-5010ba84239a",
+    "90c663e4-4362-4929-b4a8-098db44c2cc6",
+    "921fc86c-ee5e-42ab-a50d-100b851f8056",
+    "94dfde2f-2a0a-48e2-8c01-ff60753f1bce",
+    "988406bb-d06a-43a8-a37c-f8d9dd3f8a14",
+    "98cb26c9-eaf1-4284-bad2-0e20259dc107",
+    "a0cbc9d6-51bb-46f0-9ba9-ad4f4593c266",
+    "ad1468c4-b4dd-456d-9685-5428fa81c207",
+    "b0d0660d-b859-4d87-97e8-7420f05d1f94",
+    "b0fb4c8e-e2be-432d-84bc-b4f30b0d2aa5",
+    "b1619f1d-35c7-42d4-95e6-84f487ca28a7",
+    "b9a3e661-0eac-4cc9-a30e-7b1e11ef1315",
+    "bc1c4825-00c5-458d-ac00-098ce729c76d",
+    "bcdf315e-c82d-41f0-9fcd-ba5933dfe77e",
+    "bd277589-d872-482b-9c6f-1b7dbc415c96",
+    "c1726764-f0ce-4abc-ad9e-6cd143e1b2c7",
+    "c3a26471-eedb-4ee6-876a-4e8e133d67b8",
+    "c4cf5200-bc7b-442c-9036-348057f623b5",
+    "c731fdfa-3607-4ffe-a0df-c9bd06c7e5c7",
+    "ce08ed7e-edf6-4b20-b78a-b7c7f8c66f30",
+    "cf6166ae-d71a-4839-9add-088645ad3b78",
+    "d75d0860-2d1e-4634-97a8-ca6ca63d9d0e",
+    "d804411c-504e-49b3-9b2d-455f482ecb93",
+    "d87536c5-6fe0-4b38-b0b1-c47936e4a0d8",
+    "db73c4f7-2c81-4992-b9ea-95cf52c37233",
+    "e5e362d7-1057-43bf-a3ca-8ffd93f80789",
+    "e81ef9d4-212d-47fc-b360-f9a1914f2bcf",
+    "e87bc648-9eac-428a-8f68-3ad17e1ed699",
+    "e93e48c0-e01f-498c-85fb-f35671c4dcdd",
+    "ef8ed0f7-b6bb-4398-824c-d8fe1a8ee78c",
+    "f3a4c132-c779-4107-9514-49bec6a77687"
+  ],
+  "selection_description": "Six lowest hashes among remaining original IDs. Then two greatest exact-text multiplicity times saved severity among complaint/cancellation records; two greatest unflagged severities (at least four); two greatest flagged but not escalated severities. Ties seeded hash. Groups selected sequentially without replacement. Inputs are original IDs; exact text duplication is explicitly recorded.",
+  "human_gold": false,
+  "selection": [
+    {
+      "review_id": "398566f7-2519-40e6-a2f4-6676657a18a7",
+      "sample": "fresh_random",
+      "reason": "lowest_hash_without_replacement",
+      "exact_text_id_count": 1
+    },
+    {
+      "review_id": "8c81b973-f8c0-4d32-b0e0-844601f266fa",
+      "sample": "fresh_random",
+      "reason": "lowest_hash_without_replacement",
+      "exact_text_id_count": 2
+    },
+    {
+      "review_id": "38f7068a-1d9f-49cd-8a8b-0d7b5a66bd6f",
+      "sample": "fresh_random",
+      "reason": "lowest_hash_without_replacement",
+      "exact_text_id_count": 1
+    },
+    {
+      "review_id": "9bd0779f-c0a2-4bef-8e09-92705b4f75a2",
+      "sample": "fresh_random",
+      "reason": "lowest_hash_without_replacement",
+      "exact_text_id_count": 1
+    },
+    {
+      "review_id": "af53cf35-c680-4ccb-b30c-cfd85bb61c57",
+      "sample": "fresh_random",
+      "reason": "lowest_hash_without_replacement",
+      "exact_text_id_count": 1
+    },
+    {
+      "review_id": "2037ccd0-4957-4d55-bc86-55eeab9a80b1",
+      "sample": "fresh_random",
+      "reason": "lowest_hash_without_replacement",
+      "exact_text_id_count": 1
+    },
+    {
+      "review_id": "8822ec39-cccc-49d8-b7e0-0bbfdbc95c5e",
+      "sample": "targeted",
+      "reason": "high_reuse_severity_contribution",
+      "exact_text_id_count": 5
+    },
+    {
+      "review_id": "eafc278c-3f57-447f-945c-580ae5a4815c",
+      "sample": "targeted",
+      "reason": "high_reuse_severity_contribution",
+      "exact_text_id_count": 5
+    },
+    {
+      "review_id": "3df77a78-ad9a-4456-8be8-8178ffd43d67",
+      "sample": "targeted",
+      "reason": "unflagged_high_severity",
+      "exact_text_id_count": 1
+    },
+    {
+      "review_id": "074efbfd-f69e-46ca-9cea-e5204a192a2a",
+      "sample": "targeted",
+      "reason": "unflagged_high_severity",
+      "exact_text_id_count": 1
+    },
+    {
+      "review_id": "ad2f2969-e6fd-4427-8e35-6f157737e1f7",
+      "sample": "targeted",
+      "reason": "flagged_not_escalated",
+      "exact_text_id_count": 1
+    },
+    {
+      "review_id": "ad730d1a-829a-4dc4-9561-7e1cd07e2c30",
+      "sample": "targeted",
+      "reason": "flagged_not_escalated",
+      "exact_text_id_count": 1
+    }
+  ]
+}
