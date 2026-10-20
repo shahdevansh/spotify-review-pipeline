@@ -1,0 +1,70 @@
+{
+  "files": {
+    "empty_texts.csv": {
+      "bytes": 996,
+      "sha256": "71ca88da071eadaef451c9065c3cfd2ff7574d499b1334a6b9dd765741f09d43"
+    },
+    "learning_1000.csv": {
+      "bytes": 148261,
+      "sha256": "3354adeefe65c2251e0db48fdcf83a5d98f2a7905686ac5ab0ce951398189936"
+    },
+    "selected_210000.csv": {
+      "bytes": 30885776,
+      "sha256": "d01531dcb7736aefc400cec39530275d9bbcdf9a1e0e6849726ba5fa218dd5fd"
+    },
+    "source_ledger.csv": {
+      "bytes": 93361989,
+      "sha256": "08804775327bd51f58a3a4e73399871072bb69302ac3a742d0abb62f4c1b32fb"
+    }
+  },
+  "scope": {
+    "development_in_selection": 10000,
+    "golden_in_selection": 50,
+    "golden_records": 50,
+    "learning_distinct_texts": 926,
+    "learning_records": 1000,
+    "maximum_selected_text_characters": 615,
+    "outside_selected_scope": 450609,
+    "selected_distinct_nonempty_texts": 159657,
+    "selected_empty_quarantines": 13,
+    "selected_exact_text_reuse": 50343,
+    "selected_input_records": 210013,
+    "selected_nonempty_records": 210000,
+    "source_distinct_nonempty_texts": 484189,
+    "source_empty": 13,
+    "source_nonempty": 660609,
+    "source_records": 660622,
+    "target_nonempty": 210000
+  },
+  "selection": {
+    "human_labels_used": false,
+    "method": "Lowest SHA-256(seed + ':' + review_id) among nonempty original reviews; all source empty texts appended",
+    "ordering": "Ascending selection hash, followed by empty rows in original source order",
+    "seed": "berkeley-fall-2026-assignment-5-v1"
+  },
+  "source_file": "spotify_reviews_18months.csv",
+  "source_sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6",
+  "source_verified_files": {
+    "analysis_10000.csv": {
+      "bytes": 1477793,
+      "sha256": "eaa62ca6d44d717302904a9c922e99b0b4584d174309cb45295ecbc2ba2a91b5"
+    },
+    "checkpoint_500.csv": {
+      "bytes": 76170,
+      "sha256": "a94e31663ee7b7eaa77e23b7a8425b530cc0c866ed5e714953172a0afef6a12f"
+    },
+    "cost_100.csv": {
+      "bytes": 15466,
+      "sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e"
+    },
+    "golden_50_to_label.csv": {
+      "bytes": 7905,
+      "sha256": "1a125c3e509f58b0246ba16d0ea332675a53ffadb1928be4338a0bd7053a11c7"
+    },
+    "spotify_reviews_18months.csv": {
+      "bytes": 97400616,
+      "sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6"
+    }
+  },
+  "version": "spotify-selected-cohort-v1"
+}

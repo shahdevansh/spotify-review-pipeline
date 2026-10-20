@@ -1,0 +1,55 @@
+{
+  "schema_version": "spotify-labels-v1",
+  "prompt_version": "pilot-v1",
+  "prompts_dir": "prompts",
+  "ledger_path": "data/spend.sqlite3",
+  "global_budget_usd": 18.0,
+  "models": {
+    "enrich": "jev-1.13.0",
+    "fallback": "gpt-6-luna",
+    "verify": "gpt-6-luna",
+    "group": "gpt-6-luna",
+    "memo": "gpt-6-luna"
+  },
+  "reasoning_effort": {
+    "fallback": "none",
+    "verify": "none",
+    "group": "none",
+    "memo": "low"
+  },
+  "max_workers": 16,
+  "requests_per_second": 5.0,
+  "max_output_tokens": 6000,
+  "max_reviews_per_request": 25,
+  "max_batch_input_bytes": 18000,
+  "transient_retries": 2,
+  "malformed_retries": 1,
+  "retry_backoff_seconds": 1.0,
+  "fallback_fraction": 0.05,
+  "uncertainty_threshold": 0.6,
+  "verification_seed": "spotify-independent-verification-v1",
+  "rates": {
+    "jev_input": 0.042,
+    "openai_input": 0.1,
+    "openai_cached_input": 0.01,
+    "openai_output": 0.5
+  },
+  "rates_currency": "USD",
+  "rates_as_of": "2026-10-19",
+  "rates_sources": {
+    "jev": "https://docs.typesafe.ai/models",
+    "openai": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+  },
+  "tokens_per_second": {
+    "jev": 20000,
+    "openai": 20000
+  },
+  "allowed_models": {
+    "jev": [
+      "jev-1.13.0"
+    ],
+    "openai": [
+      "gpt-6-luna"
+    ]
+  }
+}

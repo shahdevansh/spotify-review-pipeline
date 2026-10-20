@@ -1,0 +1,62 @@
+{
+  "manifest_checks": "passed",
+  "profile": {
+    "counts": {
+      "duplicate_review_ids": 0,
+      "empty_review_text": 13,
+      "missing_app_version": 159701,
+      "records": 660622
+    },
+    "file_sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6",
+    "first_review": "2022-05-17 00:01:07",
+    "last_review": "2023-11-15 23:16:10",
+    "parsed_rows_sha256": "eb5ea1e15f020212004a5b1e2f873e45a9f105d1b4516ad077020492364f71ff",
+    "reviews_by_month": {
+      "2022-05": 15461,
+      "2022-06": 30338,
+      "2022-07": 32784,
+      "2022-08": 30732,
+      "2022-09": 26933,
+      "2022-10": 27572,
+      "2022-11": 27349,
+      "2022-12": 31744,
+      "2023-01": 28609,
+      "2023-02": 20889,
+      "2023-03": 27238,
+      "2023-04": 25014,
+      "2023-05": 28062,
+      "2023-06": 27117,
+      "2023-07": 85079,
+      "2023-08": 30438,
+      "2023-09": 41634,
+      "2023-10": 89104,
+      "2023-11": 34525
+    },
+    "reviews_by_rating": {
+      "1": 242620,
+      "2": 31034,
+      "3": 33268,
+      "4": 54140,
+      "5": 299560
+    }
+  },
+  "scope": {
+    "development_in_selection": 10000,
+    "golden_in_selection": 50,
+    "golden_records": 50,
+    "learning_distinct_texts": 926,
+    "learning_records": 1000,
+    "maximum_selected_text_characters": 615,
+    "outside_selected_scope": 450609,
+    "selected_distinct_nonempty_texts": 159657,
+    "selected_empty_quarantines": 13,
+    "selected_exact_text_reuse": 50343,
+    "selected_input_records": 210013,
+    "selected_nonempty_records": 210000,
+    "source_distinct_nonempty_texts": 484189,
+    "source_empty": 13,
+    "source_nonempty": 660609,
+    "source_records": 660622,
+    "target_nonempty": 210000
+  }
+}

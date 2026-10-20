@@ -1,0 +1,54 @@
+{
+  "version": "spotify-labels-v1",
+  "source": "data/source/GRADING_CONTRACT.md",
+  "classification_input_fields": ["review_text"],
+  "topics": {
+    "access": "Login, signup, password or account access",
+    "usability": "Navigation, controls, layout, queue/playlist management, ad interruptions",
+    "playback": "Playback failure, crashes, lag, connection failures, audio quality, resource use",
+    "downloads": "Downloading, saved music, offline listening, disappearing downloads",
+    "catalog": "Missing songs/artists, search/discovery, recommendations, lyrics availability",
+    "billing": "Price, charges, subscriptions, paywalls, premium entitlement; explicitly premium-only controls go here",
+    "support": "Contacting support and the support response",
+    "other": "General praise/criticism, unrelated content, or no supported specific topic"
+  },
+  "topic_rule": "Choose the problem with the highest supported severity. On a tie choose the first specific problem mentioned. For a positive review choose the first specific praised feature; general praise is other. A paid-plan mention alone is not billing.",
+  "intent_precedence": ["cancellation", "complaint", "request", "praise", "unclear"],
+  "intent_definitions": {
+    "cancellation": "Explicitly leaving, uninstalling, cancelling, or threatening to do so",
+    "complaint": "Negative experience, including mixed praise/criticism",
+    "request": "Desired change without a reported failure",
+    "praise": "Positive experience without a higher-precedence intent",
+    "unclear": "Unrelated/meaningless text or bare boycott slogans without a product complaint or explicit personal departure"
+  },
+  "severity": {
+    "1": "No reported problem: praise, neutral/unclear content, or a pure feature request",
+    "2": "Dislike, generic criticism, minor annoyance, or cosmetic issue; no supported functional loss",
+    "3": "A degraded or restricted function; some use or workaround remains",
+    "4": "A clearly blocked core task, such as inability to log in or play music",
+    "5": "Explicit serious financial, privacy, or data harm; an expensive plan, a crash, or angry language alone is insufficient"
+  },
+  "severity_rule": "Stars, angry language and cancellation intent do not establish severity. Missing context triggers needs_review; do not invent impact.",
+  "sentiment": {
+    "minimum": -1,
+    "maximum": 1,
+    "anchors": {"-1": "strongly negative", "-0.5": "negative", "0": "neutral, mixed or unclear", "0.5": "positive", "1": "strongly positive"},
+    "evaluation": "Report mean absolute error; tolerance 0.25 is a secondary diagnostic."
+  },
+  "evidence_quote": "Nonempty exact substring of original review text; use the entire original short review initially. Exact membership alone does not prove label support.",
+  "entities": "Only terms explicitly present in the original text, with case-insensitive literal matching. An empty list is valid.",
+  "needs_review": "Flag missing context, uncertain language, contradictory labels, or insufficient evidence; this is a prediction to evaluate, not an accuracy guarantee.",
+  "synthetic_examples": [
+    {"text": "Great app", "topic": "other", "intent": "praise", "severity": 1},
+    {"text": "Please add a sleep timer", "topic": "usability", "intent": "request", "severity": 1},
+    {"text": "Bad app", "topic": "other", "intent": "complaint", "severity": 2},
+    {"text": "Ads keep interrupting my music, but playback works", "topic": "usability", "intent": "complaint", "severity": 2},
+    {"text": "My playlist is slow to open but eventually loads", "topic": "playback", "intent": "complaint", "severity": 3},
+    {"text": "Downloaded music cannot play offline", "topic": "downloads", "intent": "complaint", "severity": 4},
+    {"text": "I pay for Premium but all music crashes and will not play", "topic": "playback", "intent": "complaint", "severity": 4},
+    {"text": "Premium never activated after I subscribed", "topic": "billing", "intent": "complaint", "severity": 3},
+    {"text": "I am uninstalling because I dislike the new color", "topic": "usability", "intent": "cancellation", "severity": 2},
+    {"text": "Unauthorized repeat charges emptied my account", "topic": "billing", "intent": "complaint", "severity": 5},
+    {"text": "Boycott", "topic": "other", "intent": "unclear", "severity": 1}
+  ]
+}

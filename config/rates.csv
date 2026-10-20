@@ -1,0 +1,5 @@
+rate_key,provider,model,category,usd_per_million,source_url,as_of
+jev_input,typesafe,jev-1.13.0,input,0.042,https://docs.typesafe.ai/models,2026-10-19
+openai_input,openai,gpt-6-luna,input,0.10,https://developers.openai.com/api/docs/pricing,2026-10-19
+openai_cached_input,openai,gpt-6-luna,cached_input,0.01,https://developers.openai.com/api/docs/pricing,2026-10-19
+openai_output,openai,gpt-6-luna,output,0.50,https://developers.openai.com/api/docs/pricing,2026-10-19

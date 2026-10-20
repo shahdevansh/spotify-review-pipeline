@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spotify · Blind human labels</title>
+<style>
+:root{color-scheme:light;--ink:#14231c;--muted:#53655a;--line:#d4ddd6;--green:#14663c;--bg:#f3f6f1}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,sans-serif}
+main{max-width:1180px;margin:auto;padding:30px 24px 70px}h1{font-size:32px;line-height:1.15;margin:8px 0 12px}
+h2{font-size:19px;margin:0 0 12px}p{margin:8px 0 16px}.eyebrow{font-size:12px;font-weight:750;letter-spacing:.13em;text-transform:uppercase;color:var(--green)}
+.muted,.help{color:var(--muted)}.help{font-size:13px;margin:5px 0 0}
+.card{background:white;border:1px solid var(--line);border-radius:14px;padding:23px;margin-top:18px}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}.bar .push{margin-left:auto}
+button,select,input,textarea{font:inherit}button{border:1px solid #acbfb1;border-radius:7px;background:#fff;color:var(--ink);padding:9px 13px;cursor:pointer}
+button.primary{background:var(--green);border-color:var(--green);color:white}button:hover{filter:brightness(.96)}button:disabled{opacity:.4;cursor:not-allowed}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #80b291;outline-offset:2px}
+select,input,textarea{border:1px solid #aebfb3;border-radius:6px;background:white;color:var(--ink);padding:9px;width:100%}
+textarea{resize:vertical;min-height:88px}input[type=file]{width:auto;max-width:100%;font-size:13px}.compact{width:auto;max-width:100%}
+label{font-weight:650;display:block}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.full{grid-column:1/-1}
+.source{white-space:pre-wrap;overflow-wrap:anywhere;font-size:18px;line-height:1.65;padding:18px;background:#f1f5f0;border-left:4px solid var(--green);border-radius:4px;margin:12px 0 18px}
+.id{font:12px ui-monospace,monospace;overflow-wrap:anywhere}.badge{font-size:13px;background:#e7eee8;padding:5px 10px;border-radius:20px}
+progress{height:10px;width:100%;accent-color:var(--green)}details summary{cursor:pointer;font-weight:700}details p,details li{font-size:14px}
+.rubric{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:16px}dl{margin:0}dt{font-weight:700;font-size:14px}dd{margin:0 0 10px;font-size:14px;color:var(--muted)}
+.message{white-space:pre-wrap;font-size:14px;border-left:3px solid #829e89;padding-left:12px;margin:12px 0;min-height:20px}
+.message.error{border-color:#a13e24;color:#8b311b}.success{color:var(--green)}footer{font-size:12px;color:var(--muted);margin-top:20px}
+@media(max-width:720px){main{padding:20px 14px 45px}.grid,.rubric{grid-template-columns:1fr}.card{padding:17px}h1{font-size:27px}.bar .push{margin-left:0}.source{font-size:16px}}
+</style>
+</head>
+<body><main>
+<div class="eyebrow">Held-out evaluation · Human worksheet</div>
+<h1>Read the review. Make your own judgment.</h1>
+<p class="muted">All labels start blank. This worksheet shows original text only: no stars, metadata, or model predictions. Complete it before inspecting the model’s golden-set answers.</p>
+<section class="card" aria-label="Progress and file controls">
+<div class="bar"><strong id="progressLabel">0 complete</strong><span class="badge" id="ambiguousCount">0 ambiguous</span><span class="push help" id="saveStatus" role="status" aria-live="polite"></span></div>
+<progress id="progress" max="50" value="0" aria-label="Completed reviews"></progress>
+<div class="bar" style="margin-top:14px">
+<button type="button" id="downloadJson" class="primary">Download JSON</button>
+<button type="button" id="downloadCsv">Download CSV</button>
+<button type="button" id="checkAll">Check all labels</button>
+<label class="help" for="importFile">Restore downloaded JSON</label>
+<input id="importFile" type="file" accept=".json,application/json">
+</div>
+<p class="help">Progress saves automatically in this browser. Download a backup when you stop; local browser storage is not a submission file. Draft downloads retain blank answers. Complete downloads contain only explicit human choices.</p>
+<label class="help" for="humanLabeler">Your name or initials · human labeler</label>
+<input id="humanLabeler" placeholder="Enter your name or initials" autocomplete="name" style="max-width:360px">
+<p class="help">This records who made the judgments. If omitted, evaluation requires an explicit CLI confirmation that the labels are human-authored.</p>
+<div id="message" class="message" role="status" aria-live="polite"></div>
+</section>
+<section class="card">
+<details><summary>Label definitions, precedence, and examples</summary>
+<p>Interpret the text itself. Choose the <strong>highest-severity supported specific problem</strong>; on a tie, choose the first one mentioned. For praise, choose the first specific praised feature. General praise or criticism uses <code>other</code>.</p>
+<div class="rubric"><div><h2>Primary topic</h2><dl id="topicRubric"></dl></div><div><h2>Severity</h2><dl id="severityRubric"></dl></div></div>
+<p><strong>Intent precedence:</strong> cancellation → complaint → request → praise → unclear. Cancellation means explicitly leaving, uninstalling, cancelling, or threatening to do so. Mixed praise/criticism is a complaint unless personal departure is expressed. A desired change without a reported failure is a request. Bare boycott slogans are unclear unless they state a product complaint or personal departure.</p>
+<p><strong>Do not infer impact:</strong> stars, anger, or cancellation alone do not increase severity. “Bad app” is other / complaint / severity 2. “I wish there were more themes” is usability / request / severity 1. “I cannot log in at all” is access / complaint / severity 4. “Downloaded songs stop when I am offline” concerns downloads; apply severity to the explicitly reported impact.</p>
+<p><strong>Paid-plan boundary:</strong> “I pay, and music keeps crashing” is playback. A paid subscription that never activates is billing. A paid-plan mention alone is not billing.</p>
+<p><strong>Sentiment:</strong> −1 is strongly negative, −0.5 negative, 0 neutral or genuinely balanced, 0.5 positive, and 1 strongly positive. Intermediate values are allowed. Do not use stars.</p>
+<p><strong>Evidence and uncertainty:</strong> copy an exact, meaningful source substring; the full original text is allowed. List only entities explicitly present in the review, one per line, or leave the entity list empty. Mark <em>needs review</em> for insufficient context or unsupported language. Mark <em>ambiguous</em> if more than one interpretation is defensible, choose your best label, and explain alternatives in notes.</p>
+</details>
+</section>
+<section class="card" aria-label="Human labeling form">
+<div class="bar">
+<button id="previous" type="button">← Previous</button>
+<label for="jump" class="help">Review</label><select id="jump" class="compact"></select>
+<button id="next" type="button">Next →</button>
+<button id="nextIncomplete" type="button" class="push">Next incomplete</button>
+</div>
+<p id="reviewId" class="id"></p>
+<div id="sourceText" class="source"></div>
+<form id="labelForm" novalidate>
+<div class="grid">
+<div><label for="topic">Primary topic</label><select id="topic"></select><p class="help" id="topicHelp">Choose the supported primary topic.</p></div>
+<div><label for="intent">Intent</label><select id="intent"></select><p class="help">Apply the precedence in the rubric.</p></div>
+<div><label for="severity">Severity</label><select id="severity"></select><p class="help" id="severityHelp">Rate the reported impact, not intensity of language.</p></div>
+<div><label for="sentiment">Sentiment · −1 to 1</label><input id="sentiment" type="number" min="-1" max="1" step="any" placeholder="Enter a value"><p class="help">Use 0 for neutral or balanced text.</p></div>
+<div><label for="needs_review">Needs review?</label><select id="needs_review"><option value="">Choose…</option value="false">No</option><option value="true">Yes</option></select><p class="help">Missing context, unsupported language, or insufficient evidence.</p></div>
+<div><label for="ambiguous">Ambiguous interpretation?</label><select id="ambiguous"><option value="">Choose…</option><option value="false">No</option><option value="true">Yes</option></select><p class="help">Multiple defensible readings or labels.</p></div>
+<div class="full"><div class="bar"><label for="evidence_quote">Evidence quote</label><button id="copySource" type="button" class="push">Use full original text</button></div><textarea id="evidence_quote" placeholder="Paste an exact source substring"></textarea><p class="help">Exact spelling, punctuation, accents, and whitespace must match the source.</p></div>
+<div class="full"><label for="entities">Explicit entities · one per line</label><textarea id="entities" placeholder="Leave empty when none are explicitly present"></textarea><p class="help">Source terms only. An empty field exports as [].</p></div>
+<div class="full"><label for="notes">Notes / ambiguity / alternative labels</label><textarea id="notes" placeholder="Optional explanation of your judgment"></textarea></div>
+</div>
+</form>
+<div id="recordStatus" class="message" aria-live="polite"></div>
+</section>
+<footer>Blind worksheet generated from the course golden input. No network requests or API calls are made. Downloaded labels remain separate from enrichment prompts, routing thresholds, and grouping inputs.</footer>
+</main>
+<script>
+"use strict";
+const sourceRows=[{"review_id":"292ce26a-815d-4bce-a3b6-93cb6c9e7e2c","review_text":"Staff must be full of mentally ill kool-aid heads. Banning conservative music that speaks truth. Spotify is doing all they can to protect pedophiles, by banning Christian songs discussing the path the devil leads you down. Pride is a sin."},{"review_id":"a70e8d3e-3f84-46bc-b008-67f476c67963","review_text":"Great app use it every chance I get"},{"review_id":"0d4f8b48-74c1-4e2a-89b5-11eaa737027e","review_text":"It's really an amazing experience with Spotify...I love it🥰"},{"review_id":"991b6b3a-f511-458a-a5b7-234f78048fb5","review_text":"Ads were okay, but limited functionality..it's just too much"},{"review_id":"599a0d41-989a-40ef-8ed2-e92db76eea46","review_text":"I just loved it"},{"review_id":"0c6ca545-3f89-4da6-b3db-1a352371fb6e","review_text":"Hate this application 🤮🤮🤮🤮🤮🤮"},{"review_id":"111f9048-f7bd-4be0-813e-76b8fc49f73f","review_text":"Excellent"},{"review_id":"b567f70c-edba-4922-ac2a-e945e5eb3472","review_text":"good ❤❤🔊🔊"},{"review_id":"b5ee7834-a0eb-4c15-9c7b-935831021922","review_text":"Spotify is awesome and and very diverse :)"},{"review_id":"1fc8b08f-7d6a-472f-b317-8ceb28d00f22","review_text":"Duo Premium .... No ads at all!"},{"review_id":"947821dc-b356-45dc-a0bc-1903728fad40","review_text":"Very good but wen I play my song it o ly plays a little bit then it stops I updated my phone and it worked but it happend again they need to fix this issue"},{"review_id":"723f07de-9881-4049-8680-1a9e25652914","review_text":"Update: I reached out to Spotify Support and with some help from Sarah I was able to get the app working again. Old Post:Normally, the app works great, and I use it constantly. I tried to open it today, and it keeps crashing every time. I've tried uninstalling and reinstalling, and updating. Nothing seems to work unfortunately."},{"review_id":"47428620-ec21-424d-a515-0b0b0012a5cf","review_text":"This app is bad work"},{"review_id":"fc344263-308d-48a1-9715-c380d063b6de","review_text":"Great..."},{"review_id":"6112667b-3d71-475c-b1a4-159b87f73d2b","review_text":"Super"},{"review_id":"01d453b0-dca3-42e9-8aa4-5fc167b08070","review_text":"I like it but god I hate it when the music Interrupts my ads"},{"review_id":"ac6cd66d-a9d2-42a4-afb8-2f84beff7fd1","review_text":"Lhat ng song nasa spotify"},{"review_id":"44129679-31a0-4108-9314-086a3456f6ae","review_text":"Avtar sungh"},{"review_id":"46842184-32f8-4088-ac15-2a700a7e94ed","review_text":"asem, lirik nya kdang gaada kek mana??"},{"review_id":"657f1b77-0183-4b06-bf48-5e6d9ab08f9a","review_text":"Hate This application 👎"},{"review_id":"5de7f95b-ccad-41b2-9f63-a13f7c1d9f09","review_text":"We are boycotting Swedish app in our protest against Sweden for their desrecpect \u0026 desceration of our holy book Qur'an"},{"review_id":"de48c99b-46fe-4837-8634-e63dbc72a5ea","review_text":"I LOVE that I was able to put in only a few songs I like and Spotify gave me recommendations for an AWESOME Playlist...!!!"},{"review_id":"aa573851-0b86-4b1b-adf6-210268c08d2a","review_text":"I absolutely love Spotify, to me is one of the best Music Apps. Great job Spotify!!!"},{"review_id":"372d4e67-59cc-4c54-879f-3e8a202ee554","review_text":"Please ye ads ko thoda kumm Karo harr ek song ke baad ad 🙏🙄"},{"review_id":"47f1406d-4918-4d60-9647-5ca8e610caca","review_text":"Very poor updates as we cannot playback the songs and most bad updates are happening it is affecting the spotify quality"},{"review_id":"82780cbe-6435-4efb-84f6-8e5fa47ffc3a","review_text":"Awesomeness 👌 👏 👍 😍 💖"},{"review_id":"36609c5c-fe48-4459-86b8-cc78fd3c77cd","review_text":"Bheekhmangon"},{"review_id":"f4c8146a-d5c8-4168-b00e-21af666afc6a","review_text":"Unconditional love, Stoli Canales"},{"review_id":"3ddb3f4e-f7b9-430b-b335-eadc6d321f46","review_text":"Deleting this App. The new update suck, we can't choose our fvrt songs after some clicks, we can't CHOOSE song after a song played, and we can't turn off shuffle option. They are pushing us to upgrade to Premium subscription. No wonder if you guys loose ratings and users. Anyway i am deleting this app after years of using."},{"review_id":"16d640e9-b281-4746-9562-c7dbcf7126b6","review_text":"It's my best music app but now it's not...everything basic features is premium...."},{"review_id":"8cc4fad4-26ec-47b7-96e8-49c7da714eca","review_text":"I hate this app and sweden .I love islam"},{"review_id":"215463ae-95b7-4481-8747-1754b68f31fa","review_text":"What is happening with Spotify?? Recently I'm trying to play a song but it doesn't working. So I unstalled and thn again install it now I can't even open the app.. Just showing try again?? I really loved Spotify but this making me to rate it 1 star plz fix the problm as fast as u can"},{"review_id":"46c0b49f-83a1-427e-8f0b-cef62e3c94b5","review_text":"Are you out of your mind? This is dangerous! Listening to music in a normal volume and suddenly an add starts and my ears feel like they explode!! Stop this BS, or you're gonna destroy someones ears."},{"review_id":"283b5843-a992-464f-b1dc-9dc7281ff390","review_text":"Beth, we all got to give me a free dollar to go with 3 months, bro I can't be like"},{"review_id":"1d15724a-98ff-400a-8083-0d9afc801098","review_text":"Good"},{"review_id":"89ea724c-358f-48ab-9516-cd130d21c471","review_text":"Good app!"},{"review_id":"2aa566c6-b98d-4513-b900-83702a8db8eb","review_text":"Nice app, very less advertising"},{"review_id":"8c0546b0-ce43-4a36-9d33-9f979e98d522","review_text":"1-Lyrics not getting loaded, 2-can't go back to or start song where to wanted. Pathetic update"},{"review_id":"a972945c-6601-4108-882a-afe986866a7b","review_text":"Phenomenal"},{"review_id":"8fd3dd72-5535-40f6-8779-1bd60892131e","review_text":"Good"},{"review_id":"b58dd6f0-ad88-4319-b6db-58afb60c37c1","review_text":"The only thing Spotify lacks is the ability to organize saved \nalbums/artists into collections. Would definitely deserve 5 stars if it \nincluded this feature."},{"review_id":"1a41c7e1-a655-4c63-b4db-c22bdff18003","review_text":"Worst application 👎👎👎"},{"review_id":"dceb14e7-2df0-422f-bb2b-73d7c373159a","review_text":"I gave one star because I can't give any less than that. the new update is sooooooo annoying like I can't even play the songs that I like and I can't rewind songs what the heck"},{"review_id":"5fba12ea-4980-4f25-a129-f830a3974fd2","review_text":"I find Spotify very good, it finds and play whatever music you want and also adds songs that you might like, judging from your playlist if you choose to arrange one. 😊💃🎸🎶"},{"review_id":"ac4e860a-c042-49cc-90f3-189591c336ac","review_text":"paying for subscribing but unable to play in offline mode really?"},{"review_id":"9034d675-9582-49b6-a1c1-c4ddabf8baf1","review_text":"Worst app ever too much ad"},{"review_id":"d2f3874f-d15d-4a2f-bb97-4f1213defa46","review_text":"Too expensive and the free version is pretty much unusable with constant ads... Every two or three songs.. Forget it"},{"review_id":"99b93e31-9f15-4daa-88ac-349ab0419c48","review_text":"This update very bad for everyone.old Spotify. we all want."},{"review_id":"ca63dfbe-7120-4e18-af6e-8ea786cd157d","review_text":"I'm loving the experience with the app"},{"review_id":"083811c7-d469-499b-9bef-5b9fb096653d","review_text":"best app ever"}];
+const topics=["access","usability","playback","downloads","catalog","billing","support","other"],intents=["cancellation","complaint","request","praise","unclear"];
+const topicDescriptions={"access":"Login, signup, password or account access.","usability":"Navigation, controls, layout, queue/playlist management, ad interruptions.","playback":"Playback failure, crashes, lag, connection failures, audio quality, resource use.","downloads":"Downloading, saved music, offline listening, disappearing downloads.","catalog":"Missing songs/artists, search/discovery, recommendations, lyrics availability.","billing":"Price, charges, subscriptions, paywalls, premium entitlement; explicitly premium-only controls.","support":"Contacting support and the support response.","other":"General praise/criticism, unrelated content, or no supported specific topic."},severityDescriptions={"1":"No reported problem: praise, neutral/unclear content, or a pure feature request.","2":"Dislike, generic criticism, minor annoyance or cosmetic issue; no supported functional loss.","3":"Degraded or restricted function; some use or a workaround remains.","4":"A clearly blocked core task, such as inability to log in or play music.","5":"Explicit serious financial, privacy or data harm. Price, crashes or anger alone do not qualify."};
+const storageKey="spotify-human-labels-v1-2244aa419d88d46465f566db13302f623e9408ca4fc958cb281c5dd33db93c05";
+const fields=["topic","intent","sentiment","severity","entities","evidence_quote","needs_review","ambiguous","notes"];
+const $=id=>document.getElementById(id);
+let current=0, labels={}, storageAvailable=true, humanLabeler="";
+const blank=()=>({topic:"",intent:"",sentiment:"",severity:"",entities:[],evidence_quote:"",needs_review:"",ambiguous:"",notes:""});
+for(const row of sourceRows)labels[row.review_id]=blank();
+function message(text,error=false){$("message").textContent=text;$("message").className="message"+(error?" error":"");}
+function issues(label,source){
+ const errors=[];
+ if(!topics.includes(label.topic))errors.push("Choose a primary topic.");
+ if(!intents.includes(label.intent))errors.push("Choose an intent.");
+ if(typeof label.sentiment!=="number"||!Number.isFinite(label.sentiment)||label.sentiment < -1||label.sentiment > 1)errors.push("Enter sentiment between −1 and 1.");
+ if(!Number.isInteger(label.severity)||label.severity<1||label.severity>5)errors.push("Choose severity 1–5.");
+ if(typeof label.needs_review!=="boolean")errors.push("Choose yes or no for needs review.");
+ if(typeof label.ambiguous!=="boolean")errors.push("Choose yes or no for ambiguity.");
+ if(typeof label.evidence_quote!=="string"||!label.evidence_quote||!source.includes(label.evidence_quote))errors.push("Supply an exact nonempty source quote.");
+ if(!Array.isArray(label.entities)||label.entities.some(entity=>typeof entity!=="string"||!entity.trim()||!source.toLowerCase().includes(entity.toLowerCase())))errors.push("Use only explicit source terms for entities.");
+ if(typeof label.notes!=="string")errors.push("Notes must be text.");
+ return errors;
+}
+function readForm(){
+ const label={};for(const field of fields)label[field]=$(field).value;
+ const originalText=sourceRows[current].review_text;
+ if(label.evidence_quote===originalText.replace(/\r\n?/g,"\n"))label.evidence_quote=originalText;
+ for(const field of ["sentiment","severity"])label[field]=label[field].trim()===""?"":Number(label[field]);
+ for(const field of ["needs_review","ambiguous"])label[field]=label[field]===""?"":label[field]==="true";
+ label.entities=label.entities.split(/\r?\n/).map(value=>value.trim()).filter(Boolean);
+ labels[sourceRows[current].review_id]=label;
+}
+function save(){
+ try{localStorage.setItem(storageKey,JSON.stringify({version:1,labels,current,humanLabeler}));$("saveStatus").textContent="Saved in this browser";storageAvailable=true;}
+ catch(error){storageAvailable=false;$("saveStatus").textContent="Browser storage unavailable — download a backup";}
+}
+function progress(){
+ const done=sourceRows.filter(row=>issues(labels[row.review_id],row.review_text).length===0).length;
+ const ambiguous=sourceRows.filter(row=>labels[row.review_id].ambiguous===true).length;
+ $("progressLabel").textContent=`${done} / ${sourceRows.length} complete`;
+ $("ambiguousCount").textContent=`${ambiguous} ambiguous`;
+ $("progress").max=sourceRows.length;$("progress").value=done;
+ for(let index=0;index<sourceRows.length;index++){
+  const row=sourceRows[index],complete=issues(labels[row.review_id],row.review_text).length===0;
+  $("jump").options[index].textContent=`${index+1} ${complete?"✓":""}`;
+ }
+ const errors=issues(labels[sourceRows[current].review_id],sourceRows[current].review_text);
+ $("recordStatus").textContent=errors.length?`${errors.length} item(s) remaining: ${errors.join(" ")}`:"This review is complete.";
+ $("recordStatus").className="message"+(errors.length?"":" success");
+}
+function show(index){
+ current=index;const row=sourceRows[current],label=labels[row.review_id];
+ $("reviewId").textContent=row.review_id;$("sourceText").textContent=row.review_text;
+ for(const field of fields)$(field).value=field==="entities"?label[field].join("\n"):String(label[field]);
+ $("jump").value=String(index);$("previous").disabled=index===0;$("next").disabled=index===sourceRows.length-1;
+ $("topicHelp").textContent=topicDescriptions[label.topic]||"Choose the supported primary topic.";
+ $("severityHelp").textContent=severityDescriptions[label.severity]||"Rate the reported impact, not intensity of language.";
+ progress();save();
+}
+function populateSelect(id,values){
+ const initial=document.createElement("option");initial.value="";initial.textContent="Choose…";$(id).append(initial);
+ for(const value of values){const option=document.createElement("option");option.value=value;option.textContent=value;$(id).append(option);}
+}
+function addRubric(id,definitions){
+ for(const [term,definition] of Object.entries(definitions)){
+  const dt=document.createElement("dt"),dd=document.createElement("dd");dt.textContent=term;dd.textContent=definition;$(id).append(dt,dd);
+ }
+}
+function normalizedImport(rows){
+ if(!Array.isArray(rows))throw new Error("Expected an array of labels.");
+ const imported={},seen=new Set(),sources=new Map(sourceRows.map(row=>[row.review_id,row.review_text]));
+ for(const row of rows){
+  if(!row||typeof row!=="object"||!sources.has(row.review_id)||seen.has(row.review_id))throw new Error("File has an unknown, missing, or duplicate review ID.");
+  if("review_text" in row&&row.review_text!==sources.get(row.review_id))throw new Error("File changes an original review text.");
+  const label=blank();
+  for(const field of fields)if(field in row)label[field]=row[field];
+  if(!Array.isArray(label.entities)||label.entities.some(entity=>typeof entity!=="string"))throw new Error("Entities must be an array of text strings.");
+  for(const field of ["topic","intent","evidence_quote","notes"])if(typeof label[field]!=="string")throw new Error(`${field} must be text.`);
+  for(const field of ["severity","sentiment"])if(label[field]!==""&&typeof label[field]!=="number")throw new Error(`${field} must be a number or blank.`);
+  for(const field of ["needs_review","ambiguous"])if(label[field]!==""&&typeof label[field]!=="boolean")throw new Error(`${field} must be a boolean or blank.`);
+  imported[row.review_id]=label;seen.add(row.review_id);
+ }
+ if(seen.size!==sourceRows.length)throw new Error(`Expected all ${sourceRows.length} original review IDs.`);
+ return imported;
+}
+function exportRows(){return sourceRows.map(row=>({...row,...labels[row.review_id],human_labeler:humanLabeler}));}
+function download(format){
+ readForm();save();progress();const rows=exportRows(),complete=rows.every(row=>issues(row,row.review_text).length===0);
+ let content,type;
+ if(format==="json"){content=JSON.stringify(rows,null,2)+"\n";type="application/json";}
+ else{
+  const columns=["review_id","review_text",...fields,"human_labeler"],quote=value=>'"'+String(value).replaceAll('"','""')+'"';
+  content=[columns.map(quote).join(","),...rows.map(row=>columns.map(field=>quote(field==="entities"?JSON.stringify(row[field]):row[field])).join(","))].join("\r\n")+"\r\n";
+  type="text/csv;charset=utf-8";
+ }
+ const link=document.createElement("a"),url=URL.createObjectURL(new Blob([content],{type}));
+ link.href=url;link.download=`golden-human-labels${complete?"":"-DRAFT"}.${format}`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ message(complete?"Downloaded completed human labels. Keep them isolated until final evaluation.":"Downloaded a draft. Blank or invalid answers still need completion.");
+}
+populateSelect("topic",topics);populateSelect("intent",intents);populateSelect("severity",["1","2","3","4","5"]);
+addRubric("topicRubric",topicDescriptions);addRubric("severityRubric",severityDescriptions);
+sourceRows.forEach((row,index)=>{const option=document.createElement("option");option.value=String(index);option.textContent=String(index+1);$("jump").append(option);});
+try{
+ const saved=localStorage.getItem(storageKey);
+ if(saved){const state=JSON.parse(saved);labels=normalizedImport(sourceRows.map(row=>({...row,...state.labels[row.review_id]})));humanLabeler=typeof state.humanLabeler==="string"?state.humanLabeler:"";$("humanLabeler").value=humanLabeler;current=Number.isInteger(state.current)&&state.current>=0&&state.current<sourceRows.length?state.current:0;message("Restored your saved progress from this browser.");}
+}catch(error){message(`Could not restore browser progress: ${error.message}. Use a downloaded JSON backup if available.`,true);}
+$("labelForm").addEventListener("submit",event=>event.preventDefault());
+$("humanLabeler").addEventListener("input",()=>{humanLabeler=$("humanLabeler").value.trim();save();});
+$("labelForm").addEventListener("input",()=>{readForm();save();progress();$("topicHelp").textContent=topicDescriptions[$("topic").value]||"Choose the supported primary topic.";$("severityHelp").textContent=severityDescriptions[$("severity").value]||"Rate the reported impact, not intensity of language.";});
+$("previous").onclick=()=>{readForm();show(current-1);};$("next").onclick=()=>{readForm();show(current+1);};
+$("jump").onchange=()=>{readForm();show(Number($("jump").value));};
+$("nextIncomplete").onclick=()=>{
+ readForm();for(let offset=1;offset<=sourceRows.length;offset++){const index=(current+offset)%sourceRows.length,row=sourceRows[index];if(issues(labels[row.review_id],row.review_text).length){show(index);return;}}
+ message("Every review is complete. Download your labels.");
+};
+$("copySource").onclick=()=>{$("evidence_quote").value=sourceRows[current].review_text;readForm();save();progress();};
+$("downloadJson").onclick=()=>download("json");$("downloadCsv").onclick=()=>download("csv");
+$("checkAll").onclick=()=>{
+ readForm();save();progress();const incomplete=sourceRows.map((row,index)=>({index,errors:issues(labels[row.review_id],row.review_text)})).filter(row=>row.errors.length);
+ message(incomplete.length?`${incomplete.length} incomplete review(s). First unfinished: review ${incomplete[0].index+1}.\n${incomplete[0].errors.join("\n")}`:"All labels are complete and structurally valid. Download JSON or CSV for the final evaluation.",!!incomplete.length);
+};
+$("importFile").onchange=async event=>{
+ const file=event.target.files[0];if(!file)return;
+ try{const data=JSON.parse(await file.text()),rows=Array.isArray(data)?data:data.labels;const imported=normalizedImport(rows);labels=imported;const authors=new Set(rows.map(row=>row.human_labeler).filter(value=>typeof value==="string"&&value.trim()));if(authors.size===1){humanLabeler=[...authors][0];$("humanLabeler").value=humanLabeler;}show(current);message("Restored downloaded labels. Existing browser progress was replaced by this file.");}
+ catch(error){message(`Import rejected; your current labels were kept. ${error.message}`,true);}
+ event.target.value="";
+};
+show(current);
+</script>
+</body></html>
