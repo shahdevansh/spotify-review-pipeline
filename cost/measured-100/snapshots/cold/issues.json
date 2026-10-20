@@ -1,0 +1,78 @@
+[
+  {
+    "description": "Users report being unable to log in or access their accounts, often mentioning excessive advertisements.",
+    "issue_id": "issue-access",
+    "review_ids": [
+      "de0a9cdf-8974-48bc-802f-331228df4619",
+      "32fb340f-4f9f-4551-8dae-755221e58d6a"
+    ],
+    "title": "Login and account access problems"
+  },
+  {
+    "description": "Complaints focus on removal of song skipping and selection for non‑premium users, unwanted recommendations, and a perception that updates force premium purchases.",
+    "issue_id": "issue-billing",
+    "review_ids": [
+      "a3605554-5c3a-441d-836e-e9fdea83eb2e",
+      "d146397f-4a94-4980-be00-ae9212eca3a7",
+      "618d1dbb-0186-4537-923a-7b4dabf19afb",
+      "21915fcd-9a35-48ba-b277-6296c4154603",
+      "88439ec2-7c49-4c57-bedb-c5e098692aff"
+    ],
+    "title": "Feature restrictions tied to subscription"
+  },
+  {
+    "description": "Users note limited genre selection and missing or inconsistent lyrics for certain tracks.",
+    "issue_id": "issue-catalog",
+    "review_ids": [
+      "a1a28752-3256-4f81-b888-3e943343529f",
+      "e0127547-4edd-44a0-8d5e-e8398bc07086",
+      "47becad0-8ae5-4a10-9731-fde8f2091862"
+    ],
+    "title": "Content and lyrics availability issues"
+  },
+  {
+    "description": "Reports describe offline playback not working and songs getting stuck downloading in the background.",
+    "issue_id": "issue-downloads",
+    "review_ids": [
+      "dcff57c6-abd6-413b-b255-aec3dc34fcbd",
+      "2ffdf599-a0d5-4c01-bf26-025215d44c06"
+    ],
+    "title": "Offline and background download problems"
+  },
+  {
+    "description": "Various reviews express overall dissatisfaction, strong negative language, and intent to uninstall the app.",
+    "issue_id": "issue-other",
+    "review_ids": [
+      "8b6e028a-5f63-4011-9841-cbbade4830eb",
+      "06a45bd5-3ed9-43af-b7f2-8b9487e2ffff",
+      "178c3b49-b689-4fe4-92a2-2257a58e6d95",
+      "486d1d7a-d6f6-41ea-81ad-ed875452729c",
+      "51bfd887-24a0-4741-8b59-68e0a726dd7a"
+    ],
+    "title": "General negative sentiment and cancellations"
+  },
+  {
+    "description": "Users complain about inability to skip, queue, or control playback, as well as crashes and app hanging on loading screens.",
+    "issue_id": "issue-playback",
+    "review_ids": [
+      "89ea2c30-db8b-459d-8ab7-bbcb7f92c774",
+      "9e5f9745-f8be-48d3-b9de-4d118507d94a",
+      "a78d831a-69f4-428a-9235-cfdd9775c509",
+      "55cc3abf-c295-4591-8c3a-78085cfdefaa",
+      "66a29b3c-c14d-440e-b722-b23e0c99ae82"
+    ],
+    "title": "Playback control and stability issues"
+  },
+  {
+    "description": "Feedback highlights excessive restrictions, intrusive ads, and a disliked new home screen layout that hampers navigation.",
+    "issue_id": "issue-usability",
+    "review_ids": [
+      "ebc64fe2-9553-4528-87d5-cb4bb9783be6",
+      "89a8e180-7846-4421-a2b6-fa7787e9d0d2",
+      "85383985-844d-4f9b-bcd9-d6016ac35f6b",
+      "94c9f2f9-36fa-4c11-936e-660514fe7a35",
+      "5c9c17d3-9d6a-4fa1-a2a4-ae98eefbbd25"
+    ],
+    "title": "User interface and restriction concerns"
+  }
+]

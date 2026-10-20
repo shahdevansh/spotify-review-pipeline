@@ -1,0 +1,2749 @@
+{
+  "status": "inspection_complete_quality_gate_hold",
+  "run_path": "runs/pilot/1000",
+  "configuration": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+  "inspector": "AI-assisted development review",
+  "human_gold": false,
+  "human_accuracy": null,
+  "human_golden_status": "pending_user_labels",
+  "random_selection": {
+    "seed": "pilot-inspection-v1:",
+    "selection": "30 lowest SHA256(seed + review_id) among all 1000 original IDs, without replacement",
+    "records_sha256": "d7d107cf8b390d4c2f311aa2b2e4d0d29d9a2ba19cb40059e32e91670500be02",
+    "input_count": 1000,
+    "review_ids": [
+      "94dfde2f-2a0a-48e2-8c01-ff60753f1bce",
+      "e93e48c0-e01f-498c-85fb-f35671c4dcdd",
+      "90c663e4-4362-4929-b4a8-098db44c2cc6",
+      "3bfefa06-133c-419b-a435-1fea919d6a44",
+      "23685af6-de32-4187-91d8-9471fd69fc20",
+      "b0d0660d-b859-4d87-97e8-7420f05d1f94",
+      "51bfd887-24a0-4741-8b59-68e0a726dd7a",
+      "98cb26c9-eaf1-4284-bad2-0e20259dc107",
+      "d87536c5-6fe0-4b38-b0b1-c47936e4a0d8",
+      "55cc3abf-c295-4591-8c3a-78085cfdefaa",
+      "78adfe35-9414-4c3c-8521-4ea85902c349",
+      "7a824d6b-d4cf-4a3d-8fd5-eef2f40108a3",
+      "b0fb4c8e-e2be-432d-84bc-b4f30b0d2aa5",
+      "bd277589-d872-482b-9c6f-1b7dbc415c96",
+      "84b41322-1103-4d20-b246-847f4d34a490",
+      "204d2d4c-4660-436f-a6e7-1ea2fd3c445e",
+      "b1619f1d-35c7-42d4-95e6-84f487ca28a7",
+      "e81ef9d4-212d-47fc-b360-f9a1914f2bcf",
+      "3a6481bb-c892-4b3e-aaa4-6a7a8fdcebc2",
+      "ad1468c4-b4dd-456d-9685-5428fa81c207",
+      "394b1e3e-205a-48a7-a9ca-64170fa5f6a0",
+      "4ab2089a-ffa8-49e7-a8a3-aeb583a96796",
+      "988406bb-d06a-43a8-a37c-f8d9dd3f8a14",
+      "284a011f-14b8-4b00-b9a3-6fa2bd209213",
+      "d804411c-504e-49b3-9b2d-455f482ecb93",
+      "c4cf5200-bc7b-442c-9036-348057f623b5",
+      "864337a6-c23e-49f1-b47a-5010ba84239a",
+      "35dbe927-6402-4c9c-99c4-985f2f18aecb",
+      "b9a3e661-0eac-4cc9-a30e-7b1e11ef1315",
+      "4d5b9506-3ae8-41e0-b5fd-381eda6ca773"
+    ],
+    "human_gold": false,
+    "inspection_type": "AI-assisted development inspection"
+  },
+  "targeted_selection": {
+    "seed": "pilot-targeted-inspection-v1:",
+    "selection_method": "Exclude 30 random IDs. Select 10 highest absolute severity differences (tie SHA256(seed+ID)), then 10 intent differences (lowest hash), then 10 topic differences (lowest hash), without replacement. Purposeful cases; not representative.",
+    "verification_sha256": "0a4b30575399c28a967bf0ba8867a3994433178ea622231a460955f9337bf82f",
+    "ids": [
+      {
+        "review_id": "7856217f-e060-4f55-a992-afcf0f02e4fc",
+        "selection_reason": "severity_disagreement"
+      },
+      {
+        "review_id": "c1726764-f0ce-4abc-ad9e-6cd143e1b2c7",
+        "selection_reason": "severity_disagreement"
+      },
+      {
+        "review_id": "618d1dbb-0186-4537-923a-7b4dabf19afb",
+        "selection_reason": "severity_disagreement"
+      },
+      {
+        "review_id": "c3a26471-eedb-4ee6-876a-4e8e133d67b8",
+        "selection_reason": "severity_disagreement"
+      },
+      {
+        "review_id": "0658feaa-5bec-416e-b6b0-3de2a4c14580",
+        "selection_reason": "severity_disagreement"
+      },
+      {
+        "review_id": "d75d0860-2d1e-4634-97a8-ca6ca63d9d0e",
+        "selection_reason": "severity_disagreement"
+      },
+      {
+        "review_id": "f3a4c132-c779-4107-9514-49bec6a77687",
+        "selection_reason": "severity_disagreement"
+      },
+      {
+        "review_id": "bcdf315e-c82d-41f0-9fcd-ba5933dfe77e",
+        "selection_reason": "severity_disagreement"
+      },
+      {
+        "review_id": "62b53e0a-0397-4200-826f-122d18fdde32",
+        "selection_reason": "severity_disagreement"
+      },
+      {
+        "review_id": "cf6166ae-d71a-4839-9add-088645ad3b78",
+        "selection_reason": "severity_disagreement"
+      },
+      {
+        "review_id": "74135a47-3232-441f-a2c5-8050d3e820fa",
+        "selection_reason": "intent_disagreement"
+      },
+      {
+        "review_id": "ef8ed0f7-b6bb-4398-824c-d8fe1a8ee78c",
+        "selection_reason": "intent_disagreement"
+      },
+      {
+        "review_id": "c731fdfa-3607-4ffe-a0df-c9bd06c7e5c7",
+        "selection_reason": "intent_disagreement"
+      },
+      {
+        "review_id": "58297e3a-f0e3-41c3-ab0f-aa593946c169",
+        "selection_reason": "intent_disagreement"
+      },
+      {
+        "review_id": "04afd9e2-8f9c-4a02-8b46-e01b2d5e2c51",
+        "selection_reason": "intent_disagreement"
+      },
+      {
+        "review_id": "921fc86c-ee5e-42ab-a50d-100b851f8056",
+        "selection_reason": "intent_disagreement"
+      },
+      {
+        "review_id": "065c418e-7f18-42a3-b241-fe693b7a2b0c",
+        "selection_reason": "intent_disagreement"
+      },
+      {
+        "review_id": "e87bc648-9eac-428a-8f68-3ad17e1ed699",
+        "selection_reason": "intent_disagreement"
+      },
+      {
+        "review_id": "4b55243e-33aa-4d29-bc0b-7fd737ce034c",
+        "selection_reason": "intent_disagreement"
+      },
+      {
+        "review_id": "0ea3b30d-23a6-4c70-a191-ec0fa67cfd36",
+        "selection_reason": "intent_disagreement"
+      },
+      {
+        "review_id": "e5e362d7-1057-43bf-a3ca-8ffd93f80789",
+        "selection_reason": "topic_disagreement"
+      },
+      {
+        "review_id": "bc1c4825-00c5-458d-ac00-098ce729c76d",
+        "selection_reason": "topic_disagreement"
+      },
+      {
+        "review_id": "47ab8a7e-e9da-45ef-bcfd-036fff3896a3",
+        "selection_reason": "topic_disagreement"
+      },
+      {
+        "review_id": "6ecd5837-917a-45de-b811-278da3a26a7a",
+        "selection_reason": "topic_disagreement"
+      },
+      {
+        "review_id": "6524068a-cff5-45b9-bd37-b91a6cb71475",
+        "selection_reason": "topic_disagreement"
+      },
+      {
+        "review_id": "232c669e-8bfe-4642-b0c9-229c2911cc6c",
+        "selection_reason": "topic_disagreement"
+      },
+      {
+        "review_id": "ce08ed7e-edf6-4b20-b78a-b7c7f8c66f30",
+        "selection_reason": "topic_disagreement"
+      },
+      {
+        "review_id": "db73c4f7-2c81-4992-b9ea-95cf52c37233",
+        "selection_reason": "topic_disagreement"
+      },
+      {
+        "review_id": "a0cbc9d6-51bb-46f0-9ba9-ad4f4593c266",
+        "selection_reason": "topic_disagreement"
+      },
+      {
+        "review_id": "58e901c3-5ef3-45f9-80c1-111738c979e3",
+        "selection_reason": "topic_disagreement"
+      }
+    ],
+    "human_gold": false
+  },
+  "structural_checks": {
+    "source_identity_passed": 1000,
+    "total_records": 1000,
+    "failed_ids": [],
+    "checks": [
+      "all six original field strings unchanged",
+      "source_sha256 equals official row_sha",
+      "nonempty quote exact substring",
+      "entities occur literally case-insensitively"
+    ],
+    "semantic_support_not_established_by_structural_checks": true,
+    "quote_is_full_original_count": 1000
+  },
+  "samples": {
+    "random": {
+      "count": 30,
+      "assessments": {
+        "concern": 7,
+        "ambiguous": 8,
+        "supported": 15
+      },
+      "flagged_by_assessment": {
+        "concern": 1,
+        "ambiguous": 3
+      },
+      "inspection_recommends_review": 15,
+      "fallback_records": 4,
+      "interpretation": "AI-assisted qualitative judgments; not human gold or measured accuracy"
+    },
+    "targeted": {
+      "count": 30,
+      "assessments": {
+        "concern": 23,
+        "ambiguous": 3,
+        "supported": 4
+      },
+      "flagged_by_assessment": {
+        "concern": 3
+      },
+      "inspection_recommends_review": 26,
+      "fallback_records": 0,
+      "interpretation": "AI-assisted qualitative judgments; not human gold or measured accuracy"
+    }
+  },
+  "verifier_report": {
+    "classification_signals": {
+      "calibrated_accuracy_confidence": false,
+      "classifier_models": {
+        "nvidia/Nemotron-3_5-Lightning": 954,
+        "openai/gpt-oss-120b": 46
+      },
+      "classifier_providers": {
+        "nebius": 1000
+      },
+      "completed_records": 1000,
+      "interpretation": "needs_review is a prediction from model ambiguity flags and/or deterministic checks; it is not a calibrated probability of error. Missing provider confidence remains unknown.",
+      "needs_review_count": 60,
+      "numeric_signal_available": 0,
+      "numeric_signal_max": null,
+      "numeric_signal_min": null,
+      "numeric_signal_unavailable": 1000,
+      "sources": {
+        "not_available": 1000
+      }
+    },
+    "comparable_count": 1000,
+    "comparison_type": "independent_model_agreement",
+    "disagreement_count": 354,
+    "fallback_used_count": 46,
+    "field_agreement": {
+      "intent": 0.906,
+      "needs_review": 0.948,
+      "sentiment": 0.902,
+      "severity": 0.838,
+      "topic": 0.828
+    },
+    "ground_truth": false,
+    "initial_comparable_count": 1000,
+    "initial_disagreement_count": 365,
+    "initial_model_field_agreement": {
+      "intent": 0.898,
+      "needs_review": 0.931,
+      "sentiment": 0.897,
+      "severity": 0.827,
+      "topic": 0.825
+    },
+    "limitations": [
+      "Independent model agreement is not human accuracy.",
+      "Initial model agreement uses saved pre-fallback predictions; final agreement includes routed fallback answers.",
+      "A fallback sharing the verifier's model can have correlated errors; agreement gains are not proof of correctness.",
+      "Targeted difficult cases must be reported separately from the seeded random sample."
+    ],
+    "sentiment_mean_absolute_difference": 0.0843,
+    "severity_mean_absolute_difference": 0.201,
+    "status": "compared",
+    "verified_count": 1000
+  },
+  "disagreement_definitions": {
+    "topic_intent_or_severity": 310,
+    "categorical_or_sentiment_gap_over_0_25": 339,
+    "any_exact_topic_intent_severity_sentiment": 341,
+    "any_exact_field_including_needs_review": 354
+  },
+  "small_sentiment_only_ids": [
+    "2e2480c1-7799-4a66-be67-a947a2d99680",
+    "89be32ab-664a-4647-a5e3-e4006a67e4e1"
+  ],
+  "needs_review_only_ids": [
+    "0f2b7fd2-71a6-4657-998e-da44f5893956",
+    "8decb2ac-5860-49e3-8dce-9ca198ad061e",
+    "67b21b33-e6b9-4d1a-b874-86bc182b9ada",
+    "def34476-7bdc-443a-ab3d-475cdd5ca2f6",
+    "7b7b7855-cf14-4b59-bdc6-12916e833002",
+    "9e10d59a-0971-4af2-8125-8950bb0d5061",
+    "e23c12dd-e6f1-469c-a6e0-506f56b7b786",
+    "94fd7069-c8e1-4f09-9651-dd9f5cfefff4",
+    "c2cbd478-c969-4113-9c62-82b152dc96e5",
+    "20defdcb-9118-4b6c-b37e-397593d40e3f",
+    "9ce418bd-fc96-49cb-abee-1fe95ca50223",
+    "76995fbc-a333-4b22-8636-7202cc7bfd17",
+    "da627078-9daf-408c-aa08-2ef002ca6b13"
+  ],
+  "fallback_analysis": {
+    "record_count": 46,
+    "unique_text_count": 46,
+    "records_with_changed_business_labels": 27,
+    "field_comparison_to_blind_verifier": {
+      "topic": {
+        "before_agree_count": 41,
+        "after_agree_count": 44,
+        "changed_count": 5,
+        "denominator": 46
+      },
+      "intent": {
+        "before_agree_count": 31,
+        "after_agree_count": 39,
+        "changed_count": 21,
+        "denominator": 46
+      },
+      "severity": {
+        "before_agree_count": 32,
+        "after_agree_count": 43,
+        "changed_count": 14,
+        "denominator": 46
+      },
+      "sentiment": {
+        "before_agree_count": 34,
+        "after_agree_count": 39,
+        "changed_count": 16,
+        "denominator": 46
+      },
+      "needs_review": {
+        "before_agree_count": 21,
+        "after_agree_count": 38,
+        "changed_count": 33,
+        "denominator": 46
+      }
+    },
+    "interpretation": "Fallback and verifier both use gpt-oss-120b. Agreement gains can share model errors and do not measure accuracy."
+  },
+  "memo_checks": {
+    "saved_ranking_reproduced_from_final_labels": true,
+    "issue_count": 8,
+    "cited_claim_ids_valid": 14,
+    "cited_original_review_ids_valid": 14,
+    "severity_human_assignment_misstatement_in_final_memo": false,
+    "semantic_concerns": [
+      {
+        "review_ids": [
+          "2b855f9f-b1c2-42e2-bc67-f45bd98fbcb4",
+          "f11035b1-51b7-4bca-be50-7c17deb6ff53"
+        ],
+        "finding": "Top usability evidence describes app crashes/no sound/audio quality, which the rubric assigns to playback. The memo accurately repeats saved labels but inherits category contamination."
+      },
+      {
+        "review_ids": [
+          "16e229b6-24f0-4362-b922-a48e0e3aa9ad",
+          "47ab8a7e-e9da-45ef-bcfd-036fff3896a3"
+        ],
+        "finding": "Premium-linked music-selection restrictions are billing under the frozen rubric, and restricted controls do not establish total playback blockage."
+      },
+      {
+        "review_ids": [],
+        "finding": "The assertion that downloads have the smallest volume among actionable topics depends on an undefined exclusion: support has one complaint versus nine downloads. Replace the superlative or define actionable in a future memo."
+      }
+    ],
+    "interpretation": "Numeric traceability passes conditional on model labels. The substantive priority recommendation remains provisional pending classification repairs and human evaluation."
+  },
+  "gate": {
+    "decision": "hold_expansion_for_focused_repair_and_remeasurement",
+    "confidence": "high that material rubric violations remain; unknown human benchmark accuracy",
+    "rationale": "Random inspection found seven concerns, six unflagged. The existing ambiguity flag plus capped fallback does not catch observed errors. The verifier also makes mistakes.",
+    "next_actions": [
+      "Correct or clarify existing rubric boundaries in a separately versioned development configuration.",
+      "Test the saved failure cases and a fresh seeded development sample; preserve all earlier outputs.",
+      "If prompts/settings change, repeat the supplied cold/warm 100 checkpoint with a new cache namespace.",
+      "Measure candidate models/routing on source-only inputs; do not assume blind verifier labels are true.",
+      "Evaluate the isolated golden 50 only after the user supplies human labels; never use them for tuning.",
+      "Reassess the 10,000 checkpoint and 210,000 expansion only after quality, budget, throughput and deployment gates are supported."
+    ]
+  },
+  "limitations": [
+    "The random 30 and purposeful targeted 30 have different selection mechanisms and are not pooled into a population error rate.",
+    "Assessments were made by AI agents using original review text and the rubric; no independent human correctness labels were created.",
+    "Ambiguous is distinct from wrong; it records interpretations needing adjudication or missing context.",
+    "Quote containment and literal entities establish source integrity, not semantic support or entity recall.",
+    "No model confidence probability was supplied or calibrated. needs_review remains an uncalibrated model/deterministic flag.",
+    "No runtime labels, recommendations, model configurations or paid requests were modified by this inspection."
+  ],
+  "cases": [
+    {
+      "review_id": "94dfde2f-2a0a-48e2-8c01-ff60753f1bce",
+      "topic_supported": false,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "Exact original text and full evidence quote verified against learning_1000.csv. Praise specifically concerns access to audio books, songs, and languages, so catalog is better supported than other under the first-specific-praised-feature rule. Praise, severity 1, positive sentiment, and the explicit spotify entity are supported. Quote is authentic but the complete label bundle misses the specific praised feature. This is an AI-assisted development interpretation, not a human gold label.",
+      "confidence": "moderate",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "the app is really good get any audio book any songs any languages are recommended this app really good love you spotify, ❤️❤️😍",
+      "evidence_quote": "the app is really good get any audio book any songs any languages are recommended this app really good love you spotify, ❤️❤️😍",
+      "entities": [
+        "spotify"
+      ],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "e93e48c0-e01f-498c-85fb-f35671c4dcdd",
+      "topic_supported": null,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": null,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "ambiguous",
+      "notes": "Exact original text and full evidence quote verified. 'Eaay to use' clearly supports praise, severity 1, and positive sentiment. Ease of use suggests usability, although the very short text names no specific navigation, layout, or control feature; other versus usability is a reasonable rubric-boundary ambiguity. No entities are invented. Sentiment support concerns expressed polarity rather than an independently calibrated numerical target.",
+      "confidence": "moderate",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "Eaay to use",
+      "evidence_quote": "Eaay to use",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "usability",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "90c663e4-4362-4929-b4a8-098db44c2cc6",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "notes": "Exact original 'Good' and evidence quote verified. Generic praise supports other/praise/severity 1 and positive sentiment. Empty entities are appropriate. The sentiment value has the correct expressed direction; this inspection does not establish numerical calibration.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "Good",
+      "evidence_quote": "Good",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "3bfefa06-133c-419b-a435-1fea919d6a44",
+      "topic_supported": false,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "Exact original text and quote verified. Excessive ads are the first specific complaint; later criticism of premium-plan pricing also supports billing as a secondary issue. Both complaints support severity 2, with no stated functional loss or serious financial harm. Under the highest-severity then first-mention rule, usability should be primary. Complaint, negative sentiment, severity 2, and the explicit premium entity are supported. The quote is authentic but does not justify choosing the later billing issue as primary.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "WAY too many ads, I used a stopwatch and found that I got 10 minutes of music and 4 of ads, this is ridiculous. The only reasonable premium plans are for multiple people or students.",
+      "evidence_quote": "WAY too many ads, I used a stopwatch and found that I got 10 minutes of music and 4 of ads, this is ridiculous. The only reasonable premium plans are for multiple people or students.",
+      "entities": [
+        "premium"
+      ],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "billing",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -0.8,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "usability",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "23685af6-de32-4187-91d8-9471fd69fc20",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": false,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "Exact original text and quote verified. The reported removal of the repeat option is a concrete loss of a playback control, supporting restricted function at severity 3 rather than severity 2's no-supported-functional-loss category. Usability, complaint, negative sentiment, and the explicit Spotify entity are supported. No total inability to play music is reported, so severity 4 would also be unsupported. Quote authenticity passes, but the full label bundle understates the reported restriction.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "I am using Spotify for so long. But this time I am totally disappointed with this app as it removed the \"repeat\" option from it.",
+      "evidence_quote": "I am using Spotify for so long. But this time I am totally disappointed with this app as it removed the \"repeat\" option from it.",
+      "entities": [
+        "Spotify"
+      ],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "usability",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "usability",
+        "intent": "complaint",
+        "severity": 3,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "b0d0660d-b859-4d87-97e8-7420f05d1f94",
+      "topic_supported": true,
+      "intent_supported": false,
+      "severity_supported": true,
+      "sentiment_supported": null,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "Exact original text and quote verified. 'Time to uninstall' explicitly establishes departure intent, so cancellation is supported despite the unexplained reason. Other and severity 1 remain defensible because no specific problem or harm is stated, and departure alone does not raise severity. The existing needs_review flag correctly captures missing context. Sentiment 0 is uncertain because departure implies dissatisfaction but the reason and strength are not given. Quote is authentic, yet unclear intent contradicts explicit uninstalling.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "Time to uninstall.....reason : Indian people knows that.....",
+      "evidence_quote": "Time to uninstall.....reason : Indian people knows that.....",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "unclear",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": true
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "cancellation",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "51bfd887-24a0-4741-8b59-68e0a726dd7a",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "notes": "Exact original 'Disappointing' and quote verified. The final fallback output other/complaint/severity 2 follows the generic-criticism rule and corrects the initial severity-1 inconsistency. Negative sentiment and empty entities are supported. The precise sentiment magnitude is not independently calibrated.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "Disappointing",
+      "evidence_quote": "Disappointing",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": true,
+      "initial_prediction": {
+        "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+        "classifier_provider": "nebius",
+        "confidence_source": "not_available",
+        "entities": [],
+        "evidence_quote": "Disappointing",
+        "fallback_used": false,
+        "intent": "complaint",
+        "needs_review": true,
+        "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+        "review_reasons": [
+          "complaint_severity_inconsistency"
+        ],
+        "sentiment": -1,
+        "severity": 1,
+        "topic": "other",
+        "uncertainty_score": null
+      }
+    },
+    {
+      "review_id": "98cb26c9-eaf1-4284-bad2-0e20259dc107",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "notes": "Exact original text and quote verified. Consecutive ads support usability/complaint/severity 2 without a stated functional loss. Strong hostile language supports strongly negative sentiment, but does not independently raise severity. No personal departure is stated and no entities are invented.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "Eight ads in a row. There is a special place in hell for you.",
+      "evidence_quote": "Eight ads in a row. There is a special place in hell for you.",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "usability",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "usability",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "d87536c5-6fe0-4b38-b0b1-c47936e4a0d8",
+      "topic_supported": null,
+      "intent_supported": true,
+      "severity_supported": null,
+      "sentiment_supported": true,
+      "quote_supports_label": null,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "ambiguous",
+      "notes": "Exact original text and quote verified. The review alleges being hacked, unrecoverable playlists, and over three hundred dollars per week for nothing. These claims plausibly support serious data/privacy or financial harm, but their relationship is unclear: the cost may describe pricing rather than unauthorized loss, and the first serious issue is hacking or playlist loss rather than billing. Billing/severity 5 cannot be confidently accepted or rejected from this text alone. Complaint and negative sentiment are supported. The current needs_review=false misses substantial topic/impact ambiguity; do not infer a verified breach or charge.",
+      "confidence": "moderate",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "Top algorithm, but again hacked ,can't even recover the playlists set by me last week ,cost over three hundred dollars,per week for nothing ,",
+      "evidence_quote": "Top algorithm, but again hacked ,can't even recover the playlists set by me last week ,cost over three hundred dollars,per week for nothing ,",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "billing",
+        "intent": "complaint",
+        "severity": 5,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "usability",
+        "intent": "complaint",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "55cc3abf-c295-4591-8c3a-78085cfdefaa",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "notes": "Exact original text and quote verified. A crash that prevents opening the app clearly supports playback/complaint/severity 4. 'Please fix' does not override the reported failure, and no serious financial, privacy, or data harm is claimed. Negative sentiment and empty entities are supported. Star rating was not used.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "The latest update has caused my app to crash I cant open the app please fix.",
+      "evidence_quote": "The latest update has caused my app to crash I cant open the app please fix.",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "playback",
+        "intent": "complaint",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "playback",
+        "intent": "complaint",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "78adfe35-9414-4c3c-8521-4ea85902c349",
+      "topic_supported": null,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": null,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "ambiguous",
+      "notes": "Praises a specific ability to play one's own music, so general other may under-specify the positive-review rule. Playback is plausible, while own music could refer to selection/control or local files; the short text does not resolve that boundary. Praise and severity 1 are supported. The current needs_review=false misses this topic ambiguity; rating was not used.",
+      "confidence": "moderate",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "It lets you play your own music",
+      "evidence_quote": "It lets you play your own music",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "playback",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "7a824d6b-d4cf-4a3d-8fd5-eef2f40108a3",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "notes": "Bakwas is colloquial criticism meaning nonsense/rubbish; it supports a general complaint, negative sentiment, and severity 2, without evidence of a specific defect. Empty entities are appropriate. Rating was not used.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "Bakwas",
+      "evidence_quote": "Bakwas",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "b0fb4c8e-e2be-432d-84bc-b4f30b0d2aa5",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "notes": "Explicit general dislike with angry/thumbs-down emoji supports other, complaint, negative sentiment, and severity 2. Anger alone supplies no functional-loss or serious-harm evidence. Rating was not used.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "Hate this application 😡😡😡👎🏻",
+      "evidence_quote": "Hate this application 😡😡😡👎🏻",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "bd277589-d872-482b-9c6f-1b7dbc415c96",
+      "topic_supported": false,
+      "intent_supported": null,
+      "severity_supported": null,
+      "sentiment_supported": null,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "Uncaught topic error: hifi denotes audio fidelity/quality, which the rubric assigns to playback, not catalog. No hifi is too short to resolve a pure feature request versus a complaint about the missing capability; request/severity 1 and neutral sentiment are not securely established. Exact quote provenance passes, but the quote does not substantiate catalog. Current needs_review=false misses the ambiguity; rating was not used.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "No hifi",
+      "evidence_quote": "No hifi",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "catalog",
+        "intent": "request",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "playback",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "84b41322-1103-4d20-b246-847f4d34a490",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "notes": "Explicit general praise and affectionate emoji support other, praise, positive sentiment, and severity 1; no specific product feature or problem is named. Rating was not used.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "That so very good apps I love it uwu😍😘💗💑💏",
+      "evidence_quote": "That so very good apps I love it uwu😍😘💗💑💏",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "204d2d4c-4660-436f-a6e7-1ea2fd3c445e",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "notes": "Unqualified general praise supports other, praise, positive sentiment, and severity 1. No specific feature or defect is stated. Rating was not used.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "Fantastic. Love it. Excellent.",
+      "evidence_quote": "Fantastic. Love it. Excellent.",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "b1619f1d-35c7-42d4-95e6-84f487ca28a7",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "notes": "Brief but unambiguous general praise supports other, praise, positive sentiment, and severity 1. Shortness alone does not require a review flag when the meaning is clear. Rating was not used.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "So nice",
+      "evidence_quote": "So nice",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "e81ef9d4-212d-47fc-b360-f9a1914f2bcf",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "notes": "Stunning is a positive general appraisal without a specific praised feature; other, praise, positive sentiment, and severity 1 are supported. Rating was not used.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "Stunning",
+      "evidence_quote": "Stunning",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "3a6481bb-c892-4b3e-aaa4-6a7a8fdcebc2",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "notes": "General appreciation for the music service supports other and praise; music alone does not establish a catalog, playback, or other specific feature claim. Positive sentiment and severity 1 are supported. Rating was not used.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "i love it, thanks for music.",
+      "evidence_quote": "i love it, thanks for music.",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "ad1468c4-b4dd-456d-9685-5428fa81c207",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "notes": "Happy expresses a positive general reaction without a particular feature or problem, supporting other, praise, positive sentiment, and severity 1. Rating was not used.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "happy",
+      "evidence_quote": "happy",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "394b1e3e-205a-48a7-a9ca-64170fa5f6a0",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": null,
+      "sentiment_supported": null,
+      "quote_supports_label": null,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "ambiguous",
+      "notes": "Two-word “No download” identifies a possible downloads problem but does not establish whether the feature is missing, restricted, or blocked. Severity 2 and needs_review=false hide this impact ambiguity.",
+      "confidence": "moderate",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "No download",
+      "evidence_quote": "No download",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "downloads",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "unclear",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": true
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "4ab2089a-ffa8-49e7-a8a3-aeb583a96796",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "notes": "Wi-Fi connection fails but mobile data works. Playback/complaint/severity 3 respects the explicit workaround; premium mention does not hijack topic.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "Iam a premium user. But this app if i using wifi not able to connect Internet. But if using mobile data it will work. Some songs quality also very poor comparing to the YouTube music.",
+      "evidence_quote": "Iam a premium user. But this app if i using wifi not able to connect Internet. But if using mobile data it will work. Some songs quality also very poor comparing to the YouTube music.",
+      "entities": [
+        "premium"
+      ],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "playback",
+        "intent": "complaint",
+        "severity": 3,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "playback",
+        "intent": "complaint",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "988406bb-d06a-43a8-a37c-f8d9dd3f8a14",
+      "topic_supported": true,
+      "intent_supported": false,
+      "severity_supported": false,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "The text explicitly reports a limited catalog before asking for additions. Complaint precedence is better supported than request, and no-problem severity 1 is not justified; the exact 2-versus-3 impact remains ambiguous.",
+      "confidence": "moderate",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "Very nice old evergreen song collection, But limited song collection. Add more evergreen 50 to 90 century songs. Thankyou",
+      "evidence_quote": "Very nice old evergreen song collection, But limited song collection. Add more evergreen 50 to 90 century songs. Thankyou",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "catalog",
+        "intent": "request",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "catalog",
+        "intent": "request",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "284a011f-14b8-4b00-b9a3-6fa2bd209213",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "ambiguous",
+      "notes": "“Mobile over head app” is not reliably interpretable. Both initial and fallback answers preserve unclear/other/severity 1 and needs_review=true; do not invent overheating or resource harm.",
+      "confidence": "moderate",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "Mobile over head app",
+      "evidence_quote": "Mobile over head app",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "unclear",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": true
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "unclear",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": true
+      },
+      "fallback_used": true,
+      "initial_prediction": {
+        "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+        "classifier_provider": "nebius",
+        "confidence_source": "not_available",
+        "entities": [],
+        "evidence_quote": "Mobile over head app",
+        "fallback_used": false,
+        "intent": "unclear",
+        "needs_review": true,
+        "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+        "review_reasons": [
+          "model_requested_review"
+        ],
+        "sentiment": 0,
+        "severity": 1,
+        "topic": "other",
+        "uncertainty_score": null
+      }
+    },
+    {
+      "review_id": "d804411c-504e-49b3-9b2d-455f482ecb93",
+      "topic_supported": null,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": null,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "ambiguous",
+      "notes": "Positive comparison with premium is clear, but no price, charge, entitlement, or specific gated feature is identified. Billing as the primary topic is uncertain under the paid-plan-mention rule; praise and severity 1 are supported.",
+      "confidence": "moderate",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "Its alright without premium, but its AWESOME with premium",
+      "evidence_quote": "Its alright without premium, but its AWESOME with premium",
+      "entities": [
+        "premium"
+      ],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "billing",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "c4cf5200-bc7b-442c-9036-348057f623b5",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "notes": "Explicit inability to create an account supports access/complaint/severity 4 without using the star rating.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "I can't set up a new account it just doesn't work",
+      "evidence_quote": "I can't set up a new account it just doesn't work",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "access",
+        "intent": "complaint",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "access",
+        "intent": "complaint",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "864337a6-c23e-49f1-b47a-5010ba84239a",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": null,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "notes": "Frequent ads are an annoyance despite opening praise. Usability/complaint/severity 2 is supported. Sentiment -1 is an extreme endpoint for mixed praise/criticism and warrants calibration rather than a definitive correctness claim.",
+      "confidence": "moderate",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "Great experience though ads are too frequent",
+      "evidence_quote": "Great experience though ads are too frequent",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "usability",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "usability",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "35dbe927-6402-4c9c-99c4-985f2f18aecb",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "ambiguous",
+      "notes": "Mixed uninterpretable tokens support other/unclear/severity 1 and an uncertainty flag. The fallback retains the same classification and the unresolved flag; it does not establish a correction.",
+      "confidence": "moderate",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "सिगुफ़्व cltjh",
+      "evidence_quote": "सिगुफ़्व cltjh",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "unclear",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": true
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "unclear",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": true
+      },
+      "fallback_used": true,
+      "initial_prediction": {
+        "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+        "classifier_provider": "nebius",
+        "confidence_source": "not_available",
+        "entities": [],
+        "evidence_quote": "सिगुफ़्व cltjh",
+        "fallback_used": false,
+        "intent": "unclear",
+        "needs_review": true,
+        "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+        "review_reasons": [
+          "model_requested_review"
+        ],
+        "sentiment": 0,
+        "severity": 1,
+        "topic": "other",
+        "uncertainty_score": null
+      }
+    },
+    {
+      "review_id": "b9a3e661-0eac-4cc9-a30e-7b1e11ef1315",
+      "topic_supported": true,
+      "intent_supported": false,
+      "severity_supported": true,
+      "sentiment_supported": false,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "Choosing Spotify and no longer opening the previously favored alternative expresses positive preference. Unclear intent and neutral sentiment miss that meaning; needs_review=false fails to flag the weak interpretation.",
+      "confidence": "moderate",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "I ended up on Spotify because I wanted to listen to a specific podcast I really thought I was a Pandora lover, but I haven't turned my Pandora on since I loaded Spotify.",
+      "evidence_quote": "I ended up on Spotify because I wanted to listen to a specific podcast I really thought I was a Pandora lover, but I haven't turned my Pandora on since I loaded Spotify.",
+      "entities": [
+        "Spotify"
+      ],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "unclear",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "unclear",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "4d5b9506-3ae8-41e0-b5fd-381eda6ca773",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "ambiguous",
+      "notes": "A bare personal-name-like token supplies no product experience. Other/unclear/severity 1 and needs_review=true avoid invented praise or criticism; fallback unchanged.",
+      "confidence": "moderate",
+      "inspector": "AI-assisted development review",
+      "sample": "random",
+      "selection_reason": "seeded_random",
+      "review_text": "Deendyal",
+      "evidence_quote": "Deendyal",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "unclear",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": true
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "unclear",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": true
+      },
+      "fallback_used": true,
+      "initial_prediction": {
+        "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+        "classifier_provider": "nebius",
+        "confidence_source": "not_available",
+        "entities": [],
+        "evidence_quote": "Deendyal",
+        "fallback_used": false,
+        "intent": "unclear",
+        "needs_review": true,
+        "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+        "review_reasons": [
+          "model_requested_review"
+        ],
+        "sentiment": 0,
+        "severity": 1,
+        "topic": "other",
+        "uncertainty_score": null
+      }
+    },
+    {
+      "review_id": "7856217f-e060-4f55-a992-afcf0f02e4fc",
+      "topic_supported": null,
+      "intent_supported": false,
+      "severity_supported": false,
+      "sentiment_supported": null,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "The review reports that some songs fail to play and asks how to fix the issue. A question asking for a remedy does not erase the reported failure: complaint is supported, not pure request/severity 1. The error wording leaves catalog availability versus playback failure ambiguous. Because only some songs are affected, restricted function at severity 3 is better supported than a wholly blocked core task. Neutral versus negative sentiment is uncertain, although frustration is evident. Exact-quote and entity integrity are accepted from the supplied integrity check.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "verifier_comparison": "The verifier correctly recognizes complaint and plausibly playback, but its severity 4 overstates a problem limited to some songs. Neither final severity 1 nor verifier severity 4 is best supported; severity 3 is the stronger development interpretation.",
+      "sample": "targeted",
+      "selection_reason": "severity_disagreement",
+      "review_text": "idk why some songs are not playing...? all time its showing that this song not available in device or. spotify not playing this. then when will play that songs?? how to fix ths issue??",
+      "evidence_quote": "idk why some songs are not playing...? all time its showing that this song not available in device or. spotify not playing this. then when will play that songs?? how to fix ths issue??",
+      "entities": [
+        "spotify"
+      ],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "catalog",
+        "intent": "request",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "playback",
+        "intent": "complaint",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "c1726764-f0ce-4abc-ad9e-6cd143e1b2c7",
+      "topic_supported": null,
+      "intent_supported": false,
+      "severity_supported": false,
+      "sentiment_supported": null,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "Inability to open Spotify Wrapped is an explicit reported feature failure, so unclear/severity 1 is unsupported. The text does not say the account or whole app cannot be accessed. Severity 3 for a restricted feature is more defensible than severity 4 for a blocked core task. The taxonomy does not directly name Wrapped, leaving other versus usability/catalog uncertain; account-access classification is not established. Sentiment is likely mildly negative, but the neutral numerical value is not conclusively rejectable from this terse statement.",
+      "confidence": "moderate",
+      "inspector": "AI-assisted development review",
+      "verifier_comparison": "The verifier improves intent to complaint, but appears to misread opening a specific Wrapped feature as account access and assigns unsupported severity 4. Neither severity endpoint is well supported; severity 3 is preferable with a topic ambiguity flag.",
+      "sample": "targeted",
+      "selection_reason": "severity_disagreement",
+      "review_text": "I can't open my spotify wrap 2022...",
+      "evidence_quote": "I can't open my spotify wrap 2022...",
+      "entities": [
+        "spotify"
+      ],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "unclear",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "access",
+        "intent": "complaint",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "618d1dbb-0186-4537-923a-7b4dabf19afb",
+      "topic_supported": false,
+      "intent_supported": false,
+      "severity_supported": false,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "A Premium-plan mention alone does not establish billing. The specific issue is unwanted recommendations inserted into a playlist, supporting catalog or usability depending on whether recommendation content or playlist control is primary. 'I'll start using Amazon music or apple if you don't' is an explicit conditional departure threat, supporting cancellation. Unwanted recommendations support annoyance or restricted playlist control at severity 2-3, not complete inability to listen at severity 4. Strong negative sentiment and the premium entity are supported.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "verifier_comparison": "The verifier's catalog topic is more grounded than final billing, but request/severity 1 ignores a reported negative experience and explicit departure threat. Final severity 4 and verifier severity 1 are both unsupported; 2-3 remains a reasonable impact ambiguity.",
+      "sample": "targeted",
+      "selection_reason": "severity_disagreement",
+      "review_text": "Please stop with the recommendations! I use the premium family sub and I want to listen to my playlist without your recommendation adds. I am not interested in new music based on my preferences. If I wanted these songs I'd use a random playlist not not make my own! I'll start using Amazon music or apple if you don't.",
+      "evidence_quote": "Please stop with the recommendations! I use the premium family sub and I want to listen to my playlist without your recommendation adds. I am not interested in new music based on my preferences. If I wanted these songs I'd use a random playlist not not make my own! I'll start using Amazon music or apple if you don't.",
+      "entities": [
+        "premium"
+      ],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "billing",
+        "intent": "complaint",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "catalog",
+        "intent": "request",
+        "severity": 1,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "c3a26471-eedb-4ee6-876a-4e8e133d67b8",
+      "topic_supported": true,
+      "intent_supported": false,
+      "severity_supported": false,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "The rhetorical 'Does this app ever work?' clearly expresses generic criticism, supporting other/complaint/severity 2. It names no specific failure, so playback or a completely blocked task should not be invented. The final needs_review flag usefully acknowledges missing detail, but does not make unclear/severity 1 appropriate. Negative sentiment is supported.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "verifier_comparison": "The verifier correctly identifies complaint but invents a specific playback failure and severity 4 from generic dissatisfaction. Neither final severity 1 nor verifier severity 4 follows the generic-criticism rule; severity 2 is better supported.",
+      "sample": "targeted",
+      "selection_reason": "severity_disagreement",
+      "review_text": "Does this app ever work? updated 11/2023.. like seriously does it ever?",
+      "evidence_quote": "Does this app ever work? updated 11/2023.. like seriously does it ever?",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "unclear",
+        "severity": 1,
+        "sentiment": -1,
+        "needs_review": true
+      },
+      "verifier_prediction": {
+        "topic": "playback",
+        "intent": "complaint",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "0658feaa-5bec-416e-b6b0-3de2a4c14580",
+      "topic_supported": true,
+      "intent_supported": false,
+      "severity_supported": false,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "The review praises the app but reports that many songs are absent. This is a concrete catalog shortfall, not a pure feature request. Complaint takes precedence over the initial praise. Severity 3 for restricted content availability is more supported than no-problem severity 1; severity 2 is a possible boundary interpretation if treating this as dissatisfaction with catalog breadth. Mixed sentiment 0 and empty entities are supported.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "verifier_comparison": "The verifier's catalog/complaint/severity 3 is substantially better supported than final request/severity 1. The complaint-versus-request correction is clear; the exact 2-versus-3 impact boundary has less certainty.",
+      "sample": "targeted",
+      "selection_reason": "severity_disagreement",
+      "review_text": "Nice app! But many songs are not present here!",
+      "evidence_quote": "Nice app! But many songs are not present here!",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "catalog",
+        "intent": "request",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "catalog",
+        "intent": "complaint",
+        "severity": 3,
+        "sentiment": 0,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "d75d0860-2d1e-4634-97a8-ca6ca63d9d0e",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": false,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "Premium-gated features support billing, and already using other apps supports cancellation. The review reports restrictions but does not specify inability to play any music or another clearly blocked core task, so severity 4 is not established. Severity 3 better reflects restricted functionality. Broad wording that 'everything' needs Premium merits a review flag rather than assuming total blockage. Negative sentiment and premium entity are supported.",
+      "confidence": "moderate",
+      "inspector": "AI-assisted development review",
+      "verifier_comparison": "The verifier correctly preserves billing/cancellation but severity 2 discounts the explicit restriction of features. Neither final 4 nor verifier 2 is the best-supported interpretation; severity 3 is preferable, with incomplete detail about which features are gated.",
+      "sample": "targeted",
+      "selection_reason": "severity_disagreement",
+      "review_text": "This app WAS the best app for listening songs. New updates are making me abandon this app and use other apps. Everything needs premium, even the basic features need premium. This is actually a pretty bad move by you guys. I'm already using other apps now. If you are not bringing the old version back, you guys will be out of the market very soon. You should definitely remove these new updates.",
+      "evidence_quote": "This app WAS the best app for listening songs. New updates are making me abandon this app and use other apps. Everything needs premium, even the basic features need premium. This is actually a pretty bad move by you guys. I'm already using other apps now. If you are not bringing the old version back, you guys will be out of the market very soon. You should definitely remove these new updates.",
+      "entities": [
+        "premium"
+      ],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "billing",
+        "intent": "cancellation",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "billing",
+        "intent": "cancellation",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "f3a4c132-c779-4107-9514-49bec6a77687",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": false,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "The inability to seek to a chosen song position for free explicitly describes a paywalled control, supporting billing/complaint. A lost control is restricted function at severity 3, not merely severity 2 annoyance. The text does not establish that all playback is blocked, so severity 4 is also excessive. Negative sentiment and empty entities are supported.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "verifier_comparison": "Both models get billing and complaint. Final severity 2 understates restricted seeking, while verifier severity 4 overstates it as a blocked core task. Severity 3 directly matches the rubric's restricted-controls boundary.",
+      "sample": "targeted",
+      "selection_reason": "severity_disagreement",
+      "review_text": "Cannot even switch to favourite part of song for free.",
+      "evidence_quote": "Cannot even switch to favourite part of song for free.",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "billing",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "billing",
+        "intent": "complaint",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "bcdf315e-c82d-41f0-9fcd-ba5933dfe77e",
+      "topic_supported": false,
+      "intent_supported": true,
+      "severity_supported": false,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "Repeated no-internet errors fall under playback's connection-failure definition; nothing identifies login, signup, password, or account access. The reported connection failure supports functional degradation beyond severity 2. Whether the error actually prevents all streaming or appears intermittently is unspecified, leaving severity 3 versus 4 unresolved. Other apps working does not itself establish a workaround inside Spotify. Complaint and negative sentiment are supported.",
+      "confidence": "moderate",
+      "inspector": "AI-assisted development review",
+      "verifier_comparison": "The verifier's playback topic is better supported. Its severity 4 is plausible if Spotify cannot stream at all but that impact is not explicit; final severity 2 is too low for the reported functional failure. Use a 3-versus-4 ambiguity rather than treating the verifier as truth.",
+      "sample": "targeted",
+      "selection_reason": "severity_disagreement",
+      "review_text": "Keeps saying that there's no internet connection when my internet works fine for all other apps?",
+      "evidence_quote": "Keeps saying that there's no internet connection when my internet works fine for all other apps?",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "access",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -0.5,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "playback",
+        "intent": "complaint",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "62b53e0a-0397-4200-826f-122d18fdde32",
+      "topic_supported": false,
+      "intent_supported": true,
+      "severity_supported": false,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "Uninstalling and preferring the old update clearly support cancellation and dissatisfaction. No account-access failure or concrete blocked task is described. Other/severity 2 is supported by generic criticism; departure alone does not justify severity 4. The Spotify entity and negative sentiment are explicit or well supported.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "verifier_comparison": "Verifier other/cancellation/severity 2 is better supported than final access/cancellation/severity 4. This is a clear instance of unsupported topic and impact in the final label, not merely a debatable severity boundary.",
+      "sample": "targeted",
+      "selection_reason": "severity_disagreement",
+      "review_text": "I haven't experted about this from Spotify...🙄 I'm uninstalling successful....meet me when have got the old Spotify update !!!",
+      "evidence_quote": "I haven't experted about this from Spotify...🙄 I'm uninstalling successful....meet me when have got the old Spotify update !!!",
+      "entities": [
+        "Spotify"
+      ],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "access",
+        "intent": "cancellation",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "cancellation",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "cf6166ae-d71a-4839-9add-088645ad3b78",
+      "topic_supported": true,
+      "intent_supported": false,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "The explicit complaint concerns excessive ads, supporting usability and severity 2. 'Always plays ads instead of songs' may be rhetorical; it does not safely establish a complete inability to play music. A literal reading could support a higher impact, so flag that uncertainty. Advice to others not to download is not a personal departure, making cancellation unsupported and complaint preferable. Negative sentiment and empty entities are supported.",
+      "confidence": "moderate",
+      "inspector": "AI-assisted development review",
+      "verifier_comparison": "Final usability/severity 2 is better grounded than verifier playback/severity 4, although the literal-versus-rhetorical impact is uncertain. The verifier's complaint intent is better than final cancellation. Neither complete label bundle should be accepted uncritically.",
+      "sample": "targeted",
+      "selection_reason": "severity_disagreement",
+      "review_text": "DON'T DOWNLOAD THIS:Such a worst app ... that always plays adds instead of songs ...if want to enjoy music free without adds don't download this app ..",
+      "evidence_quote": "DON'T DOWNLOAD THIS:Such a worst app ... that always plays adds instead of songs ...if want to enjoy music free without adds don't download this app ..",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "usability",
+        "intent": "cancellation",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "playback",
+        "intent": "complaint",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "74135a47-3232-441f-a2c5-8050d3e820fa",
+      "topic_supported": false,
+      "intent_supported": false,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "confidence": "high",
+      "notes": "Uncaught semantic errors: worst update is general criticism, without a navigation/control/layout defect supporting usability. Advising other users to delete the app does not explicitly state the reviewer is departing. Other/complaint/severity 2 is better supported. Current needs_review=false misses both boundaries. Stars were not used.",
+      "verifier_comparison": "Verifier other/complaint/severity 2 is better supported than final usability/cancellation. The conclusion follows from the text and explicit-personal-departure boundary, not verifier status.",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "intent_disagreement",
+      "review_text": "Worst update ever .Better to not install for new users and good choice to delete the app for users who have already installed 👍",
+      "evidence_quote": "Worst update ever .Better to not install for new users and good choice to delete the app for users who have already installed 👍",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "usability",
+        "intent": "cancellation",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "ef8ed0f7-b6bb-4398-824c-d8fe1a8ee78c",
+      "topic_supported": true,
+      "intent_supported": false,
+      "severity_supported": false,
+      "sentiment_supported": false,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "confidence": "high",
+      "notes": "Uncaught polarity/comparison error: way better than Amazon music praises this service relative to a competitor. It reports no problem, so praise, positive sentiment, and severity 1 are supported. Final complaint, sentiment -1, and severity 2 are contradicted by the text. Current needs_review=false misses the reversal. Empty entities contain no unsupported extraction; entity recall is not scored here. Stars were not used.",
+      "verifier_comparison": "Verifier praise/+1/severity 1 is better supported. Both models correctly use other because no particular Spotify feature is identified.",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "intent_disagreement",
+      "review_text": "Way better than Amazon music",
+      "evidence_quote": "Way better than Amazon music",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "c731fdfa-3607-4ffe-a0df-c9bd06c7e5c7",
+      "topic_supported": true,
+      "intent_supported": false,
+      "severity_supported": false,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "confidence": "high",
+      "notes": "Having challenge linking a payment card reports a functional difficulty. The question for help does not override complaint precedence. Severity 3 is better supported than 2 because a payment-related function is restricted; neither complete core-task blockage nor financial harm is established. Existing needs_review=true correctly exposes an inconsistency but does not repair it. Empty entities contain no invented terms; entity recall is not scored here. Stars were not used.",
+      "verifier_comparison": "Verifier billing/complaint/severity 3 is better supported than final billing/request/severity 2. Negative sentiment direction is supported for both.",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "intent_disagreement",
+      "review_text": "I'm having challenge linking my opay verve card for the purpose of payment, pls why is this?",
+      "evidence_quote": "I'm having challenge linking my opay verve card for the purpose of payment, pls why is this?",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "billing",
+        "intent": "request",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": true
+      },
+      "verifier_prediction": {
+        "topic": "billing",
+        "intent": "complaint",
+        "severity": 3,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "58297e3a-f0e3-41c3-ab0f-aa593946c169",
+      "topic_supported": true,
+      "intent_supported": null,
+      "severity_supported": true,
+      "sentiment_supported": null,
+      "quote_supports_label": null,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "ambiguous",
+      "confidence": "moderate",
+      "notes": "Reasonable can communicate mild approval or a neutral satisfactory assessment. Other and severity 1 are secure; praise versus unclear is a boundary case, and maximal positive sentiment is stronger than the wording establishes. Both outputs omit a review flag despite missing context. Stars were not used.",
+      "verifier_comparison": "Final praise is linguistically plausible and verifier unclear/neutral is also defensible. Neither is established as uniquely correct; treat this disagreement as ambiguous rather than a model win.",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "intent_disagreement",
+      "review_text": "Reasonable",
+      "evidence_quote": "Reasonable",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "unclear",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "04afd9e2-8f9c-4a02-8b46-e01b2d5e2c51",
+      "topic_supported": false,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "confidence": "high",
+      "notes": "Reports ad interruptions before the promised ad-free interval ends, mixed with overall praise. Complaint precedence applies despite I cannot complain and the positive conclusion. Ads map to usability; being cheap does not establish a price, charge, entitlement, or paywall problem supporting billing. Severity 2 and mixed/neutral sentiment are defensible. Final needs_review=false misses the topic error. Stars were not used.",
+      "verifier_comparison": "Final complaint/severity 2 is better supported than verifier praise/severity 1, but both topics are deficient: usability is supported rather than final billing or verifier other. This is not an overall verifier win.",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "intent_disagreement",
+      "review_text": "Though they defo don't give you 30 minutes clean for watching an ad I can't complain bc I'm cheap, so pretty good overall 👍",
+      "evidence_quote": "Though they defo don't give you 30 minutes clean for watching an ad I can't complain bc I'm cheap, so pretty good overall 👍",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "billing",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": 0,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "921fc86c-ee5e-42ab-a50d-100b851f8056",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "confidence": "moderate",
+      "notes": "A heart emoji conventionally expresses affection/approval. In the product-review context it supports general praise and positive sentiment without inventing a specific feature or problem. Other and severity 1 are supported. The review need not be treated as meaningless solely because it contains no words. Stars were not used.",
+      "verifier_comparison": "Final praise/positive is better supported than verifier unclear/neutral, although the verifier review flag conservatively acknowledges sparse text. This is a qualitative language judgment, not human ground truth.",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "intent_disagreement",
+      "review_text": "❤️",
+      "evidence_quote": "❤️",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "unclear",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": true
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "065c418e-7f18-42a3-b241-fe693b7a2b0c",
+      "topic_supported": true,
+      "intent_supported": null,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": null,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "ambiguous",
+      "confidence": "moderate",
+      "notes": "Black screen and repeated failed reopen attempts support playback, negative sentiment, and blocked-core-task severity 4; a successful workaround is not stated. Uninstall/reinstall describes troubleshooting, not clearly abandoning the service. However, the written rubric explicitly includes uninstalling under cancellation without a troubleshooting exception, so cancellation cannot be marked definitively wrong from that text alone. Current needs_review=false misses this rubric boundary. Stars were not used.",
+      "verifier_comparison": "Verifier complaint better captures troubleshooting intent; final cancellation is defensible under the literal explicit-uninstalling rule. This needs rubric adjudication rather than declaring either prediction uniquely correct.",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "intent_disagreement",
+      "review_text": "Black screen of death. Having to Uninstaller and reinstall after closing and opening app 5x to see if it would work.",
+      "evidence_quote": "Black screen of death. Having to Uninstaller and reinstall after closing and opening app 5x to see if it would work.",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "playback",
+        "intent": "cancellation",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "playback",
+        "intent": "complaint",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "e87bc648-9eac-428a-8f68-3ad17e1ed699",
+      "topic_supported": true,
+      "intent_supported": false,
+      "severity_supported": true,
+      "sentiment_supported": false,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "confidence": "high",
+      "notes": "I am satisfied clearly communicates approval. Final unclear intent and sentiment -1 are unsupported; other/praise/positive/severity 1 is supported. Existing needs_review=true catches uncertainty but the saved labels still contain an error. Stars were not used.",
+      "verifier_comparison": "Verifier praise/+1 is better supported than final unclear/-1. Both correctly retain other and severity 1.",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "intent_disagreement",
+      "review_text": "I am satisfied",
+      "evidence_quote": "I am satisfied",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "unclear",
+        "severity": 1,
+        "sentiment": -1,
+        "needs_review": true
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "4b55243e-33aa-4d29-bc0b-7fd737ce034c",
+      "topic_supported": true,
+      "intent_supported": false,
+      "severity_supported": false,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "confidence": "high",
+      "notes": "Inability to use the app for free states a free-tier/paywall restriction, supporting billing and complaint. It does not explicitly say the reviewer is leaving, so cancellation is invented. Severity 3 is better supported than 4: the restriction is conditional on free use and no particular core task is demonstrated blocked across access modes. Current needs_review=false misses both issues. Stars were not used.",
+      "verifier_comparison": "Verifier billing/complaint/severity 3 is better supported than final billing/cancellation/severity 4. Both negative sentiment judgments are text-supported.",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "intent_disagreement",
+      "review_text": "Now we can't use this app for free.",
+      "evidence_quote": "Now we can't use this app for free.",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "billing",
+        "intent": "cancellation",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "billing",
+        "intent": "complaint",
+        "severity": 3,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "0ea3b30d-23a6-4c70-a191-ec0fa67cfd36",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "confidence": "high",
+      "notes": "Boring is clear general criticism even though the trailing che is informal or unclear. No specific feature or functional loss is established, so other/complaint/negative/severity 2 is supported. Unclear trailing text does not erase the intelligible criticism. Stars were not used.",
+      "verifier_comparison": "Final complaint/-1/severity 2 is better supported than verifier unclear/0/severity 1. Both correctly use other.",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "intent_disagreement",
+      "review_text": "Now its just boring che",
+      "evidence_quote": "Now its just boring che",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "unclear",
+        "severity": 1,
+        "sentiment": 0,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "e5e362d7-1057-43bf-a3ca-8ffd93f80789",
+      "topic_supported": false,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "A font complaint concerns presentation/layout, not lyrics availability. Usability is directly supported; catalog is not. Complaint, cosmetic severity 2, and negative sentiment are supported.",
+      "verifier_comparison": "Verifier topic usability is better supported. Its sentiment -1 is not demonstrably more correct than final -0.5.",
+      "initial_to_final_assessment": "No fallback initial prediction is present; final is the first-pass output.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "topic_disagreement",
+      "review_text": "The new Lyrics font is so bad.",
+      "evidence_quote": "The new Lyrics font is so bad.",
+      "entities": [
+        "Lyrics"
+      ],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "catalog",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -0.5,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "usability",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "bc1c4825-00c5-458d-ac00-098ce729c76d",
+      "topic_supported": null,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": null,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "ambiguous",
+      "notes": "The review recommends Premium as worth it but names no gated feature. This could express price/value praise (billing) or a generic paid-plan endorsement (other); the paid-plan-mention boundary is not resolved by the text. Both models omit the ambiguity flag.",
+      "verifier_comparison": "Verifier other and final billing are competing defensible interpretations; neither is established as truth.",
+      "initial_to_final_assessment": "No fallback initial prediction is present; final is the first-pass output.",
+      "confidence": "moderate",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "topic_disagreement",
+      "review_text": "Best app ever... GET PRENIUM ITS WORTH TRUST!!! uuhhh yeah thats abt it!!! love spotify... m eyah",
+      "evidence_quote": "Best app ever... GET PRENIUM ITS WORTH TRUST!!! uuhhh yeah thats abt it!!! love spotify... m eyah",
+      "entities": [
+        "spotify"
+      ],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "billing",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "47ab8a7e-e9da-45ef-bcfd-036fff3896a3",
+      "topic_supported": false,
+      "intent_supported": false,
+      "severity_supported": false,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "The text explicitly connects on-demand selection restrictions to Premium, so billing is supported under the explicit-premium-controls rule. Forced shuffle still plays music, supporting restricted function (3), not total playback block (4). The closing statement that the writer now has to use YouTube Music is explicit personal departure, supporting cancellation.",
+      "verifier_comparison": "Verifier improves topic to billing but shares the unsupported severity 4 and missed personal departure. Model agreement on intent/severity does not validate those labels.",
+      "initial_to_final_assessment": "No fallback initial prediction is present; final is the first-pass output.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "topic_disagreement",
+      "review_text": "Spotify was good app until I ran into a problem I couldn't play the songs I wanted to listen to I was forced to use shuffle and I couldn't listen to the music I wanted unless I had premium. Spatify was good but it wouldn't let me listen to the music I wanted so now I have to use YouTube music",
+      "evidence_quote": "Spotify was good app until I ran into a problem I couldn't play the songs I wanted to listen to I was forced to use shuffle and I couldn't listen to the music I wanted unless I had premium. Spatify was good but it wouldn't let me listen to the music I wanted so now I have to use YouTube music",
+      "entities": [
+        "Spotify",
+        "premium"
+      ],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "playback",
+        "intent": "complaint",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "billing",
+        "intent": "complaint",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "6ecd5837-917a-45de-b811-278da3a26a7a",
+      "topic_supported": false,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "The review gives only generic criticism of an update, without navigation, controls, layout or another supported specific defect. Other/complaint/2 follows the rubric; usability is inferred.",
+      "verifier_comparison": "Verifier other is better supported. Both correctly avoid inferring functional loss.",
+      "initial_to_final_assessment": "No fallback initial prediction is present; final is the first-pass output.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "topic_disagreement",
+      "review_text": "This new update sucks.",
+      "evidence_quote": "This new update sucks.",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "usability",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "complaint",
+        "severity": 2,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "6524068a-cff5-45b9-bd37-b91a6cb71475",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "notes": "Positive evaluation explicitly names music selection, a specific catalog feature; catalog/praise/1 is supported. No ambiguity flag is needed for the topic on this text.",
+      "verifier_comparison": "Final catalog is better supported than verifier other because the rubric assigns the first specific praised feature.",
+      "initial_to_final_assessment": "No fallback initial prediction is present; final is the first-pass output.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "topic_disagreement",
+      "review_text": "Good music and selection is good too.",
+      "evidence_quote": "Good music and selection is good too.",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "catalog",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "232c669e-8bfe-4642-b0c9-229c2911cc6c",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": false,
+      "quote_supports_label": null,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "The reported shuffle/library-selection problem allows some playback and matches the rubric controls/queue boundary, so usability and severity 3 are defensible. However the writer says the issue was fixed and the app is great again; final negative-only sentiment -0.5 and verifier -1 underrepresent the resolved positive ending. Current-versus-historical problem interpretation merits review.",
+      "verifier_comparison": "Final topic usability is defensible under the explicit shuffle-controls example; verifier playback is not an automatic correction. Both sentiment values miss the resolved positive ending.",
+      "initial_to_final_assessment": "No fallback initial prediction is present; final is the first-pass output.",
+      "confidence": "moderate",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "topic_disagreement",
+      "review_text": "Sometimes the shuffle doesn't work. The app will play a total of 3 songs from my library, figured out how to fix this issue. Back to being a great app.",
+      "evidence_quote": "Sometimes the shuffle doesn't work. The app will play a total of 3 songs from my library, figured out how to fix this issue. Back to being a great app.",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "usability",
+        "intent": "complaint",
+        "severity": 3,
+        "sentiment": -0.5,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "playback",
+        "intent": "complaint",
+        "severity": 3,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "ce08ed7e-edf6-4b20-b78a-b7c7f8c66f30",
+      "topic_supported": true,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": true,
+      "entities_supported": true,
+      "inspection_needs_review": false,
+      "assessment": "supported",
+      "notes": "Connectivity is the first specific praised feature, and audio quality also falls under playback. Praise, severity 1 and positive sentiment are supported. Entity extraction is conservative: empty list is allowed even though system/competitor names appear.",
+      "verifier_comparison": "Final playback is better supported than verifier other under the first-specific-praised-feature rule.",
+      "initial_to_final_assessment": "No fallback initial prediction is present; final is the first-pass output.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "topic_disagreement",
+      "review_text": "Connectivity is excellent intuitive good audio quality at a good price works well with my KEF system when Tidal let me down!",
+      "evidence_quote": "Connectivity is excellent intuitive good audio quality at a good price works well with my KEF system when Tidal let me down!",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "playback",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "db73c4f7-2c81-4992-b9ea-95cf52c37233",
+      "topic_supported": false,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "The review explicitly says queue, repeat and previous-song controls are unavailable without Premium. The rubric specifically maps Premium-only controls to billing. Restricted controls support severity 3 while music remains usable.",
+      "verifier_comparison": "Verifier billing is better supported than final usability; other shared labels are supported.",
+      "initial_to_final_assessment": "No fallback initial prediction is present; final is the first-pass output.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "topic_disagreement",
+      "review_text": "For free users It sucks right now, now without premium there is no queue, no repeat, no way to go to previous song, very sad",
+      "evidence_quote": "For free users It sucks right now, now without premium there is no queue, no repeat, no way to go to previous song, very sad",
+      "entities": [
+        "premium"
+      ],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "usability",
+        "intent": "complaint",
+        "severity": 3,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "billing",
+        "intent": "complaint",
+        "severity": 3,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "a0cbc9d6-51bb-46f0-9ba9-ad4f4593c266",
+      "topic_supported": false,
+      "intent_supported": true,
+      "severity_supported": null,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "Price is mentioned as context after failures to play liked songs and cross-device playlist substitutions. The specific functional problem is playback; a paid-plan mention alone does not make billing. Explicit conditional cancellation is supported. Intermittent failures versus a blocked liked-song task leave severity 3/4 open.",
+      "verifier_comparison": "Verifier improves topic to playback. Shared severity 4 remains debatable from the intermittent wording rather than proving accuracy.",
+      "initial_to_final_assessment": "No fallback initial prediction is present; final is the first-pass output.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "topic_disagreement",
+      "review_text": "A good music app when it works. I keep on running into issues where I click on songs in my liked music and they don't play. Also when I'm playing a playlist from my phone to the Xbox series x it randomly starts playing different music. This is ridiculous for a £10 a month subscription this needs to be fixed it's been happening for months. If these issues are not fixed soon I'm going to cancel my subscription and start using a different music subscription service.",
+      "evidence_quote": "A good music app when it works. I keep on running into issues where I click on songs in my liked music and they don't play. Also when I'm playing a playlist from my phone to the Xbox series x it randomly starts playing different music. This is ridiculous for a £10 a month subscription this needs to be fixed it's been happening for months. If these issues are not fixed soon I'm going to cancel my subscription and start using a different music subscription service.",
+      "entities": [],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "billing",
+        "intent": "cancellation",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "playback",
+        "intent": "cancellation",
+        "severity": 4,
+        "sentiment": -1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    },
+    {
+      "review_id": "58e901c3-5ef3-45f9-80c1-111738c979e3",
+      "topic_supported": false,
+      "intent_supported": true,
+      "severity_supported": true,
+      "sentiment_supported": true,
+      "quote_supports_label": false,
+      "entities_supported": true,
+      "inspection_needs_review": true,
+      "assessment": "concern",
+      "notes": "Praise explicitly concerns automatic suggestions during a playlist, which is recommendations/discovery under catalog. Other discards the supported specific praised feature.",
+      "verifier_comparison": "Verifier catalog is better supported; praise, severity and sentiment agree and are supported.",
+      "initial_to_final_assessment": "No fallback initial prediction is present; final is the first-pass output.",
+      "confidence": "high",
+      "inspector": "AI-assisted development review",
+      "sample": "targeted",
+      "selection_reason": "topic_disagreement",
+      "review_text": "I love Spotify. I like that I can have them add suggestions while I'm listening to my playlist.",
+      "evidence_quote": "I love Spotify. I like that I can have them add suggestions while I'm listening to my playlist.",
+      "entities": [
+        "Spotify"
+      ],
+      "quote_exact_substring": true,
+      "quote_is_full_original": true,
+      "final_prediction": {
+        "topic": "other",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "verifier_prediction": {
+        "topic": "catalog",
+        "intent": "praise",
+        "severity": 1,
+        "sentiment": 1,
+        "needs_review": false
+      },
+      "fallback_used": false,
+      "initial_prediction": null
+    }
+  ]
+}

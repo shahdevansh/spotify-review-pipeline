@@ -4,7 +4,9 @@ import json
 
 import pytest
 
-from spotify_pipeline.evaluation import compare_verifier, evaluate_golden, evidence_checks, learning_report
+from spotify_pipeline.evaluation import (
+    classification_signal_summary, compare_verifier, evaluate_golden, evidence_checks, learning_report,
+)
 
 
 def prediction(rid="a", **changes):
@@ -125,6 +127,18 @@ def test_verifier_accepts_saved_engine_prediction_envelope(tmp_path):
     assert result["disagreement_count"] == 0
 
 
+def test_raw_first_pass_comparison_is_not_hidden_by_fallback_agreement(tmp_path):
+    final = prediction(fallback_used=True, initial_prediction=prediction(topic="billing", severity=5))
+    report = compare_verifier([final], [prediction()], tmp_path)
+    assert report["field_agreement"]["topic"] == 1
+    assert report["initial_model_field_agreement"]["topic"] == 0
+    assert report["fallback_used_count"] == 1
+    assert report["ground_truth"] is False
+    saved = json.loads((tmp_path / "disagreements.jsonl").read_text())
+    assert saved["differing_fields"] == []
+    assert set(saved["initial_differing_fields"]) == {"topic", "severity"}
+
+
 def test_no_run_learning_report_stays_gated(tmp_path):
     result = learning_report(tmp_path)
     assert result["status"] == "gated"
@@ -141,3 +155,42 @@ def test_inspection_sheet_is_not_overwritten(tmp_path):
     learning_report(tmp_path)
     assert before == path.read_bytes()
     assert result["inspection_rows"] == 1
+
+
+def test_llm_ambiguity_flag_does_not_invent_confidence():
+    row = prediction(classifier_provider="nebius", classifier_model="exact-synthetic-model",
+                     uncertainty_score=None, confidence_source="not_available", needs_review=False)
+    result = classification_signal_summary([row])
+    assert result["numeric_signal_available"] == 0
+    assert result["numeric_signal_unavailable"] == 1
+    assert result["numeric_signal_min"] is None
+    assert result["calibrated_accuracy_confidence"] is False
+    assert result["classifier_providers"] == {"nebius": 1}
+
+
+def test_observed_probability_signal_is_not_claimed_calibrated():
+    row = prediction(classifier_provider="jev", uncertainty_score=.4)
+    result = classification_signal_summary([row])
+    assert result["numeric_signal_min"] == .4
+    assert result["numeric_signal_available"] == 1
+    assert result["calibrated_accuracy_confidence"] is False
+
+
+def test_learning_rollup_reports_models_without_assuming_provider_or_cash(tmp_path):
+    from spotify_pipeline.learning import learning_report as rollup
+    stage = tmp_path / "1000"
+    stage.mkdir()
+    (stage / "run_summary.json").write_text(json.dumps({
+        "completed": 1000, "api_cost_usd": .123,
+        "model_settings": {"providers": {"enrich": "nebius", "verify": "nebius"},
+                           "models": {"enrich": "synthetic-fast", "verify": "synthetic-verifier"}},
+    }))
+    (stage / "records.jsonl").write_text(json.dumps(prediction(
+        classifier_provider="nebius", classifier_model="synthetic-fast",
+        confidence_source="not_available", uncertainty_score=None)) + "\n")
+    report = rollup(tmp_path, tmp_path / "rates.csv")
+    assert report["role_settings"]["1000"]["providers"]["enrich"] == "nebius"
+    assert report["classification_signals"]["1000"]["numeric_signal_unavailable"] == 1
+    assert report["incremental_cash_spend_usd"] is None
+    assert report["remaining_provider_credits_usd"] is None
+    assert report["automatic_expansion"] is False

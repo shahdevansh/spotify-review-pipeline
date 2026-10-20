@@ -1,0 +1,450 @@
+{
+  "schema_version": "scaling-economics-v1",
+  "generated_at_utc": "2026-10-20T06:19:45.655940+00:00",
+  "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+  "prompt_version": "pilot-v5-nebius",
+  "conclusion": {
+    "economic_feasibility": "base_and_declared_stress_fit_remaining_operating_budget",
+    "quality_gate": "not_cleared_by_this_report",
+    "automatic_expansion_authorized": false,
+    "confidence_cost_projection": "moderate",
+    "confidence_sustained_runtime": "low"
+  },
+  "scope": {
+    "original_nonempty_ids": 210000,
+    "distinct_texts": 159657,
+    "full_fallback_cap_unique_texts": 7982,
+    "verifier_original_ids": 2100,
+    "verified_primary_batch_count": 6387,
+    "primary_full_batches_25": 6386,
+    "primary_last_batch_size": 7,
+    "fallback_batches_at_maximum_10": 799,
+    "verification_batches_at_maximum_10": 210,
+    "fresh_full_cohort_budgeted": true,
+    "pilot_cache_credit_applied": false,
+    "physical_selected_file_rows": 210013,
+    "excluded_empty_text_quarantines": 13
+  },
+  "pricing": {
+    "currency": "USD",
+    "unit": "per_million_tokens",
+    "verified_on": "2026-10-19",
+    "source_url": "https://tokenfactory.nebius.com/api/public/models_info",
+    "models": {
+      "nvidia/Nemotron-3_5-Lightning": {
+        "input": 0.06,
+        "output": 0.24
+      },
+      "openai/gpt-oss-120b": {
+        "input": 0.15,
+        "output": 0.6
+      },
+      "zai-org/GLM-5.3-Flash": {
+        "input": 0.15,
+        "output": 0.5
+      }
+    },
+    "cache_policy": "All reported input priced at standard input rate; no unverified discount.",
+    "reasoning_policy": "Completion tokens already include reasoning; not added twice.",
+    "invoice_reconciled": false,
+    "credit_debit_measured": false,
+    "incremental_cash_measured": false
+  },
+  "calibration": {
+    "included_stages": [
+      "100-cold",
+      "100-warm",
+      "500",
+      "1000"
+    ],
+    "excluded": "Historical experiments, isolated probes, matched concurrency, recovery demonstration; those remain in global spend.",
+    "request_count": 156,
+    "failed_attempts": 0,
+    "nominal_repriced_usd": 0.1187722,
+    "summary_settled_usd": 0.118772214,
+    "roles": {
+      "initial_classification": {
+        "request_count": 38,
+        "failed_attempts": 0,
+        "logical_jobs": 38,
+        "accepted_evaluation_units": 926,
+        "unique_source_ids": 926,
+        "input_tokens": 86812,
+        "output_tokens": 41392,
+        "nominal_repriced_usd": 0.0151428,
+        "mean_cost_usd_per_evaluation": 1.635291576673866e-05,
+        "p95_batch_cost_usd_per_evaluation": 1.7916e-05,
+        "maximum_checkpoint_mean_usd_per_evaluation": 1.657456464379947e-05,
+        "conservative_unit_cost_before_retry_usd": 1.7916e-05,
+        "mean_api_seconds_per_evaluation": 0.1825690824805637,
+        "p95_batch_api_seconds_per_evaluation": 0.22519663163999212,
+        "mean_estimated_pacing_tokens_per_evaluation": 800.8758099352052,
+        "p95_batch_estimated_pacing_tokens_per_evaluation": 842.6818181818181
+      },
+      "fallback": {
+        "request_count": 6,
+        "failed_attempts": 0,
+        "logical_jobs": 6,
+        "accepted_evaluation_units": 46,
+        "unique_source_ids": 46,
+        "input_tokens": 9802,
+        "output_tokens": 4611,
+        "nominal_repriced_usd": 0.0042369,
+        "mean_cost_usd_per_evaluation": 9.210652173913043e-05,
+        "p95_batch_cost_usd_per_evaluation": 0.0001561,
+        "maximum_checkpoint_mean_usd_per_evaluation": 0.00010719,
+        "conservative_unit_cost_before_retry_usd": 0.0001561,
+        "mean_api_seconds_per_evaluation": 0.32741062408699095,
+        "p95_batch_api_seconds_per_evaluation": 0.5054276386666364,
+        "mean_estimated_pacing_tokens_per_evaluation": 2208.978260869565,
+        "p95_batch_estimated_pacing_tokens_per_evaluation": 5458.666666666667
+      },
+      "verify": {
+        "request_count": 106,
+        "failed_attempts": 0,
+        "logical_jobs": 106,
+        "accepted_evaluation_units": 1060,
+        "unique_source_ids": 1000,
+        "input_tokens": 186034,
+        "output_tokens": 100576,
+        "nominal_repriced_usd": 0.0882507,
+        "mean_cost_usd_per_evaluation": 8.325537735849057e-05,
+        "p95_batch_cost_usd_per_evaluation": 9.168e-05,
+        "maximum_checkpoint_mean_usd_per_evaluation": 8.4285e-05,
+        "conservative_unit_cost_before_retry_usd": 9.168e-05,
+        "mean_api_seconds_per_evaluation": 0.2748507814443484,
+        "p95_batch_api_seconds_per_evaluation": 0.35113280420009685,
+        "mean_estimated_pacing_tokens_per_evaluation": 1760.5698113207548,
+        "p95_batch_estimated_pacing_tokens_per_evaluation": 1812.1
+      },
+      "group": {
+        "request_count": 3,
+        "failed_attempts": 0,
+        "logical_jobs": 3,
+        "accepted_evaluation_units": 98,
+        "unique_source_ids": 75,
+        "input_tokens": 15004,
+        "output_tokens": 3635,
+        "nominal_repriced_usd": 0.0044316,
+        "mean_cost_usd_per_evaluation": 4.522040816326531e-05,
+        "p95_batch_cost_usd_per_evaluation": 4.892222222222222e-05,
+        "maximum_checkpoint_mean_usd_per_evaluation": 4.892222222222222e-05,
+        "conservative_unit_cost_before_retry_usd": 4.892222222222222e-05,
+        "mean_api_seconds_per_evaluation": 0.11053322788772063,
+        "p95_batch_api_seconds_per_evaluation": 0.12869748611114187,
+        "mean_estimated_pacing_tokens_per_evaluation": 877.3367346938776,
+        "p95_batch_estimated_pacing_tokens_per_evaluation": 928.5555555555555,
+        "unit_denominator_interpretation": "Source-example ID references supplied across three fixed analysis calls; not per-review production units. Projection uses one final group/memo pair."
+      },
+      "memo": {
+        "request_count": 3,
+        "failed_attempts": 0,
+        "logical_jobs": 3,
+        "accepted_evaluation_units": 98,
+        "unique_source_ids": 75,
+        "input_tokens": 27238,
+        "output_tokens": 5249,
+        "nominal_repriced_usd": 0.0067102,
+        "mean_cost_usd_per_evaluation": 6.847142857142856e-05,
+        "p95_batch_cost_usd_per_evaluation": 8.191481481481481e-05,
+        "maximum_checkpoint_mean_usd_per_evaluation": 8.191481481481481e-05,
+        "conservative_unit_cost_before_retry_usd": 8.191481481481481e-05,
+        "mean_api_seconds_per_evaluation": 0.3922145867346648,
+        "p95_batch_api_seconds_per_evaluation": 0.5841972962962582,
+        "mean_estimated_pacing_tokens_per_evaluation": 1433.1632653061224,
+        "p95_batch_estimated_pacing_tokens_per_evaluation": 1572.962962962963,
+        "unit_denominator_interpretation": "Source-example ID references supplied across three fixed analysis calls; not per-review production units. Projection uses one final group/memo pair."
+      }
+    },
+    "stages": [
+      {
+        "name": "100-cold",
+        "run_id": "100-cold-6ca1c9e8c760b201",
+        "input_count": 100,
+        "completed": 100,
+        "unique_texts": 100,
+        "row_cache_hits": 0,
+        "workers": 1,
+        "wall_seconds": 39.803415499998664,
+        "requests": 8,
+        "failed_attempts": 0,
+        "input_tokens": 24941,
+        "output_tokens": 9077,
+        "nominal_repriced_usd": 0.00654034,
+        "summary_settled_usd": 0.00654034,
+        "new_primary_units": 100,
+        "new_fallback_units": 5,
+        "paid_verifier_evaluation_occurrences": 10
+      },
+      {
+        "name": "100-warm",
+        "run_id": "100-warm-ad25971a11c3d8bc",
+        "input_count": 100,
+        "completed": 100,
+        "unique_texts": 100,
+        "row_cache_hits": 100,
+        "workers": 1,
+        "wall_seconds": 0.07851741699778358,
+        "requests": 0,
+        "failed_attempts": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "nominal_repriced_usd": 0.0,
+        "summary_settled_usd": 0.0,
+        "new_primary_units": 0,
+        "new_fallback_units": 0,
+        "paid_verifier_evaluation_occurrences": 0
+      },
+      {
+        "name": "500",
+        "run_id": "500-19413889bf79a678",
+        "input_count": 500,
+        "completed": 500,
+        "unique_texts": 479,
+        "row_cache_hits": 112,
+        "workers": 2,
+        "wall_seconds": 73.48146516700217,
+        "requests": 25,
+        "failed_attempts": 0,
+        "input_tokens": 63664,
+        "output_tokens": 26006,
+        "nominal_repriced_usd": 0.01557036,
+        "summary_settled_usd": 0.015570362,
+        "new_primary_units": 379,
+        "new_fallback_units": 18,
+        "paid_verifier_evaluation_occurrences": 50
+      },
+      {
+        "name": "1000",
+        "run_id": "1000-1ad0e35d239c3e9d",
+        "input_count": 1000,
+        "completed": 1000,
+        "unique_texts": 926,
+        "row_cache_hits": 549,
+        "workers": 4,
+        "wall_seconds": 335.3336921670016,
+        "requests": 123,
+        "failed_attempts": 0,
+        "input_tokens": 236285,
+        "output_tokens": 120380,
+        "nominal_repriced_usd": 0.0966615,
+        "summary_settled_usd": 0.096661512,
+        "new_primary_units": 447,
+        "new_fallback_units": 23,
+        "paid_verifier_evaluation_occurrences": 1000
+      }
+    ],
+    "denominator_policy": "Unique accepted logical (run, purpose, requested-ID-set) evaluations; retry charges are numerator-only. Verification repeats across checkpoints are paid evaluation occurrences, not distinct-source union."
+  },
+  "projection": {
+    "base": {
+      "variable_role_costs_usd": {
+        "initial_classification": 2.6108574725701943,
+        "fallback": 0.7351942565217391,
+        "verify": 0.1748362924528302
+      },
+      "one_group_memo_pair_usd": 0.0039936,
+      "total_usd": 3.524881621544764
+    },
+    "conservative": {
+      "variable_role_costs_usd": {
+        "initial_classification": 3.1464562932,
+        "fallback": 1.37058922,
+        "verify": 0.2117808
+      },
+      "fixed_group_memo_allowance_usd": 0.0079872,
+      "total_usd": 4.7368135132,
+      "unit_rule": "Larger of nearest-rank P95 observed batch cost per accepted review and maximum checkpoint mean, by role.",
+      "extra_retry_multiplier": 1.1,
+      "extra_retry_is_assumption_not_observed_rate": true,
+      "fixed_rule": "One group/memo pair at maximum observed per-role charge, plus one whole retry of that pair.",
+      "is_statistical_confidence_bound": false
+    },
+    "cache_note": "Fresh full-cohort cost is reserved without subtracting 926 already classified texts or 46 fallback results. Exact compatible reuse could save their observed $0.01937970; verification reuse is not assumed."
+  },
+  "runtime": {
+    "matched_comparison": {
+      "version": "controlled-concurrency-comparison-v1",
+      "same_input_and_configuration": true,
+      "runs": {
+        "workers1": {
+          "path": "runs/pilot/100-cold",
+          "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+          "input_sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e",
+          "workers": 1,
+          "completed": 100,
+          "cache_hits": 0,
+          "failed_attempts": 0,
+          "api_cost_usd": 0.00654034,
+          "api_cost_complete": true,
+          "whole_run_wall_seconds": 39.803415499998664,
+          "enrich_including_fallback_wall_seconds": 17.448484124997776,
+          "primary_request_span_seconds": 15.463667154312134,
+          "primary_review_throughput_per_second": 6.466771368143061,
+          "primary_request_count": 4,
+          "all_request_count": 8,
+          "primary_api_latency_median_seconds": 3.719395458500003,
+          "input_tokens": 24941,
+          "output_tokens": 9077,
+          "fallback_unique_texts": 5,
+          "verifier_disagreements": 5
+        },
+        "workers4": {
+          "path": "runs/concurrency-100-w4",
+          "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+          "input_sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e",
+          "workers": 4,
+          "completed": 100,
+          "cache_hits": 0,
+          "failed_attempts": 0,
+          "api_cost_usd": 0.0066878,
+          "api_cost_complete": true,
+          "whole_run_wall_seconds": 31.394937999997637,
+          "enrich_including_fallback_wall_seconds": 12.728683082998032,
+          "primary_request_span_seconds": 10.247359275817871,
+          "primary_review_throughput_per_second": 9.758611687987168,
+          "primary_request_count": 4,
+          "all_request_count": 8,
+          "primary_api_latency_median_seconds": 4.665884312498747,
+          "input_tokens": 25315,
+          "output_tokens": 9201,
+          "fallback_unique_texts": 5,
+          "verifier_disagreements": 4
+        }
+      },
+      "workers4_speedup": {
+        "whole_run": 1.267829084421242,
+        "enrich_including_fallback": 1.3708004206895592,
+        "primary_request_span": 1.5090392303121367
+      },
+      "limitations": [
+        "One sequential observation per worker setting; timing is sensitive to provider variation and model output variation.",
+        "Full-run and enrichment times include bounded fallback; primary request span isolates first-pass API work including admission waits.",
+        "Models and batching/pacing controls are identical; no independent provider experiment overlapped these runs."
+      ]
+    },
+    "units": "seconds",
+    "base_primary_seconds_per_review": 0.10247359275817872,
+    "base_variable_seconds": {
+      "initial_classification": 16360.62639899254,
+      "fallback": 2613.391601462362,
+      "verify": 577.1866410331317
+    },
+    "conservative_variable_seconds": {
+      "initial_classification": 17996.689038891793,
+      "fallback": 4792.818506666668,
+      "verify": 811.1167777022239
+    },
+    "base_fixed_seconds": 16.011538040998857,
+    "conservative_fixed_seconds": 40.773962166000274,
+    "base_total_seconds": 19567.21617952903,
+    "conservative_total_seconds": 23641.398285426687,
+    "mechanistic_minimum_planning_total_seconds": 15993.132699218999,
+    "workers_primary": 4,
+    "workers_fallback": 1,
+    "workers_verification": 1,
+    "requests_per_second": 2,
+    "estimated_pacing_tokens_per_second": 10000,
+    "base_rule": "Primary uses max(matched four-worker span/review, observed mean API service/4, mean estimated token pacing, request pacing). Serial roles use max(mean API service, token pacing, request pacing).",
+    "conservative_rule": "Replace mean service and estimated token usage with nearest-rank P95 observed batch/review values; preserve matched primary floor; add assumed10% retries. Fixed analysis allows one full retry at largest observed role duration.",
+    "not_included": [
+      "Full-cohort ingestion and checkpoint I/O",
+      "Database import and index build",
+      "Deployment",
+      "Human review",
+      "Long-run provider outages, throttling beyond observed pacing, or future prompt changes"
+    ],
+    "not_end_to_end_sla": true
+  },
+  "budget_snapshot": {
+    "captured_at_utc": "2026-10-20T06:19:45.655940+00:00",
+    "ledger_path": "data/spend.sqlite3",
+    "states": {
+      "settled": {
+        "attempt_count": 261,
+        "reserved_nano": 1142121380,
+        "charged_nano": 214404404
+      },
+      "unknown": {
+        "attempt_count": 5,
+        "reserved_nano": 16446200,
+        "charged_nano": 0
+      }
+    },
+    "settled_nominal_usd": 0.214404404,
+    "unknown_charge_holds_usd": 0.0164462,
+    "inflight_reserved_usd": 0.0,
+    "committed_usd": 0.230850604,
+    "operating_ceiling_usd": 18,
+    "separate_project_reserve_usd": 2,
+    "remaining_operating_usd": 17.769149396,
+    "headroom_after_base_usd": 14.244267774455237,
+    "headroom_after_conservative_usd": 13.0323358828,
+    "historical_and_diagnostic_spend_included": true,
+    "later_spend_changes_this_snapshot": true
+  },
+  "quality": {
+    "pilot_1000_completed": 1000,
+    "verifier_completed": 1000,
+    "reported_disagreements": 339,
+    "interpretation": "Model disagreement is not human-label error. Structural completion and affordability do not clear the label-quality gate."
+  },
+  "sources": [
+    {
+      "path": "runs/pilot/100-cold/run_summary.json",
+      "sha256": "45b79ae1c60e20c75a3e755e4ebf2ea36c6a6cc03fb4103abc2e60cc2ad0e6d8"
+    },
+    {
+      "path": "runs/pilot/100-cold/calls.jsonl",
+      "sha256": "879ce11418309bc8b5daf3eb2c6283690d674eb555a92a171186c2e94b600053"
+    },
+    {
+      "path": "runs/pilot/100-warm/run_summary.json",
+      "sha256": "10c37a2660a82828353c0c7c5f276448756f3748b1df80fa21140306d6a70093"
+    },
+    {
+      "path": "runs/pilot/100-warm/calls.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "runs/pilot/500/run_summary.json",
+      "sha256": "0cd4722a8a4a2d6bb0afaafd71d1d39c2376cc23ff917536b5f39c5a5a8513c2"
+    },
+    {
+      "path": "runs/pilot/500/calls.jsonl",
+      "sha256": "63c71b59effaa8a86e47e5985d1f30f70ca2c73532c701cb9e255bb93b243a20"
+    },
+    {
+      "path": "runs/pilot/1000/run_summary.json",
+      "sha256": "c9d259fc2783feedb4bb495bf6fd52d39014456c22cb291188e97c2e9554fec5"
+    },
+    {
+      "path": "runs/pilot/1000/calls.jsonl",
+      "sha256": "040e4c544db5724ae9cd1474060e6b9a50af37b186eff281e532fd4d6babbbc4"
+    },
+    {
+      "path": "runs/concurrency-100-w4/comparison.json",
+      "sha256": "9a2ba9f3d27bf34c1f19c9db87f6b19e9976af273b0e96f79e9a02358cb7da3c"
+    },
+    {
+      "path": "data/selected_210000.csv",
+      "sha256": "d01531dcb7736aefc400cec39530275d9bbcdf9a1e0e6849726ba5fa218dd5fd"
+    },
+    {
+      "path": "config/nebius-pilot.json",
+      "sha256": "96f2b0ba24c34aad3de4367246d748a8240b3cc9889ab816f23817b6af6dfe80"
+    }
+  ],
+  "verification": {
+    "independent_read_only_audit": "passed",
+    "checked": [
+      "Source hashes and observed totals",
+      "Logical evaluation denominators",
+      "Full-cohort batching counts",
+      "Base and stress cost arithmetic",
+      "Runtime pacing and latency formulas",
+      "Budget snapshot and headroom"
+    ],
+    "limitations": "No invoice reconciliation, human-label accuracy or sustained production throughput established."
+  }
+}

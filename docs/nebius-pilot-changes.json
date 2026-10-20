@@ -1,0 +1,174 @@
+{
+  "source_comparison": "same 100 original IDs; different role/schema/batch order and capped fallback, not isolated prompt experiment",
+  "archived_run_id": "100-cold-e3671496",
+  "label_config": "spotify-e322150ca6045f83232958d7967fcdf84fd5e05b59d5fbdb3182fbe251037e4e",
+  "completed": 100,
+  "verified": 10,
+  "model_task_attempts": 9,
+  "failed_attempts": 2,
+  "ledger_usage_cost_usd": 0.007027801,
+  "wall_seconds": 29.403616375002457,
+  "changed_fields": {
+    "topic": 16,
+    "intent": 17,
+    "severity": 22,
+    "sentiment": 10,
+    "needs_review": 13
+  },
+  "topic_intent_or_severity_changed_ids": 35,
+  "fallback_count": 5,
+  "examples": [
+    {
+      "assessment": "improvement",
+      "review_id": "178c3b49-b689-4fe4-92a2-2257a58e6d95",
+      "original_text": "Worst app.",
+      "screening_lightning": "other/complaint/1",
+      "archived_pilot_final": "other/complaint/2",
+      "fallback_used": false,
+      "interpretation": "Generic “Worst app” now receives severity 2, matching the stated generic-criticism rule.",
+      "human_gold": false
+    },
+    {
+      "assessment": "improvement",
+      "review_id": "916d1cb1-3a9f-42c0-9c36-fee4b1983c68",
+      "original_text": "L lovethemusic",
+      "screening_lightning": "other/unclear/1",
+      "archived_pilot_final": "other/praise/1",
+      "fallback_used": false,
+      "interpretation": "The obvious “love the music” typo is now recognized as praise.",
+      "human_gold": false
+    },
+    {
+      "assessment": "improvement",
+      "review_id": "ebc64fe2-9553-4528-87d5-cb4bb9783be6",
+      "original_text": "I just want to listen to one song but nooo I have to go through A HOLE PLAYLIST AND I CAN ONLY SKIP 6 OF THEM 6!!!",
+      "screening_lightning": "usability/cancellation/2",
+      "archived_pilot_final": "usability/complaint/3",
+      "fallback_used": false,
+      "interpretation": "A skip restriction no longer invents personal cancellation; restricted functionality supports severity 3.",
+      "human_gold": false
+    },
+    {
+      "assessment": "improvement",
+      "review_id": "035213ba-b1b9-411c-b028-70296e5f0e73",
+      "original_text": "I m using this app from 5 to 6 year but now m uninstald this app cz his premium adds are everywhere now .",
+      "screening_lightning": "billing/cancellation/2",
+      "archived_pilot_final": "usability/cancellation/2",
+      "fallback_used": false,
+      "interpretation": "Premium advertisements are classified as usability; explicit uninstallation is preserved.",
+      "human_gold": false
+    },
+    {
+      "assessment": "improvement",
+      "review_id": "21915fcd-9a35-48ba-b277-6296c4154603",
+      "original_text": "This app the new update has made everthing premium and so usless i thought this app is good but no. Youtube music is better than this usless app. This has become premium just for the creator of spotify to earn money anyways it is a very bad app usless since this new update! Worthless app",
+      "screening_lightning": "billing/cancellation/2",
+      "archived_pilot_final": "billing/complaint/2",
+      "fallback_used": false,
+      "interpretation": "Mentioning a rival no longer implies personal cancellation; complaint is the supported intent.",
+      "human_gold": false
+    },
+    {
+      "assessment": "regression",
+      "review_id": "23d905f8-8684-41b3-8faa-42571f3eaeee",
+      "original_text": "Love this app. The developers do a good job keeping up with changes. Not a complaint at all. FYI- I am a paid subscriber.",
+      "screening_lightning": "other/praise/1",
+      "archived_pilot_final": "billing/praise/1",
+      "fallback_used": false,
+      "interpretation": "Incidental paid-subscriber status moves generic praise from other to billing, contradicting the paid-plan-mention boundary. The independent verifier returns other.",
+      "human_gold": false
+    },
+    {
+      "assessment": "regression",
+      "review_id": "0658feaa-5bec-416e-b6b0-3de2a4c14580",
+      "original_text": "Nice app! But many songs are not present here!",
+      "screening_lightning": "catalog/complaint/2",
+      "archived_pilot_final": "catalog/request/1",
+      "fallback_used": false,
+      "interpretation": "“Many songs are not present” is a reported catalog limitation, not a pure request without a problem. Complaint was better supported; severity remains a 2–3 boundary.",
+      "human_gold": false
+    },
+    {
+      "assessment": "regression",
+      "review_id": "618d1dbb-0186-4537-923a-7b4dabf19afb",
+      "original_text": "Please stop with the recommendations! I use the premium family sub and I want to listen to my playlist without your recommendation adds. I am not interested in new music based on my preferences. If I wanted these songs I'd use a random playlist not not make my own! I'll start using Amazon music or apple if you don't.",
+      "screening_lightning": "usability/cancellation/4",
+      "archived_pilot_final": "billing/complaint/4",
+      "fallback_used": false,
+      "interpretation": "The explicit “I’ll start using” rivals threat loses cancellation. Billing is unsupported by membership alone, and severity 4 remains unsupported by unwanted recommendations.",
+      "human_gold": false
+    },
+    {
+      "assessment": "regression",
+      "review_id": "1807cc68-ba99-4edc-b6f1-2a1478e69109",
+      "original_text": "I love Spotify recommendations music type before more than now. It was more songs and updated to newest song.",
+      "screening_lightning": "catalog/complaint/2",
+      "archived_pilot_final": "catalog/praise/1",
+      "fallback_used": false,
+      "interpretation": "Preference for the former recommendation behavior plus fewer/newer songs is treated as praise; the comparison reports deterioration and better supports complaint.",
+      "human_gold": false
+    },
+    {
+      "assessment": "mixed",
+      "review_id": "2ffdf599-a0d5-4c01-bf26-025215d44c06",
+      "original_text": "I like the app, but I don't like that it is always stuck downloading songs in the background and gets stuck until I open Spotify. Idk if it's clever marketing to get the user to open the app, or if it's a bug...either way it is very annoying and has forced me to consider canceling my premium after years of being a subscriber to Hulu/Spotify. I'm sure no one reads these reviews after reading a few of the others. Shame on you spotify",
+      "screening_lightning": "usability/cancellation/4",
+      "archived_pilot_final": "downloads/cancellation/2",
+      "fallback_used": false,
+      "interpretation": "Topic improves to downloads. Severity moves from unsupported total blockage to 2, but a stuck background download with an opening-app workaround more directly fits restricted functionality at 3.",
+      "human_gold": false
+    },
+    {
+      "assessment": "mixed",
+      "review_id": "88439ec2-7c49-4c57-bedb-c5e098692aff",
+      "original_text": "I would request to remove all the new features .what's the point if we dont get to go back to the same song or skip songs..or choose .its not fair ..to restrict all the features jst so people would purchase premium ..its like forcing ..to do it ..and day by day it's getting more annoying..I g I'll switch to some other apps .if it remains like this forever.!",
+      "screening_lightning": "billing/cancellation/4",
+      "archived_pilot_final": "billing/cancellation/2",
+      "fallback_used": false,
+      "interpretation": "Billing and cancellation remain supported. Severity drops from 4 to 2; restricted premium-gated controls more naturally fit 3, so the revision crosses past the supported middle level.",
+      "human_gold": false
+    },
+    {
+      "assessment": "mixed",
+      "review_id": "9e5f9745-f8be-48d3-b9de-4d118507d94a",
+      "original_text": "Doesn't deserve even one star. Like what's the problem? We can't even go back few second to play music? WHAT IN THE WORLD IS THIS UPDATE? YOU PEOPLE NEED MORE MONEY?! gonna delete the app if they don't fix this",
+      "screening_lightning": "usability/complaint/4",
+      "archived_pilot_final": "playback/cancellation/4",
+      "fallback_used": false,
+      "interpretation": "Explicit deletion threat now receives cancellation, but the seeking-control problem shifts to playback and remains severity 4 despite no established total playback blockage.",
+      "human_gold": false
+    },
+    {
+      "assessment": "unresolved",
+      "review_id": "d455c11e-c530-4c03-a395-38f5a5cdb8d3",
+      "original_text": "I really have enjoyed the blend feature you've released. I can't wait to see it expanded upon. Like being able to rename the blends you make would be nice. The same issue as 5 years ago when I left a review still persists. Spotify constantly rolls out new major UX updates without any use of their beta program. Rolling out big automatically playing audio elements,without any clear way to disable the automatic playing in the settings? Seriously? That kind of stuff should be opt-in...",
+      "screening_lightning": "other/praise/1",
+      "archived_pilot_final": "other/request/1",
+      "fallback_used": false,
+      "interpretation": "Opening praise changes to request, but the later complaint about unwanted autoplay still fails to take precedence. Usability/complaint/2 is the better-supported interpretation.",
+      "human_gold": false
+    },
+    {
+      "assessment": "stable_supported",
+      "review_id": "4ab2089a-ffa8-49e7-a8a3-aeb583a96796",
+      "original_text": "Iam a premium user. But this app if i using wifi not able to connect Internet. But if using mobile data it will work. Some songs quality also very poor comparing to the YouTube music.",
+      "screening_lightning": "playback/complaint/3",
+      "archived_pilot_final": "playback/complaint/3",
+      "fallback_used": false,
+      "interpretation": "The Wi-Fi failure with working mobile data correctly stays playback/complaint/3.",
+      "human_gold": false
+    },
+    {
+      "assessment": "unresolved",
+      "review_id": "e25cf0b6-0285-4cc9-9a4a-5a8a05be929e",
+      "original_text": "Awesome music app can def see y everyone loves it so much best part to me personally is the categories suggested for you personally",
+      "screening_lightning": "other/praise/1",
+      "archived_pilot_final": "other/praise/1",
+      "fallback_used": false,
+      "interpretation": "Specific praise for personalized categories still maps to other; catalog is better supported and the independent verifier selects it.",
+      "human_gold": false
+    }
+  ],
+  "human_accuracy_claimed": false,
+  "execution_status": "failed"
+}

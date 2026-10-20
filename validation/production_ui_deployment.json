@@ -1,0 +1,36 @@
+{
+  "recorded_at": "2026-10-20T06:23:44.135023+00:00",
+  "status": "READY",
+  "target": "production",
+  "deployment_id": "dpl_AVEVrR1YU99oTFyDsgkwCE4kXXiF",
+  "deployment_url": "https://spotify-review-observatory-edzk4kqs7.vercel.app",
+  "production_url": "https://spotify-review-observatory.vercel.app",
+  "cli_version": "64.7.0",
+  "cloud_build": {
+    "status": "passed",
+    "next_version": "16.4.2",
+    "typescript": "passed",
+    "compile_seconds": 0.776,
+    "typescript_seconds": 3.9,
+    "total_build_seconds": 9
+  },
+  "local_web_tests": {
+    "passed": 5,
+    "failed": 0,
+    "command": "npm test"
+  },
+  "source_sha256": {
+    "web/src/app/page.tsx": "3866f4cc325d4e753319518f443e89260711e8b04078ac87c5508b232670af25",
+    "web/src/app/globals.css": "c8213679cac04838c35299b09fa51c5cc05c1143c34bb783010ccc6fc6900bcb",
+    "web/src/lib/run-display.ts": "e0b728501aa8e7312dccd03d848090ec644938bbce6b20d9c14ff8154c3672e8",
+    "web/.env.example": "216643fc415aaf7ce7e178d81b80c6b1f869ab3f028cc629832ab4e55a7604fd"
+  },
+  "changes": [
+    "74 exact-text duplicates distinguished from 549 saved results reused; values read from saved run",
+    "Frozen pilot quality-hold notice links to learning report",
+    "Saved model IDs and providers displayed separately",
+    "Incremental nominal API usage distinguished from cumulative experiment snapshot",
+    "Human golden-set accuracy pending"
+  ],
+  "database_data_changed": false
+}

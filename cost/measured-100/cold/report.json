@@ -1,0 +1,910 @@
+{
+  "schema_version": "cost-report-v1",
+  "mode": "offline",
+  "currency": "USD",
+  "calls_path": "/Users/shahdevansh/Documents/Codex/2026-10-19/for/outputs/spotify-review-pipeline/cost/measured-100/snapshots/cold/calls.jsonl",
+  "rates_path": "/Users/shahdevansh/Documents/Codex/2026-10-19/for/outputs/spotify-review-pipeline/config/rates.csv",
+  "measurements": {
+    "api_cost_basis": "nominal_usage_reprice",
+    "gateway_calls": 0,
+    "gateway_reported_actual_debit_usd": 0.0,
+    "known_gateway_debit_subtotal_usd": 0.0,
+    "gateway_unknown_debit_calls": 0,
+    "gateway_reported_surcharge_usd": 0.0,
+    "gateway_unknown_surcharge_calls": 0,
+    "gateway_nonnegative_uplift_usd": 0.0,
+    "api_cost_usd": 0.00654034,
+    "known_api_subtotal_usd": 0.00654034,
+    "unknown_cost_calls": 0,
+    "conservative_charge_estimate_usd": 0.00654034,
+    "input_count": 100,
+    "completed_records": 100,
+    "failed_records": 0,
+    "quarantined_records": 0,
+    "unique_texts": 100,
+    "cache_hits": 0,
+    "attempts": 8,
+    "requests": 8,
+    "wall_seconds": 39.803415499998664,
+    "wall_time_source": "run_summary",
+    "summed_call_seconds": 39.64403191700694,
+    "cost_per_1000_inputs_usd": 0.0654034,
+    "cost_per_completed_record_usd": 6.54034e-05,
+    "throughput_inputs_per_second": 2.51234721301752,
+    "measurement_source": "run_summary",
+    "input_ids": [
+      "084077ee-f9be-446a-9935-9e58550d5153",
+      "ff14ea84-fdec-4363-9b1b-a23dcab287c5",
+      "dc73ecd9-3293-4ede-90d5-dd6cd1e8d087",
+      "a78d831a-69f4-428a-9235-cfdd9775c509",
+      "d146397f-4a94-4980-be00-ae9212eca3a7",
+      "4c0242ca-099a-4c89-b11b-219ef28f1e16",
+      "42f0c9d1-088c-437b-bfc8-c1c36114a8f0",
+      "5bc203df-dac3-41ae-8b8d-ee0e8b9d9f50",
+      "b39971d2-e3f0-4559-96da-a609f54d9cb4",
+      "797d12c7-78dd-4805-a066-342ace701805",
+      "9d851b7f-a738-449b-a841-de8076f13276",
+      "ad730d1a-829a-4dc4-9561-7e1cd07e2c30",
+      "f44b3617-a645-4375-ae2d-44b742a1a306",
+      "5d4d3f47-4b3c-4be4-8f11-6cca41d27068",
+      "84353026-5e56-4ca4-bfa4-e006d021ef44",
+      "178c3b49-b689-4fe4-92a2-2257a58e6d95",
+      "b92a7381-b5cd-4c77-9176-e5c4b4818c8a",
+      "94c9f2f9-36fa-4c11-936e-660514fe7a35",
+      "e25cf0b6-0285-4cc9-9a4a-5a8a05be929e",
+      "9f46904c-4ed3-4799-8949-379b949c7344",
+      "618d1dbb-0186-4537-923a-7b4dabf19afb",
+      "277c75cb-ec6a-4387-902d-eb721d038db6",
+      "45c561b9-cc47-4d80-95d3-f0d20bc84af3",
+      "ba274609-2cbc-4d6a-9624-276d1c8246e8",
+      "a3605554-5c3a-441d-836e-e9fdea83eb2e",
+      "7e91d976-20e5-40f0-a6f5-7312eadf7e78",
+      "8cb9d355-e14c-4f55-b026-c6abd7bbce0d",
+      "4ab2089a-ffa8-49e7-a8a3-aeb583a96796",
+      "b47c203f-366e-4409-922d-cd52aa8bbef6",
+      "9c9757da-6b99-4c95-a0e7-0661ee858027",
+      "23de7958-ccb0-4356-bc12-094935e6857d",
+      "0f2b7fd2-71a6-4657-998e-da44f5893956",
+      "55cc3abf-c295-4591-8c3a-78085cfdefaa",
+      "88439ec2-7c49-4c57-bedb-c5e098692aff",
+      "3e8bdc92-4934-457e-85cc-8b9d14bf51c0",
+      "c1fe1a70-f5ec-4009-bad6-b75437ba1c0b",
+      "2be2ae92-6ad1-4c93-8589-65a0ce68fe46",
+      "c2738a4f-e57c-46bc-a4ad-8ec5a4b5d5cd",
+      "21915fcd-9a35-48ba-b277-6296c4154603",
+      "7084ced1-0428-4093-9328-442f74719b4f",
+      "4aee0d75-6901-426e-b0f7-11d042ccc73e",
+      "2ffdf599-a0d5-4c01-bf26-025215d44c06",
+      "33526c6f-7a49-4b3d-bd20-d1bc191c494c",
+      "51bfd887-24a0-4741-8b59-68e0a726dd7a",
+      "5c9c17d3-9d6a-4fa1-a2a4-ae98eefbbd25",
+      "e575daac-46ab-4da3-b9f5-723bf4000234",
+      "8737ac88-7e76-45ba-aa42-4eb97e3300ec",
+      "3e82cf28-6b0a-4980-902c-b6aa154d353a",
+      "ed15bb17-865a-492b-ba1b-268f4cab78f6",
+      "ca16e65d-d2ff-4453-a495-b8c422809330",
+      "10f09c93-34ef-4a3b-8ee2-97d7c00d44e0",
+      "8decb2ac-5860-49e3-8dce-9ca198ad061e",
+      "035213ba-b1b9-411c-b028-70296e5f0e73",
+      "486d1d7a-d6f6-41ea-81ad-ed875452729c",
+      "dcff57c6-abd6-413b-b255-aec3dc34fcbd",
+      "46ff0c74-5e86-4e5b-b4cd-36201aab0f9e",
+      "8b6e028a-5f63-4011-9841-cbbade4830eb",
+      "67b21b33-e6b9-4d1a-b874-86bc182b9ada",
+      "53e95a47-d326-4579-945d-a7aabd780b12",
+      "85383985-844d-4f9b-bcd9-d6016ac35f6b",
+      "9e5f9745-f8be-48d3-b9de-4d118507d94a",
+      "0658feaa-5bec-416e-b6b0-3de2a4c14580",
+      "b9a3e661-0eac-4cc9-a30e-7b1e11ef1315",
+      "85ccf50b-7e85-4068-8765-5c122d61580f",
+      "23d905f8-8684-41b3-8faa-42571f3eaeee",
+      "2b57a12b-bbbe-457c-83a8-1bec297a5f63",
+      "89ea2c30-db8b-459d-8ab7-bbcb7f92c774",
+      "d7b04025-054b-4929-a507-15b751c39fdc",
+      "7a833667-4fcb-4a40-a88d-c55cfeca3d16",
+      "89a8e180-7846-4421-a2b6-fa7787e9d0d2",
+      "0b52ac4e-1982-46ed-aeaa-74eedaefb5c9",
+      "ab67a772-c3b7-42ba-9b80-8d21d3857018",
+      "cf6166ae-d71a-4839-9add-088645ad3b78",
+      "dd90623c-dcd8-45a2-bb5b-3ace2b383667",
+      "6c257eba-3dca-49f6-b7f0-4c4484d81e26",
+      "1d9f396e-7a8a-414b-a622-3ad6f9570abe",
+      "de0a9cdf-8974-48bc-802f-331228df4619",
+      "06a45bd5-3ed9-43af-b7f2-8b9487e2ffff",
+      "5db4a676-1f15-48cf-b989-a0a0fdb1c7a3",
+      "916d1cb1-3a9f-42c0-9c36-fee4b1983c68",
+      "ebc64fe2-9553-4528-87d5-cb4bb9783be6",
+      "d455c11e-c530-4c03-a395-38f5a5cdb8d3",
+      "1807cc68-ba99-4edc-b6f1-2a1478e69109",
+      "e16a4550-43e7-4ae1-b538-a65cc652c31b",
+      "2d5cdd20-3094-40a5-bc6e-653302b59b56",
+      "9e3a706c-f502-4664-a23f-33f3480eca64",
+      "e0127547-4edd-44a0-8d5e-e8398bc07086",
+      "66a29b3c-c14d-440e-b722-b23e0c99ae82",
+      "32fb340f-4f9f-4551-8dae-755221e58d6a",
+      "ee3e2bd4-f94d-4e76-b2a6-5f6533d74c7c",
+      "0a5ff524-27b1-4f3b-a761-17ca48ee731d",
+      "47becad0-8ae5-4a10-9731-fde8f2091862",
+      "a1a28752-3256-4f81-b888-3e943343529f",
+      "a7aebec4-11e0-40d6-abf5-7a4798ebbb98",
+      "aeee488a-2077-489d-8914-1e01d5f7672f",
+      "884e8712-da13-4890-a39e-731b69f42d6c",
+      "c1ab120a-f91f-4ee3-87f5-66f352e2d47f",
+      "9f3794ed-4f4b-4430-a548-9cfd2d0c0084",
+      "def34476-7bdc-443a-ab3d-475cdd5ca2f6",
+      "e5e6c55f-3069-4b7c-9807-f8b5d5bf2726"
+    ],
+    "input_sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e"
+  },
+  "phases": {
+    "initial": {
+      "api_cost_basis": "nominal_usage_reprice",
+      "gateway_calls": 0,
+      "gateway_reported_actual_debit_usd": 0.0,
+      "known_gateway_debit_subtotal_usd": 0.0,
+      "gateway_unknown_debit_calls": 0,
+      "gateway_reported_surcharge_usd": 0.0,
+      "gateway_unknown_surcharge_calls": 0,
+      "gateway_nonnegative_uplift_usd": 0.0,
+      "api_cost_usd": 0.00654034,
+      "known_api_subtotal_usd": 0.00654034,
+      "unknown_cost_calls": 0,
+      "conservative_charge_estimate_usd": 0.00654034,
+      "attempts": 8,
+      "unique_review_ids": 100,
+      "completed_review_ids": 100,
+      "failed_review_ids": 0,
+      "providers": [
+        "nebius"
+      ],
+      "models": [
+        "nvidia/Nemotron-3_5-Lightning",
+        "openai/gpt-oss-120b",
+        "zai-org/GLM-5.3-Flash"
+      ],
+      "reasoning_efforts": [
+        "low",
+        "none"
+      ],
+      "prompt_versions": [
+        "pilot-v5-nebius"
+      ],
+      "schema_versions": [
+        "spotify-labels-v1"
+      ],
+      "batch_sizes": [
+        5,
+        10,
+        25,
+        27
+      ],
+      "worker_counts": [
+        1
+      ],
+      "known_billed_units": {
+        "input": 24941.0,
+        "output": 9077.0
+      },
+      "categories_with_missing_units": [],
+      "summed_call_seconds": 39.64403191700694
+    }
+  },
+  "cache_modes": {
+    "cold": {
+      "api_cost_basis": "nominal_usage_reprice",
+      "gateway_calls": 0,
+      "gateway_reported_actual_debit_usd": 0.0,
+      "known_gateway_debit_subtotal_usd": 0.0,
+      "gateway_unknown_debit_calls": 0,
+      "gateway_reported_surcharge_usd": 0.0,
+      "gateway_unknown_surcharge_calls": 0,
+      "gateway_nonnegative_uplift_usd": 0.0,
+      "api_cost_usd": 0.00654034,
+      "known_api_subtotal_usd": 0.00654034,
+      "unknown_cost_calls": 0,
+      "conservative_charge_estimate_usd": 0.00654034,
+      "attempts": 8,
+      "unique_review_ids": 100,
+      "completed_review_ids": 100,
+      "failed_review_ids": 0,
+      "providers": [
+        "nebius"
+      ],
+      "models": [
+        "nvidia/Nemotron-3_5-Lightning",
+        "openai/gpt-oss-120b",
+        "zai-org/GLM-5.3-Flash"
+      ],
+      "reasoning_efforts": [
+        "low",
+        "none"
+      ],
+      "prompt_versions": [
+        "pilot-v5-nebius"
+      ],
+      "schema_versions": [
+        "spotify-labels-v1"
+      ],
+      "batch_sizes": [
+        5,
+        10,
+        25,
+        27
+      ],
+      "worker_counts": [
+        1
+      ],
+      "known_billed_units": {
+        "input": 24941.0,
+        "output": 9077.0
+      },
+      "categories_with_missing_units": [],
+      "summed_call_seconds": 39.64403191700694,
+      "wall_seconds": 39.803415499998664
+    }
+  },
+  "stages": {
+    "enrich": {
+      "api_cost_basis": "nominal_usage_reprice",
+      "gateway_calls": 0,
+      "gateway_reported_actual_debit_usd": 0.0,
+      "known_gateway_debit_subtotal_usd": 0.0,
+      "gateway_unknown_debit_calls": 0,
+      "gateway_reported_surcharge_usd": 0.0,
+      "gateway_unknown_surcharge_calls": 0,
+      "gateway_nonnegative_uplift_usd": 0.0,
+      "api_cost_usd": 0.00162894,
+      "known_api_subtotal_usd": 0.00162894,
+      "unknown_cost_calls": 0,
+      "conservative_charge_estimate_usd": 0.00162894,
+      "attempts": 4,
+      "unique_review_ids": 100,
+      "completed_review_ids": 100,
+      "failed_review_ids": 0,
+      "providers": [
+        "nebius"
+      ],
+      "models": [
+        "nvidia/Nemotron-3_5-Lightning"
+      ],
+      "reasoning_efforts": [
+        "none"
+      ],
+      "prompt_versions": [
+        "pilot-v5-nebius"
+      ],
+      "schema_versions": [
+        "spotify-labels-v1"
+      ],
+      "batch_sizes": [
+        25
+      ],
+      "worker_counts": [
+        1
+      ],
+      "known_billed_units": {
+        "input": 9325.0,
+        "output": 4456.0
+      },
+      "categories_with_missing_units": [],
+      "summed_call_seconds": 15.433412792004674,
+      "wall_seconds": 17.448484124997776
+    },
+    "fallback": {
+      "api_cost_basis": "nominal_usage_reprice",
+      "gateway_calls": 0,
+      "gateway_reported_actual_debit_usd": 0.0,
+      "known_gateway_debit_subtotal_usd": 0.0,
+      "gateway_unknown_debit_calls": 0,
+      "gateway_reported_surcharge_usd": 0.0,
+      "gateway_unknown_surcharge_calls": 0,
+      "gateway_nonnegative_uplift_usd": 0.0,
+      "api_cost_usd": 0.00053595,
+      "known_api_subtotal_usd": 0.00053595,
+      "unknown_cost_calls": 0,
+      "conservative_charge_estimate_usd": 0.00053595,
+      "attempts": 1,
+      "unique_review_ids": 5,
+      "completed_review_ids": 5,
+      "failed_review_ids": 0,
+      "providers": [
+        "nebius"
+      ],
+      "models": [
+        "openai/gpt-oss-120b"
+      ],
+      "reasoning_efforts": [
+        "low"
+      ],
+      "prompt_versions": [
+        "pilot-v5-nebius"
+      ],
+      "schema_versions": [
+        "spotify-labels-v1"
+      ],
+      "batch_sizes": [
+        5
+      ],
+      "worker_counts": [
+        1
+      ],
+      "known_billed_units": {
+        "input": 1629.0,
+        "output": 486.0
+      },
+      "categories_with_missing_units": [],
+      "summed_call_seconds": 1.9099958330007212,
+      "wall_seconds": null
+    },
+    "group": {
+      "api_cost_basis": "nominal_usage_reprice",
+      "gateway_calls": 0,
+      "gateway_reported_actual_debit_usd": 0.0,
+      "known_gateway_debit_subtotal_usd": 0.0,
+      "gateway_unknown_debit_calls": 0,
+      "gateway_reported_surcharge_usd": 0.0,
+      "gateway_unknown_surcharge_calls": 0,
+      "gateway_nonnegative_uplift_usd": 0.0,
+      "api_cost_usd": 0.0013209,
+      "known_api_subtotal_usd": 0.0013209,
+      "unknown_cost_calls": 0,
+      "conservative_charge_estimate_usd": 0.0013209,
+      "attempts": 1,
+      "unique_review_ids": 27,
+      "completed_review_ids": 27,
+      "failed_review_ids": 0,
+      "providers": [
+        "nebius"
+      ],
+      "models": [
+        "openai/gpt-oss-120b"
+      ],
+      "reasoning_efforts": [
+        "low"
+      ],
+      "prompt_versions": [
+        "pilot-v5-nebius"
+      ],
+      "schema_versions": [
+        "spotify-labels-v1"
+      ],
+      "batch_sizes": [
+        27
+      ],
+      "worker_counts": [
+        1
+      ],
+      "known_billed_units": {
+        "input": 4222.0,
+        "output": 1146.0
+      },
+      "categories_with_missing_units": [],
+      "summed_call_seconds": 3.4748316670011263,
+      "wall_seconds": null
+    },
+    "memo": {
+      "api_cost_basis": "nominal_usage_reprice",
+      "gateway_calls": 0,
+      "gateway_reported_actual_debit_usd": 0.0,
+      "known_gateway_debit_subtotal_usd": 0.0,
+      "gateway_unknown_debit_calls": 0,
+      "gateway_reported_surcharge_usd": 0.0,
+      "gateway_unknown_surcharge_calls": 0,
+      "gateway_nonnegative_uplift_usd": 0.0,
+      "api_cost_usd": 0.0022117,
+      "known_api_subtotal_usd": 0.0022117,
+      "unknown_cost_calls": 0,
+      "conservative_charge_estimate_usd": 0.0022117,
+      "attempts": 1,
+      "unique_review_ids": 27,
+      "completed_review_ids": 27,
+      "failed_review_ids": 0,
+      "providers": [
+        "nebius"
+      ],
+      "models": [
+        "zai-org/GLM-5.3-Flash"
+      ],
+      "reasoning_efforts": [
+        "low"
+      ],
+      "prompt_versions": [
+        "pilot-v5-nebius"
+      ],
+      "schema_versions": [
+        "spotify-labels-v1"
+      ],
+      "batch_sizes": [
+        27
+      ],
+      "worker_counts": [
+        1
+      ],
+      "known_billed_units": {
+        "input": 7958.0,
+        "output": 2036.0
+      },
+      "categories_with_missing_units": [],
+      "summed_call_seconds": 15.77332404200206,
+      "wall_seconds": null
+    },
+    "verify": {
+      "api_cost_basis": "nominal_usage_reprice",
+      "gateway_calls": 0,
+      "gateway_reported_actual_debit_usd": 0.0,
+      "known_gateway_debit_subtotal_usd": 0.0,
+      "gateway_unknown_debit_calls": 0,
+      "gateway_reported_surcharge_usd": 0.0,
+      "gateway_unknown_surcharge_calls": 0,
+      "gateway_nonnegative_uplift_usd": 0.0,
+      "api_cost_usd": 0.00084285,
+      "known_api_subtotal_usd": 0.00084285,
+      "unknown_cost_calls": 0,
+      "conservative_charge_estimate_usd": 0.00084285,
+      "attempts": 1,
+      "unique_review_ids": 10,
+      "completed_review_ids": 10,
+      "failed_review_ids": 0,
+      "providers": [
+        "nebius"
+      ],
+      "models": [
+        "openai/gpt-oss-120b"
+      ],
+      "reasoning_efforts": [
+        "low"
+      ],
+      "prompt_versions": [
+        "pilot-v5-nebius"
+      ],
+      "schema_versions": [
+        "spotify-labels-v1"
+      ],
+      "batch_sizes": [
+        10
+      ],
+      "worker_counts": [
+        1
+      ],
+      "known_billed_units": {
+        "input": 1807.0,
+        "output": 953.0
+      },
+      "categories_with_missing_units": [],
+      "summed_call_seconds": 3.0524675829983607,
+      "wall_seconds": 3.0602086660001078
+    }
+  },
+  "projections": [
+    {
+      "scope": "selected",
+      "empty_text_quarantines": 13,
+      "total_source_rows_in_scope": 210013,
+      "scenario": "base",
+      "reviews": 210000,
+      "distinct_texts": 159657,
+      "exact_text_reuse": true,
+      "first_pass_classifications": 159657,
+      "verification_fraction": 0.01,
+      "verification_reviews": 2100,
+      "fallback_fraction": 0.05,
+      "fallback_reviews": 7983,
+      "conservative_multiplier": 1,
+      "stage_api_cost_usd": {
+        "enrich": 2.6007167358,
+        "verify": 0.1769985,
+        "fallback": 0.8556977699999999,
+        "fixed_overhead": 0.0035326000000000003
+      },
+      "api_cost_basis": "nominal_usage_reprice",
+      "api_cost_usd": 3.6369456058,
+      "stage_gateway_uplift_usd": {
+        "enrich": 0.0,
+        "verify": 0.0,
+        "fallback": 0.0,
+        "fixed_overhead": 0.0
+      },
+      "gateway_uplift_usd": 0.0,
+      "projected_cost_including_gateway_uplift_usd": 3.6369456058,
+      "prior_spend_usd": 0.094707886,
+      "spend_including_prior_usd": 3.7316534918,
+      "budget_exceeded": false,
+      "projected_wall_seconds": 28571.682491082975,
+      "limitations": []
+    },
+    {
+      "scope": "selected",
+      "empty_text_quarantines": 13,
+      "total_source_rows_in_scope": 210013,
+      "scenario": "conservative",
+      "reviews": 210000,
+      "distinct_texts": 159657,
+      "exact_text_reuse": true,
+      "first_pass_classifications": 159657,
+      "verification_fraction": 0.01,
+      "verification_reviews": 2100,
+      "fallback_fraction": 0.05,
+      "fallback_reviews": 7983,
+      "conservative_multiplier": 1.5,
+      "stage_api_cost_usd": {
+        "enrich": 3.9010751036999998,
+        "verify": 0.26549775,
+        "fallback": 1.2835466549999999,
+        "fixed_overhead": 0.0035326000000000003
+      },
+      "api_cost_basis": "nominal_usage_reprice",
+      "api_cost_usd": 5.4536521087,
+      "stage_gateway_uplift_usd": {
+        "enrich": 0.0,
+        "verify": 0.0,
+        "fallback": 0.0,
+        "fixed_overhead": 0.0
+      },
+      "gateway_uplift_usd": 0.0,
+      "projected_cost_including_gateway_uplift_usd": 5.4536521087,
+      "prior_spend_usd": 0.094707886,
+      "spend_including_prior_usd": 5.5483599947,
+      "budget_exceeded": false,
+      "projected_wall_seconds": 42847.899658769966,
+      "limitations": []
+    },
+    {
+      "scope": "selected",
+      "empty_text_quarantines": 13,
+      "total_source_rows_in_scope": 210013,
+      "scenario": "base",
+      "reviews": 210000,
+      "distinct_texts": 159657,
+      "exact_text_reuse": false,
+      "first_pass_classifications": 210000,
+      "verification_fraction": 0.01,
+      "verification_reviews": 2100,
+      "fallback_fraction": 0.05,
+      "fallback_reviews": 10500,
+      "conservative_multiplier": 1,
+      "stage_api_cost_usd": {
+        "enrich": 3.420774,
+        "verify": 0.1769985,
+        "fallback": 1.125495,
+        "fixed_overhead": 0.0035326000000000003
+      },
+      "api_cost_basis": "nominal_usage_reprice",
+      "api_cost_usd": 4.7268001,
+      "stage_gateway_uplift_usd": {
+        "enrich": 0.0,
+        "verify": 0.0,
+        "fallback": 0.0,
+        "fixed_overhead": 0.0
+      },
+      "gateway_uplift_usd": 0.0,
+      "projected_cost_including_gateway_uplift_usd": 4.7268001,
+      "prior_spend_usd": 0.094707886,
+      "spend_including_prior_usd": 4.821507986,
+      "budget_exceeded": false,
+      "projected_wall_seconds": 37371.046852584026,
+      "limitations": []
+    },
+    {
+      "scope": "selected",
+      "empty_text_quarantines": 13,
+      "total_source_rows_in_scope": 210013,
+      "scenario": "conservative",
+      "reviews": 210000,
+      "distinct_texts": 159657,
+      "exact_text_reuse": false,
+      "first_pass_classifications": 210000,
+      "verification_fraction": 0.01,
+      "verification_reviews": 2100,
+      "fallback_fraction": 0.05,
+      "fallback_reviews": 10500,
+      "conservative_multiplier": 1.5,
+      "stage_api_cost_usd": {
+        "enrich": 5.1311610000000005,
+        "verify": 0.26549775,
+        "fallback": 1.6882424999999999,
+        "fixed_overhead": 0.0035326000000000003
+      },
+      "api_cost_basis": "nominal_usage_reprice",
+      "api_cost_usd": 7.0884338499999995,
+      "stage_gateway_uplift_usd": {
+        "enrich": 0.0,
+        "verify": 0.0,
+        "fallback": 0.0,
+        "fixed_overhead": 0.0
+      },
+      "gateway_uplift_usd": 0.0,
+      "projected_cost_including_gateway_uplift_usd": 7.0884338499999995,
+      "prior_spend_usd": 0.094707886,
+      "spend_including_prior_usd": 7.183141736,
+      "budget_exceeded": false,
+      "projected_wall_seconds": 56046.946201021536,
+      "limitations": []
+    },
+    {
+      "scope": "full",
+      "empty_text_quarantines": 13,
+      "total_source_rows_in_scope": 660622,
+      "scenario": "base",
+      "reviews": 660609,
+      "distinct_texts": 484189,
+      "exact_text_reuse": true,
+      "first_pass_classifications": 484189,
+      "verification_fraction": 0.01,
+      "verification_reviews": 6607,
+      "fallback_fraction": 0.05,
+      "fallback_reviews": 24210,
+      "conservative_multiplier": 1,
+      "stage_api_cost_usd": {
+        "enrich": 7.8871482966,
+        "verify": 0.5568709949999999,
+        "fallback": 2.5950699,
+        "fixed_overhead": 0.0035326000000000003
+      },
+      "api_cost_basis": "nominal_usage_reprice",
+      "api_cost_usd": 11.0426217916,
+      "stage_gateway_uplift_usd": {
+        "enrich": 0.0,
+        "verify": 0.0,
+        "fallback": 0.0,
+        "fixed_overhead": 0.0
+      },
+      "gateway_uplift_usd": 0.0,
+      "projected_cost_including_gateway_uplift_usd": 11.0426217916,
+      "prior_spend_usd": 0.094707886,
+      "spend_including_prior_usd": 11.1373296776,
+      "budget_exceeded": false,
+      "projected_wall_seconds": 86683.083739095,
+      "limitations": []
+    },
+    {
+      "scope": "full",
+      "empty_text_quarantines": 13,
+      "total_source_rows_in_scope": 660622,
+      "scenario": "conservative",
+      "reviews": 660609,
+      "distinct_texts": 484189,
+      "exact_text_reuse": true,
+      "first_pass_classifications": 484189,
+      "verification_fraction": 0.01,
+      "verification_reviews": 6607,
+      "fallback_fraction": 0.05,
+      "fallback_reviews": 24210,
+      "conservative_multiplier": 1.5,
+      "stage_api_cost_usd": {
+        "enrich": 11.830722444900001,
+        "verify": 0.8353064924999999,
+        "fallback": 3.8926048499999997,
+        "fixed_overhead": 0.0035326000000000003
+      },
+      "api_cost_basis": "nominal_usage_reprice",
+      "api_cost_usd": 16.562166387399998,
+      "stage_gateway_uplift_usd": {
+        "enrich": 0.0,
+        "verify": 0.0,
+        "fallback": 0.0,
+        "fixed_overhead": 0.0
+      },
+      "gateway_uplift_usd": 0.0,
+      "projected_cost_including_gateway_uplift_usd": 16.562166387399998,
+      "prior_spend_usd": 0.094707886,
+      "spend_including_prior_usd": 16.656874273399996,
+      "budget_exceeded": false,
+      "projected_wall_seconds": 130015.00153078802,
+      "limitations": []
+    },
+    {
+      "scope": "full",
+      "empty_text_quarantines": 13,
+      "total_source_rows_in_scope": 660622,
+      "scenario": "base",
+      "reviews": 660609,
+      "distinct_texts": 484189,
+      "exact_text_reuse": false,
+      "first_pass_classifications": 660609,
+      "verification_fraction": 0.01,
+      "verification_reviews": 6607,
+      "fallback_fraction": 0.05,
+      "fallback_reviews": 33031,
+      "conservative_multiplier": 1,
+      "stage_api_cost_usd": {
+        "enrich": 10.7609242446,
+        "verify": 0.5568709949999999,
+        "fallback": 3.5405928899999997,
+        "fixed_overhead": 0.0035326000000000003
+      },
+      "api_cost_basis": "nominal_usage_reprice",
+      "api_cost_usd": 14.8619207296,
+      "stage_gateway_uplift_usd": {
+        "enrich": 0.0,
+        "verify": 0.0,
+        "fallback": 0.0,
+        "fixed_overhead": 0.0
+      },
+      "gateway_uplift_usd": 0.0,
+      "projected_cost_including_gateway_uplift_usd": 14.8619207296,
+      "prior_spend_usd": 0.094707886,
+      "spend_including_prior_usd": 14.9566286156,
+      "budget_exceeded": false,
+      "projected_wall_seconds": 117519.42739154967,
+      "limitations": []
+    },
+    {
+      "scope": "full",
+      "empty_text_quarantines": 13,
+      "total_source_rows_in_scope": 660622,
+      "scenario": "conservative",
+      "reviews": 660609,
+      "distinct_texts": 484189,
+      "exact_text_reuse": false,
+      "first_pass_classifications": 660609,
+      "verification_fraction": 0.01,
+      "verification_reviews": 6607,
+      "fallback_fraction": 0.05,
+      "fallback_reviews": 33031,
+      "conservative_multiplier": 1.5,
+      "stage_api_cost_usd": {
+        "enrich": 16.1413863669,
+        "verify": 0.8353064924999999,
+        "fallback": 5.310889335,
+        "fixed_overhead": 0.0035326000000000003
+      },
+      "api_cost_basis": "nominal_usage_reprice",
+      "api_cost_usd": 22.2911147944,
+      "stage_gateway_uplift_usd": {
+        "enrich": 0.0,
+        "verify": 0.0,
+        "fallback": 0.0,
+        "fixed_overhead": 0.0
+      },
+      "gateway_uplift_usd": 0.0,
+      "projected_cost_including_gateway_uplift_usd": 22.2911147944,
+      "prior_spend_usd": 0.094707886,
+      "spend_including_prior_usd": 22.385822680399997,
+      "budget_exceeded": true,
+      "projected_wall_seconds": 176269.51700947,
+      "limitations": []
+    }
+  ],
+  "cash_outlay": {
+    "incremental_cash_purchase_usd": null,
+    "status": "not_measured",
+    "explanation": "Token usage and provider debits are economic consumption; existing credits do not make them zero. Credit purchases and incremental cash outlay require separate account evidence."
+  },
+  "local_compute": {
+    "usd_per_hour": null,
+    "estimated_cost_usd": null,
+    "status": "unknown"
+  },
+  "controls": {
+    "spending_limit_usd": 18.0,
+    "prior_spend_usd": 0.094707886,
+    "output_token_cap": 6000,
+    "max_workers": 16,
+    "fallback_fraction": 0.05,
+    "verification_fraction": 0.01
+  },
+  "rates": [
+    {
+      "rate_key": "jev_input",
+      "provider": "typesafe",
+      "model": "jev-1.13.0",
+      "category": "input",
+      "usd_per_million": 0.042,
+      "source_url": "https://docs.typesafe.ai/models",
+      "as_of": "2026-10-19"
+    },
+    {
+      "rate_key": "openai_input",
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "category": "input",
+      "usd_per_million": 0.1,
+      "source_url": "https://developers.openai.com/api/docs/pricing",
+      "as_of": "2026-10-19"
+    },
+    {
+      "rate_key": "openai_cached_input",
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "category": "cached_input",
+      "usd_per_million": 0.01,
+      "source_url": "https://developers.openai.com/api/docs/pricing",
+      "as_of": "2026-10-19"
+    },
+    {
+      "rate_key": "openai_output",
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "category": "output",
+      "usd_per_million": 0.5,
+      "source_url": "https://developers.openai.com/api/docs/pricing",
+      "as_of": "2026-10-19"
+    },
+    {
+      "rate_key": "nebius_qwen30b_input",
+      "provider": "nebius",
+      "model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+      "category": "input",
+      "usd_per_million": 0.1,
+      "source_url": "https://tokenfactory.nebius.com/api/public/models_info",
+      "as_of": "2026-10-19"
+    },
+    {
+      "rate_key": "nebius_qwen30b_output",
+      "provider": "nebius",
+      "model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+      "category": "output",
+      "usd_per_million": 0.3,
+      "source_url": "https://tokenfactory.nebius.com/api/public/models_info",
+      "as_of": "2026-10-19"
+    },
+    {
+      "rate_key": "nebius_gptoss120b_input",
+      "provider": "nebius",
+      "model": "openai/gpt-oss-120b",
+      "category": "input",
+      "usd_per_million": 0.15,
+      "source_url": "https://tokenfactory.nebius.com/api/public/models_info",
+      "as_of": "2026-10-19"
+    },
+    {
+      "rate_key": "nebius_gptoss120b_output",
+      "provider": "nebius",
+      "model": "openai/gpt-oss-120b",
+      "category": "output",
+      "usd_per_million": 0.6,
+      "source_url": "https://tokenfactory.nebius.com/api/public/models_info",
+      "as_of": "2026-10-19"
+    },
+    {
+      "rate_key": "nebius_lightning_input",
+      "provider": "nebius",
+      "model": "nvidia/Nemotron-3_5-Lightning",
+      "category": "input",
+      "usd_per_million": 0.06,
+      "source_url": "https://tokenfactory.nebius.com/api/public/models_info",
+      "as_of": "2026-10-19"
+    },
+    {
+      "rate_key": "nebius_lightning_output",
+      "provider": "nebius",
+      "model": "nvidia/Nemotron-3_5-Lightning",
+      "category": "output",
+      "usd_per_million": 0.24,
+      "source_url": "https://tokenfactory.nebius.com/api/public/models_info",
+      "as_of": "2026-10-19"
+    },
+    {
+      "rate_key": "nebius_glm53flash_input",
+      "provider": "nebius",
+      "model": "zai-org/GLM-5.3-Flash",
+      "category": "input",
+      "usd_per_million": 0.15,
+      "source_url": "https://tokenfactory.nebius.com/api/public/models_info",
+      "as_of": "2026-10-19"
+    },
+    {
+      "rate_key": "nebius_glm53flash_output",
+      "provider": "nebius",
+      "model": "zai-org/GLM-5.3-Flash",
+      "category": "output",
+      "usd_per_million": 0.5,
+      "source_url": "https://tokenfactory.nebius.com/api/public/models_info",
+      "as_of": "2026-10-19"
+    }
+  ],
+  "limitations": [
+    "API cost is nominal usage repriced from editable rates; immutable gateway actual debits and fee breakdowns are reported separately.",
+    "Nebius input with an unknown cache breakdown is priced at the published standard rate for all reported input; no cache discount or zero cache usage is invented.",
+    "Existing credits do not make economic usage free. Gateway debits may consume prepaid or promotional credits and do not establish a new cash purchase.",
+    "Missing gateway fee/debit evidence remains unknown. Budget projections add measured nonnegative gateway uplift only when reconciled; discounts are not extrapolated.",
+    "Reservations and charge holds are estimates, not guaranteed cost bounds.",
+    "Unknown usage is excluded from known subtotals, never assumed free; partial/unknown provider markers keep total charges unresolved even when some billing items are present.",
+    "Unknown-charge holds cover entire attempts and are not added again to their known subtotals.",
+    "Summed call durations are not elapsed wall time.",
+    "Runtime projections use measured concurrency and linear workload extrapolation; they are not guarantees.",
+    "Variable unit costs include all logged attempts and retries; fixed downstream overhead is counted once.",
+    "No taxes, hosting charges, or unlogged API calls are inferred.",
+    "Reports should use a single frozen configuration and a single cold run for projection calibration."
+  ]
+}

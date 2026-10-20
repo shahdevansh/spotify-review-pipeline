@@ -24,7 +24,7 @@ def call(request_id, role, ids, *, units=1000, model="jev-1.13.0", provider="typ
     return {"request_id": request_id, "role": role, "review_ids": ids, "phase": "initial",
             "provider": provider, "model": model, "outcome": "succeeded", "duration_seconds": 1,
             "cache_mode": "cold", "workers": 1, "billing_items": [{"category": "input", "units": units,
-            "rate_key": "jev_input" if provider == "typesafe" else "openai_input"}], **extra}
+            "rate_key": "jev_input" if provider in {"typesafe", "jev"} else "openai_input"}], **extra}
 
 
 @pytest.fixture
@@ -227,3 +227,197 @@ def test_copied_evidence_folder_replays_measurements_portably(tmp_path):
     instructions = (export / "report.md").read_text()
     assert "--calls pilot_calls.jsonl --rates rates.csv --out replay" in instructions
     assert str(source) not in instructions
+
+
+def gateway_call(**extra):
+    return call("synthetic-gateway", "enrich", ["1"], provider="jev", model="typesafe-ai/jev-1.13.0",
+                requested_model="typesafe-ai/jev-1.13.0", transport="vercel_gateway", usage_source="provider",
+                cost_usd=.00005, calculated_rate_cost_usd=.000042,
+                gateway_billing={"cost": ".000042", "surchargeCost": ".000008", "gatewayCost": ".00005"}, **extra)
+
+
+def test_gateway_namespace_is_explicit_and_version_exact():
+    row = gateway_call()
+    rates = load_rates(RATES)
+    assert price_call(row, rates)["api_cost_usd"] == .000042
+    row["transport"] = "direct"
+    assert price_call(row, rates)["api_cost_usd"] is None
+    row["requested_model"] = "jev-1.13.0"
+    assert price_call(row, rates)["api_cost_usd"] is None
+    row["requested_model"] = "typesafe-ai/jev-1.13.0"
+    row["transport"] = "vercel_gateway"
+    row["model"] = "typesafe-ai/jev-1.14.0"
+    assert price_call(row, rates)["api_cost_usd"] is None
+    row["model"] = "typesafe-ai/jev-1.13.0"
+    row["requested_model"] = "typesafe-ai/jev-1.14.0"
+    assert price_call(row, rates)["api_cost_usd"] is None
+    row["requested_model"] = "typesafe-ai/jev-1.13.0"
+    row["provider"] = "other"
+    assert price_call(row, rates)["api_cost_usd"] is None
+
+
+def test_gateway_nominal_reprice_doubles_but_receipt_is_immutable(tmp_path):
+    path = write_run(tmp_path, [gateway_call()])
+    doubled = tmp_path / "double.csv"
+    with RATES.open(newline="") as src, doubled.open("w", newline="") as dest:
+        reader = csv.DictReader(src)
+        writer = csv.DictWriter(dest, fieldnames=reader.fieldnames)
+        writer.writeheader()
+        for row in reader:
+            row["usd_per_million"] = str(float(row["usd_per_million"]) * 2)
+            writer.writerow(row)
+    before = calculate_cost(path, RATES)
+    after = calculate_cost(path, doubled)
+    assert after["measurements"]["api_cost_usd"] == 2 * before["measurements"]["api_cost_usd"]
+    assert before["measurements"]["gateway_reported_actual_debit_usd"] == after["measurements"]["gateway_reported_actual_debit_usd"] == .00005
+    assert before["measurements"]["gateway_reported_surcharge_usd"] == after["measurements"]["gateway_reported_surcharge_usd"] == .000008
+    assert before["stages"]["enrich"]["gateway_nonnegative_uplift_usd"] == .000008
+
+
+def test_gateway_missing_fee_remains_unknown_and_blocks_budget_decision(pilot):
+    calls = [json.loads(line) for line in pilot.read_text().splitlines()]
+    gateway = gateway_call()
+    gateway["gateway_billing"] = {"cost": ".000042"}
+    gateway["cost_usd"] = None
+    calls[0] = gateway
+    pilot.write_text("".join(json.dumps(c) + "\n" for c in calls))
+    result = calculate_cost(pilot, RATES)
+    assert result["measurements"]["api_cost_usd"] is not None
+    assert result["measurements"]["gateway_reported_actual_debit_usd"] is None
+    assert result["measurements"]["gateway_reported_surcharge_usd"] is None
+    assert result["measurements"]["gateway_unknown_debit_calls"] == 1
+    assert result["projections"][0]["api_cost_usd"] is not None
+    assert result["projections"][0]["projected_cost_including_gateway_uplift_usd"] is None
+    assert result["projections"][0]["budget_exceeded"] is None
+
+
+def test_gateway_known_total_does_not_invent_surcharge_breakdown():
+    row = gateway_call()
+    row["gateway_billing"] = {"gatewayCost": ".00005"}
+    result = price_call(row, load_rates(RATES))
+    assert result["gateway_reported_actual_debit_usd"] == .00005
+    assert result["gateway_reported_surcharge_usd"] is None
+    assert result["gateway_nonnegative_uplift_usd"] == .000008
+
+
+def test_gateway_projected_budget_includes_measured_uplift(pilot):
+    calls = [json.loads(line) for line in pilot.read_text().splitlines()]
+    calls[0] = gateway_call()
+    pilot.write_text("".join(json.dumps(c) + "\n" for c in calls))
+    result = calculate_cost(pilot, RATES)
+    projection = result["projections"][0]
+    assert projection["gateway_uplift_usd"] == pytest.approx(.000008 / 2 * 159657)
+    assert projection["projected_cost_including_gateway_uplift_usd"] == pytest.approx(projection["api_cost_usd"] + projection["gateway_uplift_usd"])
+    assert projection["budget_exceeded"] is not None
+
+
+def test_gateway_receipt_cost_plus_surcharge_and_credits_are_not_extrapolated():
+    row = gateway_call()
+    row["gateway_billing"] = {"cost": ".00003", "surchargeCost": ".000005"}
+    result = price_call(row, load_rates(RATES))
+    assert result["gateway_reported_actual_debit_usd"] == .000035
+    assert result["gateway_actual_debit_basis"] == "cost_plus_surchargeCost"
+    assert result["gateway_nonnegative_uplift_usd"] == 0
+
+
+def test_gateway_jev_detection_keeps_implicit_openai_fallback_separate(tmp_path):
+    calls = [gateway_call(), call("synthetic-fallback", "enrich", ["1"], provider="openai", model="gpt-6-luna")]
+    result = calculate_cost(write_run(tmp_path, calls), RATES)
+    assert result["stages"]["enrich"]["attempts"] == 1
+    assert result["stages"]["fallback"]["attempts"] == 1
+
+
+def test_gateway_known_debit_does_not_resolve_unknown_nominal_or_double_count_hold(pilot):
+    calls = [json.loads(line) for line in pilot.read_text().splitlines()]
+    gateway = gateway_call()
+    gateway["usage_source"] = "unknown"
+    gateway["billing_items"] = []
+    gateway["reserved_usd"] = .002
+    gateway["unknown_charge_hold_usd"] = .002
+    calls[0] = gateway
+    pilot.write_text("".join(json.dumps(c) + "\n" for c in calls))
+    result = calculate_cost(pilot, RATES)
+    assert result["measurements"]["api_cost_usd"] is None
+    assert result["measurements"]["gateway_reported_actual_debit_usd"] == .00005
+    conservative = result["projections"][1]
+    assert conservative["api_cost_usd"] is not None  # Separate reservation scenario.
+    assert conservative["projected_cost_including_gateway_uplift_usd"] is None
+    assert conservative["budget_exceeded"] is None
+
+
+def nebius_call(model="Qwen/Qwen3-30B-A3B-Instruct-2507", prefix="nebius_qwen30b"):
+    return {"request_id": "synthetic-nebius", "role": "enrich", "review_ids": ["1"],
+            "provider": "nebius", "model": model, "requested_model": model,
+            "transport": "direct", "usage_source": "provider", "outcome": "succeeded",
+            "cost_basis": "provider_usage_times_nominal_standard_rates",
+            "reported_invoice_cost_usd": None, "credits_used_usd": None, "cash_purchase_usd": None,
+            "input_tokens": 1000, "output_tokens": 200,
+            "raw_usage": {"prompt_tokens": 1000, "completion_tokens": 200},
+            "normalized_usage": {"cached_input_tokens": None, "reasoning_tokens": None},
+            "billing_items": [{"category": "input", "units": 1000, "rate_key": prefix + "_input",
+                               "input_policy": "all_reported_input_at_standard_rate"},
+                              {"category": "output", "units": 200, "rate_key": prefix + "_output"}]}
+
+
+def test_nebius_unknown_cache_breakdown_bills_total_at_public_rate(tmp_path):
+    row = nebius_call()
+    result = price_call(row, load_rates(RATES))
+    assert result["api_cost_usd"] == .00016
+    assert not result["unknown_cost"]
+    assert result["reported_invoice_cost_usd"] is None
+    assert result["credits_used_usd"] is None
+    assert result["cash_purchase_usd"] is None
+    assert row["normalized_usage"]["cached_input_tokens"] is None
+    report = calculate_cost(write_run(tmp_path, [row]), RATES)
+    assert report["measurements"]["api_cost_usd"] == .00016
+    assert report["cash_outlay"]["incremental_cash_purchase_usd"] is None
+
+
+def test_nebius_reasoning_is_already_in_output_and_cache_discount_not_invented():
+    row = nebius_call("openai/gpt-oss-120b", "nebius_gptoss120b")
+    row["raw_usage"]["completion_tokens_details"] = {"reasoning_tokens": 150}
+    row["raw_usage"]["prompt_tokens_details"] = {"cached_tokens": 900}
+    result = price_call(row, load_rates(RATES))
+    assert result["api_cost_usd"] == .00027
+    assert len(result["billing_items"]) == 2
+    assert result["billing_items"][0]["units"] == 1000
+    assert result["billing_items"][1]["units"] == 200
+
+
+def test_nebius_model_id_requires_exact_returned_and_requested_match():
+    row = nebius_call()
+    row["model"] = "Qwen/Qwen3-30B-A3B-Instruct-2507-fast"
+    assert price_call(row, load_rates(RATES))["api_cost_usd"] is None
+    row = nebius_call()
+    row["requested_model"] = "Qwen/Qwen3-30B-A3B-Instruct-2507-fast"
+    assert price_call(row, load_rates(RATES))["api_cost_usd"] is None
+
+
+def test_nebius_missing_output_remains_unknown_despite_known_input():
+    row = nebius_call()
+    row["usage_source"] = "provider_partial"
+    row["billing_items"] = row["billing_items"][:1]
+    row["output_tokens"] = None
+    result = price_call(row, load_rates(RATES))
+    assert result["api_cost_usd"] is None
+    assert result["known_api_subtotal_usd"] == .0001
+
+
+def test_nebius_rate_edits_change_economic_usage_not_cash_evidence():
+    row = nebius_call()
+    normal_rates = load_rates(RATES)
+    doubled_rates = {key: {**value, "usd_per_million": value["usd_per_million"] * 2}
+                     for key, value in normal_rates.items()}
+    original = price_call(row, normal_rates)
+    doubled = price_call(row, doubled_rates)
+    assert doubled["api_cost_usd"] == 2 * original["api_cost_usd"]
+    assert original["cash_purchase_usd"] is doubled["cash_purchase_usd"] is None
+    assert original["credits_used_usd"] is doubled["credits_used_usd"] is None
+
+
+def test_verified_nebius_lightning_challenger_uses_exact_catalog_id():
+    row = nebius_call("nvidia/Nemotron-3_5-Lightning", "nebius_lightning")
+    result = price_call(row, load_rates(RATES))
+    assert result["api_cost_usd"] == .000108
+    row["model"] = "nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-BF16"
+    assert price_call(row, load_rates(RATES))["api_cost_usd"] is None

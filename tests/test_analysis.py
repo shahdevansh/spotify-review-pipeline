@@ -1,5 +1,6 @@
 """Synthetic fixtures only; these tests do not produce production run evidence."""
 import asyncio
+import copy
 import csv
 import importlib.util
 import json
@@ -8,9 +9,10 @@ from pathlib import Path
 import pytest
 
 from spotify_pipeline.analysis import (
-    bounded_evidence, build_analysis, calculate_ranking, rerank, run_analysis,
-    validate_recommendations,
+    bounded_evidence, build_analysis, calculate_ranking, group_schema, memo_schema,
+    rerank, run_analysis, validate_issues, validate_recommendations,
 )
+from spotify_pipeline.engine import fingerprint, load_config, validate_schema
 from spotify_pipeline.export import export_grading
 
 
@@ -105,6 +107,7 @@ def test_bounded_distinct_roles_and_grounded_memo(tmp_path):
                                     "description": "Listening fails.", "review_ids": ["a"]}]}
         else:
             response = memo_result()
+        validate_schema(response, schema)
         if _validator:
             _validator(response)
         return response
@@ -114,6 +117,68 @@ def test_bounded_distinct_roles_and_grounded_memo(tmp_path):
     assert result["recommendations"]["priority_issue_id"] == "issue-playback"
     assert "claim-playback-severity-sum" in (tmp_path / "memo.md").read_text()
     assert (tmp_path / "handoffs" / "memo.input.json").exists()
+
+
+@pytest.mark.parametrize("mutation", ["unicode_id", "unknown_claim", "unknown_issue", "prose_id"])
+def test_dynamic_memo_schema_rejects_bad_references_before_semantic_validation(mutation):
+    rid = "a1b2-3456"
+    rows = [record(rid)]
+    document = memo_result()
+    document["recommendations"][0]["review_ids"] = [rid]
+    if mutation == "unicode_id":
+        document["recommendations"][0]["review_ids"] = [rid.replace("-", "\u2011")]
+    elif mutation == "unknown_claim":
+        document["recommendations"][0]["claim_ids"] = ["claim-invented-severity-sum"]
+    elif mutation == "unknown_issue":
+        document["priority_issue_id"] = "issue-invented"
+    else:
+        document["recommendations"][0]["rationale"] += f" See review {rid}."
+    with pytest.raises(ValueError, match="invalid enum|required pattern"):
+        validate_schema(document, memo_schema(calculate_ranking(rows), bounded_evidence(rows)))
+
+
+def test_dynamic_schemas_keep_cross_issue_reference_checks():
+    rows = [record("a"), record("b", topic="access")]
+    evidence, result = bounded_evidence(rows), calculate_ranking(rows)
+    document = memo_result()
+    document["recommendations"][0]["review_ids"] = ["b"]
+    # A globally valid ID still cannot substantiate a different issue.
+    validate_schema(document, memo_schema(result, evidence))
+    with pytest.raises(ValueError, match="ungrounded review"):
+        validate_recommendations(document, result, evidence)
+    groups = {"issues": [
+        {"issue_id": "issue-playback", "title": "Playback", "description": "Listening fails.", "review_ids": ["b"]},
+        {"issue_id": "issue-access", "title": "Access", "description": "Access fails.", "review_ids": ["a"]},
+    ]}
+    validate_schema(groups, group_schema(evidence))
+    with pytest.raises(ValueError, match="Grouping invented"):
+        validate_issues(groups, evidence)
+
+
+def test_empty_issue_corpus_has_valid_dynamic_schema_without_empty_enums():
+    result = calculate_ranking([record("a", intent="praise", severity=1)])
+    document = {
+        "summary": "The sample contains no classified complaints.", "priority_issue_id": None,
+        "recommendations": [], "alternatives": [],
+        "limitations": ["This small historical sample cannot establish absence of product problems."],
+    }
+    validate_schema({"issues": []}, group_schema({}))
+    validate_schema(document, memo_schema(result, {}))
+    validate_recommendations(document, result, {})
+    assert '"enum": []' not in json.dumps(memo_schema(result, {}))
+
+
+def test_analysis_schema_and_logic_changes_invalidate_engine_fingerprint(monkeypatch):
+    import spotify_pipeline.analysis as analysis
+    config = load_config()
+    original = fingerprint(config)
+    changed = copy.deepcopy(analysis.GROUP_SCHEMA)
+    changed["properties"]["issues"]["maxItems"] = 8
+    monkeypatch.setattr(analysis, "GROUP_SCHEMA", changed)
+    assert fingerprint(config) != original
+    monkeypatch.undo()
+    monkeypatch.setattr(analysis, "ANALYSIS_LOGIC_VERSION", "synthetic-future-logic")
+    assert fingerprint(config) != original
 
 
 @pytest.mark.parametrize("mutation", ["invented_claim", "invented_review", "unchecked_number", "invented_issue"])

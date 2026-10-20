@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "scope": "Actual final-v5 fixed-100 cold/warm evidence",
+  "method": "Packaged stdlib-only Python -S replay with provider/database credentials omitted",
+  "paid_calls": 0,
+  "cold_original_ids": 100,
+  "combined_actual_attempts": 8,
+  "historical_evidence_calls_included": false,
+  "checks": [
+    {
+      "mode": "cold",
+      "nominal_api_usd": 0.00654034,
+      "doubled_api_usd": 0.01308068,
+      "rate_doubling_passed": true,
+      "projection_change_preserved_all_measurements": true,
+      "measured_wall_seconds": 39.803415499998664,
+      "wall_time_preserved": true,
+      "local_compute_preserved": true
+    },
+    {
+      "mode": "warm",
+      "nominal_api_usd": 0.0,
+      "doubled_api_usd": 0.0,
+      "rate_doubling_passed": true,
+      "projection_change_preserved_all_measurements": true,
+      "measured_wall_seconds": 0.07851741699778358,
+      "wall_time_preserved": true,
+      "local_compute_preserved": true
+    }
+  ],
+  "archive": {
+    "path": "cost/measured-100.zip",
+    "sha256": "1d77ece36879658f282f5b5d29dba0371f88d308b9b580a3c7a9c2deb4cf4c4c",
+    "bytes": 201219
+  },
+  "limitations": [
+    "Economic token-rate consumption is not a reconciled credit debit or cash invoice.",
+    "The replay preserves measured times; it is not another timed model run."
+  ]
+}

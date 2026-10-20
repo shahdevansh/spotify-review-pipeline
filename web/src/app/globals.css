@@ -72,6 +72,12 @@ h1 span { color: #71876c; }
 .metric-label { font-size: 11px; font-weight: 550; color: #607057; }
 .metric-value { font-size: 34px; font-weight: 600; letter-spacing: -1.5px; line-height: 1.2; margin: 10px 0; }
 .metric-detail { font-size: 10px; color: #788370; }
+.cost-context { margin-top: 14px; font-size: 11px; color: var(--muted); line-height: 1.7; }
+.cost-context p { margin: 5px 0; }
+.cost-context strong { color: var(--ink); font-weight: 550; }
+.evaluation-context { padding: 0 24px 16px; margin: 0; font-size: 12px; line-height: 1.7; color: var(--muted); }
+.model-panel { margin-top: 22px; }
+.model-panel .mono { overflow-wrap: anywhere; }
 .coverage-strip { display: flex; align-items: center; gap: 20px; border-bottom: 1px solid var(--line); padding: 22px 0 24px; color: var(--muted); }
 .coverage-heading { display: flex; align-items: center; gap: 9px; font-weight: 600; font-size: 10px; padding-right: 14px; color: #53634e; }
 .coverage-strip > div:not(.coverage-heading) { display: flex; flex-direction: column; gap: 1px; }

@@ -23,14 +23,32 @@ def _print(value):
 def _credentials():
     load_dotenv(ROOT / ".env", override=False)
     return {name: bool(os.environ.get(name)) for name in
-            ("TYPESAFE_API_KEY", "OPENAI_API_KEY", "DATABASE_URL", "DATABASE_READONLY_URL")}
+            ("TYPESAFE_API_KEY", "VERCEL_TYPESAFE_API_KEY", "OPENAI_API_KEY", "NEBIUS_API_KEY",
+             "DATABASE_URL", "DATABASE_READONLY_URL")}
 
 
 def _require_paid(args):
     if not args.execute_paid:
         raise ValueError("Paid execution is disabled. Add --execute-paid to explicitly run model calls.")
     available = _credentials()
-    missing = [key for key in ("TYPESAFE_API_KEY", "OPENAI_API_KEY") if not available[key]]
+    config_path = Path(getattr(args, "config", ROOT / "config/pipeline.json"))
+    config = json.loads(config_path.read_text())
+    from .engine import ROLE_PROVIDERS, role_provider
+    declared = config.get("providers", {})
+    if not isinstance(declared, dict) or set(declared) - set(ROLE_PROVIDERS):
+        raise ValueError("Unsupported provider role configuration; no calls made.")
+    providers = {role_provider(config, role) for role in ROLE_PROVIDERS}
+    if providers - {"jev", "openai", "nebius"}:
+        raise ValueError("Unsupported provider; no calls made.")
+    required = set()
+    if "jev" in providers:
+        transport = config.get("jev_transport", "direct")
+        if transport not in {"direct", "vercel_gateway"}:
+            raise ValueError("Unsupported Jev transport; no calls made.")
+        required.add("VERCEL_TYPESAFE_API_KEY" if transport == "vercel_gateway" else "TYPESAFE_API_KEY")
+    required.update({"openai": "OPENAI_API_KEY", "nebius": "NEBIUS_API_KEY"}[provider]
+                    for provider in providers - {"jev"})
+    missing = [key for key in sorted(required) if not available.get(key)]
     if missing:
         raise ValueError("Configure " + ", ".join(missing) + f" in the ignored {ROOT / '.env'}. No calls made.")
 
@@ -130,8 +148,13 @@ def _pilot_stage_ready(result: dict, name: str, verify_count: int) -> None:
     if result.get("api_cost_complete") is not True:
         raise ValueError(f"Pilot stage {name} has unresolved billed usage; reconcile it before expansion.")
     global_spending = result.get("global_spending", {})
-    if global_spending.get("unknown_charge_hold_usd", 0) or global_spending.get("reserved_usd", 0):
-        raise ValueError("Shared spending contains an unresolved or interrupted charge; reconcile it before expansion.")
+    if global_spending.get("reserved_usd", 0):
+        raise ValueError("Shared spending contains an in-flight reservation; reconcile it before expansion.")
+    # Prior experiments' unknown charges remain fully held by the shared ledger.
+    # They reduce every subsequent admission budget, without turning a fully
+    # measured current stage into an unmeasured one.
+    if global_spending.get("committed_usd", 0) > result.get("global_budget_usd", 18):
+        raise ValueError("Shared spending plus retained uncertainty exceeds the budget; do not expand.")
     verification = result.get("stages", {}).get("verify", {})
     if verification.get("completed", 0) != verify_count:
         raise ValueError(f"Pilot stage {name} has incomplete independent verification; inspect before expansion.")

@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "run_id": "1000-1ad0e35d239c3e9d",
+  "scope": "1000 original learning reviews",
+  "method": "Rerank copied saved records and membership with provider/database credentials removed; original run artifacts unchanged",
+  "paid_calls": 0,
+  "before_sha256": {
+    "records.jsonl": "d7d107cf8b390d4c2f311aa2b2e4d0d29d9a2ba19cb40059e32e91670500be02",
+    "membership.csv": "261a9034e0144f8bb67b2b24a62fa5fd2e9b024f56f9927d37184305cf11e971",
+    "ranking.csv": "69208d44a7722ac8168ef7cecfef922143d67f9dd3a5ac674f9877db4bde9fb3",
+    "aggregates.csv": "69208d44a7722ac8168ef7cecfef922143d67f9dd3a5ac674f9877db4bde9fb3",
+    "claims.csv": "5f7a3e1cb0f1e01ffcf78ed366b8dba218f98e107ebf4e390b1d2ea5436a6f8e"
+  },
+  "after_rerank_sha256": {
+    "records.jsonl": "d7d107cf8b390d4c2f311aa2b2e4d0d29d9a2ba19cb40059e32e91670500be02",
+    "membership.csv": "261a9034e0144f8bb67b2b24a62fa5fd2e9b024f56f9927d37184305cf11e971",
+    "ranking.csv": "69208d44a7722ac8168ef7cecfef922143d67f9dd3a5ac674f9877db4bde9fb3",
+    "aggregates.csv": "69208d44a7722ac8168ef7cecfef922143d67f9dd3a5ac674f9877db4bde9fb3",
+    "claims.csv": "5f7a3e1cb0f1e01ffcf78ed366b8dba218f98e107ebf4e390b1d2ea5436a6f8e"
+  },
+  "identical": true,
+  "original_files_unchanged": true,
+  "ranked_issues": 8,
+  "checker_unmodified_sha256": "d60bd66d84922d934c65b3d42b2c7d36cc738e8c75e2d6f2b2f58bca3141c26d"
+}

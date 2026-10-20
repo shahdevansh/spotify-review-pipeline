@@ -15,6 +15,34 @@ FIELDS = ("topic", "intent", "severity", "sentiment", "needs_review")
 INTENTS = ("cancellation", "complaint", "request", "praise", "unclear")
 
 
+def classification_signal_summary(records: Any) -> dict:
+    """Describe observed metadata without inventing confidence for LLM labels."""
+    completed = [row for row in load_records(records) if row.get("status") == "completed"]
+    numeric = []
+    sources, providers, models = Counter(), Counter(), Counter()
+    for row in completed:
+        score = row.get("uncertainty_score")
+        available = (type(score) in (int, float) and math.isfinite(score) and 0 <= score <= 1
+                     and row.get("confidence_source") != "not_available")
+        if available:
+            numeric.append(score)
+        sources[row.get("confidence_source") or
+                ("recorded_provider_signal" if available else "not_available")] += 1
+        providers[row.get("classifier_provider") or "not_recorded"] += 1
+        models[row.get("classifier_model") or "not_recorded"] += 1
+    return {
+        "completed_records": len(completed), "numeric_signal_available": len(numeric),
+        "numeric_signal_unavailable": len(completed) - len(numeric),
+        "numeric_signal_min": min(numeric) if numeric else None,
+        "numeric_signal_max": max(numeric) if numeric else None,
+        "needs_review_count": sum(row.get("needs_review") is True for row in completed),
+        "sources": dict(sources), "classifier_providers": dict(providers), "classifier_models": dict(models),
+        "calibrated_accuracy_confidence": False,
+        "interpretation": "needs_review is a prediction from model ambiguity flags and/or deterministic checks; "
+                          "it is not a calibrated probability of error. Missing provider confidence remains unknown.",
+    }
+
+
 def _boolean(value: Any) -> bool:
     if type(value) is bool:
         return value
@@ -157,6 +185,8 @@ def evaluate_golden(golden_csv: str | Path, records_path: Any, output_dir: str |
     report = {
         "status": "evaluated", "human_ground_truth": True, "denominator": n,
         "source_identity_checked": source_checked,
+        "classification_signals": classification_signal_summary(
+            [predictions[rid] for rid in ids if rid in predictions]),
         "missing_or_quarantined_predictions": sum(c["prediction_status"] != "completed" for c in cases),
         "ambiguous_count": sum(c["ambiguous"] for c in cases), "metrics": metrics,
         "per_topic_counts": dict(support),
@@ -194,27 +224,53 @@ def compare_verifier(records: Any, verifier_records: Any, output_dir: str | Path
         original = originals[rid]
         comparable = original.get("status") == "completed" and item.get("status", "completed") == "completed"
         differing = [field for field in FIELDS if original.get(field) != item.get(field)] if comparable else list(FIELDS)
+        initial = original.get("initial_prediction", original.get("jev_prediction"))
+        if not original.get("fallback_used"):
+            initial = original
+        initial_comparable = comparable and isinstance(initial, dict) and all(field in initial for field in FIELDS)
+        initial = initial if isinstance(initial, dict) else {}
+        initial_differing = ([field for field in FIELDS if initial.get(field) != item.get(field)]
+                             if initial_comparable else list(FIELDS))
         comparisons.append({
             "review_id": rid, "comparable": comparable, "differing_fields": differing,
+            "fallback_used": original.get("fallback_used") is True,
+            "initial_comparable": initial_comparable, "initial_differing_fields": initial_differing,
+            "initial_enrichment": {field: initial.get(field) for field in FIELDS},
             "enrichment": {field: original.get(field) for field in FIELDS},
             "verification": {field: item.get(field) for field in FIELDS},
             "severity_absolute_difference": abs(original["severity"] - item["severity"]) if comparable else None,
             "sentiment_absolute_difference": abs(original["sentiment"] - item["sentiment"]) if comparable else None,
         })
     count = len(comparisons)
+    severity_diffs = [c["severity_absolute_difference"] for c in comparisons if c["comparable"]]
+    sentiment_diffs = [c["sentiment_absolute_difference"] for c in comparisons if c["comparable"]]
     report = {
         "status": "compared" if count else "no_verifier_predictions", "ground_truth": False,
+        "comparison_type": "independent_model_agreement",
+        "classification_signals": classification_signal_summary(
+            [originals[item["review_id"]] for item in verified]),
         "verified_count": count, "disagreement_count": sum(bool(c["differing_fields"]) for c in comparisons),
+        "initial_disagreement_count": sum(bool(c["initial_differing_fields"]) for c in comparisons),
+        "fallback_used_count": sum(c["fallback_used"] for c in comparisons),
+        "initial_comparable_count": sum(c["initial_comparable"] for c in comparisons),
         "comparable_count": sum(c["comparable"] for c in comparisons),
         "field_agreement": {field: sum(c["comparable"] and field not in c["differing_fields"] for c in comparisons) / count
                             if count else None for field in FIELDS},
+        "initial_model_field_agreement": {
+            field: sum(c["initial_comparable"] and field not in c["initial_differing_fields"] for c in comparisons) / count
+            if count else None for field in FIELDS},
+        "severity_mean_absolute_difference": sum(severity_diffs) / len(severity_diffs) if severity_diffs else None,
+        "sentiment_mean_absolute_difference": sum(sentiment_diffs) / len(sentiment_diffs) if sentiment_diffs else None,
         "limitations": ["Independent model agreement is not human accuracy.",
+                        "Initial model agreement uses saved pre-fallback predictions; final agreement includes routed fallback answers.",
+                        "A fallback sharing the verifier's model can have correlated errors; agreement gains are not proof of correctness.",
                         "Targeted difficult cases must be reported separately from the seeded random sample."],
     }
     output = Path(output_dir)
     write_json(output / "verifier_report.json", report)
     for name, items in (("verifier_comparisons.jsonl", comparisons),
-                        ("disagreements.jsonl", [c for c in comparisons if c["differing_fields"]])):
+                        ("disagreements.jsonl", [c for c in comparisons
+                                                if c["differing_fields"] or c["initial_differing_fields"]])):
         (output / name).write_text("".join(json.dumps(c, ensure_ascii=False, allow_nan=False) + "\n" for c in items), encoding="utf-8")
     return report
 
@@ -290,6 +346,7 @@ def learning_report(run_dir: str | Path, output_dir: str | Path | None = None,
         "quarantined": sum(r.get("status") == "quarantined" for r in records),
         "unique_texts": len({r.get("review_text") for r in records}),
         "needs_review": sum(r.get("needs_review") is True for r in completed),
+        "classification_signals": classification_signal_summary(records),
         "inspection_rows": len(inspections), "inspected_rows": reviewed,
         "verifier": verifier, "measured_run": summary, "cost_projection": cost_report,
         "expansion_blockers": blockers,

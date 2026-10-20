@@ -1,0 +1,90 @@
+{
+  "run_id": "v5-live-001-539b7e44a3ab6852",
+  "run_identity_version": "output-config-cache-v2",
+  "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+  "input_count": 4,
+  "completed": 3,
+  "quarantined": 1,
+  "pending": 0,
+  "unique_texts": 3,
+  "cache_hits": 0,
+  "task_cache_hits": 0,
+  "requests": 2,
+  "attempts": 2,
+  "failed_attempts": 0,
+  "api_cost_usd": 0.00055269,
+  "api_cost_complete": true,
+  "spending": {
+    "spent_usd": 0.00055269,
+    "reserved_usd": 0.0,
+    "unknown_charge_hold_usd": 0.0,
+    "committed_usd": 0.00055269,
+    "attempts": 2
+  },
+  "global_spending": {
+    "spent_usd": 0.214957094,
+    "reserved_usd": 0.0,
+    "unknown_charge_hold_usd": 0.0164462,
+    "committed_usd": 0.231403294,
+    "attempts": 268
+  },
+  "budget_usd": 0.1,
+  "global_budget_usd": 1.5,
+  "wall_seconds": 2.8132372919972113,
+  "phase": "initial",
+  "model_settings": {
+    "models": {
+      "enrich": "nvidia/Nemotron-3_5-Lightning",
+      "fallback": "openai/gpt-oss-120b",
+      "verify": "openai/gpt-oss-120b",
+      "group": "openai/gpt-oss-120b",
+      "memo": "zai-org/GLM-5.3-Flash"
+    },
+    "providers": {
+      "enrich": "nebius",
+      "fallback": "nebius",
+      "verify": "nebius",
+      "group": "nebius",
+      "memo": "nebius"
+    },
+    "reasoning_effort": {
+      "enrich": "none",
+      "fallback": "low",
+      "verify": "low",
+      "group": "low",
+      "memo": "low"
+    }
+  },
+  "stages": {
+    "fallback": {
+      "eligible_unique_texts": 2,
+      "already_used": 0,
+      "maximum_unique_texts": 0,
+      "selected_unique_texts": 0
+    },
+    "exact_text_aliases": 0,
+    "enrich": {
+      "wall_seconds": 1.1157058329990832,
+      "workers": 1,
+      "provider": "nebius",
+      "model": "nvidia/Nemotron-3_5-Lightning",
+      "input_count": 4,
+      "unique_nonempty_texts": 3,
+      "cache_hits": 0
+    },
+    "verify": {
+      "requested_sample_count": 4,
+      "selected": 3,
+      "completed": 3,
+      "failed": 0,
+      "unprocessed": 0,
+      "disagreements": 2,
+      "wall_seconds": 1.6839587920003396,
+      "blind": true
+    }
+  },
+  "limitations": [],
+  "execution_status": "completed",
+  "synthetic": true,
+  "evaluation": "live_synthetic_safety_smoke_test"
+}

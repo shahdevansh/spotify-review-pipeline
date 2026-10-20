@@ -1,0 +1,19 @@
+{
+  "observed_at_utc": "2026-10-20T06:21:41.420722+00:00",
+  "project_id": "withered-dream-99353388",
+  "method": "Read-only Neon management API GET /projects/{project_id}/endpoints; no SQL or application requests by observer.",
+  "wake_request_started_at_utc": "2026-10-20T06:21:21.058675+00:00",
+  "wake_request_source": "Parent dashboard agent report of public API request; observer independently verifies control-plane state.",
+  "endpoint": {
+    "id": "ep-ancient-dawn-b4y3huk3",
+    "branch_id": "br-red-violet-b41ee6nc",
+    "type": "read_write",
+    "current_state": "active",
+    "suspend_timeout_seconds": 0,
+    "autoscaling_limit_min_cu": 0.25,
+    "autoscaling_limit_max_cu": 2,
+    "last_active": "2026-10-20T06:21:22Z",
+    "updated_at": "2026-10-20T06:21:31Z",
+    "disabled": false
+  }
+}

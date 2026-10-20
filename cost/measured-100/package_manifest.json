@@ -1,0 +1,53 @@
+{
+  "schema_version": "fixed-100-package-v1",
+  "input_sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e",
+  "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+  "source_run_ids": {
+    "cold": "100-cold-6ca1c9e8c760b201",
+    "warm": "100-warm-ad25971a11c3d8bc"
+  },
+  "original_rates_sha256": "d9a436b1012409b3905b87d301a4a5a001fda46dcfc6f7c3d0a57279203d3a62",
+  "immutable_files": {
+    "calculator/cost.py": "b140d656d45b3343ad8041addc1cf1e1119b7defb4e801c30a92b9d1494bf676",
+    "calculator/package_pilot.py": "c6008b9490ed8bf62bfa37ec6dc90c9f8ab1065bd17d3ce2ed17d52510ffc8e1",
+    "snapshots/cold/calls.jsonl": "879ce11418309bc8b5daf3eb2c6283690d674eb555a92a171186c2e94b600053",
+    "snapshots/cold/checkpoint_after.json": "3cb91f95f93dff19c47fc0d176e8eff0794af4add174bf7be5adf3175e5b6f6a",
+    "snapshots/cold/checkpoint_start.json": "b0a59f0b09914af21ff132a1d79afa6ad5fb5c088884907f928047c63ca2500c",
+    "snapshots/cold/claims.csv": "bc13c14c782e57bb39919cd8e65fec3c4e3aafe2a56f33dee9033870905aea14",
+    "snapshots/cold/configuration.json": "47d9eba2fc4f3b7776b2f3d95cf758c92db200416743512266c14650852877da",
+    "snapshots/cold/disagreements.jsonl": "5c9751ad7f529b292760f6479d89bac3b0b051e0f39cdc10f432b99b3eb6516c",
+    "snapshots/cold/issues.json": "bceeaa35e934a826a405a70779d49c43ff107c59856411e5b48d5c10b5247d55",
+    "snapshots/cold/membership.csv": "730ad99587207c5f506064e33d82e084a2bc6feb9bd04fde9e39ae00ba9dcba6",
+    "snapshots/cold/memo.md": "04b518d33aa130692c768613caa947a901ae14f1fc66a9f95d96e0d28cd47f21",
+    "snapshots/cold/ranking.csv": "2fc49ca6bfaf60c12a80195cee57065d2b835620cf37d3b3bd26c450c4e36ff4",
+    "snapshots/cold/recommendations.json": "0cd01ba5fbfb8641daf15698819487cb662bed4fed66bf6ff4cc4d50e6a6eb26",
+    "snapshots/cold/records.jsonl": "2ad81beda6b5db94cb3500b7b736eb7a5127f110d29c30059f18a5c482a6e69a",
+    "snapshots/cold/run_manifest.json": "fb319c760a6eb50d240e45a071448b6af72e2ae0f5ac3f0e0be7fe8920f56383",
+    "snapshots/cold/run_summary.json": "45b79ae1c60e20c75a3e755e4ebf2ea36c6a6cc03fb4103abc2e60cc2ad0e6d8",
+    "snapshots/cold/verification.jsonl": "158b12f3fe1599e3cd39105bb9b62e75a56c19f051fe55dc85083be4d8bc7fe2",
+    "snapshots/warm/calls.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "snapshots/warm/checkpoint_after.json": "778ab92c73e1e59673756cc768065d22e07c8cd58296d60df40f9d1e6a5a92c8",
+    "snapshots/warm/checkpoint_start.json": "4d5deefbb655a6a3de2162cee7a907a415df85daa4f2829ce8bd2cb24b0c831e",
+    "snapshots/warm/claims.csv": "bc13c14c782e57bb39919cd8e65fec3c4e3aafe2a56f33dee9033870905aea14",
+    "snapshots/warm/configuration.json": "47d9eba2fc4f3b7776b2f3d95cf758c92db200416743512266c14650852877da",
+    "snapshots/warm/disagreements.jsonl": "5c9751ad7f529b292760f6479d89bac3b0b051e0f39cdc10f432b99b3eb6516c",
+    "snapshots/warm/issues.json": "bceeaa35e934a826a405a70779d49c43ff107c59856411e5b48d5c10b5247d55",
+    "snapshots/warm/membership.csv": "730ad99587207c5f506064e33d82e084a2bc6feb9bd04fde9e39ae00ba9dcba6",
+    "snapshots/warm/memo.md": "04b518d33aa130692c768613caa947a901ae14f1fc66a9f95d96e0d28cd47f21",
+    "snapshots/warm/ranking.csv": "2fc49ca6bfaf60c12a80195cee57065d2b835620cf37d3b3bd26c450c4e36ff4",
+    "snapshots/warm/recommendations.json": "0cd01ba5fbfb8641daf15698819487cb662bed4fed66bf6ff4cc4d50e6a6eb26",
+    "snapshots/warm/records.jsonl": "2ad81beda6b5db94cb3500b7b736eb7a5127f110d29c30059f18a5c482a6e69a",
+    "snapshots/warm/run_manifest.json": "3773a5a6447fa5f4893181cd45e81261a1ee7b5ded9d5a4ef3ec2be1341484d9",
+    "snapshots/warm/run_summary.json": "10c37a2660a82828353c0c7c5f276448756f3748b1df80fa21140306d6a70093",
+    "snapshots/warm/verification.jsonl": "158b12f3fe1599e3cd39105bb9b62e75a56c19f051fe55dc85083be4d8bc7fe2",
+    "source/cost_100.csv": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e",
+    "source/course_manifest.json": "07afdd96dd7f97ff5fbf967961e14d6d9f48170ba3f417399e20d5b620291011"
+  },
+  "projection_options": {
+    "prior_spend_usd": 0.094707886
+  },
+  "original_sources": {
+    "cold": "/Users/shahdevansh/Documents/Codex/2026-10-19/for/outputs/spotify-review-pipeline/runs/pilot/100-cold",
+    "warm": "/Users/shahdevansh/Documents/Codex/2026-10-19/for/outputs/spotify-review-pipeline/runs/pilot/100-warm"
+  }
+}

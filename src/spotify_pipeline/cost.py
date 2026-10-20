@@ -62,6 +62,57 @@ def _read_jsonl(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
+def _rate_model_matches(call: dict[str, Any], rate_model: str) -> bool:
+    """Permit only the explicit Jev gateway namespace, never a version alias."""
+    actual, requested = call.get("model"), call.get("requested_model")
+    if call.get("transport") == "vercel_gateway" and call.get("provider") in {"jev", "typesafe"}:
+        if not rate_model.startswith("jev-"):
+            return False
+        accepted = {rate_model, "typesafe-ai/" + rate_model}
+        return actual in accepted and (requested is None or requested in accepted)
+    if any(isinstance(model, str) and model.startswith("typesafe-ai/") for model in (actual, requested)):
+        return False
+    if rate_model.startswith("jev-") or call.get("provider") == "nebius":
+        return actual == rate_model and (requested is None or requested == rate_model)
+    return actual is None or rate_model in {actual, requested}
+
+
+def _optional_amount(value: Any) -> Decimal | None:
+    if value is None:
+        return None
+    try:
+        return _decimal(value, "gateway amount")
+    except ValueError:
+        return None
+
+
+def _gateway_cost_evidence(call: dict[str, Any], not_dispatched: bool) -> dict[str, Any]:
+    """Gateway receipt amounts are immutable evidence, independent of rate edits."""
+    is_gateway = call.get("transport") == "vercel_gateway"
+    raw = call.get("gateway_billing")
+    raw = raw if isinstance(raw, dict) else {}
+    inference = _optional_amount(raw.get("cost"))
+    surcharge = _optional_amount(raw.get("surchargeCost"))
+    debit = _optional_amount(raw.get("gatewayCost"))
+    basis = "gatewayCost" if debit is not None else None
+    if debit is None and inference is not None and surcharge is not None:
+        debit, basis = inference + surcharge, "cost_plus_surchargeCost"
+    if not is_gateway or not_dispatched:
+        inference, surcharge, debit = Decimal(0), Decimal(0), Decimal(0)
+        basis = "not_dispatched" if not_dispatched and is_gateway else "not_applicable"
+    nominal_at_execution = _optional_amount(call.get("calculated_rate_cost_usd"))
+    uplift = None if debit is None or nominal_at_execution is None else max(Decimal(0), debit - nominal_at_execution)
+    if not is_gateway or not_dispatched:
+        uplift = Decimal(0)
+    return {"gateway_call": is_gateway, "gateway_reported_actual_debit_usd": _number(debit),
+            "gateway_reported_inference_cost_usd": _number(inference),
+            "gateway_reported_surcharge_usd": _number(surcharge),
+            "gateway_actual_debit_basis": basis,
+            "gateway_original_nominal_cost_usd": _number(nominal_at_execution),
+            "gateway_nonnegative_uplift_usd": _number(uplift),
+            "gateway_billing": raw if is_gateway else None}
+
+
 def price_call(call: dict[str, Any], rates: dict[str, dict[str, Any]]) -> dict[str, Any]:
     """Reprice one attempted call, preserving partial and unknown billing.
 
@@ -109,9 +160,8 @@ def price_call(call: dict[str, Any], rates: dict[str, dict[str, Any]]) -> dict[s
             error = "rate_category_mismatch"
         elif call.get("provider") and ({"jev": "typesafe"}.get(rate["provider"], rate["provider"]) != {"jev": "typesafe"}.get(call["provider"], call["provider"])):
             error = "rate_provider_mismatch"
-        # Exact model and processing tier are part of the rate key. Aliases are
-        # accepted only when the requested model is the configured rate model.
-        elif call.get("model") and rate["model"] not in {call["model"], call.get("requested_model")}:
+        # Gateway namespace equivalence is explicit, transport-qualified, and version-exact.
+        elif not _rate_model_matches(call, rate["model"]):
             error = "rate_model_mismatch"
         cost = None if error else units * rate["usd_per_million"] / MILLION
         if cost is not None:
@@ -130,11 +180,18 @@ def price_call(call: dict[str, Any], rates: dict[str, dict[str, Any]]) -> dict[s
         # Do not add a partially known subtotal again. Neither is a bound.
         estimate = max(known, _decimal(hold, "unknown charge hold") if hold is not None else Decimal(0),
                        _decimal(reserve, "reservation") if reserve is not None else Decimal(0))
-    return {"api_cost_usd": None if problems else _number(known),
+    return {**_gateway_cost_evidence(call, not_dispatched),
+            "api_cost_basis": "nominal_usage_reprice",
+            "api_cost_usd": None if problems else _number(known),
             "known_api_subtotal_usd": _number(known),
             "conservative_charge_estimate_usd": _number(estimate) if problems else _number(known),
             "unknown_cost": bool(problems), "billing_problems": problems,
-            "reported_cost_usd": call.get("cost_usd"), "billing_items": priced_items}
+            "reported_cost_usd": call.get("cost_usd"),
+            "reported_cost_basis": call.get("cost_basis", "unreported"),
+            "reported_invoice_cost_usd": call.get("reported_invoice_cost_usd"),
+            "credits_used_usd": call.get("credits_used_usd"),
+            "cash_purchase_usd": call.get("cash_purchase_usd"),
+            "billing_items": priced_items}
 
 
 def _totals(rows: Iterable[dict[str, Any]]) -> dict[str, Any]:
@@ -142,7 +199,21 @@ def _totals(rows: Iterable[dict[str, Any]]) -> dict[str, Any]:
     known = sum((_decimal(row["known_api_subtotal_usd"], "cost") for row in rows), Decimal(0))
     unknown = sum(bool(row["unknown_cost"]) for row in rows)
     estimates = [row["conservative_charge_estimate_usd"] for row in rows]
-    return {"api_cost_usd": None if unknown else _number(known),
+    gateway_rows = [row for row in rows if row.get("gateway_call")]
+    def gateway_sum(field: str, *, known_only: bool = False) -> float | None:
+        values = [row.get(field) for row in gateway_rows]
+        if not known_only and any(value is None for value in values):
+            return None
+        return float(sum((_decimal(value, field) for value in values if value is not None), Decimal(0)))
+    return {"api_cost_basis": "nominal_usage_reprice",
+            "gateway_calls": len(gateway_rows),
+            "gateway_reported_actual_debit_usd": gateway_sum("gateway_reported_actual_debit_usd"),
+            "known_gateway_debit_subtotal_usd": gateway_sum("gateway_reported_actual_debit_usd", known_only=True),
+            "gateway_unknown_debit_calls": sum(row.get("gateway_reported_actual_debit_usd") is None for row in gateway_rows),
+            "gateway_reported_surcharge_usd": gateway_sum("gateway_reported_surcharge_usd"),
+            "gateway_unknown_surcharge_calls": sum(row.get("gateway_reported_surcharge_usd") is None for row in gateway_rows),
+            "gateway_nonnegative_uplift_usd": gateway_sum("gateway_nonnegative_uplift_usd"),
+            "api_cost_usd": None if unknown else _number(known),
             "known_api_subtotal_usd": _number(known), "unknown_cost_calls": unknown,
             "conservative_charge_estimate_usd": None if any(x is None for x in estimates) else
             _number(sum((_decimal(x, "charge estimate") for x in estimates), Decimal(0)))}
@@ -223,6 +294,7 @@ def _project(stages: dict[str, dict[str, Any]], measured: dict[str, Any], *, rev
     work = unique if reuse else reviews
     problems = []
     parts = {}
+    gateway_parts = {}
     stage_seconds = {}
     fallback = stages.get("fallback", {})
     observed_fallback = fallback.get("unique_review_ids", 0) / n if n else 0
@@ -240,6 +312,8 @@ def _project(stages: dict[str, dict[str, Any]], measured: dict[str, Any], *, rev
         denominator = source.get("unique_review_ids", 0)
         metric = "api_cost_usd" if scenario == "base" else "conservative_charge_estimate_usd"
         cost = source.get(metric)
+        gateway_uplift = source.get("gateway_nonnegative_uplift_usd")
+        gateway_parts[stage] = 0.0 if target == 0 else (None if not denominator or gateway_uplift is None else gateway_uplift / denominator * target * multiplier)
         if target == 0:
             parts[stage], stage_seconds[stage] = 0.0, 0.0
         elif not denominator or cost is None:
@@ -254,12 +328,24 @@ def _project(stages: dict[str, dict[str, Any]], measured: dict[str, Any], *, rev
     fixed_values = [s.get("api_cost_usd" if scenario == "base" else "conservative_charge_estimate_usd") for s in fixed]
     fixed_cost = None if any(v is None for v in fixed_values) else sum(fixed_values)
     parts["fixed_overhead"] = fixed_cost
+    fixed_gateway = [stage.get("gateway_nonnegative_uplift_usd") for stage in fixed]
+    gateway_parts["fixed_overhead"] = None if any(value is None for value in fixed_gateway) else sum(fixed_gateway)
     if not n:
         problems.append("No measured initial enrichment requests; run the cold pilot first")
     missing_fixed = [name for name in ("group", "memo") if name not in stages]
     if missing_fixed:
         problems.append("Fixed stages not measured: " + ", ".join(missing_fixed))
     total = None if not n or missing_fixed or any(v is None for v in parts.values()) else sum(parts.values())
+    gateway_total = None if any(value is None for value in gateway_parts.values()) else sum(gateway_parts.values())
+    has_gateway = any(stage.get("gateway_calls", 0) for stage in stages.values())
+    gateway_nominal_complete = all(stage.get("api_cost_usd") is not None for stage in stages.values())
+    # A whole-attempt hold may already include gateway charges. Never add
+    # uplift to it and describe the result as a reconciled budget scenario.
+    budget_total = None if total is None or gateway_total is None or (has_gateway and not gateway_nominal_complete) else total + gateway_total
+    if has_gateway and (gateway_total is None or not gateway_nominal_complete):
+        problems.append("Gateway debit/nominal reconciliation is incomplete; budget decision remains unknown")
+    elif has_gateway:
+        problems.append("Budget scenario adds measured nonnegative gateway uplift; observed credits or discounts are not extrapolated")
     # Use measured end-to-end elapsed time, calibrating stage work at the
     # observed concurrency. Do not divide by a desired worker count.
     wall = measured.get("wall_seconds")
@@ -279,9 +365,12 @@ def _project(stages: dict[str, dict[str, Any]], measured: dict[str, Any], *, rev
             "verification_fraction": verification_fraction, "verification_reviews": units["verify"],
             "fallback_fraction": fraction, "fallback_reviews": units["fallback"],
             "conservative_multiplier": multiplier, "stage_api_cost_usd": parts,
-            "api_cost_usd": total, "prior_spend_usd": prior_spend_usd,
-            "spend_including_prior_usd": None if total is None else prior_spend_usd + total,
-            "budget_exceeded": None if total is None else prior_spend_usd + total > spending_limit_usd,
+            "api_cost_basis": "nominal_usage_reprice", "api_cost_usd": total,
+            "stage_gateway_uplift_usd": gateway_parts, "gateway_uplift_usd": gateway_total,
+            "projected_cost_including_gateway_uplift_usd": budget_total,
+            "prior_spend_usd": prior_spend_usd,
+            "spend_including_prior_usd": None if budget_total is None else prior_spend_usd + budget_total,
+            "budget_exceeded": None if budget_total is None else prior_spend_usd + budget_total > spending_limit_usd,
             "projected_wall_seconds": projected_wall, "limitations": problems}
 
 
@@ -322,7 +411,9 @@ def calculate_cost(calls_path: str | Path, rates_path: str | Path, output_dir: s
     summary = json.loads(summary_path.read_text()) if summary_path.exists() else {}
     record_path = path.parent / ("pilot_records.jsonl" if path.name == "pilot_calls.jsonl" else "records.jsonl")
     records = _read_jsonl(record_path) if record_path.exists() else []
-    has_jev = any(c.get("role") == "enrich" and str(c.get("model", "")).startswith("jev-") for c in calls)
+    has_jev = any(c.get("role") == "enrich" and c.get("provider") in {"jev", "typesafe"}
+                  and any(str(rate["model"]).startswith("jev-") and _rate_model_matches(c, rate["model"])
+                          for rate in rates.values()) for c in calls)
     priced = [{**c, **price_call(c, rates), "stage": _stage(c, has_jev), "cache_mode": _cache_mode(c, summary)} for c in calls]
     measurements = _measure(calls, records, summary, priced)
     measurements["input_ids"] = [str(r.get("review_id")) for r in records] if records else None
@@ -361,13 +452,19 @@ def calculate_cost(calls_path: str | Path, rates_path: str | Path, output_dir: s
               "phases": {k: _stage_summary(v) for k, v in sorted(by_phase.items())},
               "cache_modes": {k: {**_stage_summary(v), "wall_seconds": measurements["wall_seconds"] if summary.get("cache_mode") == k else None} for k, v in sorted(by_cache.items())},
               "stages": stages, "projections": projections,
+              "cash_outlay": {"incremental_cash_purchase_usd": None, "status": "not_measured",
+                              "explanation": "Token usage and provider debits are economic consumption; existing credits do not make them zero. Credit purchases and incremental cash outlay require separate account evidence."},
               "local_compute": {"usd_per_hour": local_compute_usd_per_hour, "estimated_cost_usd": local,
                                 "status": "unknown" if local is None else "estimate"},
               "controls": {"spending_limit_usd": spending_limit_usd, "prior_spend_usd": prior_spend_usd,
                            "output_token_cap": output_token_cap, "max_workers": max_workers,
                            "fallback_fraction": fallback_fraction, "verification_fraction": verification_fraction},
               "rates": [{**v, "usd_per_million": float(v["usd_per_million"])} for v in rates.values()],
-              "limitations": ["Reservations and charge holds are estimates, not guaranteed cost bounds.",
+              "limitations": ["API cost is nominal usage repriced from editable rates; immutable gateway actual debits and fee breakdowns are reported separately.",
+                              "Nebius input with an unknown cache breakdown is priced at the published standard rate for all reported input; no cache discount or zero cache usage is invented.",
+                              "Existing credits do not make economic usage free. Gateway debits may consume prepaid or promotional credits and do not establish a new cash purchase.",
+                              "Missing gateway fee/debit evidence remains unknown. Budget projections add measured nonnegative gateway uplift only when reconciled; discounts are not extrapolated.",
+                              "Reservations and charge holds are estimates, not guaranteed cost bounds.",
                               "Unknown usage is excluded from known subtotals, never assumed free; partial/unknown provider markers keep total charges unresolved even when some billing items are present.",
                               "Unknown-charge holds cover entire attempts and are not added again to their known subtotals.",
                               "Summed call durations are not elapsed wall time.",
@@ -394,7 +491,7 @@ def _write_report(out: Path, report: dict[str, Any], priced: list[dict[str, Any]
                   rates_path: Path, record_path: Path) -> None:
     out.mkdir(parents=True, exist_ok=True)
     (out / "report.json").write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n")
-    call_rows = [{k: row.get(k) for k in ("request_id", "role", "stage", "phase", "cache_mode", "provider", "model", "outcome", "api_cost_usd", "known_api_subtotal_usd", "unknown_cost", "conservative_charge_estimate_usd", "reported_cost_usd", "billing_problems", "duration_seconds")} for row in priced]
+    call_rows = [{k: row.get(k) for k in ("request_id", "role", "stage", "phase", "cache_mode", "provider", "model", "outcome", "api_cost_usd", "known_api_subtotal_usd", "unknown_cost", "conservative_charge_estimate_usd", "reported_cost_usd", "billing_problems", "duration_seconds", "api_cost_basis", "transport", "gateway_reported_actual_debit_usd", "gateway_reported_surcharge_usd", "gateway_nonnegative_uplift_usd", "gateway_actual_debit_basis", "gateway_billing", "reported_cost_basis", "reported_invoice_cost_usd", "credits_used_usd", "cash_purchase_usd")} for row in priced]
     _csv(out / "measured_calls.csv", call_rows, list(call_rows[0]) if call_rows else ["request_id", "api_cost_usd"])
     usage = [{"request_id": row.get("request_id"), "stage": row["stage"], "phase": row.get("phase"),
               "provider": row.get("provider"), "model": row.get("model"), **item} for row in priced for item in row["billing_items"]]
@@ -409,12 +506,13 @@ def _write_report(out: Path, report: dict[str, Any], priced: list[dict[str, Any]
     m = report["measurements"]
     lines = ["# Offline cost and runtime replay", "", "All amounts are USD; rates are editable per million billed units. This command makes no paid calls.", "",
              f"Measured inputs: {m['input_count']}; completed: {m['completed_records']}; attempted calls: {m['attempts']}.",
-             f"Repriced API total: {m['api_cost_usd']}; known subtotal: {m['known_api_subtotal_usd']}; calls with unknown cost: {m['unknown_cost_calls']}.",
+             f"Nominal repriced API total: {m['api_cost_usd']}; known subtotal: {m['known_api_subtotal_usd']}; calls with unknown cost: {m['unknown_cost_calls']}.",
+             f"Gateway reported actual debit: {m['gateway_reported_actual_debit_usd']}; surcharge breakdown: {m['gateway_reported_surcharge_usd']}; unknown gateway debits: {m['gateway_unknown_debit_calls']}. These receipt amounts do not change when editable token rates change.",
              f"End-to-end elapsed seconds: {m['wall_seconds']} ({m['wall_time_source']}). Summed call seconds: {m['summed_call_seconds']}.",
              f"Cost per 1,000 inputs: {m['cost_per_1000_inputs_usd']}; cost per completed record: {m['cost_per_completed_record_usd']}.", "",
-             "## Projections", "", "| Scope | Scenario | Reuse | First pass | API USD | Wall seconds | Budget exceeded |", "|---|---|---|---:|---:|---:|---|"]
+             "## Projections", "", "| Scope | Scenario | Reuse | First pass | Nominal API USD | Including gateway uplift USD | Wall seconds | Budget exceeded |", "|---|---|---|---:|---:|---:|---:|---|"]
     for p in report["projections"]:
-        lines.append(f"| {p['scope']} | {p['scenario']} | {p['exact_text_reuse']} | {p['first_pass_classifications']} | {p['api_cost_usd']} | {p['projected_wall_seconds']} | {p['budget_exceeded']} |")
+        lines.append(f"| {p['scope']} | {p['scenario']} | {p['exact_text_reuse']} | {p['first_pass_classifications']} | {p['api_cost_usd']} | {p['projected_cost_including_gateway_uplift_usd']} | {p['projected_wall_seconds']} | {p['budget_exceeded']} |")
     lines += ["", "Cold/warm and initial/resume breakdowns, stage metadata, source-linked rates, uncertainty, and calculation inputs are preserved in report.json and CSV files.",
               "", "## Replay", "", "From this report's folder, with the pipeline package installed, run:", "", "```sh", "spotify-pipeline replay --calls pilot_calls.jsonl --rates rates.csv --out replay", "```", "",
               "This folder contains byte-for-byte copies of the source calls, available review records, rates, and run summary. The summary preserves measured time, input checksum, and cache mode when replayed elsewhere.",

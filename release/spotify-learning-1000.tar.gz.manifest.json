@@ -1,0 +1,33 @@
+{
+  "archive": "spotify-learning-1000.tar.gz",
+  "bytes": 4489358,
+  "credential_scan": {
+    "credential_values_loaded": true,
+    "scope": "process environment and .env credential assignments",
+    "status": "passed"
+  },
+  "inventory_sha256": "2d9bb394b9effab4e16dbbb03f1f07205efd3a239d3fc7de96450ec59ead1843",
+  "payload_file_count": 1517,
+  "scope": {
+    "completed": 1000,
+    "golden_count": 50,
+    "golden_template_complete_rows": 0,
+    "golden_template_touched_rows": 0,
+    "learning_input_count": 1000
+  },
+  "sha256": "8675a22ee7008b0036f5e8226223a8ab65b16dfc14f6a745ff7248ccc3b988b8",
+  "snapshot_integrity": {
+    "metadata_transition_count": 1,
+    "metadata_transition_files": [
+      "validation/README.md"
+    ],
+    "method": "Stable path/symlink/size guards; metadata transitions require identical independent byte snapshots."
+  },
+  "snapshot_mode": "apfs-clone",
+  "verification": {
+    "inventory_sha256": "2d9bb394b9effab4e16dbbb03f1f07205efd3a239d3fc7de96450ec59ead1843",
+    "payload_files": 1517,
+    "status": "verified"
+  },
+  "version": "spotify-learning-release-v1"
+}

@@ -1,0 +1,23 @@
+{
+  "checked_at": "2026-10-20T06:15:00.652204+00:00",
+  "mode": "offline_preflight",
+  "run_id": "1000-1ad0e35d239c3e9d",
+  "expected_count": 1000,
+  "source_rows": 660622,
+  "completed": 1000,
+  "quarantined": 0,
+  "issues": 8,
+  "claims": 32,
+  "membership_rows": 445,
+  "human_accuracy_claimed": false,
+  "mutations_performed": false,
+  "artifact_sha256": {
+    "records.jsonl": "d7d107cf8b390d4c2f311aa2b2e4d0d29d9a2ba19cb40059e32e91670500be02",
+    "ranking.csv": "69208d44a7722ac8168ef7cecfef922143d67f9dd3a5ac674f9877db4bde9fb3",
+    "claims.csv": "5f7a3e1cb0f1e01ffcf78ed366b8dba218f98e107ebf4e390b1d2ea5436a6f8e",
+    "membership.csv": "261a9034e0144f8bb67b2b24a62fa5fd2e9b024f56f9927d37184305cf11e971",
+    "recommendations.json": "7c7179b60a5f7ab3f661bfa810b0220b6b18a6e15f2cb627dac5029bf3cf6837",
+    "run_summary.json": "c9d259fc2783feedb4bb495bf6fd52d39014456c22cb291188e97c2e9554fec5"
+  },
+  "status": "ready_for_authorized_import"
+}

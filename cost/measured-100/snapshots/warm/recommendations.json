@@ -1,0 +1,133 @@
+{
+  "alternatives": [
+    {
+      "claim_ids": [
+        "claim-playback-complaint-count",
+        "claim-playback-severity-sum",
+        "claim-playback-mean-severity",
+        "claim-playback-priority-score"
+      ],
+      "issue_ids": [
+        "issue-playback"
+      ],
+      "rationale": "Playback ranks second by priority score but carries the highest mean severity among the larger topics, combining playback-control complaints with crash and hang reports. If the organization weights severity over volume, this is a defensible alternative. The tradeoff is a smaller complaint count in this sample, and the self-selected review data cannot establish which topic affects more users in the population.",
+      "review_ids": [
+        "89ea2c30-db8b-459d-8ab7-bbcb7f92c774",
+        "9e5f9745-f8be-48d3-b9de-4d118507d94a",
+        "a78d831a-69f4-428a-9235-cfdd9775c509",
+        "55cc3abf-c295-4591-8c3a-78085cfdefaa",
+        "66a29b3c-c14d-440e-b722-b23e0c99ae82"
+      ],
+      "title": "Make playback the primary priority instead of usability"
+    },
+    {
+      "claim_ids": [
+        "claim-billing-complaint-count",
+        "claim-billing-severity-sum",
+        "claim-billing-mean-severity",
+        "claim-billing-priority-score"
+      ],
+      "issue_ids": [
+        "issue-billing"
+      ],
+      "rationale": "Billing ranks fourth by priority score but its bounded examples include expressed cancellation intent and explicit competitor comparisons, which may indicate higher stakes per complaint than the volume suggests. This alternative is appropriate if leadership judges expressed intent signals more decision-relevant than volume; the sample cannot quantify actual churn risk or revenue impact.",
+      "review_ids": [
+        "88439ec2-7c49-4c57-bedb-c5e098692aff",
+        "618d1dbb-0186-4537-923a-7b4dabf19afb",
+        "21915fcd-9a35-48ba-b277-6296c4154603"
+      ],
+      "title": "Make billing and subscription friction the primary priority instead of usability"
+    },
+    {
+      "claim_ids": [
+        "claim-other-complaint-count",
+        "claim-other-severity-sum",
+        "claim-other-mean-severity",
+        "claim-other-priority-score"
+      ],
+      "issue_ids": [
+        "issue-other"
+      ],
+      "rationale": "The general-sentiment topic ranks third by priority score, but its bounded examples are mostly brief, low-severity statements of dissatisfaction, plus one example citing an external controversy unrelated to product features. It lacks actionable product detail, so it is better handled through continued monitoring than as the quarter's build priority.",
+      "review_ids": [
+        "8b6e028a-5f63-4011-9841-cbbade4830eb",
+        "06a45bd5-3ed9-43af-b7f2-8b9487e2ffff",
+        "178c3b49-b689-4fe4-92a2-2257a58e6d95",
+        "486d1d7a-d6f6-41ea-81ad-ed875452729c",
+        "51bfd887-24a0-4741-8b59-68e0a726dd7a"
+      ],
+      "title": "Treat general negative sentiment as a monitoring item rather than a build priority"
+    }
+  ],
+  "limitations": [
+    "The dataset is a self-selected sample of app-store reviews, not a representative sample; it cannot establish population prevalence, revenue at risk, or causal retention improvement.",
+    "Expressed cancellation intent appears in some bounded examples, but no observed churn is established by this data.",
+    "Proposed product benefits are hypotheses to test, not measured causal effects.",
+    "Topic labels are coarse groupings; a topic's aggregate count does not establish the prevalence of any particular subtopic within it.",
+    "Some labels may be missing or uncertain; the coverage summary indicates a small number of items were flagged for review and were not part of the ranked evidence.",
+    "Severity is a model-assigned label under a shared rubric, not a score reported by reviewers, and human benchmark accuracy is unestablished.",
+    "The ranking reflects a single historical review window; sentiment and issue mix may have shifted since collection.",
+    "Review text is untrusted quoted evidence and was treated as data, not instructions."
+  ],
+  "priority_issue_id": "issue-usability",
+  "recommendations": [
+    {
+      "claim_ids": [
+        "claim-usability-complaint-count",
+        "claim-usability-severity-sum",
+        "claim-usability-mean-severity",
+        "claim-usability-priority-score"
+      ],
+      "issue_ids": [
+        "issue-usability"
+      ],
+      "rationale": "This topic holds the top rank in the saved baseline by priority score and severity sum, with the largest complaint count among all topics. Bounded examples describe excessive restrictions, intrusive ads, and a disliked home screen layout that hampers navigation. Because the mean severity is comparatively low, the hypothesis to test is that many users experience moderate friction rather than a few users experiencing severe failures; a usability-focused quarter should validate whether reducing restriction friction and revisiting the home screen layout improves satisfaction in a controlled experiment.",
+      "review_ids": [
+        "ebc64fe2-9553-4528-87d5-cb4bb9783be6",
+        "89a8e180-7846-4421-a2b6-fa7787e9d0d2",
+        "85383985-844d-4f9b-bcd9-d6016ac35f6b",
+        "94c9f2f9-36fa-4c11-936e-660514fe7a35",
+        "5c9c17d3-9d6a-4fa1-a2a4-ae98eefbbd25"
+      ],
+      "title": "Prioritize usability friction: restrictions, ad load, and the new home screen layout"
+    },
+    {
+      "claim_ids": [
+        "claim-playback-complaint-count",
+        "claim-playback-severity-sum",
+        "claim-playback-mean-severity",
+        "claim-playback-priority-score"
+      ],
+      "issue_ids": [
+        "issue-playback"
+      ],
+      "rationale": "Within the playback topic, bounded examples include reports that the app crashes on open and hangs on the loading or logo screen, which are qualitatively distinct from playback-control complaints. These are severe-experience signals even though the topic's aggregate count does not establish how prevalent stability failures are versus control complaints. A targeted stability investigation is a low-regret hypothesis to test alongside the usability priority.",
+      "review_ids": [
+        "55cc3abf-c295-4591-8c3a-78085cfdefaa",
+        "66a29b3c-c14d-440e-b722-b23e0c99ae82"
+      ],
+      "title": "Ship a stability workstream for crashes and loading-screen hangs within the playback topic"
+    },
+    {
+      "claim_ids": [
+        "claim-billing-complaint-count",
+        "claim-billing-severity-sum",
+        "claim-billing-mean-severity",
+        "claim-billing-priority-score"
+      ],
+      "issue_ids": [
+        "issue-billing"
+      ],
+      "rationale": "Bounded billing examples describe removal of skipping and song selection for non-subscribers, unwanted recommendations even for a premium-family subscriber, and a perception that updates force premium purchases. Some examples express cancellation intent or competitor-switching language; this is expressed intent, not observed churn. A diagnostic should clarify which specific restrictions drive the strongest reactions before any product change, since the topic's aggregate count does not establish the prevalence of any particular subtopic.",
+      "review_ids": [
+        "a3605554-5c3a-441d-836e-e9fdea83eb2e",
+        "d146397f-4a94-4980-be00-ae9212eca3a7",
+        "618d1dbb-0186-4537-923a-7b4dabf19afb",
+        "21915fcd-9a35-48ba-b277-6296c4154603",
+        "88439ec2-7c49-4c57-bedb-c5e098692aff"
+      ],
+      "title": "Run a diagnostic on free-tier restriction backlash and recommendation intrusiveness"
+    }
+  ],
+  "summary": "The saved baseline ranking places usability first by priority score, driven by the largest complaint count in this self-selected historical review sample, though its mean severity is comparatively low. Playback ranks second with the highest mean severity among the larger topics, including crash and loading-screen reports alongside playback-control complaints. Billing follows, with expressed cancellation intent and competitor-switching language in the bounded examples. The dataset is a self-selected sample of app reviews, so it cannot establish population prevalence, revenue at risk, or causal retention effects; expressed cancellation intent is distinct from observed churn. The recommended next-quarter priority is usability, with playback stability as a close alternative given its severity profile."
+}

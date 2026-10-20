@@ -414,3 +414,79 @@ def test_request_parameters_fail_before_network():
         OpenAIProvider.build_request(*OPENAI_ARGS, reasoning_effort="minimal")
     with pytest.raises(ValueError):
         OpenAIProvider.build_request(*OPENAI_ARGS, schema_name="invalid name")
+
+
+@pytest.mark.asyncio
+async def test_vercel_gateway_preserves_native_questions_with_pinned_model(monkeypatch):
+    monkeypatch.setenv("VERCEL_TYPESAFE_API_KEY", "synthetic-gateway-secret")
+    monkeypatch.setenv("TYPESAFE_API_KEY", "synthetic-different-direct-secret")
+    raw = jev_response()
+    raw["model"] = "typesafe-ai/jev-1.13.0"
+    raw["provider_metadata"] = {"gateway": {
+        "gatewayCost": "0.0000336", "cost": "0.0000336", "surchargeCost": "0",
+        "generationId": "gen_synthetic", "routing": {
+            "canonicalSlug": "typesafe-ai/jev-1.13.0", "finalProvider": "typesafe-ai"}}}
+    observed = []
+    def respond(request):
+        observed.append(request)
+        assert str(request.url) == "https://ai-gateway.vercel.sh/typesafe/v1/systemone"
+        assert request.headers["authorization"] == "Bearer synthetic-gateway-secret"
+        body = json.loads(request.content)
+        assert body["model"] == "typesafe-ai/jev-1.13.0"
+        assert body["providerOptions"] == {"gateway": {"only": ["typesafe-ai"]}}
+        assert {q["type"] for q in body["questions"].values()} == {"choice", "score"}
+        return httpx.Response(200, json=raw)
+    async with JevProvider(jev_transport="vercel_gateway", transport=httpx.MockTransport(respond)) as provider:
+        result = await provider.classify("Synthetic customer review", "Rubric")
+    assert len(observed) == 1
+    assert result.usage == raw["usage"] and result.raw == raw
+    assert result.model == "typesafe-ai/jev-1.13.0"
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("alteration", ["model", "canonical", "provider", "attempt"])
+async def test_gateway_rejects_undeclared_fallbacks_without_retry(alteration):
+    from spotify_pipeline.providers import ProviderPolicyError
+    raw = jev_response()
+    raw["model"] = "typesafe-ai/jev-1.13.0"
+    route = {"canonicalSlug": raw["model"], "finalProvider": "typesafe-ai"}
+    raw["provider_metadata"] = {"gateway": {"routing": route}}
+    if alteration == "model":
+        raw["model"] = "openai/gpt-6-astra"
+    elif alteration == "canonical":
+        route["canonicalSlug"] = "typesafe-ai/jev-1.14.0"
+    elif alteration == "provider":
+        route["finalProvider"] = "other-provider"
+    else:
+        route["modelAttempts"] = [{"canonicalSlug": "openai/gpt-6-astra"}]
+    calls = []
+    def respond(request):
+        calls.append(request)
+        return httpx.Response(200, json=raw)
+    async with JevProvider("synthetic-key", jev_transport="vercel_gateway", transport=httpx.MockTransport(respond)) as provider:
+        with pytest.raises(ProviderPolicyError):
+            await provider.classify("Synthetic review", "Rubric")
+    assert len(calls) == 1
+
+
+def test_invalid_jev_transport_and_direct_namespaced_model_rejected():
+    with pytest.raises(ValueError, match="jev_transport"):
+        JevProvider(jev_transport="some-other-proxy")
+    with pytest.raises(ValueError, match="native"):
+        JevProvider(model="typesafe-ai/jev-1.13.0")
+
+
+@pytest.mark.asyncio
+async def test_credit_exhaustion_is_fatal_not_transient_rate_limit():
+    from spotify_pipeline.providers import ProviderQuotaError
+    raw = {"error": {"type": "insufficient_quota", "code": "credit_balance_exhausted", "message": "No credits remain"}}
+    seen = []
+    def reply(request):
+        seen.append(request)
+        return httpx.Response(429, json=raw)
+    async with OpenAIProvider("synthetic-key", transport=httpx.MockTransport(reply)) as provider:
+        with pytest.raises(ProviderQuotaError) as caught:
+            await provider.structured(*OPENAI_ARGS)
+    assert len(seen) == 1 and caught.value.transient is False
+    assert isinstance(caught.value, AuthenticationProviderError)
+    assert caught.value.raw == raw and caught.value.usage is None

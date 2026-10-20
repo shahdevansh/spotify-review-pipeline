@@ -1,0 +1,414 @@
+[
+  {
+    "review_id": "7856217f-e060-4f55-a992-afcf0f02e4fc",
+    "selection_reason": "severity_disagreement",
+    "record": {
+      "app_version": "8.7.44.968",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [
+        "spotify"
+      ],
+      "evidence_quote": "idk why some songs are not playing...? all time its showing that this song not available in device or. spotify not playing this. then when will play that songs?? how to fix ths issue??",
+      "fallback_used": false,
+      "intent": "request",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "7856217f-e060-4f55-a992-afcf0f02e4fc",
+      "review_likes": "0",
+      "review_rating": "1",
+      "review_reasons": [],
+      "review_text": "idk why some songs are not playing...? all time its showing that this song not available in device or. spotify not playing this. then when will play that songs?? how to fix ths issue??",
+      "review_timestamp": "2022-12-02 23:10:00",
+      "sentiment": 0,
+      "severity": 1,
+      "source_sha256": "fa9b30d28340eae1d76bf061319f47673fa3ee9830207e4b19491d8c44aa8a1e",
+      "status": "completed",
+      "topic": "catalog",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [
+        "spotify"
+      ],
+      "evidence_quote": "idk why some songs are not playing...? all time its showing that this song not available in device or. spotify not playing this. then when will play that songs?? how to fix ths issue??",
+      "intent": "complaint",
+      "needs_review": false,
+      "review_id": "7856217f-e060-4f55-a992-afcf0f02e4fc",
+      "sentiment": -1,
+      "severity": 4,
+      "topic": "playback"
+    }
+  },
+  {
+    "review_id": "c1726764-f0ce-4abc-ad9e-6cd143e1b2c7",
+    "selection_reason": "severity_disagreement",
+    "record": {
+      "app_version": "8.7.88.496",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [
+        "spotify"
+      ],
+      "evidence_quote": "I can't open my spotify wrap 2022...",
+      "fallback_used": false,
+      "intent": "unclear",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "c1726764-f0ce-4abc-ad9e-6cd143e1b2c7",
+      "review_likes": "0",
+      "review_rating": "1",
+      "review_reasons": [],
+      "review_text": "I can't open my spotify wrap 2022...",
+      "review_timestamp": "2022-12-01 17:10:03",
+      "sentiment": 0,
+      "severity": 1,
+      "source_sha256": "ee24594d8a25d56f6c749b5df3e6a7ffda4b2aa8d8b3c71b301fb34686ee582d",
+      "status": "completed",
+      "topic": "other",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [
+        "spotify"
+      ],
+      "evidence_quote": "I can't open my spotify wrap 2022...",
+      "intent": "complaint",
+      "needs_review": false,
+      "review_id": "c1726764-f0ce-4abc-ad9e-6cd143e1b2c7",
+      "sentiment": -1,
+      "severity": 4,
+      "topic": "access"
+    }
+  },
+  {
+    "review_id": "618d1dbb-0186-4537-923a-7b4dabf19afb",
+    "selection_reason": "severity_disagreement",
+    "record": {
+      "app_version": "8.8.74.652",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [
+        "premium"
+      ],
+      "evidence_quote": "Please stop with the recommendations! I use the premium family sub and I want to listen to my playlist without your recommendation adds. I am not interested in new music based on my preferences. If I wanted these songs I'd use a random playlist not not make my own! I'll start using Amazon music or apple if you don't.",
+      "fallback_used": false,
+      "intent": "complaint",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "618d1dbb-0186-4537-923a-7b4dabf19afb",
+      "review_likes": "1",
+      "review_rating": "2",
+      "review_reasons": [],
+      "review_text": "Please stop with the recommendations! I use the premium family sub and I want to listen to my playlist without your recommendation adds. I am not interested in new music based on my preferences. If I wanted these songs I'd use a random playlist not not make my own! I'll start using Amazon music or apple if you don't.",
+      "review_timestamp": "2023-10-05 09:49:27",
+      "sentiment": -1,
+      "severity": 4,
+      "source_sha256": "f7c73e8b26ec4c1a5b9b534751eb0831331bb0bd8e7bf1fd05ebe68e8da3f359",
+      "status": "completed",
+      "topic": "billing",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [
+        "premium"
+      ],
+      "evidence_quote": "Please stop with the recommendations! I use the premium family sub and I want to listen to my playlist without your recommendation adds. I am not interested in new music based on my preferences. If I wanted these songs I'd use a random playlist not not make my own! I'll start using Amazon music or apple if you don't.",
+      "intent": "request",
+      "needs_review": false,
+      "review_id": "618d1dbb-0186-4537-923a-7b4dabf19afb",
+      "sentiment": -1,
+      "severity": 1,
+      "topic": "catalog"
+    }
+  },
+  {
+    "review_id": "c3a26471-eedb-4ee6-876a-4e8e133d67b8",
+    "selection_reason": "severity_disagreement",
+    "record": {
+      "app_version": "8.8.80.599",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [],
+      "evidence_quote": "Does this app ever work? updated 11/2023.. like seriously does it ever?",
+      "fallback_used": false,
+      "intent": "unclear",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": true,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "c3a26471-eedb-4ee6-876a-4e8e133d67b8",
+      "review_likes": "0",
+      "review_rating": "1",
+      "review_reasons": [
+        "model_requested_review"
+      ],
+      "review_text": "Does this app ever work? updated 11/2023.. like seriously does it ever?",
+      "review_timestamp": "2023-11-06 15:34:31",
+      "sentiment": -1,
+      "severity": 1,
+      "source_sha256": "8e8ae6a634cc4c2d787004619a28c8e9084d1661cfe8a387aa7127e8333a6644",
+      "status": "completed",
+      "topic": "other",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [],
+      "evidence_quote": "Does this app ever work? updated 11/2023.. like seriously does it ever?",
+      "intent": "complaint",
+      "needs_review": false,
+      "review_id": "c3a26471-eedb-4ee6-876a-4e8e133d67b8",
+      "sentiment": -1,
+      "severity": 4,
+      "topic": "playback"
+    }
+  },
+  {
+    "review_id": "0658feaa-5bec-416e-b6b0-3de2a4c14580",
+    "selection_reason": "severity_disagreement",
+    "record": {
+      "app_version": "8.7.38.669",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [],
+      "evidence_quote": "Nice app! But many songs are not present here!",
+      "fallback_used": false,
+      "intent": "request",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "0658feaa-5bec-416e-b6b0-3de2a4c14580",
+      "review_likes": "0",
+      "review_rating": "4",
+      "review_reasons": [],
+      "review_text": "Nice app! But many songs are not present here!",
+      "review_timestamp": "2022-06-21 08:54:00",
+      "sentiment": 0,
+      "severity": 1,
+      "source_sha256": "5e4b4aa71c04727a6d428feb5877a613ebd3b8db6df63199387fa4fe1c338159",
+      "status": "completed",
+      "topic": "catalog",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [],
+      "evidence_quote": "Nice app! But many songs are not present here!",
+      "intent": "complaint",
+      "needs_review": false,
+      "review_id": "0658feaa-5bec-416e-b6b0-3de2a4c14580",
+      "sentiment": 0,
+      "severity": 3,
+      "topic": "catalog"
+    }
+  },
+  {
+    "review_id": "d75d0860-2d1e-4634-97a8-ca6ca63d9d0e",
+    "selection_reason": "severity_disagreement",
+    "record": {
+      "app_version": "",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [
+        "premium"
+      ],
+      "evidence_quote": "This app WAS the best app for listening songs. New updates are making me abandon this app and use other apps. Everything needs premium, even the basic features need premium. This is actually a pretty bad move by you guys. I'm already using other apps now. If you are not bringing the old version back, you guys will be out of the market very soon. You should definitely remove these new updates.",
+      "fallback_used": false,
+      "intent": "cancellation",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "d75d0860-2d1e-4634-97a8-ca6ca63d9d0e",
+      "review_likes": "0",
+      "review_rating": "1",
+      "review_reasons": [],
+      "review_text": "This app WAS the best app for listening songs. New updates are making me abandon this app and use other apps. Everything needs premium, even the basic features need premium. This is actually a pretty bad move by you guys. I'm already using other apps now. If you are not bringing the old version back, you guys will be out of the market very soon. You should definitely remove these new updates.",
+      "review_timestamp": "2023-10-21 11:13:28",
+      "sentiment": -1,
+      "severity": 4,
+      "source_sha256": "a5b932d8e4b93b9468b10e12cc73055e6dd077e20c288eaa11496caaedb44e61",
+      "status": "completed",
+      "topic": "billing",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [
+        "premium"
+      ],
+      "evidence_quote": "This app WAS the best app for listening songs. New updates are making me abandon this app and use other apps. Everything needs premium, even the basic features need premium. This is actually a pretty bad move by you guys. I'm already using other apps now. If you are not bringing the old version back, you guys will be out of the market very soon. You should definitely remove these new updates.",
+      "intent": "cancellation",
+      "needs_review": false,
+      "review_id": "d75d0860-2d1e-4634-97a8-ca6ca63d9d0e",
+      "sentiment": -1,
+      "severity": 2,
+      "topic": "billing"
+    }
+  },
+  {
+    "review_id": "f3a4c132-c779-4107-9514-49bec6a77687",
+    "selection_reason": "severity_disagreement",
+    "record": {
+      "app_version": "8.8.76.667",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [],
+      "evidence_quote": "Cannot even switch to favourite part of song for free.",
+      "fallback_used": false,
+      "intent": "complaint",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "f3a4c132-c779-4107-9514-49bec6a77687",
+      "review_likes": "0",
+      "review_rating": "1",
+      "review_reasons": [],
+      "review_text": "Cannot even switch to favourite part of song for free.",
+      "review_timestamp": "2023-10-15 06:48:00",
+      "sentiment": -1,
+      "severity": 2,
+      "source_sha256": "7e683d36ede485a9f43f22d9741bda6d7c36d362723f5f195c3bc9a499629c86",
+      "status": "completed",
+      "topic": "billing",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [],
+      "evidence_quote": "Cannot even switch to favourite part of song for free.",
+      "intent": "complaint",
+      "needs_review": false,
+      "review_id": "f3a4c132-c779-4107-9514-49bec6a77687",
+      "sentiment": -1,
+      "severity": 4,
+      "topic": "billing"
+    }
+  },
+  {
+    "review_id": "bcdf315e-c82d-41f0-9fcd-ba5933dfe77e",
+    "selection_reason": "severity_disagreement",
+    "record": {
+      "app_version": "",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [],
+      "evidence_quote": "Keeps saying that there's no internet connection when my internet works fine for all other apps?",
+      "fallback_used": false,
+      "intent": "complaint",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "bcdf315e-c82d-41f0-9fcd-ba5933dfe77e",
+      "review_likes": "0",
+      "review_rating": "1",
+      "review_reasons": [],
+      "review_text": "Keeps saying that there's no internet connection when my internet works fine for all other apps?",
+      "review_timestamp": "2022-05-21 18:11:19",
+      "sentiment": -0.5,
+      "severity": 2,
+      "source_sha256": "2a561defca4591316b565b1b22850e395fd19318991876dd6d5949e2faacd2f7",
+      "status": "completed",
+      "topic": "access",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [],
+      "evidence_quote": "Keeps saying that there's no internet connection when my internet works fine for all other apps?",
+      "intent": "complaint",
+      "needs_review": false,
+      "review_id": "bcdf315e-c82d-41f0-9fcd-ba5933dfe77e",
+      "sentiment": -1,
+      "severity": 4,
+      "topic": "playback"
+    }
+  },
+  {
+    "review_id": "62b53e0a-0397-4200-826f-122d18fdde32",
+    "selection_reason": "severity_disagreement",
+    "record": {
+      "app_version": "8.8.80.599",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [
+        "Spotify"
+      ],
+      "evidence_quote": "I haven't experted about this from Spotify...🙄 I'm uninstalling successful....meet me when have got the old Spotify update !!!",
+      "fallback_used": false,
+      "intent": "cancellation",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "62b53e0a-0397-4200-826f-122d18fdde32",
+      "review_likes": "0",
+      "review_rating": "1",
+      "review_reasons": [],
+      "review_text": "I haven't experted about this from Spotify...🙄 I'm uninstalling successful....meet me when have got the old Spotify update !!!",
+      "review_timestamp": "2023-10-21 15:01:34",
+      "sentiment": -1,
+      "severity": 4,
+      "source_sha256": "47f612b34bda952815d905b330779039ac10208c36ed09768c5f4f194055256d",
+      "status": "completed",
+      "topic": "access",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [
+        "Spotify"
+      ],
+      "evidence_quote": "I haven't experted about this from Spotify...🙄 I'm uninstalling successful....meet me when have got the old Spotify update !!!",
+      "intent": "cancellation",
+      "needs_review": false,
+      "review_id": "62b53e0a-0397-4200-826f-122d18fdde32",
+      "sentiment": -1,
+      "severity": 2,
+      "topic": "other"
+    }
+  },
+  {
+    "review_id": "cf6166ae-d71a-4839-9add-088645ad3b78",
+    "selection_reason": "severity_disagreement",
+    "record": {
+      "app_version": "8.8.6.472",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [],
+      "evidence_quote": "DON'T DOWNLOAD THIS:Such a worst app ... that always plays adds instead of songs ...if want to enjoy music free without adds don't download this app ..",
+      "fallback_used": false,
+      "intent": "cancellation",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "cf6166ae-d71a-4839-9add-088645ad3b78",
+      "review_likes": "0",
+      "review_rating": "1",
+      "review_reasons": [],
+      "review_text": "DON'T DOWNLOAD THIS:Such a worst app ... that always plays adds instead of songs ...if want to enjoy music free without adds don't download this app ..",
+      "review_timestamp": "2023-02-09 02:46:28",
+      "sentiment": -1,
+      "severity": 2,
+      "source_sha256": "a7b0edb93d55f22abfa6e303f2ee738f59b21352c03297e9d33ef35557f7fc98",
+      "status": "completed",
+      "topic": "usability",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [],
+      "evidence_quote": "DON'T DOWNLOAD THIS:Such a worst app ... that always plays adds instead of songs ...if want to enjoy music free without adds don't download this app ..",
+      "intent": "complaint",
+      "needs_review": false,
+      "review_id": "cf6166ae-d71a-4839-9add-088645ad3b78",
+      "sentiment": -1,
+      "severity": 4,
+      "topic": "playback"
+    }
+  }
+]

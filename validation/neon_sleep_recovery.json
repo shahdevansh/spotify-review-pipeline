@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "observed_idle_before_request": {
+    "observed_at_utc": "2026-10-20T06:21:06.180344+00:00",
+    "seconds_since_quiet_start": 309.18,
+    "current_state": "idle",
+    "suspend_timeout_seconds": 0,
+    "last_active": "2026-10-20T06:15:30Z",
+    "updated_at": "2026-10-20T06:20:46Z",
+    "disabled": false
+  },
+  "idle_observation_sha256": "30bd93ec26464dfeb3329328369d10db190bc4c0f7a7970e7582c9c66c801314",
+  "public_base_url": "https://spotify-review-observatory.vercel.app",
+  "run_id": "1000-1ad0e35d239c3e9d",
+  "authentication_sent": false,
+  "model_calls": 0,
+  "database_writes": 0,
+  "requests": [
+    {
+      "path": "/api/overview",
+      "started_at_utc": "2026-10-20T06:21:21.058675+00:00",
+      "http_status": 200,
+      "duration_seconds": 1.009,
+      "status": "ready",
+      "completed": 1000,
+      "source_rows": 660622
+    },
+    {
+      "path": "/api/issues",
+      "started_at_utc": "2026-10-20T06:21:22.068458+00:00",
+      "http_status": 200,
+      "duration_seconds": 0.195,
+      "status": "ready",
+      "issues": 8
+    },
+    {
+      "path": "/api/recommendations",
+      "started_at_utc": "2026-10-20T06:21:22.263877+00:00",
+      "http_status": 200,
+      "duration_seconds": 0.182,
+      "status": "ready"
+    }
+  ],
+  "scope": "Observed idle compute followed by successful unauthenticated reads of all three dashboard entry APIs; no browser rendering claim.",
+  "completed_at_utc": "2026-10-20T06:21:22.445858+00:00"
+}

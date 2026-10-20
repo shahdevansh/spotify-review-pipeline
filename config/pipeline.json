@@ -37,7 +37,7 @@
   "rates_currency": "USD",
   "rates_as_of": "2026-10-19",
   "rates_sources": {
-    "jev": "https://docs.typesafe.ai/models",
+    "jev": "https://ai-gateway.vercel.sh/v1/models",
     "openai": "https://developers.openai.com/api/docs/models/gpt-6-luna"
   },
   "tokens_per_second": {
@@ -51,5 +51,6 @@
     "openai": [
       "gpt-6-luna"
     ]
-  }
+  },
+  "jev_transport": "vercel_gateway"
 }

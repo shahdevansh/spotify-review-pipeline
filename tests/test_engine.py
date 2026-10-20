@@ -44,6 +44,9 @@ class FakeOpenAI:
             result = {"reviews": [dict(review_id=r["review_id"], topic=self.topic, intent="complaint", severity=4,
                                        sentiment=-.8, entities=[], evidence_quote=r["review_text"], needs_review=False)
                                   for r in kwargs["payload"]["reviews"]]}
+            properties = kwargs["schema"]["properties"]["reviews"]["items"]["properties"]
+            result["reviews"] = [{key: value for key, value in item.items() if key in properties}
+                                 for item in result["reviews"]]
         else:
             result = {"answer": "Synthetic task result"}
         usage = dict(input_tokens=300, input_tokens_details=dict(cached_tokens=100, cache_write_tokens=0),
@@ -54,6 +57,7 @@ class FakeOpenAI:
 @pytest.fixture
 def config(tmp_path):
     value = load_config()
+    value["jev_transport"] = "direct"
     value.update(ledger_path=str(tmp_path / "shared-spend.sqlite3"), requests_per_second=1_000_000, tokens_per_second=1_000_000_000, retry_backoff_seconds=0)
     return value
 
@@ -80,6 +84,57 @@ async def test_duplicates_warm_cache_and_historic_evidence(tmp_path, config):
     assert warm.summary()["cache_hits"] == 3
     assert len((warm.run_dir / "evidence_calls.jsonl").read_text().splitlines()) == 2
     await warm.close()
+
+
+@pytest.mark.asyncio
+async def test_run_identity_isolated_by_cache_and_config_and_stable_on_resume(tmp_path, config):
+    import shutil
+    output = tmp_path / "reused-output"
+    first = Engine(config, tmp_path / "first.sqlite3", output,
+                   providers={"jev": FakeJev(), "openai": FakeOpenAI()})
+    await first.enrich([row(1)])
+    first_id, first_cost = first.run_id, first.summary()["api_cost_usd"]
+    await first.close()
+    resumed = Engine(config, tmp_path / "first.sqlite3", output,
+                     providers={"jev": FakeJev(), "openai": FakeOpenAI()})
+    assert resumed.run_id == first_id
+    await resumed.close()
+    shutil.move(output, tmp_path / "archived-output")
+    second = Engine(config, tmp_path / "second.sqlite3", output,
+                    providers={"jev": FakeJev(), "openai": FakeOpenAI()})
+    assert second.run_id != first_id
+    assert second.summary()["api_cost_usd"] == 0
+    await second.enrich([row(1)])
+    assert second.summary()["api_cost_usd"] == first_cost
+    assert second.summary()["global_spending"]["spent_usd"] == pytest.approx(2 * first_cost)
+    second_id = second.run_id
+    await second.close()
+    shutil.move(output, tmp_path / "second-archived-output")
+    changed = {**config, "prompt_version": "synthetic-changed"}
+    changed_run = Engine(changed, tmp_path / "second.sqlite3", output,
+                         providers={"jev": FakeJev(), "openai": FakeOpenAI()})
+    assert changed_run.run_id != second_id
+    await changed_run.close()
+
+
+@pytest.mark.asyncio
+async def test_legacy_manifest_resume_retains_original_request_accounting_identity(tmp_path, config):
+    from spotify_pipeline.engine import fingerprint
+    output, cache = tmp_path / "legacy", tmp_path / "cache.sqlite3"
+    output.mkdir()
+    label_config = fingerprint(config)
+    (output / "run_manifest.json").write_text(json.dumps({
+        "identity": {"label_config": label_config, "cache_path": str(cache.resolve())}}))
+    (output / "run_summary.json").write_text(json.dumps({
+        "run_id": "legacy-run-id", "label_config": label_config}))
+    run = Engine(config, cache, output, providers={"jev": FakeJev(), "openai": FakeOpenAI()})
+    assert run.run_id == "legacy-run-id"
+    assert run.run_identity_version == "legacy-output-path-v1"
+    # Unmatched reservations stay visible even when a crash preceded save_call.
+    run.ledger.reserve("synthetic-crash-gap", run.run_id, .01, global_cap_usd=1, run_cap_usd=1)
+    assert run.summary()["spending"]["reserved_usd"] == .01
+    assert run.summary()["api_cost_complete"] is False
+    await run.close()
 
 
 @pytest.mark.asyncio
@@ -280,4 +335,53 @@ async def test_nonzero_cache_writes_are_unknown_charge_until_reconciled(tmp_path
     assert bill["cost_usd"] is None
     assert bill["billing_items"][0]["units"] == 400
     assert any("cache-write" in limitation for limitation in run.limitations)
+    await run.close()
+
+
+@pytest.mark.asyncio
+async def test_transport_is_part_of_cache_fingerprint_and_key_preflight(tmp_path, config, monkeypatch):
+    direct = engine(tmp_path, config, "direct")
+    config["jev_transport"] = "vercel_gateway"
+    monkeypatch.delenv("VERCEL_TYPESAFE_API_KEY", raising=False)
+    gateway = Engine(config, tmp_path / "cache.sqlite3", tmp_path / "gateway")
+    assert direct.label_config != gateway.label_config
+    with pytest.raises(AuthenticationProviderError, match="VERCEL_TYPESAFE_API_KEY"):
+        await gateway.enrich([row(1)])
+    assert gateway.ledger.totals()["committed_usd"] == 0
+    await direct.close()
+    await gateway.close()
+
+
+@pytest.mark.asyncio
+async def test_gateway_ledger_cost_is_reported_total_not_double_counted(tmp_path, config):
+    config["jev_transport"] = "vercel_gateway"
+    run = engine(tmp_path, config)
+    raw = {"provider_metadata": {"gateway": {"cost": "0.000042", "surchargeCost": "0.0001", "gatewayCost": "0.000142", "generationId": "gen_synthetic"}}}
+    bill = run._billing("jev", dict(input_tokens=1000, output_tokens=40), raw)
+    assert bill["cost_usd"] == pytest.approx(.000142)
+    assert bill["calculated_rate_cost_usd"] == pytest.approx(.000042)
+    assert bill["billing_items"] == [dict(category="input", units=1000, rate_key="jev_input")]
+    assert bill["cost_basis"] == "gateway_reported_debit"
+    raw["provider_metadata"]["gateway"].pop("gatewayCost")
+    assert run._billing("jev", dict(input_tokens=1000, output_tokens=40), raw)["cost_usd"] == pytest.approx(.000142)
+    assert run._billing("jev", dict(input_tokens=1000, output_tokens=40), {})["cost_usd"] is None
+    await run.close()
+
+
+@pytest.mark.asyncio
+async def test_gateway_policy_violation_stops_without_retry_and_keeps_reported_bill(tmp_path, config):
+    from spotify_pipeline.providers import ProviderPolicyError
+    config["jev_transport"] = "vercel_gateway"
+    raw = {"model": "unexpected-model", "provider_metadata": {"gateway": {"gatewayCost": "0.001"}}}
+    failure = ProviderPolicyError("synthetic unrequested route", raw=raw, usage=dict(input_tokens=100, output_tokens=50))
+    provider = FakeJev(failures=[failure])
+    run = engine(tmp_path, config, jev=provider)
+    with pytest.raises(ProviderPolicyError):
+        await run.enrich([row(1), row(2)])
+    assert len(provider.inputs) == 1
+    call = run.store.calls()[0]
+    assert call["cost_usd"] == .001 and call["billing_items"] == []
+    assert call["rate_billing_valid"] is False
+    assert run.ledger.totals()["spent_usd"] == .001
+    assert all(record["status"] == "pending" for record in run.records)
     await run.close()

@@ -1,0 +1,25 @@
+{
+  "checked_at": "2026-10-20T05:30:07.156507+00:00",
+  "deployment_id": "dpl_DzR33oA5pvXAen415eCijXCu2RKk",
+  "checks": [
+    {
+      "path": "/api/overview",
+      "http_status": 200,
+      "status": "empty",
+      "message": "No completed analysis run has been published yet."
+    },
+    {
+      "path": "/api/issues",
+      "http_status": 200,
+      "status": "empty",
+      "message": "No completed analysis run has been published yet."
+    },
+    {
+      "path": "/api/recommendations",
+      "http_status": 200,
+      "status": "empty",
+      "message": "No completed analysis run has been published yet."
+    }
+  ],
+  "analysis_rows_published": 0
+}

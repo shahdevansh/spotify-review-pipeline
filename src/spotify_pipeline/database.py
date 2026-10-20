@@ -28,6 +28,7 @@ _PROVENANCE_FIELDS = (
     "intent_confidence", "severity_confidence", "request_id", "fallback_reason",
     "classifier_provider", "classifier_model", "fallback_used",
     "uncertainty_score", "review_reasons",
+    "confidence_source", "review_flag_interpretation", "initial_prediction",
 )
 _CLASSIFICATION_FIELDS = (
     "topic", "intent", "sentiment", "severity", "entities",

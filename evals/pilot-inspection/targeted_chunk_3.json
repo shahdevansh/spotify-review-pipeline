@@ -1,0 +1,414 @@
+[
+  {
+    "review_id": "e5e362d7-1057-43bf-a3ca-8ffd93f80789",
+    "selection_reason": "topic_disagreement",
+    "record": {
+      "app_version": "8.8.76.667",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [
+        "Lyrics"
+      ],
+      "evidence_quote": "The new Lyrics font is so bad.",
+      "fallback_used": false,
+      "intent": "complaint",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "e5e362d7-1057-43bf-a3ca-8ffd93f80789",
+      "review_likes": "1",
+      "review_rating": "1",
+      "review_reasons": [],
+      "review_text": "The new Lyrics font is so bad.",
+      "review_timestamp": "2023-10-08 20:15:09",
+      "sentiment": -0.5,
+      "severity": 2,
+      "source_sha256": "3501fc8f3aaf5ecc0628fe2f101fa9c0f89c0008d485c116acdcfeaed058f1b9",
+      "status": "completed",
+      "topic": "catalog",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [
+        "Lyrics"
+      ],
+      "evidence_quote": "The new Lyrics font is so bad.",
+      "intent": "complaint",
+      "needs_review": false,
+      "review_id": "e5e362d7-1057-43bf-a3ca-8ffd93f80789",
+      "sentiment": -1,
+      "severity": 2,
+      "topic": "usability"
+    }
+  },
+  {
+    "review_id": "bc1c4825-00c5-458d-ac00-098ce729c76d",
+    "selection_reason": "topic_disagreement",
+    "record": {
+      "app_version": "8.7.70.553",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [
+        "spotify"
+      ],
+      "evidence_quote": "Best app ever... GET PRENIUM ITS WORTH TRUST!!! uuhhh yeah thats abt it!!! love spotify... m eyah",
+      "fallback_used": false,
+      "intent": "praise",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "bc1c4825-00c5-458d-ac00-098ce729c76d",
+      "review_likes": "0",
+      "review_rating": "5",
+      "review_reasons": [],
+      "review_text": "Best app ever... GET PRENIUM ITS WORTH TRUST!!! uuhhh yeah thats abt it!!! love spotify... m eyah",
+      "review_timestamp": "2022-10-07 00:21:32",
+      "sentiment": 1,
+      "severity": 1,
+      "source_sha256": "ceadbd18fbeda59b1a69c56766190ef91450a83574fa5107ccc5c1481225e273",
+      "status": "completed",
+      "topic": "billing",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [
+        "spotify"
+      ],
+      "evidence_quote": "Best app ever... GET PRENIUM ITS WORTH TRUST!!! uuhhh yeah thats abt it!!! love spotify... m eyah",
+      "intent": "praise",
+      "needs_review": false,
+      "review_id": "bc1c4825-00c5-458d-ac00-098ce729c76d",
+      "sentiment": 1,
+      "severity": 1,
+      "topic": "other"
+    }
+  },
+  {
+    "review_id": "47ab8a7e-e9da-45ef-bcfd-036fff3896a3",
+    "selection_reason": "topic_disagreement",
+    "record": {
+      "app_version": "",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [
+        "Spotify",
+        "premium"
+      ],
+      "evidence_quote": "Spotify was good app until I ran into a problem I couldn't play the songs I wanted to listen to I was forced to use shuffle and I couldn't listen to the music I wanted unless I had premium. Spatify was good but it wouldn't let me listen to the music I wanted so now I have to use YouTube music",
+      "fallback_used": false,
+      "intent": "complaint",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "47ab8a7e-e9da-45ef-bcfd-036fff3896a3",
+      "review_likes": "0",
+      "review_rating": "1",
+      "review_reasons": [],
+      "review_text": "Spotify was good app until I ran into a problem I couldn't play the songs I wanted to listen to I was forced to use shuffle and I couldn't listen to the music I wanted unless I had premium. Spatify was good but it wouldn't let me listen to the music I wanted so now I have to use YouTube music",
+      "review_timestamp": "2023-11-11 14:50:39",
+      "sentiment": -1,
+      "severity": 4,
+      "source_sha256": "629dd6ef0487e682ac99c9be8db9f9693acdd08ac87532428f59eafb5ba628e4",
+      "status": "completed",
+      "topic": "playback",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [
+        "Spotify",
+        "premium"
+      ],
+      "evidence_quote": "Spotify was good app until I ran into a problem I couldn't play the songs I wanted to listen to I was forced to use shuffle and I couldn't listen to the music I wanted unless I had premium. Spatify was good but it wouldn't let me listen to the music I wanted so now I have to use YouTube music",
+      "intent": "complaint",
+      "needs_review": false,
+      "review_id": "47ab8a7e-e9da-45ef-bcfd-036fff3896a3",
+      "sentiment": -1,
+      "severity": 4,
+      "topic": "billing"
+    }
+  },
+  {
+    "review_id": "6ecd5837-917a-45de-b811-278da3a26a7a",
+    "selection_reason": "topic_disagreement",
+    "record": {
+      "app_version": "8.8.52.458",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [],
+      "evidence_quote": "This new update sucks.",
+      "fallback_used": false,
+      "intent": "complaint",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "6ecd5837-917a-45de-b811-278da3a26a7a",
+      "review_likes": "0",
+      "review_rating": "1",
+      "review_reasons": [],
+      "review_text": "This new update sucks.",
+      "review_timestamp": "2023-07-13 03:42:47",
+      "sentiment": -1,
+      "severity": 2,
+      "source_sha256": "36b3967a69704879e098011e748641d28711e2123b69db01921ba2239266b17b",
+      "status": "completed",
+      "topic": "usability",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [],
+      "evidence_quote": "This new update sucks.",
+      "intent": "complaint",
+      "needs_review": false,
+      "review_id": "6ecd5837-917a-45de-b811-278da3a26a7a",
+      "sentiment": -1,
+      "severity": 2,
+      "topic": "other"
+    }
+  },
+  {
+    "review_id": "6524068a-cff5-45b9-bd37-b91a6cb71475",
+    "selection_reason": "topic_disagreement",
+    "record": {
+      "app_version": "8.7.76.359",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [],
+      "evidence_quote": "Good music and selection is good too.",
+      "fallback_used": false,
+      "intent": "praise",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "6524068a-cff5-45b9-bd37-b91a6cb71475",
+      "review_likes": "0",
+      "review_rating": "5",
+      "review_reasons": [],
+      "review_text": "Good music and selection is good too.",
+      "review_timestamp": "2022-10-21 22:27:27",
+      "sentiment": 1,
+      "severity": 1,
+      "source_sha256": "b7202fb3c86fa197111b64b8ef62a2e2f89a18343e7fe43c6f4922184b5b7d82",
+      "status": "completed",
+      "topic": "catalog",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [],
+      "evidence_quote": "Good music and selection is good too.",
+      "intent": "praise",
+      "needs_review": false,
+      "review_id": "6524068a-cff5-45b9-bd37-b91a6cb71475",
+      "sentiment": 1,
+      "severity": 1,
+      "topic": "other"
+    }
+  },
+  {
+    "review_id": "232c669e-8bfe-4642-b0c9-229c2911cc6c",
+    "selection_reason": "topic_disagreement",
+    "record": {
+      "app_version": "8.8.0.347",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [],
+      "evidence_quote": "Sometimes the shuffle doesn't work. The app will play a total of 3 songs from my library, figured out how to fix this issue. Back to being a great app.",
+      "fallback_used": false,
+      "intent": "complaint",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "232c669e-8bfe-4642-b0c9-229c2911cc6c",
+      "review_likes": "0",
+      "review_rating": "4",
+      "review_reasons": [],
+      "review_text": "Sometimes the shuffle doesn't work. The app will play a total of 3 songs from my library, figured out how to fix this issue. Back to being a great app.",
+      "review_timestamp": "2023-01-18 11:50:54",
+      "sentiment": -0.5,
+      "severity": 3,
+      "source_sha256": "166068fd2564bb8c007aeca9896391ad206e0230c1a1c6836c2bd9743e502bd4",
+      "status": "completed",
+      "topic": "usability",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [],
+      "evidence_quote": "Sometimes the shuffle doesn't work. The app will play a total of 3 songs from my library, figured out how to fix this issue. Back to being a great app.",
+      "intent": "complaint",
+      "needs_review": false,
+      "review_id": "232c669e-8bfe-4642-b0c9-229c2911cc6c",
+      "sentiment": -1,
+      "severity": 3,
+      "topic": "playback"
+    }
+  },
+  {
+    "review_id": "ce08ed7e-edf6-4b20-b78a-b7c7f8c66f30",
+    "selection_reason": "topic_disagreement",
+    "record": {
+      "app_version": "8.7.84.382",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [],
+      "evidence_quote": "Connectivity is excellent intuitive good audio quality at a good price works well with my KEF system when Tidal let me down!",
+      "fallback_used": false,
+      "intent": "praise",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "ce08ed7e-edf6-4b20-b78a-b7c7f8c66f30",
+      "review_likes": "0",
+      "review_rating": "5",
+      "review_reasons": [],
+      "review_text": "Connectivity is excellent intuitive good audio quality at a good price works well with my KEF system when Tidal let me down!",
+      "review_timestamp": "2022-11-19 20:25:52",
+      "sentiment": 1,
+      "severity": 1,
+      "source_sha256": "57140ec45587b95d1b6054b8210d479f3e375bba1cc69c9e50496f760013118a",
+      "status": "completed",
+      "topic": "playback",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [],
+      "evidence_quote": "Connectivity is excellent intuitive good audio quality at a good price works well with my KEF system when Tidal let me down!",
+      "intent": "praise",
+      "needs_review": false,
+      "review_id": "ce08ed7e-edf6-4b20-b78a-b7c7f8c66f30",
+      "sentiment": 1,
+      "severity": 1,
+      "topic": "other"
+    }
+  },
+  {
+    "review_id": "db73c4f7-2c81-4992-b9ea-95cf52c37233",
+    "selection_reason": "topic_disagreement",
+    "record": {
+      "app_version": "8.8.80.599",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [
+        "premium"
+      ],
+      "evidence_quote": "For free users It sucks right now, now without premium there is no queue, no repeat, no way to go to previous song, very sad",
+      "fallback_used": false,
+      "intent": "complaint",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "db73c4f7-2c81-4992-b9ea-95cf52c37233",
+      "review_likes": "0",
+      "review_rating": "1",
+      "review_reasons": [],
+      "review_text": "For free users It sucks right now, now without premium there is no queue, no repeat, no way to go to previous song, very sad",
+      "review_timestamp": "2023-11-06 04:53:11",
+      "sentiment": -1,
+      "severity": 3,
+      "source_sha256": "8b96f0b8a9ab5a86a37c901bc19d837dce1d073bbfb69828d4d8e27a302e19bf",
+      "status": "completed",
+      "topic": "usability",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [
+        "premium"
+      ],
+      "evidence_quote": "For free users It sucks right now, now without premium there is no queue, no repeat, no way to go to previous song, very sad",
+      "intent": "complaint",
+      "needs_review": false,
+      "review_id": "db73c4f7-2c81-4992-b9ea-95cf52c37233",
+      "sentiment": -1,
+      "severity": 3,
+      "topic": "billing"
+    }
+  },
+  {
+    "review_id": "a0cbc9d6-51bb-46f0-9ba9-ad4f4593c266",
+    "selection_reason": "topic_disagreement",
+    "record": {
+      "app_version": "8.7.66.534",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [],
+      "evidence_quote": "A good music app when it works. I keep on running into issues where I click on songs in my liked music and they don't play. Also when I'm playing a playlist from my phone to the Xbox series x it randomly starts playing different music. This is ridiculous for a £10 a month subscription this needs to be fixed it's been happening for months. If these issues are not fixed soon I'm going to cancel my subscription and start using a different music subscription service.",
+      "fallback_used": false,
+      "intent": "cancellation",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "a0cbc9d6-51bb-46f0-9ba9-ad4f4593c266",
+      "review_likes": "279",
+      "review_rating": "1",
+      "review_reasons": [],
+      "review_text": "A good music app when it works. I keep on running into issues where I click on songs in my liked music and they don't play. Also when I'm playing a playlist from my phone to the Xbox series x it randomly starts playing different music. This is ridiculous for a £10 a month subscription this needs to be fixed it's been happening for months. If these issues are not fixed soon I'm going to cancel my subscription and start using a different music subscription service.",
+      "review_timestamp": "2022-09-20 16:44:11",
+      "sentiment": -1,
+      "severity": 4,
+      "source_sha256": "a648827d9fd3a65e917b4532fbc97f3ce60c5d22cfca057a236b8daecc6bccfa",
+      "status": "completed",
+      "topic": "billing",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [],
+      "evidence_quote": "A good music app when it works. I keep on running into issues where I click on songs in my liked music and they don't play. Also when I'm playing a playlist from my phone to the Xbox series x it randomly starts playing different music. This is ridiculous for a £10 a month subscription this needs to be fixed it's been happening for months. If these issues are not fixed soon I'm going to cancel my subscription and start using a different music subscription service.",
+      "intent": "cancellation",
+      "needs_review": false,
+      "review_id": "a0cbc9d6-51bb-46f0-9ba9-ad4f4593c266",
+      "sentiment": -1,
+      "severity": 4,
+      "topic": "playback"
+    }
+  },
+  {
+    "review_id": "58e901c3-5ef3-45f9-80c1-111738c979e3",
+    "selection_reason": "topic_disagreement",
+    "record": {
+      "app_version": "8.8.42.468",
+      "classifier_model": "nvidia/Nemotron-3_5-Lightning",
+      "classifier_provider": "nebius",
+      "confidence_source": "not_available",
+      "entities": [
+        "Spotify"
+      ],
+      "evidence_quote": "I love Spotify. I like that I can have them add suggestions while I'm listening to my playlist.",
+      "fallback_used": false,
+      "intent": "praise",
+      "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+      "needs_review": false,
+      "review_flag_interpretation": "uncalibrated model ambiguity flag plus deterministic consistency checks",
+      "review_id": "58e901c3-5ef3-45f9-80c1-111738c979e3",
+      "review_likes": "0",
+      "review_rating": "5",
+      "review_reasons": [],
+      "review_text": "I love Spotify. I like that I can have them add suggestions while I'm listening to my playlist.",
+      "review_timestamp": "2023-06-17 12:54:35",
+      "sentiment": 1,
+      "severity": 1,
+      "source_sha256": "2976fcc94538c8cc44da5c8be57abc478918aee03c258ba039e394527492dbfb",
+      "status": "completed",
+      "topic": "other",
+      "uncertainty_score": null
+    },
+    "verifier": {
+      "entities": [
+        "Spotify"
+      ],
+      "evidence_quote": "I love Spotify. I like that I can have them add suggestions while I'm listening to my playlist.",
+      "intent": "praise",
+      "needs_review": false,
+      "review_id": "58e901c3-5ef3-45f9-80c1-111738c979e3",
+      "sentiment": 1,
+      "severity": 1,
+      "topic": "catalog"
+    }
+  }
+]

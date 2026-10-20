@@ -1,0 +1,132 @@
+{
+  "audit_script_sha256": "d60bd66d84922d934c65b3d42b2c7d36cc738e8c75e2d6f2b2f58bca3141c26d",
+  "audit_version": "a5-audit-v1",
+  "automatic_grade": null,
+  "calculated_ranking": [
+    {
+      "complaint_count": 127,
+      "issue_id": "issue-usability",
+      "mean_severity": "2.291339",
+      "priority_score": 291,
+      "rank": 1,
+      "severity_sum": 291
+    },
+    {
+      "complaint_count": 83,
+      "issue_id": "issue-billing",
+      "mean_severity": "2.879518",
+      "priority_score": 239,
+      "rank": 2,
+      "severity_sum": 239
+    },
+    {
+      "complaint_count": 118,
+      "issue_id": "issue-other",
+      "mean_severity": "1.974576",
+      "priority_score": 233,
+      "rank": 3,
+      "severity_sum": 233
+    },
+    {
+      "complaint_count": 60,
+      "issue_id": "issue-playback",
+      "mean_severity": "3.400000",
+      "priority_score": 204,
+      "rank": 4,
+      "severity_sum": 204
+    },
+    {
+      "complaint_count": 26,
+      "issue_id": "issue-access",
+      "mean_severity": "3.653846",
+      "priority_score": 95,
+      "rank": 5,
+      "severity_sum": 95
+    },
+    {
+      "complaint_count": 21,
+      "issue_id": "issue-catalog",
+      "mean_severity": "2.380952",
+      "priority_score": 50,
+      "rank": 6,
+      "severity_sum": 50
+    },
+    {
+      "complaint_count": 9,
+      "issue_id": "issue-downloads",
+      "mean_severity": "3.000000",
+      "priority_score": 27,
+      "rank": 7,
+      "severity_sum": 27
+    },
+    {
+      "complaint_count": 1,
+      "issue_id": "issue-support",
+      "mean_severity": "2.000000",
+      "priority_score": 2,
+      "rank": 8,
+      "severity_sum": 2
+    }
+  ],
+  "coverage": {
+    "accounted_fraction": 1.0,
+    "duplicate_ids": 0,
+    "expected": 1000,
+    "invalid_or_unresolved": 0,
+    "labelable": 1000,
+    "labelable_completion_fraction": 1.0,
+    "missing": 0,
+    "quarantined": 0,
+    "received_lines": 1000,
+    "unique_expected_ids": 1000,
+    "valid_cache_reuses": 74,
+    "valid_completed": 1000,
+    "valid_completion_fraction": 1.0
+  },
+  "examples": [
+    {
+      "code": "unreadable_file",
+      "detail": "checkpoint_before.json: [Errno 2] No such file or directory: '/Users/shahdevansh/Documents/Codex/2026-10-19/for/outputs/spotify-review-pipeline/grading/checkpoint_before.json'"
+    },
+    {
+      "code": "resume_snapshot_mismatch",
+      "detail": "Need a nonempty checkpoint and additional completed IDs after resume."
+    },
+    {
+      "code": "resume_call_evidence",
+      "detail": "Need successful initial calls before the checkpoint and new completed calls after resume."
+    }
+  ],
+  "hash_convention": "Reference/benchmark: canonical UTF-8 JSON via canonical(); input files and audit script: exact bytes.",
+  "input_files_sha256": {
+    "calls.jsonl": "4ae218aa97e2ace573ba51ac908771da59f914fc2f9b165bba62fb112abb8f49",
+    "checkpoint_after.json": "3ff84e0b71ac43222e3b1ef865eaf098094167c24f984686e7039e995a712f33",
+    "claims.csv": "5f7a3e1cb0f1e01ffcf78ed366b8dba218f98e107ebf4e390b1d2ea5436a6f8e",
+    "ingestion.json": "5512dd793b0bde3bd51f28b20b440108f3c9bab31233819bea5f32ce19482153",
+    "membership.csv": "261a9034e0144f8bb67b2b24a62fa5fd2e9b024f56f9927d37184305cf11e971",
+    "ranking.csv": "69208d44a7722ac8168ef7cecfef922143d67f9dd3a5ac674f9877db4bde9fb3",
+    "records.jsonl": "d7d107cf8b390d4c2f311aa2b2e4d0d29d9a2ba19cb40059e32e91670500be02",
+    "run.json": "eb37fd26dac15a061de018732316ab3f3f57334bad1d73ed0d0378bc42cc93ac"
+  },
+  "issue_counts": {
+    "resume_call_evidence": 1,
+    "resume_snapshot_mismatch": 1,
+    "unreadable_file": 1
+  },
+  "limits": [
+    "Artifacts do not prove actual model execution, authorship, cost, or independent verification.",
+    "Exact quote membership does not prove that the quote supports the label.",
+    "Claims export checks numbers; a person must check that all memo claims are represented.",
+    "Benchmark agreement is diagnostic; final 4/3/3 grades require rubric review."
+  ],
+  "quality": {
+    "official": false,
+    "status": "not_supplied"
+  },
+  "reference_sha256": "558f869328ea37f01b0f4c8a6b1a65abe7dc7bcfda770bc4653f03c2394d6381",
+  "reported_calls": 146,
+  "reported_input_tokens": 287226,
+  "reported_output_tokens": 144120,
+  "status": "review_required",
+  "working_coverage_point_candidate": 1.0
+}

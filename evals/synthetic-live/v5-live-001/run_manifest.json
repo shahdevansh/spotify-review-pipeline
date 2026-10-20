@@ -1,0 +1,24 @@
+{
+  "version": "synthetic-live-v1",
+  "created_at": "2026-10-20T06:21:44.367834+00:00",
+  "synthetic": true,
+  "identity": {
+    "status": "ready_not_executed",
+    "paid_calls_made": false,
+    "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+    "output": "/Users/shahdevansh/Documents/Codex/2026-10-19/for/outputs/spotify-review-pipeline/evals/synthetic-live/v5-live-001",
+    "shared_ledger": "/Users/shahdevansh/Documents/Codex/2026-10-19/for/outputs/spotify-review-pipeline/data/spend.sqlite3",
+    "run_budget_usd": 0.1,
+    "global_budget_usd": 1.5,
+    "models": {
+      "enrich": "nvidia/Nemotron-3_5-Lightning",
+      "verify": "openai/gpt-oss-120b"
+    },
+    "synthetic_case_count": 4,
+    "nonempty_model_cases": 3,
+    "requires_explicit_flag": "--execute-paid",
+    "input_sha256": "3c6e809926f3a077556ccb0a872298d770421e1d00a33f4db23a03e8650fbbec",
+    "cache_path": "/Users/shahdevansh/Documents/Codex/2026-10-19/for/outputs/spotify-review-pipeline/evals/synthetic-live/v5-live-001/state.sqlite3"
+  },
+  "comparison_policy": "verification.jsonl compares the planted copy; baseline_verification.jsonl compares the same real verifier answers with untouched enrichment."
+}

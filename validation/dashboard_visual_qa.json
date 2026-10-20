@@ -1,0 +1,28 @@
+{
+  "checked_at": "2026-10-20T06:24:46.369778+00:00",
+  "method": "CUA real in-app browser; DOM and screenshots; unauthenticated public UI",
+  "url": "https://spotify-review-observatory.vercel.app",
+  "status": "passed",
+  "observed": {
+    "completed_reviews": 1000,
+    "exact_text_duplicates": 74,
+    "distinct_texts": 926,
+    "saved_results_reused": 549,
+    "incremental_nominal_api_usd_display": "0.097",
+    "pilot_quality_hold_notice": true,
+    "original_review_dialog": true,
+    "source_quote_and_labels_visible": true,
+    "claim_register": true,
+    "saved_model_roles": true
+  },
+  "checks": [
+    "Loaded actual database-backed pilot overview",
+    "Visually inspected ranking and evidence panels",
+    "Opened original-review dialog and inspected source text, labels, original rating and exact quote",
+    "Verified corrected duplicate/reuse distinction and learning-report callout after production deploy"
+  ],
+  "limitations": [
+    "This check inspected a desktop browser viewport; earlier responsive inspection is separate.",
+    "This visual check does not certify label correctness."
+  ]
+}

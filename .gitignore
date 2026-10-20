@@ -13,6 +13,7 @@ data/*.zip
 data/*.sqlite*
 data/source/
 runs/
+work/
 *.sqlite*
 node_modules/
 .next/

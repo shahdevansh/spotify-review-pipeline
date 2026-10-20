@@ -1,0 +1,62 @@
+{
+  "source": "https://tokenfactory.nebius.com/api/public/models_info",
+  "retrieved_at": "2026-10-20T05:45:05.964332+00:00",
+  "saved_public_response_sha256": "ea7456af8f9f77f65eae4cf4fa117a07bcc84e8a89eb78182520cd480054cad4",
+  "models": [
+    {
+      "model_id": "nvidia/Nemotron-3_5-Lightning",
+      "input_price_per_million_tokens": 0.06,
+      "output_price_per_million_tokens": 0.24,
+      "quantization": "bf16",
+      "max_model_len": 1048576,
+      "external_provider": false,
+      "tags": [
+        "1M context",
+        "reasoning",
+        "code",
+        "function calling",
+        "MTP"
+      ]
+    },
+    {
+      "model_id": "openai/gpt-oss-120b",
+      "input_price_per_million_tokens": 0.15,
+      "output_price_per_million_tokens": 0.6,
+      "quantization": "fp4",
+      "max_model_len": 131072,
+      "external_provider": false,
+      "tags": [
+        "131K context",
+        "code",
+        "JSON mode",
+        "math",
+        "reasoning"
+      ]
+    },
+    {
+      "model_id": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+      "input_price_per_million_tokens": 0.1,
+      "output_price_per_million_tokens": 0.3,
+      "quantization": "fp8",
+      "max_model_len": 262144,
+      "external_provider": false,
+      "tags": [
+        "262K context",
+        "code",
+        "math",
+        "JSON mode"
+      ]
+    },
+    {
+      "model_id": "zai-org/GLM-5.3-Flash",
+      "input_price_per_million_tokens": 0.15,
+      "output_price_per_million_tokens": 0.5,
+      "quantization": "fp4",
+      "max_model_len": 1024000,
+      "external_provider": false,
+      "tags": []
+    }
+  ],
+  "authenticated_catalog_model_count": 28,
+  "jev_present_in_authenticated_catalog": false
+}

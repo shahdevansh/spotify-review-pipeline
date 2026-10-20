@@ -1,0 +1,13 @@
+{
+  "allow_multi_issue": false,
+  "analysis_count": 1000,
+  "analysis_sha256": "3354adeefe65c2251e0db48fdcf83a5d98f2a7905686ac5ab0ce951398189936",
+  "classification_input_fields": [
+    "review_text"
+  ],
+  "full_source_count": 660622,
+  "input_file": "learning_1000.csv",
+  "run_id": "1000-1ad0e35d239c3e9d",
+  "scope": "selected analysis input; complete source ingested separately",
+  "version": "a5-audit-v1"
+}

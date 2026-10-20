@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { evaluationMeasurements, hasCompletedHumanEvaluation, savedModelRoles } from "../lib/run-display";
 
 type Status = "ready" | "empty" | "unavailable";
 type Envelope = { status: Status; message?: string };
@@ -21,6 +22,11 @@ type Run = {
   attempts: number;
   api_cost_usd: number | null;
   api_cost_complete?: boolean;
+  global_spending?: {
+    spent_usd?: number;
+    unknown_charge_hold_usd?: number;
+    reserved_usd?: number;
+  };
   wall_seconds: number | null;
   label_config: string;
   model_settings?: Record<string, unknown>;
@@ -315,12 +321,17 @@ export default function Dashboard() {
   const selected = issues.find((issue) => issue.issue_id === selectedIssue);
   const maxScore = Math.max(1, ...issues.map((issue) => issue.priority_score));
   const completedPercent = run?.input_count ? Math.min(100, (run.completed / run.input_count) * 100) : 0;
-  const metrics = scalarMetrics(overview?.evaluation || null);
+  const metrics = scalarMetrics(evaluationMeasurements(overview?.evaluation || null));
+  const humanEvaluated = hasCompletedHumanEvaluation(overview?.evaluation);
   const ready = !loading && !error && overview?.status === "ready" && !!run;
+  const isReviewedPilot = overview?.scope === "pilot" && run?.run_id === "1000-1ad0e35d239c3e9d";
+  const exactTextDuplicates = run?.stages && !Array.isArray(run.stages) && typeof run.stages.exact_text_aliases === "number"
+    ? run.stages.exact_text_aliases : undefined;
   const scopeLabel = overview?.scope === "pilot" ? "Pilot run" : overview?.scope === "development" ? "Development run" : overview?.scope === "selected-cohort" ? "Selected cohort" : "Saved analysis";
   const statusLabel = loading ? "Loading saved run" : error ? "Connection unavailable" : ready ? scopeLabel : "Awaiting saved run";
   const limits = Array.from(new Set([...(run?.limitations || []), ...(recommendations?.limitations || [])]));
-  const modelNames = run?.model_settings ? Object.entries(run.model_settings).filter(([key, value]) => /model/i.test(key) && typeof value === "string").map(([, value]) => String(value)) : [];
+  const modelRoles = savedModelRoles(run?.model_settings);
+  const roleLabels: Record<string, string> = { enrich: "Enrichment", fallback: "Escalation", verify: "Blind verification", group: "Issue descriptions", memo: "Recommendations" };
 
   return (
     <>
@@ -344,15 +355,17 @@ export default function Dashboard() {
         </section>
 
         {error && <div className="notice notice-error" role="alert"><div><strong>We couldn’t load this run.</strong><p>{error}</p></div><button className="button button-small" onClick={() => setLoadVersion((version) => version + 1)}>Try again</button></div>}
-        {!loading && !error && overview?.status !== "ready" && <div className="notice"><Icon name="database" /><div><strong>No results have been published yet.</strong><p>{overview?.message || "This dashboard displays saved pipeline results. No review counts or model outcomes are simulated."}</p></div><button className="text-button" onClick={() => setLoadVersion((version) => version + 1)}>Refresh <Icon name="arrow" size={16} /></button></div>}
+        {!loading && !error && overview?.status !== "ready" && <div className="notice" role="status"><Icon name="database" /><div><strong>No results have been published yet.</strong><p>{overview?.message || "This dashboard displays saved pipeline results. No review counts or model outcomes are simulated."}</p></div><button className="text-button" onClick={() => setLoadVersion((version) => version + 1)}>Refresh <Icon name="arrow" size={16} /></button></div>}
         {loading && <p className="loading-message" role="status">Reading saved analysis…</p>}
+        {ready && isReviewedPilot && <div className="notice notice-error" role="status"><Icon name="shield" /><div><strong>Pilot inspection found label errors; recommendations are provisional.</strong><p>Expansion is on hold.</p></div><a className="text-button" href="https://github.com/shahdevansh/spotify-review-pipeline/blob/main/docs/learning-report.md">Read the learning report <Icon name="arrow" size={16} /></a></div>}
 
         <section className="metrics-grid" aria-label="Run measurements">
           <Metric label="Selected input" value={count(run?.input_count)} detail="Records in this run’s analysis scope" accent />
-          <Metric label="Recorded API cost" value={dollars(run?.api_cost_usd)} detail={run?.api_cost_complete === false ? "Usage incomplete · excludes uncertain charges" : "Saved provider usage · USD"} />
-          <Metric label="Exact-text reuse" value={count(run?.cache_hits)} detail={run ? `${count(run.unique_texts)} distinct review texts` : "Every original review keeps its own ID"} />
+          <Metric label="API usage · incremental this run" value={dollars(run?.api_cost_usd)} detail={run?.api_cost_complete === false ? "Nominal USD · incomplete; uncertain charges excluded" : "Nominal USD at saved rates · cash spend unverified"} />
+          <Metric label="Exact-text duplicates" value={count(exactTextDuplicates)} detail={run ? `${count(run.unique_texts)} distinct texts · ${count(run.cache_hits)} saved results reused` : "Duplicates within this selected input"} />
           <Metric label="Pipeline wall time" value={duration(run?.wall_seconds)} detail={run ? `${count(run.requests)} requests · ${count(run.attempts)} attempts` : "Measured execution time"} />
         </section>
+        {run && <div className="cost-context"><p>Earlier cached results add no new model usage to this run. Their original cost belongs to the earlier experiment.</p><p><strong>All experiments, at this snapshot: {dollars(run.global_spending?.spent_usd)}</strong>{(run.global_spending?.unknown_charge_hold_usd ?? 0) > 0 && <> · {dollars(run.global_spending?.unknown_charge_hold_usd)} held for uncertain charges</>}{(run.global_spending?.reserved_usd ?? 0) > 0 && <> · {dollars(run.global_spending?.reserved_usd)} reserved for in-flight calls</>}. Nominal usage is calculated from saved rates; it does not establish cash purchases or remaining provider credits.</p></div>}
 
         <section className="coverage-strip" aria-label="Source and analysis coverage">
           <div className="coverage-heading"><Icon name="database" size={19} /><span>Coverage at a glance</span></div>
@@ -397,12 +410,13 @@ export default function Dashboard() {
         <section id="method" className="section-block" aria-labelledby="method-title">
           <div className="section-heading"><div><p className="eyebrow section-eyebrow">03 / SHOW THE WORK</p><h2 id="method-title">Built to be checked</h2><p>Model judgments, numerical calculations, and human evaluation remain distinct.</p></div><Icon name="shield" size={26} /></div>
           <div className="method-grid">
-            <article className="panel method-card"><div className="panel-heading"><h3>Evaluation</h3><span className="tag">{metrics.length ? "Saved measurements" : "Pending"}</span></div>{metrics.length ? <dl className="evaluation-metrics">{metrics.map(([label, value], index) => <div key={`${label}-${index}`}><dt>{label}</dt><dd>{value}</dd></div>)}</dl> : <div className="method-empty"><p>No evaluation results have been published for this run.</p><span>Independent model agreement is a comparator. Human golden-set labels provide a separate evaluation.</span></div>}<p className="method-note">The blind golden set stays outside enrichment, prompt tuning, and routing decisions.</p></article>
-            <article className="panel method-card"><div className="panel-heading"><h3>How this analysis works</h3><span className="tag">Reproducible</span></div><ol className="method-steps"><li><span>01</span><div><strong>Preserve & select</strong><p>Source fields stay intact. Seeded selection, row hashes, and a scope ledger establish coverage.</p></div></li><li><span>02</span><div><strong>Classify & verify</strong><p>Jev provides structured labels; an independent OpenAI pass checks a sample and supports bounded escalation.</p></div></li><li><span>03</span><div><strong>Group & rank</strong><p>Complaint and cancellation records form topic issues. Code sums severity and retains each original review.</p></div></li><li><span>04</span><div><strong>Recommend with evidence</strong><p>A separate model role receives aggregates and source examples. Every material claim can be traced.</p></div></li></ol></article>
+            <article className="panel method-card"><div className="panel-heading"><h3>Evaluation</h3><span className="tag">{humanEvaluated ? "Human evaluation saved" : "Human accuracy pending"}</span></div><p className="evaluation-context">{humanEvaluated ? "These measurements use the saved human labels." : "Model agreement compares predictions. Accuracy against the 50 human golden labels remains pending."}</p>{metrics.length ? <dl className="evaluation-metrics">{metrics.map(([label, value], index) => <div key={`${label}-${index}`}><dt>{label}</dt><dd>{value}</dd></div>)}</dl> : <div className="method-empty"><p>No evaluation measurements have been published for this run.</p><span>Human golden-set labels provide a separate evaluation.</span></div>}<p className="method-note">Initial agreement uses predictions before escalation; final agreement includes escalated answers. When escalation and verification share a model, their errors may be correlated. The blind golden set stays outside tuning and routing.</p></article>
+            <article className="panel method-card"><div className="panel-heading"><h3>How this analysis works</h3><span className="tag">Reproducible</span></div><ol className="method-steps"><li><span>01</span><div><strong>Preserve & select</strong><p>Source fields stay intact. Seeded selection, row hashes, and a scope ledger establish coverage.</p></div></li><li><span>02</span><div><strong>Classify & verify</strong><p>The enrichment model assigns structured labels. A separate blind pass compares original texts; bounded escalation handles difficult cases. Saved model IDs and providers appear below.</p></div></li><li><span>03</span><div><strong>Group & rank</strong><p>Complaint and cancellation records form topic issues. Code sums severity and retains each original review.</p></div></li><li><span>04</span><div><strong>Recommend with evidence</strong><p>A separate model role receives aggregates and source examples. Every material claim can be traced.</p></div></li></ol></article>
           </div>
+          {!!modelRoles.length && <div className="panel model-panel"><div className="panel-heading"><h3>Models in this saved configuration</h3><span className="subtle-label">Provider and model ID are recorded separately</span></div><div className="table-scroll"><table><caption className="sr-only">Saved model configuration by pipeline role</caption><thead><tr><th scope="col">Role</th><th scope="col">Provider</th><th scope="col">Model ID</th><th scope="col">Reasoning</th></tr></thead><tbody>{modelRoles.map((item) => <tr key={item.role}><th scope="row">{roleLabels[item.role] || humanize(item.role)}</th><td>{item.provider || "Not reported"}</td><td className="mono">{item.model}</td><td>{item.reasoning || "Not reported"}</td></tr>)}</tbody></table></div></div>}
           {!!limits.length && <div className="limitations"><h3>Limits of this run</h3><ul>{limits.map((limit, index) => <li key={index}>{limit}</li>)}</ul></div>}
           {!!overview?.claims?.length && <div className="panel claims-panel"><div className="panel-heading"><h3>Claim register</h3><span className="subtle-label">Saved calculation outputs</span></div><div className="table-scroll"><table><caption className="sr-only">Numerical claims cited by recommendations</caption><thead><tr><th scope="col">Claim</th><th scope="col">Issue</th><th scope="col">Metric</th><th scope="col">Value</th></tr></thead><tbody>{overview.claims.map((claim) => <tr id={`claim-${claim.claim_id}`} key={claim.claim_id}><th scope="row" className="mono">{claim.claim_id}</th><td>{humanize(claim.issue_id)}</td><td>{humanize(claim.metric)}</td><td className="numeric">{typeof claim.value === "number" ? claim.value.toLocaleString("en-US", { maximumFractionDigits: 6 }) : claim.value}</td></tr>)}</tbody></table></div></div>}
-          <details className="run-details"><summary>Run details & provenance <span className="mono">{run?.run_id || "No run loaded"}</span></summary><dl><div><dt>Configuration fingerprint</dt><dd className="mono">{run?.label_config || "Not reported"}</dd></div><div><dt>Model settings</dt><dd>{modelNames.length ? modelNames.join(" · ") : run?.model_settings ? JSON.stringify(run.model_settings) : "Not reported"}</dd></div><div><dt>Full-source nonempty / empty</dt><dd>{count(overview?.source?.nonempty_rows)} / {count(overview?.source?.empty_rows)}</dd></div><div><dt>Database storage</dt><dd>{bytes(overview?.storage?.bytes)}</dd></div><div><dt>Projected storage at 210,000</dt><dd>{bytes(overview?.storage?.projected_bytes_210k)}</dd></div><div><dt>Published at</dt><dd>{run?.created_at || "Not reported"}</dd></div></dl></details>
+          <details className="run-details"><summary>Run details & provenance <span className="mono">{run?.run_id || "No run loaded"}</span></summary><dl><div><dt>Configuration fingerprint</dt><dd className="mono">{run?.label_config || "Not reported"}</dd></div><div><dt>Model settings</dt><dd>{run?.model_settings ? JSON.stringify(run.model_settings) : "Not reported"}</dd></div><div><dt>Full-source nonempty / empty</dt><dd>{count(overview?.source?.nonempty_rows)} / {count(overview?.source?.empty_rows)}</dd></div><div><dt>Database storage</dt><dd>{bytes(overview?.storage?.bytes)}</dd></div><div><dt>Projected storage at 210,000</dt><dd>{bytes(overview?.storage?.projected_bytes_210k)}</dd></div><div><dt>Published at</dt><dd>{run?.created_at || "Not reported"}</dd></div></dl></details>
         </section>
 
         <footer className="site-footer"><div><span className="footer-brand">Listening Room</span><p>Spotify review intelligence · Course research project</p></div><p>Source → classification → calculation → evidence<br /><span>Original reviews remain the source of truth.</span></p></footer>

@@ -1,0 +1,61 @@
+{
+  "project_id": "withered-dream-99353388",
+  "endpoint_id": "ep-ancient-dawn-b4y3huk3",
+  "quiet_window_start_utc": "2026-10-20T06:15:57+00:00",
+  "method": "Read-only Neon management API GET /projects/{project_id}/endpoints; no SQL or application requests by observer.",
+  "expected_idle_timeout_seconds": 300,
+  "api_timeout_semantics": "suspend_timeout_seconds=0 uses the platform default; the Free plan suspends after five idle minutes.",
+  "sources": [
+    "https://neon.com/docs/introduction/plans",
+    "https://neon.com/docs/introduction/scale-to-zero"
+  ],
+  "samples": [
+    {
+      "observed_at_utc": "2026-10-20T06:16:40.407593+00:00",
+      "seconds_since_quiet_start": 43.408,
+      "current_state": "active",
+      "suspend_timeout_seconds": 0,
+      "last_active": "2026-10-20T06:15:30Z",
+      "updated_at": "2026-10-20T06:15:31Z",
+      "disabled": false
+    },
+    {
+      "observed_at_utc": "2026-10-20T06:17:56.590511+00:00",
+      "seconds_since_quiet_start": 119.591,
+      "current_state": "active",
+      "suspend_timeout_seconds": 0,
+      "last_active": "2026-10-20T06:15:30Z",
+      "updated_at": "2026-10-20T06:15:31Z",
+      "disabled": false
+    },
+    {
+      "observed_at_utc": "2026-10-20T06:19:03.490167+00:00",
+      "seconds_since_quiet_start": 186.49,
+      "current_state": "active",
+      "suspend_timeout_seconds": 0,
+      "last_active": "2026-10-20T06:15:30Z",
+      "updated_at": "2026-10-20T06:15:31Z",
+      "disabled": false
+    },
+    {
+      "observed_at_utc": "2026-10-20T06:20:14.098251+00:00",
+      "seconds_since_quiet_start": 257.098,
+      "current_state": "active",
+      "suspend_timeout_seconds": 0,
+      "last_active": "2026-10-20T06:15:30Z",
+      "updated_at": "2026-10-20T06:15:31Z",
+      "disabled": false
+    },
+    {
+      "observed_at_utc": "2026-10-20T06:21:06.180344+00:00",
+      "seconds_since_quiet_start": 309.18,
+      "current_state": "idle",
+      "suspend_timeout_seconds": 0,
+      "last_active": "2026-10-20T06:15:30Z",
+      "updated_at": "2026-10-20T06:20:46Z",
+      "disabled": false
+    }
+  ],
+  "first_idle_observed_at_utc": "2026-10-20T06:21:06.180344+00:00",
+  "idle_observed": true
+}

@@ -1,0 +1,12 @@
+{
+  "source_identity_passed": 1000,
+  "total_records": 1000,
+  "failed_ids": [],
+  "checks": [
+    "all six original field strings unchanged",
+    "source_sha256 equals official row_sha",
+    "nonempty quote exact substring",
+    "entities occur literally case-insensitively"
+  ],
+  "semantic_support_not_established_by_structural_checks": true
+}

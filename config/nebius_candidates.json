@@ -1,0 +1,223 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Evidence-backed candidate registry for the bounded Nebius development experiment; not an instruction to launch inference or expand the cohort.",
+  "verified_on": "2026-10-19",
+  "provider": "nebius",
+  "pricing_currency": "USD",
+  "pricing_unit_tokens": 1000000,
+  "account_catalog_evidence": "work/nebius-model-catalog.json",
+  "public_catalog_url": "https://tokenfactory.nebius.com/api/public/models_info",
+  "inference_tested_by_this_research": false,
+  "confidence": {
+    "public_rates_and_catalog_presence": "high",
+    "publisher_reasoning_contracts": "high",
+    "exact_hosted_reasoning_and_schema_behavior": "unknown_until_smoke_test",
+    "account_specific_discounts_and_final_debit": "unknown"
+  },
+  "pricing_policy": {
+    "basis": "Published public serverless catalog rates; all selected flavors have label cheap and external_provider false.",
+    "formula": "(prompt_tokens * input_usd_per_million + completion_tokens * output_usd_per_million) / 1000000",
+    "cached_input": {
+      "published_discount_verified": false,
+      "budget_at_full_input_rate": true,
+      "cache_read_usd_per_million": null,
+      "cache_write_usd_per_million": null,
+      "explanation": "The catalog publishes input and output prices only. Preserve cached-token counts, but apply no assumed discount or cache-write multiplier. This is conservative estimation, not proof that account-specific discounts cannot exist."
+    },
+    "reasoning_tokens": {
+      "included_in_completion_tokens": true,
+      "price_at_output_rate": true,
+      "add_again_to_completion_tokens": false,
+      "missing_optional_detail_means": "unknown_not_measured_zero"
+    },
+    "credits": "Track nominal API consumption separately from credit debit and incremental cash purchases. Existing credits do not make economic usage zero.",
+    "source_urls": [
+      "https://tokenfactory.nebius.com/api/public/models_info",
+      "https://docs.tokenfactory.nebius.com/api-reference/inference/create-chat-completion",
+      "https://dev.nebius.com/cookbook/openhands-agent-canvas",
+      "https://docs.tokenfactory.nebius.com/other-capabilities/billing-new"
+    ]
+  },
+  "chat_contract": {
+    "endpoint": "/v1/chat/completions",
+    "usage_fields": ["prompt_tokens", "completion_tokens", "total_tokens"],
+    "optional_usage_details": [
+      "prompt_tokens_details.cached_tokens",
+      "completion_tokens_details.reasoning_tokens"
+    ],
+    "token_limit_field": "max_completion_tokens",
+    "token_limit_includes_reasoning": true,
+    "structured_output_request_shape": {
+      "response_format": {
+        "type": "json_schema",
+        "json_schema": {
+          "name": "pipeline_output",
+          "schema": {},
+          "strict": true
+        }
+      }
+    },
+    "schema_note": "Replace the empty illustrative schema with the complete pipeline schema. Generic API schema support does not establish every model's hosted compatibility.",
+    "streaming_note": "If streaming is used, request stream_options.include_usage and require the final usage chunk; otherwise accounting can remain unresolved.",
+    "do_not_inherit_openai_prompt_cache_options": true,
+    "source_urls": [
+      "https://api.tokenfactory.nebius.com/openapi.json",
+      "https://docs.tokenfactory.nebius.com/api-reference/inference/create-chat-completion",
+      "https://docs.tokenfactory.nebius.com/ai-models-inference/json"
+    ]
+  },
+  "candidates": [
+    {
+      "model_id": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+      "input_usd_per_million": 0.1,
+      "output_usd_per_million": 0.3,
+      "public_status": "active",
+      "present_in_account_catalog": true,
+      "suggested_role": "Initial nonreasoning classifier baseline, subject to development evaluation.",
+      "reasoning": {
+        "publisher_mode": "non_thinking_only",
+        "recommended_request_fragment": {},
+        "omit_fields": ["reasoning_effort", "chat_template_kwargs.enable_thinking"],
+        "note": "This exact Instruct-2507 variant has no thinking mode. The publisher says enable_thinking=false is unnecessary.",
+        "hosted_behavior_tested": false
+      },
+      "public_json_mode_tag": true,
+      "source_urls": [
+        "https://tokenfactory.nebius.com/api/public/models_info",
+        "https://huggingface.co/Qwen/Qwen3-30B-A3B-Instruct-2507"
+      ]
+    },
+    {
+      "model_id": "nvidia/Nemotron-3_5-Lightning",
+      "input_usd_per_million": 0.06,
+      "output_usd_per_million": 0.24,
+      "public_status": "active",
+      "present_in_account_catalog": true,
+      "suggested_role": "Optional inexpensive cross-family classifier challenger after a bounded hosted smoke test.",
+      "reasoning": {
+        "publisher_default": "enabled",
+        "publisher_supports_disable": true,
+        "publisher_openai_sdk_request_fragment": {
+          "extra_body": {
+            "chat_template_kwargs": {
+              "enable_thinking": false
+            }
+          }
+        },
+        "raw_http_body_fragment": {
+          "chat_template_kwargs": {
+            "enable_thinking": false
+          }
+        },
+        "reasoning_effort_values_verified": null,
+        "note": "The publisher's vLLM API example documents this disable switch. OpenAI SDK extra_body merges its contents into the JSON body. Exact Nebius forwarding and output behavior require a smoke test.",
+        "hosted_behavior_tested": false
+      },
+      "public_json_mode_tag": false,
+      "source_urls": [
+        "https://tokenfactory.nebius.com/api/public/models_info",
+        "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-BF16"
+      ]
+    },
+    {
+      "model_id": "zai-org/GLM-5.3-Flash",
+      "input_usd_per_million": 0.15,
+      "output_usd_per_million": 0.5,
+      "public_status": "active",
+      "present_in_account_catalog": true,
+      "suggested_role": "Optional bounded reasoning comparator; do not assume a nonthinking Chat Completions mode.",
+      "reasoning": {
+        "publisher_supported_efforts": ["low", "high", "max"],
+        "publisher_default_effort": "max",
+        "unrecognized_effort_falls_back_to": "max",
+        "recommended_effort_for_initial_test": "low",
+        "generic_api_request_fragment_to_verify": {
+          "reasoning_effort": "low"
+        },
+        "do_not_send": ["none", "minimal", "medium", "xhigh"],
+        "note": "The publisher maps missing or unrecognized efforts to max. Nebius's GLM cookbook reports reasoning through Chat Completions even when thinking is disabled. Its raw-completion one-token workaround is a separate method and is outside this candidate plan.",
+        "hosted_behavior_tested": false
+      },
+      "public_json_mode_tag": false,
+      "source_urls": [
+        "https://tokenfactory.nebius.com/api/public/models_info",
+        "https://huggingface.co/zai-org/GLM-5.3-Flash",
+        "https://dev.nebius.com/cookbook/jev-style-decision-model-glm"
+      ]
+    },
+    {
+      "model_id": "openai/gpt-oss-120b",
+      "input_usd_per_million": 0.15,
+      "output_usd_per_million": 0.6,
+      "public_status": "active",
+      "present_in_account_catalog": true,
+      "suggested_role": "Initial cross-family blind verifier candidate at low reasoning effort, subject to bounded hosted testing.",
+      "reasoning": {
+        "publisher_supported_efforts": ["low", "medium", "high"],
+        "publisher_default_effort": "medium",
+        "documented_disable_mode": false,
+        "recommended_effort_for_initial_test": "low",
+        "generic_api_request_fragment_to_verify": {
+          "reasoning_effort": "low"
+        },
+        "publisher_system_message_control": "Reasoning: low",
+        "note": "The publisher documents the three effort levels and system-message control. Nebius's generic schema accepts reasoning_effort; model-specific forwarding is not yet inference-verified. Do not use none.",
+        "hosted_behavior_tested": false
+      },
+      "public_json_mode_tag": true,
+      "source_urls": [
+        "https://tokenfactory.nebius.com/api/public/models_info",
+        "https://developers.openai.com/api/docs/models/gpt-oss-120b",
+        "https://developers.openai.com/cookbook/articles/openai-harmony",
+        "https://docs.tokenfactory.nebius.com/api-reference/inference/create-chat-completion"
+      ]
+    }
+  ],
+  "rate_limits": {
+    "exact_account_rpm": null,
+    "exact_account_tpm": null,
+    "policy": "Account limits are dynamic. Use returned remaining-request/token headers and observed 429 behavior; the documentation's base-rate examples are not verified limits for this account.",
+    "catalog_tokens_per_second_is_measured_pipeline_throughput": false,
+    "source_url": "https://docs.tokenfactory.nebius.com/ai-models-inference/rate-limits"
+  },
+  "development_gate": {
+    "sequence": [100, 500, 1000],
+    "stop_for_review_at": 1000,
+    "use_same_ids_for_model_comparison": true,
+    "exclude_golden_labels_from_prompt_selection": true,
+    "required_observations": [
+      "Valid schema and exact source-ID/text accounting",
+      "Raw usage, completion tokens including reasoning, cost, retries, and latency",
+      "Actual behavior of requested reasoning and structured-output controls",
+      "Blind model agreement and manually inspected disagreements",
+      "Unchanged warm replay with no new model calls",
+      "Measured expansion projection using 159657 distinct texts"
+    ],
+    "do_not_automatically_expand": true
+  },
+  "optional_embedding_exploration": {
+    "implemented": false,
+    "model_id": "Qwen/Qwen3-Embedding-8B",
+    "present_in_account_catalog": true,
+    "public_status": "active",
+    "input_usd_per_million": 0.01,
+    "output_usd_per_million": 0,
+    "publisher_dimensions_range": [32, 4096],
+    "public_default_dimensions": 4096,
+    "generic_api_accepts_dimensions": true,
+    "hosted_custom_dimensions_tested": false,
+    "recommendation": "If the 1000-review inspection reveals broad topics hiding actionable subtopics, embed a bounded development subset and explore nearest neighbors or clusters within each broad topic. Store vectors locally; inspect representative source IDs before proposing names.",
+    "prevalence_limit": "Exploratory clusters do not establish cohort-wide subtopic prevalence. Freeze definitions and validate assignment across the full selected cohort before presenting such rates.",
+    "illustrative_cost_assumption_tokens_per_text": 100,
+    "illustrative_cost_1000_texts_usd": 0.001,
+    "illustrative_cost_159657_texts_usd": 0.159657,
+    "storage_float32_bytes_1000_texts_4096_dimensions": 16384000,
+    "storage_float32_bytes_159657_texts_4096_dimensions": 2615820288,
+    "storage_note": "Raw vectors alone at full dimensionality exceed the provisioned 1 GiB database allowance; these values exclude indexes, row overhead, and source records. Cost examples are assumptions, not measured token usage.",
+    "source_urls": [
+      "https://tokenfactory.nebius.com/api/public/models_info",
+      "https://huggingface.co/Qwen/Qwen3-Embedding-8B",
+      "https://docs.tokenfactory.nebius.com/api-reference/inference/create-embeddings"
+    ]
+  }
+}

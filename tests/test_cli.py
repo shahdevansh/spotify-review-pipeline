@@ -21,6 +21,22 @@ def test_missing_credentials_stop_before_provider_initialization(monkeypatch):
         _require_paid(argparse.Namespace(execute_paid=True))
 
 
+@pytest.mark.parametrize("transport,required,other", [
+    ("direct", "TYPESAFE_API_KEY", "VERCEL_TYPESAFE_API_KEY"),
+    ("vercel_gateway", "VERCEL_TYPESAFE_API_KEY", "TYPESAFE_API_KEY"),
+])
+def test_jev_credential_matches_selected_transport(tmp_path, monkeypatch, transport, required, other):
+    config = tmp_path / "config.json"
+    config.write_text(json.dumps({"jev_transport": transport}))
+    args = argparse.Namespace(execute_paid=True, config=str(config))
+    available = {"OPENAI_API_KEY": True, required: True, other: False}
+    monkeypatch.setattr("spotify_pipeline.cli._credentials", lambda: available)
+    _require_paid(args)
+    available.update({required: False, other: True})
+    with pytest.raises(ValueError, match=required):
+        _require_paid(args)
+
+
 def test_no_command_does_not_select_paid_execution():
     assert build_parser().parse_args([]).command is None
 
@@ -76,8 +92,8 @@ def test_unowned_saved_evidence_cannot_be_relabeled_cold(tmp_path):
     ({"completed": 99, "quarantined": 1}, "incomplete"),
     ({"execution_status": "incomplete", "pending": 1}, "incomplete"),
     ({"api_cost_complete": False}, "unresolved billed usage"),
-    ({"global_spending": {"unknown_charge_hold_usd": .01}}, "unresolved or interrupted charge"),
-    ({"global_spending": {"reserved_usd": .01}}, "unresolved or interrupted charge"),
+    ({"global_spending": {"reserved_usd": .01}}, "in-flight reservation"),
+    ({"global_spending": {"committed_usd": 19}}, "exceeds the budget"),
     ({"stages": {"verify": {"completed": 9}}}, "incomplete independent verification"),
 ])
 def test_pilot_does_not_expand_after_incomplete_or_unpriced_stage(changes, message):
@@ -93,6 +109,26 @@ def test_pilot_can_expand_with_semantic_disagreements_for_later_inspection():
                        "api_cost_complete": True,
                        "stages": {"verify": {"completed": 10, "disagreements": 4}}},
                       "100-cold", 10)
+
+
+def test_prior_unknown_charges_remain_budgeted_without_invalidating_measured_stage():
+    _pilot_stage_ready({"execution_status": "completed", "input_count": 100, "completed": 100,
+                       "api_cost_complete": True, "global_budget_usd": 1.5,
+                       "global_spending": {"unknown_charge_hold_usd": .02, "committed_usd": .25},
+                       "stages": {"verify": {"completed": 10}}},
+                      "100-cold", 10)
+
+
+def test_all_nebius_roles_require_only_nebius_credential(tmp_path, monkeypatch):
+    config = tmp_path / "nebius.json"
+    config.write_text(json.dumps({"providers": {role: "nebius"
+        for role in ("enrich", "fallback", "verify", "group", "memo")}}))
+    args = argparse.Namespace(execute_paid=True, config=str(config))
+    monkeypatch.setattr("spotify_pipeline.cli._credentials", lambda: {"NEBIUS_API_KEY": True})
+    _require_paid(args)
+    monkeypatch.setattr("spotify_pipeline.cli._credentials", lambda: {"OPENAI_API_KEY": True})
+    with pytest.raises(ValueError, match="NEBIUS_API_KEY"):
+        _require_paid(args)
 
 
 class SyntheticEngine:

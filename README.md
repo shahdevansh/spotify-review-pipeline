@@ -9,10 +9,34 @@ throughput. No command silently launches the larger run.
 
 ## Current evidence status
 
-This repository contains executable implementation and system tests. Actual paid
-pilot results, human-label accuracy, and AI-generated business recommendations are
-available only when the corresponding run artifacts exist. See
-[implementation status](docs/IMPLEMENTATION_STATUS.md) for limitations.
+The frozen v5 configuration has completed the fixed 100-review cold/warm
+measurement, the 500-review checkpoint, and all **1,000 learning reviews with
+1,000 independent verifications**. There are no pending or quarantined learning
+records. The pilot is published to the database-backed dashboard, and a real
+interruption/resume test passed.
+Human golden-set accuracy remains unmeasured, and neither the 10,000 nor
+210,000 expansion has run. See
+[implementation status](docs/IMPLEMENTATION_STATUS.md) for the evidence and gates.
+
+**Decision: fix the observed label errors before expanding.** The
+[learning report](docs/learning-report.md) explains the topic/intent/severity
+errors, weak uncertainty routing, measured agreement and next development test.
+The current business ranking is provisional because incorrect topic assignments
+can change which issue ranks first. A separate live synthetic test also exposed
+prompt-injection susceptibility in the fast classifier; deterministic flags
+caught the suspicious input but did not correct its unsupported labels.
+
+Start with the [learning report](docs/learning-report.md),
+[qualitative quality review](docs/learning-quality-review.md),
+[scaling economics](docs/scaling-economics.md),
+[measured cold/warm calculator](cost/README.md), and
+[live synthetic evaluation](evals/synthetic-live/README.md).
+
+Detailed `runs/` artifacts are excluded from Git. The paths below identify files
+inside the evidence package. Download and extract the
+[v0.1.0-pilot evidence release](https://github.com/shahdevansh/spotify-review-pipeline/releases/tag/v0.1.0-pilot)
+to inspect those files. Committed reports summarize the measurements without linking to
+nonexistent GitHub run directories.
 
 | Source-data fact | Count |
 |---|---:|
@@ -24,18 +48,63 @@ available only when the corresponding run artifacts exist. See
 | Exact-text reuse opportunities | 50,343 |
 | Learning sample reviews / distinct texts | 1,000 / 926 |
 
-These are source-data counts, not completed classifications. The selected input
+These are source-data counts, not completed classifications. The [ingestion
+report](data/ingestion_report.json) records checksum and scope reconciliation.
+The selected input
 includes all 13 empty texts in addition to the 210,000 nonempty reviews.
 
-**Live dashboard:** https://spotify-review-observatory.vercel.app  
-The application and API are deployed and publicly accessible. They currently
-show an explicit unavailable state because the hosted database and real paid
-pilot have not been configured. This is not a completed analysis.
+**Live dashboard:** [Spotify Review Observatory](https://spotify-review-observatory.vercel.app)
 
-**Validation:** 163 Python tests passed and one optional database integration test
-was skipped in the full suite. A separate real PostgreSQL run passed all 14
-database tests. The hosted Next.js production build passed compilation and
-TypeScript checks. See [validation evidence](validation/README.md).
+The application and API are public and backed by the published 1,000-review
+pilot in Neon. [Hosted reconciliation](validation/pilot_publication.json)
+matched all 1,000 database records, eight issue rankings, 32 claims and all
+445 issue-membership records across 14 API pages. A subsequent
+[observed sleep/wake check](validation/neon_sleep_recovery.json) passed:
+the first public overview request returned the 1,000-review result in 1.009 seconds.
+[Browser QA](validation/dashboard_visual_qa.json) verified the corrected duplicate
+and cache-reuse counts, quality-hold notice and review detail modal.
+
+**Provider adaptation:** the owner supplied Nebius credits. The selected
+[v5 configuration](validation/frozen_pilot_configuration.json) uses
+`nvidia/Nemotron-3_5-Lightning` without thinking for initial classification,
+`openai/gpt-oss-120b` at low reasoning effort for fallback, independent
+verification and grouping, and `zai-org/GLM-5.3-Flash` at low effort for the memo.
+Nebius hosts all these calls. This implements fast and deliberative model roles;
+Lightning is not Jev and its review flags are not calibrated confidence.
+The original Jev/OpenAI adapters remain available. See
+[model selection, failures, and measured probes](docs/nebius-adaptation.md).
+
+The fixed-100 cold run completed eight model requests in **39.803 seconds** at
+**$0.00654034** of nominal token value. Its identical warm replay completed in
+**0.0785 seconds with zero new requests and zero incremental API value**.
+Cold evidence (`runs/pilot/100-cold/run_summary.json`) and
+warm evidence (`runs/pilot/100-warm/run_summary.json`) include all pipeline stages.
+These amounts price reported usage; provider credit debits and new cash expense
+have not been reconciled.
+
+The complete cold/warm/500/1,000 sequence used **156 requests, no failed
+attempts, $0.118772214 of nominal API value, and 448.697 seconds of active wall
+time**. Later checkpoints reused prior outputs; their timings are incremental.
+The final 1,000 records represent 926 distinct texts, with 74 exact-text aliases,
+46 fallback classifications and 60 `needs_review` flags.
+
+Independent final-label agreement was **82.8% topic, 90.6% intent and 83.8%
+severity**; severity mean absolute difference was 0.201. These compare model
+predictions, not human answers. The learning report keeps expansion gated while
+the observed label errors and routing weaknesses are addressed.
+
+The current full Python suite has **247 passed and one optional integration
+test skipped**. Software, database and public-interface checks are listed in
+[validation evidence](validation/README.md). Automated tests establish software
+behavior, not human-label accuracy.
+
+The unchanged course checker returns `review_required` for both the main pilot
+and separate recovery evidence. The main run has no interruption/resume
+checkpoint. Recovery preserves unknown usage for the deliberately cancelled
+call, and later scheduled fallback requests touch three checkpoint IDs. The
+recovery helper confirms no lost IDs or repeated **first-pass** classification;
+it does not claim that every later paid call excludes previously completed IDs.
+See [validation details](validation/README.md).
 
 ## Setup
 
@@ -50,8 +119,9 @@ cp .env.example .env
 spotify-pipeline preflight
 ```
 
-Populate only the keys used in the ignored `.env`: `TYPESAFE_API_KEY`,
-`OPENAI_API_KEY`, and the hosted Postgres `DATABASE_URL`. A separate
+Populate only the keys used in the ignored `.env`: `NEBIUS_API_KEY` for the
+Nebius configuration, or TypeSafe/Vercel Gateway and OpenAI keys for the
+original configuration. The hosted Postgres uses `DATABASE_URL`. A separate
 `DATABASE_READONLY_URL` is recommended for the deployed dashboard.
 Never put these values into browser JavaScript, committed files, or logs.
 
@@ -96,15 +166,18 @@ Paid execution requires an explicit flag. The pilot includes the real fixed
 independent model comparison. It uses one shared $1.50 spending ceiling.
 
 ```sh
-spotify-pipeline pilot --execute-paid --budget 1.50 --workers 4
+spotify-pipeline pilot --config config/nebius-pilot.json \
+  --execute-paid --budget 1.50 --workers 4 \
+  --out runs/my-pilot --db data/my-pilot-cache.sqlite3
 ```
 
-Each stage writes separate artifacts below `runs/pilot/`. The cold run uses one
+Each stage writes separate artifacts below the chosen output directory. The cold run uses one
 worker; the warm run reuses saved results and downstream handoffs. Inspect
 `learning_report.md`, per-case disagreement evidence, actual costs, and
 throughput before further work.
 
-The dedicated pilot cache is `data/pilot_cache.sqlite3`. A cold run rejects a
+The recorded v5 pilot uses `data/pilot_v5_cache.sqlite3`; the CLI default is
+`data/pilot_cache.sqlite3`. A cold run rejects a
 populated cache. Completed stages are immutable and skipped on restart; partial
 stages resume against their original input, configuration, and cache. For a new
 configuration experiment, choose a fresh `--out` and `--db`; retain the shared
@@ -118,6 +191,7 @@ The CLI also accepts an arbitrary six-column input CSV:
 
 ```sh
 spotify-pipeline run --execute-paid --input /path/to/reviews.csv \
+  --config config/nebius-pilot.json \
   --out runs/custom --db data/custom.sqlite3 --budget 1.50 \
   --workers 1 --verify-count 10
 ```
@@ -132,15 +206,15 @@ and must be reconciled; the ledger does not turn estimates into provider bills.
 ```mermaid
 flowchart LR
     A[Original CSV + manifest] --> B[Code: profile / hash / select / deduplicate]
-    B --> C[Jev: topic / intent / severity / sentiment]
+    B --> C[Lightning: topic / intent / severity / sentiment]
     C --> D[Code: validate / exact quote / cache / checkpoint]
-    D --> E[OpenAI: capped difficult cases]
-    D --> F[OpenAI: blind independent verifier]
+    D --> E[GPT-OSS: capped difficult cases]
+    D --> F[GPT-OSS: blind independent verifier]
     E --> G[Saved enriched records]
     D --> G
     G --> H[Code membership + separate grouping model]
     H --> I[Code ranking and numerical claims]
-    I --> J[Separate memo model + claim checks]
+    I --> J[GLM memo model + claim checks]
     G --> K[(Postgres)]
     I --> K
     J --> K
@@ -148,13 +222,19 @@ flowchart LR
     L --> M[Dashboard with review-level evidence]
 ```
 
-- **Enrich:** pinned Jev plus bounded OpenAI escalation. Only review text informs
-  classification; ratings stay analysis metadata.
+- **Enrich:** Lightning with GPT-OSS fallback capped at five percent of distinct
+  texts. Only original review text informs classification; ratings stay
+  analysis metadata. Requests contain at most 25 reviews.
 - **Verify:** original text and rubric, without first-pass predictions.
+  GPT-OSS fallback and verification use batches of at most ten. Because the
+  fallback and verifier share a model, their agreement must be interpreted
+  separately from first-pass agreement.
 - **Group:** stable `issue-<topic>` membership for complaints/cancellations,
   separately prompted issue descriptions from bounded evidence.
-- **Memo:** saved ranking, claim IDs, and bounded evidence; code validates
-  references and renders checked numerical claims.
+- **Memo:** GLM receives saved ranking, claim IDs, and bounded evidence. Dynamic
+  schemas restrict allowed identifiers and numeral-free prose; code checks
+  cross-issue references and renders numerical claims. Semantic review remains
+  necessary even when structural checks pass.
 
 Every role has separate prompts, inputs, outputs, and call evidence. Code owns
 accounting and arithmetic. Completed or quarantined records preserve original
@@ -176,7 +256,7 @@ The required baseline is `priority_score = severity_sum`, ordered descending
 score and ascending issue ID. Each complaint/cancellation contributes once to
 one issue. Means use decimal half-up rounding to six places.
 
-The calculator distinguishes actual usage, estimated/missing usage, cached-input
+The calculator distinguishes reported usage, estimated/missing usage, cached-input
 categories, one-time overhead, and measured wall time. Doubling rates must double
 only API spend; changing projected volume must not alter pilot measurements.
 
@@ -221,9 +301,12 @@ Configure the hosted `DATABASE_READONLY_URL` in Vercel server-side environment
 variables. Bulk import uses the local pipeline's writer connection. The public
 app makes no model calls and does not offer public write endpoints.
 
-Neon credentials are still required. Local PostgreSQL tests do not establish
-Neon storage, sleep/wake behavior, hosted data reconciliation, or final-volume
-capacity. Those checks belong to the real deployed pilot.
+The application is connected to Neon with a dedicated read-only role. A fresh
+deployment needs its own credentials. Local PostgreSQL tests do not establish
+final-volume capacity. Hosted reconciliation and observed sleep/wake recovery
+are saved for the 1,000-review pilot. Its application tables occupy 1,425,408 bytes;
+a simple 210,000-review projection is 299,335,680 bytes, below the 700 MB gate,
+but that projection must be refreshed at the 10,000-review checkpoint.
 
 ## Evaluation and rubric map
 

@@ -153,6 +153,33 @@ def test_quarantined_rows_preserve_source_and_need_no_membership():
     validate_bundle(bundle)
 
 
+def test_publication_preflight_requires_complete_independent_comparison(tmp_path):
+    """The reconciliation tool stays offline and rejects a false accuracy claim."""
+    import importlib.util
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    script = Path(__file__).resolve().parents[1] / "web/scripts/verify_publication.py"
+    spec = importlib.util.spec_from_file_location("verify_publication", script)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    write_bundle(tmp_path, synthetic_bundle())
+    ingestion = tmp_path / "ingestion.json"
+    ingestion.write_text(json.dumps({"counts": {"records": 3, "empty_review_text": 0}}))
+    evaluation = tmp_path / "verifier_report.json"
+    evaluation.write_text(json.dumps({"verified_count": 1, "ground_truth": False}))
+    args = SimpleNamespace(
+        run=str(tmp_path), ingestion=str(ingestion), evaluation=str(evaluation),
+        expected_count=1, live=False,
+    )
+    result = module.verify(args)
+    assert result["status"] == "ready_for_authorized_import"
+    assert result["mutations_performed"] is False
+    evaluation.write_text(json.dumps({"verified_count": 1, "ground_truth": True}))
+    with pytest.raises(AssertionError, match="human accuracy"):
+        module.verify(args)
+
+
 def test_real_postgres_import_reimport_rollback_and_pagination(tmp_path):
     """Opt-in integration test against an isolated local, synthetic-only database."""
     import os
@@ -179,6 +206,9 @@ def test_real_postgres_import_reimport_rollback_and_pagination(tmp_path):
         review_text='  Playback\tstopped.\n"Résumé" \\\\ 🎵  ',
         review_rating="01", review_likes="000", app_version="",
         review_timestamp=" 2026-01-01 00:00:00 ",
+        confidence_source="not_reported",
+        review_flag_interpretation="Uncalibrated model flag; no probability was reported.",
+        initial_prediction={"topic": "playback", "severity": 2, "needs_review": True},
     )
     for i, record in enumerate(bundle.records):
         record["severity"] = i % 5 + 1
@@ -226,6 +256,12 @@ def test_real_postgres_import_reimport_rollback_and_pagination(tmp_path):
         ).fetchall()
         assert len(saved) == 58
         originals = {row["review_id"]: row for row in bundle.records}
+        provenance = connection.execute(
+            "SELECT provenance FROM spotify_reviews WHERE run_id=%s AND review_id=%s",
+            (bundle.run_id, ids[0]),
+        ).fetchone()[0]
+        for field in ("confidence_source", "review_flag_interpretation", "initial_prediction"):
+            assert provenance[field] == bundle.records[0][field]
         for row in saved:
             restored = dict(zip((*SOURCE_FIELDS, "source_sha256", "cache_source_id"), row))
             original = originals[restored["review_id"]]

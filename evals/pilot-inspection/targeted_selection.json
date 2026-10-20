@@ -1,0 +1,128 @@
+{
+  "seed": "pilot-targeted-inspection-v1:",
+  "selection_method": "Exclude 30 random IDs. Select 10 highest absolute severity differences (tie SHA256(seed+ID)), then 10 intent differences (lowest hash), then 10 topic differences (lowest hash), without replacement. Purposeful cases; not representative.",
+  "verification_sha256": "0a4b30575399c28a967bf0ba8867a3994433178ea622231a460955f9337bf82f",
+  "ids": [
+    {
+      "review_id": "7856217f-e060-4f55-a992-afcf0f02e4fc",
+      "selection_reason": "severity_disagreement"
+    },
+    {
+      "review_id": "c1726764-f0ce-4abc-ad9e-6cd143e1b2c7",
+      "selection_reason": "severity_disagreement"
+    },
+    {
+      "review_id": "618d1dbb-0186-4537-923a-7b4dabf19afb",
+      "selection_reason": "severity_disagreement"
+    },
+    {
+      "review_id": "c3a26471-eedb-4ee6-876a-4e8e133d67b8",
+      "selection_reason": "severity_disagreement"
+    },
+    {
+      "review_id": "0658feaa-5bec-416e-b6b0-3de2a4c14580",
+      "selection_reason": "severity_disagreement"
+    },
+    {
+      "review_id": "d75d0860-2d1e-4634-97a8-ca6ca63d9d0e",
+      "selection_reason": "severity_disagreement"
+    },
+    {
+      "review_id": "f3a4c132-c779-4107-9514-49bec6a77687",
+      "selection_reason": "severity_disagreement"
+    },
+    {
+      "review_id": "bcdf315e-c82d-41f0-9fcd-ba5933dfe77e",
+      "selection_reason": "severity_disagreement"
+    },
+    {
+      "review_id": "62b53e0a-0397-4200-826f-122d18fdde32",
+      "selection_reason": "severity_disagreement"
+    },
+    {
+      "review_id": "cf6166ae-d71a-4839-9add-088645ad3b78",
+      "selection_reason": "severity_disagreement"
+    },
+    {
+      "review_id": "74135a47-3232-441f-a2c5-8050d3e820fa",
+      "selection_reason": "intent_disagreement"
+    },
+    {
+      "review_id": "ef8ed0f7-b6bb-4398-824c-d8fe1a8ee78c",
+      "selection_reason": "intent_disagreement"
+    },
+    {
+      "review_id": "c731fdfa-3607-4ffe-a0df-c9bd06c7e5c7",
+      "selection_reason": "intent_disagreement"
+    },
+    {
+      "review_id": "58297e3a-f0e3-41c3-ab0f-aa593946c169",
+      "selection_reason": "intent_disagreement"
+    },
+    {
+      "review_id": "04afd9e2-8f9c-4a02-8b46-e01b2d5e2c51",
+      "selection_reason": "intent_disagreement"
+    },
+    {
+      "review_id": "921fc86c-ee5e-42ab-a50d-100b851f8056",
+      "selection_reason": "intent_disagreement"
+    },
+    {
+      "review_id": "065c418e-7f18-42a3-b241-fe693b7a2b0c",
+      "selection_reason": "intent_disagreement"
+    },
+    {
+      "review_id": "e87bc648-9eac-428a-8f68-3ad17e1ed699",
+      "selection_reason": "intent_disagreement"
+    },
+    {
+      "review_id": "4b55243e-33aa-4d29-bc0b-7fd737ce034c",
+      "selection_reason": "intent_disagreement"
+    },
+    {
+      "review_id": "0ea3b30d-23a6-4c70-a191-ec0fa67cfd36",
+      "selection_reason": "intent_disagreement"
+    },
+    {
+      "review_id": "e5e362d7-1057-43bf-a3ca-8ffd93f80789",
+      "selection_reason": "topic_disagreement"
+    },
+    {
+      "review_id": "bc1c4825-00c5-458d-ac00-098ce729c76d",
+      "selection_reason": "topic_disagreement"
+    },
+    {
+      "review_id": "47ab8a7e-e9da-45ef-bcfd-036fff3896a3",
+      "selection_reason": "topic_disagreement"
+    },
+    {
+      "review_id": "6ecd5837-917a-45de-b811-278da3a26a7a",
+      "selection_reason": "topic_disagreement"
+    },
+    {
+      "review_id": "6524068a-cff5-45b9-bd37-b91a6cb71475",
+      "selection_reason": "topic_disagreement"
+    },
+    {
+      "review_id": "232c669e-8bfe-4642-b0c9-229c2911cc6c",
+      "selection_reason": "topic_disagreement"
+    },
+    {
+      "review_id": "ce08ed7e-edf6-4b20-b78a-b7c7f8c66f30",
+      "selection_reason": "topic_disagreement"
+    },
+    {
+      "review_id": "db73c4f7-2c81-4992-b9ea-95cf52c37233",
+      "selection_reason": "topic_disagreement"
+    },
+    {
+      "review_id": "a0cbc9d6-51bb-46f0-9ba9-ad4f4593c266",
+      "selection_reason": "topic_disagreement"
+    },
+    {
+      "review_id": "58e901c3-5ef3-45f9-80c1-111738c979e3",
+      "selection_reason": "topic_disagreement"
+    }
+  ],
+  "human_gold": false
+}

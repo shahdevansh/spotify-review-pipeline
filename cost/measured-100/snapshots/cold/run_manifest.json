@@ -1,0 +1,15 @@
+{
+  "version": "pipeline-run-manifest-v1",
+  "identity": {
+    "input_path": "/Users/shahdevansh/Documents/Codex/2026-10-19/for/outputs/spotify-review-pipeline/data/source/cost_100.csv",
+    "input_sha256": "c884ac3b9be5066995d5063f96ad9af6e5e082975788c1684c4f6b6ea661dd0e",
+    "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+    "cache_path": "/Users/shahdevansh/Documents/Codex/2026-10-19/for/outputs/spotify-review-pipeline/data/pilot_v5_cache.sqlite3",
+    "cache_mode": "cold",
+    "verify_count": 10,
+    "workers": 1
+  },
+  "created_at": "2026-10-20T06:06:42.176301+00:00",
+  "initial_cache_counts": {},
+  "empty_cache_at_start": true
+}
