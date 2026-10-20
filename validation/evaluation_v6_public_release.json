@@ -1,0 +1,31 @@
+{
+  "verified_at": "2026-10-20T08:36:29.772033+00:00",
+  "anonymous_requests": true,
+  "repository_public": true,
+  "release_url": "https://github.com/shahdevansh/spotify-review-pipeline/releases/tag/v0.2.0-evaluation",
+  "release_draft": false,
+  "release_tag": "v0.2.0-evaluation",
+  "target_commit": "a239184b2a957453b33d92574bb166e0c608bca3",
+  "assets": [
+    {
+      "name": "spotify-evaluation-v6.tar.gz",
+      "url": "https://github.com/shahdevansh/spotify-review-pipeline/releases/download/v0.2.0-evaluation/spotify-evaluation-v6.tar.gz",
+      "status": 200,
+      "bytes": 2097184,
+      "sha256": "eef75bc25f5fc8841421a4fa65f46013bddff6ee3428270faa989cec701ba8e1"
+    },
+    {
+      "name": "spotify-evaluation-v6.tar.gz.manifest.json",
+      "url": "https://github.com/shahdevansh/spotify-review-pipeline/releases/download/v0.2.0-evaluation/spotify-evaluation-v6.tar.gz.manifest.json",
+      "status": 200,
+      "bytes": 3056,
+      "sha256": "6741f95f8164265206a0497be07108e41860f4546e911d572e1d010daa0c2ff1"
+    }
+  ],
+  "blank_worksheet": {
+    "url": "https://raw.githubusercontent.com/shahdevansh/spotify-review-pipeline/a239184b2a957453b33d92574bb166e0c608bca3/evals/human-evaluation-v1/combined_200.html",
+    "status": 200,
+    "sha256": "764c6ec8a54efac58c7596e1f1efb8438109957ccddd28ed2ee93664aae189bd"
+  },
+  "private_answers_or_predictions_accessed": false
+}
