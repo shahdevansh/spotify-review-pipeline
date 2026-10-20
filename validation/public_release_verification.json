@@ -1,0 +1,85 @@
+{
+  "checked_at": "2026-10-20T06:53:05.627194+00:00",
+  "status": "passed",
+  "repository_commit": "de0c2f332342dea4d32cbbb3f26b5e0fec87b664",
+  "checks": {
+    "repository": {
+      "url": "https://github.com/shahdevansh/spotify-review-pipeline",
+      "status": 200,
+      "bytes": 347586,
+      "authentication": "none"
+    },
+    "learning_report": {
+      "url": "https://github.com/shahdevansh/spotify-review-pipeline/blob/main/docs/learning-report.md",
+      "status": 200,
+      "bytes": 276910,
+      "authentication": "none"
+    },
+    "release": {
+      "url": "https://github.com/shahdevansh/spotify-review-pipeline/releases/tag/v0.1.0-pilot",
+      "status": 200,
+      "bytes": 192822,
+      "authentication": "none"
+    },
+    "dashboard": {
+      "url": "https://spotify-review-observatory.vercel.app",
+      "status": 200,
+      "bytes": 17476,
+      "authentication": "none"
+    },
+    "overview": {
+      "url": "https://spotify-review-observatory.vercel.app/api/overview",
+      "status": 200,
+      "bytes": 7172,
+      "authentication": "none",
+      "overview_status": "ready",
+      "overview_top_level_keys": [
+        "claims",
+        "evaluation",
+        "run",
+        "scope",
+        "source",
+        "status",
+        "storage"
+      ],
+      "run_summary": {
+        "run_id": "1000-1ad0e35d239c3e9d",
+        "label_config": "spotify-d6e940ab47b6313cd1edcca453c786586b7c36a75343e7c781cbf15fbe646dbb",
+        "input_count": 1000,
+        "completed": 1000,
+        "quarantined": 0,
+        "pending": 0,
+        "unique_texts": 926,
+        "imported_rows": 1000
+      },
+      "count_assertions": "passed"
+    },
+    "archive": {
+      "url": "https://github.com/shahdevansh/spotify-review-pipeline/releases/download/v0.1.0-pilot/spotify-learning-1000.tar.gz",
+      "status": 200,
+      "bytes": 4489358,
+      "authentication": "none",
+      "sha256": "8675a22ee7008b0036f5e8226223a8ab65b16dfc14f6a745ff7248ccc3b988b8",
+      "expected_sha256": "8675a22ee7008b0036f5e8226223a8ab65b16dfc14f6a745ff7248ccc3b988b8",
+      "checksum_match": true
+    },
+    "manifest": {
+      "url": "https://github.com/shahdevansh/spotify-review-pipeline/releases/download/v0.1.0-pilot/spotify-learning-1000.tar.gz.manifest.json",
+      "status": 200,
+      "bytes": 1102,
+      "authentication": "none",
+      "sha256": "df9e4e8fda75efb748bc1b2a6203ebebf7e6aa51e1dfaf9a037bd3c345549fc3",
+      "expected_sha256": "df9e4e8fda75efb748bc1b2a6203ebebf7e6aa51e1dfaf9a037bd3c345549fc3",
+      "checksum_match": true
+    },
+    "calculator": {
+      "url": "https://github.com/shahdevansh/spotify-review-pipeline/releases/download/v0.1.0-pilot/measured-100.zip",
+      "status": 200,
+      "bytes": 201219,
+      "authentication": "none",
+      "sha256": "1d77ece36879658f282f5b5d29dba0371f88d308b9b580a3c7a9c2deb4cf4c4c",
+      "expected_sha256": "1d77ece36879658f282f5b5d29dba0371f88d308b9b580a3c7a9c2deb4cf4c4c",
+      "checksum_match": true
+    }
+  }
+}
