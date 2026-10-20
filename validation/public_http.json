@@ -1,0 +1,82 @@
+{
+  "checked_at": "2026-10-20T05:00:02.126856+00:00",
+  "purpose": "Public transport and truthful unavailable-state checks; no hosted database results exist.",
+  "deployment_id": "dpl_7T6cEp5NEzrdq5qXS5g3UaoqoJMM",
+  "public_url": "https://spotify-review-observatory.vercel.app",
+  "github": {
+    "url": "https://github.com/shahdevansh/spotify-review-pipeline",
+    "private": false,
+    "default_branch": "main"
+  },
+  "checks": [
+    {
+      "path": "/",
+      "http_status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "authentication_sent": false,
+      "page_title_present": true
+    },
+    {
+      "path": "/api/overview",
+      "http_status": 200,
+      "content_type": "application/json",
+      "authentication_sent": false,
+      "body": {
+        "run": null,
+        "source": null,
+        "evaluation": null,
+        "claims": [],
+        "storage": null,
+        "scope": null,
+        "status": "unavailable",
+        "message": "The results database is not configured. No analysis results are being displayed."
+      }
+    },
+    {
+      "path": "/api/issues",
+      "http_status": 200,
+      "content_type": "application/json",
+      "authentication_sent": false,
+      "body": {
+        "issues": [],
+        "status": "unavailable",
+        "message": "The results database is not configured. No analysis results are being displayed."
+      }
+    },
+    {
+      "path": "/api/issues/issue-playback/reviews",
+      "http_status": 200,
+      "content_type": "application/json",
+      "authentication_sent": false,
+      "body": {
+        "reviews": [],
+        "next_cursor": null,
+        "issue_id": "issue-playback",
+        "status": "unavailable",
+        "message": "The results database is not configured. No analysis results are being displayed."
+      }
+    },
+    {
+      "path": "/api/reviews/not-a-review",
+      "http_status": 200,
+      "content_type": "application/json",
+      "authentication_sent": false,
+      "body": {
+        "review": null,
+        "status": "unavailable",
+        "message": "The results database is not configured. No analysis results are being displayed."
+      }
+    },
+    {
+      "path": "/api/recommendations",
+      "http_status": 200,
+      "content_type": "application/json",
+      "authentication_sent": false,
+      "body": {
+        "document": null,
+        "status": "unavailable",
+        "message": "The results database is not configured. No analysis results are being displayed."
+      }
+    }
+  ]
+}
