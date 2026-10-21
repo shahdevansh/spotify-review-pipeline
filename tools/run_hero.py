@@ -192,6 +192,61 @@ class PublicationSupport:
   if staged:return staged
   return sorted(source.rglob('*')) if source.is_dir() else [source]
 
+FINAL_VALIDATION_NAMES=frozenset(('manifest.json','offline-validation.json','clean-release-calculator.json',
+ 'pilot-rerank-validation.json','selection-validation.json','trace-backup-inventory.json',
+ 'focused-tests.json','focused-tests.txt','vercel-build.log','packaging-recovery-tests.json'))
+AVAILABILITY_ARTIFACT_NAMES=frozenset(('checker.json','checker-acceptance.json','projection.json','selection.json',
+ 'database-publication.json','quality-decision.json','grading-checkpoint-provenance.json','publication-reconciliation.json',
+ 'web-deployment.json','admission-migration.json','admission-performance-proof.json','operational-performance.json',
+ 'runtime-upgrade-60000.json','recovery.cast','audit-timeout-stop.json','audit-timeout-repair.json',
+ 'audit-timeout-timing-and-budget.json','audit-timeout-shutdown-audit.json','audit-timeout-post-restart-timing.json'))
+AVAILABILITY_NOTES=frozenset((
+ 'Two performance proofs use the already verified frozen pilot snapshots; unreadable original root copies were not altered or claimed re-read.',
+ 'Selection and quality decision use exact hash-verified supervisor-control snapshots.',
+ 'The root web-deployment.json member uses fresh web-deployment-final.json; the historical original remains unchanged.',
+ 'operational-final.json is deliberately not frozen here, so later final accounting/QA output is included by the next package invocation.',
+ 'Rerun this preflight after adding or changing final-validation receipts.'))
+OPTIONAL_OMISSION_REASON='Optional operational proof remained unreadable after two bounded reads and an exact-file hydration request; original preserved. Required grading/cost/evaluation/recovery/handoff evidence is not omitted.'
+
+def validate_publication_availability(value):
+ """Only reviewed public metadata can be emitted in the release manifest."""
+ allowed={'schema_version','status','prepared_at','artifacts','final_validation','notes'}
+ if not isinstance(value,dict) or set(value)-allowed:raise RuntimeError('Unexpected publication availability metadata fields')
+ if value.get('schema_version')!='final-publication-availability-v1' or value.get('status')!='ready' or not isinstance(value.get('artifacts'),dict):
+  raise RuntimeError('Final publication artifact availability manifest is not ready')
+ if set(value['artifacts'])-AVAILABILITY_ARTIFACT_NAMES:raise RuntimeError('Unexpected names in publication artifact availability manifest')
+ if 'prepared_at' in value:
+  from datetime import datetime
+  if not isinstance(value['prepared_at'],str) or len(value['prepared_at'])>64 or datetime.fromisoformat(value['prepared_at'].replace('Z','+00:00')).tzinfo is None:
+   raise RuntimeError('Invalid publication availability timestamp')
+ notes=value.get('notes',[])
+ if not isinstance(notes,list) or any(not isinstance(note,str) or note not in AVAILABILITY_NOTES for note in notes):
+  raise RuntimeError('Unexpected publication availability notes')
+ def integrity(entry):
+  return type(entry.get('size_bytes')) is int and entry['size_bytes']>=0 and isinstance(entry.get('sha256'),str) and len(entry['sha256'])==64 and all(c in '0123456789abcdef' for c in entry['sha256'])
+ for name,entry in value['artifacts'].items():
+  if not isinstance(entry,dict):raise RuntimeError('Invalid publication availability artifact metadata')
+  if entry.get('action')=='omitted':
+   if name not in ('admission-migration.json','runtime-upgrade-60000.json'):raise RuntimeError('Publication manifest attempted to omit protected evidence: '+name)
+   if set(entry)-{'action','requested_source','reason'} or entry.get('reason')!=OPTIONAL_OMISSION_REASON:
+    raise RuntimeError('Unexpected publication omission metadata')
+  else:
+   if set(entry)-{'action','requested_source','selected_source','source_verification','size_bytes','sha256','original_source_preserved'} or entry.get('action')!='resident_snapshot' or not integrity(entry):
+    raise RuntimeError('Unexpected publication snapshot metadata')
+   selected={'runs/hero-v1/'+name,'evals/hero-pilot/'+name,
+    'runtime-evidence/publication-support/evals/hero-pilot/'+name,
+    'runtime-evidence/publication-support/runs/hero-v1/'+name,
+    'runtime-evidence/supervisor-control/runs/hero-v1/'+name}
+   if name=='web-deployment.json':selected.add('runs/hero-v1/web-deployment-final.json')
+   if 'selected_source' in entry and entry['selected_source'] not in selected:raise RuntimeError('Unexpected publication selected source')
+   if 'source_verification' in entry and entry['source_verification'] not in ('bounded_exact_read','frozen_publication_support_manifest','frozen_supervisor_control_manifest','fresh_final_deployment_evidence'):raise RuntimeError('Unexpected publication verification metadata')
+   if 'original_source_preserved' in entry and entry['original_source_preserved'] is not True:raise RuntimeError('Original publication source must be preserved')
+  if 'requested_source' in entry and entry['requested_source']!='runs/hero-v1/'+name:raise RuntimeError('Unexpected publication requested source')
+ validation=value.get('final_validation',{})
+ if not isinstance(validation,dict) or set(validation)-FINAL_VALIDATION_NAMES:raise RuntimeError('Unexpected final validation filenames')
+ for entry in validation.values():
+  if not isinstance(entry,dict) or set(entry)!={'size_bytes','sha256'} or not integrity(entry):raise RuntimeError('Unexpected final validation metadata fields')
+
 def package_evidence():
  """Build the public release offline; never run inference or publish a database."""
  out=BASE/'run';grading=BASE/'grading';pilot=ROOT/'evals/hero-pilot';support=PublicationSupport()
@@ -218,6 +273,9 @@ def package_evidence():
  for name in ('evaluation.json','verification.jsonl','disagreements.jsonl'):
   source=evidence_path(out/name)
   package_sources.append((source,'evals/hero/'+source.name))
+ for name in ('business-audit.json','business-audit.md','editorial-review.json'):
+  package_sources.append((ROOT/'evals/hero'/name,'evals/hero/'+name))
+ package_sources.append((BASE/'final-validation','validation'))
  for name in ('configuration.json','run_summary.json'):
   package_sources.append((out/name,'run/'+name))
  for name in ('group.input.json','group.output.json','memo.input.json','memo.output.json'):
@@ -226,10 +284,38 @@ def package_evidence():
   package_sources.append((out/name,name))
  for name in ('editorial-review.json','editorial-review'):
   package_sources.append((out/name,name))
+ optional_cache=ROOT/'runtime-evidence/final-publication-optionals'
+ availability_path=optional_cache/'manifest.json';availability={}
+ if availability_path.is_file():
+  if availability_path.is_symlink():raise RuntimeError('Publication artifact availability manifest must not be a symlink')
+  availability=json.loads(availability_path.read_text())
+  validate_publication_availability(availability)
+  if availability.get('final_validation'):
+   validation_root=optional_cache/'final-validation'
+   if validation_root.is_symlink() or {str(p.relative_to(validation_root)) for p in validation_root.rglob('*') if p.is_file()}!=set(availability['final_validation']):
+    raise RuntimeError('Final validation snapshot inventory differs from its manifest')
+   for name,entry in availability['final_validation'].items():
+    relative=Path(name);source=validation_root/relative
+    if relative.is_absolute() or '..' in relative.parts or source.is_symlink() or not source.is_file() or source.stat().st_size!=entry.get('size_bytes') or checked_file_sha(source)!=entry.get('sha256'):
+     raise RuntimeError('Final validation snapshot integrity mismatch: '+name)
+   package_sources=[(validation_root,destination) if source==BASE/'final-validation' else (source,destination) for source,destination in package_sources]
+ allowed_proof_names=set()
  for name in ('checker.json','checker-acceptance.json','projection.json','selection.json','database-publication.json','quality-decision.json','grading-checkpoint-provenance.json','publication-reconciliation.json','web-deployment.json','admission-migration.json','admission-performance-proof.json','operational-performance.json','runtime-upgrade-60000.json','recovery.cast',
   'audit-timeout-stop.json','audit-timeout-repair.json','operational-final.json',
   'audit-timeout-timing-and-budget.json','audit-timeout-shutdown-audit.json','audit-timeout-post-restart-timing.json'):
-  package_sources.append((BASE/name,name))
+  allowed_proof_names.add(name)
+  source=BASE/name;entry=availability.get('artifacts',{}).get(name)
+  if entry:
+   if entry.get('action')=='omitted':
+    if name not in ('admission-migration.json','runtime-upgrade-60000.json') or not entry.get('reason'):
+     raise RuntimeError('Publication manifest attempted to omit protected evidence: '+name)
+    continue
+   source=optional_cache/name
+   if entry.get('action')!='resident_snapshot' or source.is_symlink() or not source.is_file() or source.stat().st_size!=entry.get('size_bytes') or checked_file_sha(source)!=entry.get('sha256'):
+    raise RuntimeError('Final publication artifact snapshot integrity mismatch: '+name)
+  package_sources.append((source,name))
+ if set(availability.get('artifacts',{}))-allowed_proof_names:raise RuntimeError('Unexpected names in publication artifact availability manifest')
+ if availability:package_sources.append((availability_path,'publication-artifact-availability.json'))
  for name in ('recovery-validation.json','checkpoint_before.json','checkpoint_after.json','calls.jsonl','configuration.json','run_summary.json'):
   source=support.resolve(BASE/'recovery'/name)
   package_sources.append((source,'recovery/'+source.name))
@@ -240,7 +326,13 @@ def package_evidence():
  # Stream directly into ZIP: avoid a second large staging copy on the constrained Mac.
  with zipfile.ZipFile(temporary,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=3) as z:
   for source,destination in package_sources:
-   files=support.children(source)
+   if destination=='validation':
+    if not source.exists():continue
+    if source.is_symlink() or not source.is_dir():raise RuntimeError('Final validation source must be a real directory')
+    files=sorted(source.iterdir())
+    if any(child.name not in FINAL_VALIDATION_NAMES or child.is_symlink() or not child.is_file() for child in files):
+     raise RuntimeError('Unexpected file, directory or symlink in final validation evidence')
+   else:files=support.children(source)
    is_directory=source.is_dir() or any(child!=source for child in files)
    for child in files:
     artifact=support.resolve(child)
