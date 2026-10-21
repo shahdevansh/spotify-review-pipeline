@@ -143,9 +143,58 @@ def preserve_grading_checkpoint(grading):
  shutil.copyfile(initial/'checkpoint_after.json',grading/'checkpoint_before.json')
  atomic_json(BASE/'grading-checkpoint-provenance.json',{'before_source':str(initial.relative_to(ROOT)/'checkpoint_after.json'),'after_source':'runs/hero-v1/run/checkpoint_after.json','before_completed':len(before_ids),'after_completed':len(after_ids),'note':'Exact saved cold-run completion boundary; subsequent processes resumed this configuration from persistent SQLite. Final no-op resume snapshots are not used as interruption evidence. Separate recovery recording is packaged under recovery/.'})
 
+class PublicationSupport:
+ """Verified resident snapshots of frozen cost/recovery files only."""
+ def __init__(self):
+  self.directory=ROOT/'runtime-evidence/publication-support';self.files={};self.manifest=self.directory/'manifest.json'
+  if not self.manifest.exists():return
+  payload=json.loads(self.manifest.read_text())
+  if payload.get('version')!='resident-publication-support-v1' or payload.get('status')!='ready' or payload.get('pending'):
+   raise RuntimeError('Resident publication support manifest is not ready')
+  self.files=payload.get('files')
+  if not isinstance(self.files,dict) or not self.files:raise RuntimeError('Resident publication support manifest has no files')
+  for name,entry in self.files.items():
+   relative=Path(name)
+   if relative.is_absolute() or '..' in relative.parts or not self.applies(relative):
+    raise RuntimeError('Invalid resident publication support path: '+name)
+   expected=self.directory/relative
+   if not isinstance(entry,dict) or entry.get('resident_path')!=str(expected):
+    raise RuntimeError('Resident publication support location mismatch: '+name)
+   if type(entry.get('size_bytes')) is not int or entry['size_bytes']<0 or not isinstance(entry.get('sha256'),str) or len(entry['sha256'])!=64:
+    raise RuntimeError('Invalid resident publication support integrity metadata: '+name)
+ def applies(self,relative):
+  name=str(relative)
+  return name=='runs/hero-v1/recovery.cast' or name.startswith('evals/hero-pilot/') or name.startswith('runs/hero-v1/recovery/')
+ def relative(self,path):
+  path=Path(path)
+  if path.is_relative_to(self.directory):return path.relative_to(self.directory)
+  try:return path.relative_to(ROOT)
+  except ValueError:return None
+ def resolve(self,path):
+  path=Path(path);relative=self.relative(path)
+  if not self.files or relative is None or not self.applies(relative):return evidence_path(path)
+  name=str(relative)
+  if name not in self.files and name.endswith('.jsonl') and name+'.gz' in self.files:name+='.gz'
+  if name not in self.files:raise RuntimeError('Missing resident publication support manifest entry: '+name)
+  entry=self.files[name];resident=self.directory/name
+  if resident.is_symlink() or not resident.is_file() or not resident.resolve().is_relative_to(self.directory.resolve()):
+   raise RuntimeError('Missing or unsafe resident publication support file: '+name)
+  if resident.stat().st_size!=entry['size_bytes']:raise RuntimeError('Resident publication support size mismatch: '+name)
+  digest=hashlib.sha256();consumed=0
+  with resident.open('rb') as handle:
+   for block in iter(lambda:handle.read(1024*1024),b''):digest.update(block);consumed+=len(block)
+  if consumed!=entry['size_bytes'] or digest.hexdigest()!=entry['sha256']:
+   raise RuntimeError('Resident publication support checksum mismatch: '+name)
+  return resident
+ def children(self,source):
+  relative=self.relative(source);prefix=str(relative)+'/' if relative is not None else None
+  staged=sorted(ROOT/name for name in self.files if prefix and name.startswith(prefix))
+  if staged:return staged
+  return sorted(source.rglob('*')) if source.is_dir() else [source]
+
 def package_evidence():
  """Build the public release offline; never run inference or publish a database."""
- out=BASE/'run';grading=BASE/'grading';pilot=ROOT/'evals/hero-pilot'
+ out=BASE/'run';grading=BASE/'grading';pilot=ROOT/'evals/hero-pilot';support=PublicationSupport()
  # Explicit destinations preserve the assignment's sibling grading/, cost/, evals/ layout.
  required=[
   grading/'run.json',grading/'ingestion.json',grading/'records.jsonl',grading/'calls.jsonl',
@@ -162,7 +211,7 @@ def package_evidence():
   BASE/'recovery/recovery-validation.json',BASE/'recovery/checkpoint_before.json',
   BASE/'recovery/checkpoint_after.json',BASE/'recovery/calls.jsonl',
  ]
- missing=[str(p.relative_to(ROOT)) for p in required if not evidence_path(p).is_file()]
+ missing=[str(p.relative_to(ROOT)) for p in required if not support.resolve(p).is_file()]
  if missing:raise RuntimeError('Cannot package incomplete final evidence: '+', '.join(missing))
  package_sources=[(grading,'grading'),(pilot,'evals/hero-pilot'),
   (pilot/'cold100','cost'),(pilot/'warm100','cost/warm100')]
@@ -178,24 +227,26 @@ def package_evidence():
  for name in ('checker.json','projection.json','selection.json','database-publication.json','quality-decision.json','grading-checkpoint-provenance.json','publication-reconciliation.json','web-deployment.json','admission-migration.json','admission-performance-proof.json','operational-performance.json','runtime-upgrade-60000.json','recovery.cast'):
   package_sources.append((BASE/name,name))
  for name in ('recovery-validation.json','checkpoint_before.json','checkpoint_after.json','calls.jsonl','configuration.json','run_summary.json'):
-  source=evidence_path(BASE/'recovery'/name)
+  source=support.resolve(BASE/'recovery'/name)
   package_sources.append((source,'recovery/'+source.name))
+ if support.files:package_sources.append((support.manifest,'resident-publication-support.json'))
  if (ROOT/'evals/hero-human').is_dir():package_sources.append((ROOT/'evals/hero-human','evals/hero-human'))
  archive=BASE/'spotify-hero-evidence.zip';temporary=archive.with_suffix('.zip.tmp')
  names=set()
  # Stream directly into ZIP: avoid a second large staging copy on the constrained Mac.
  with zipfile.ZipFile(temporary,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=3) as z:
   for source,destination in package_sources:
-   if not source.exists():continue
-   files=sorted(source.rglob('*')) if source.is_dir() else [source]
+   files=support.children(source)
+   is_directory=source.is_dir() or any(child!=source for child in files)
    for child in files:
-    if not child.is_file():continue
-    if child.is_symlink():raise RuntimeError('Release evidence must not contain symlinks: '+str(child))
-    member=str(Path(destination)/child.relative_to(source)) if source.is_dir() else destination
+    artifact=support.resolve(child)
+    if not artifact.is_file():continue
+    if artifact.is_symlink():raise RuntimeError('Release evidence must not contain symlinks: '+str(artifact))
+    member=str(Path(destination)/child.relative_to(source)) if is_directory else destination
     if member in names:raise RuntimeError('Duplicate release member: '+member)
-    expected_bytes=child.stat().st_size
-    names.add(member);z.write(child,member)
-    if z.getinfo(member).file_size!=expected_bytes:raise IOError('Evidence read did not match source size; hydrate and retry: '+str(child.resolve()))
+    expected_bytes=artifact.stat().st_size
+    names.add(member);z.write(artifact,member)
+    if z.getinfo(member).file_size!=expected_bytes:raise IOError('Evidence read did not match source size; hydrate and retry: '+str(artifact.resolve()))
  with zipfile.ZipFile(temporary) as z:
   bad=z.testzip()
   if bad is not None:raise RuntimeError('Release archive integrity failure: '+bad)
@@ -216,7 +267,7 @@ def finalize():
   subprocess.run([sys.executable,str(checker),*command],check=True,cwd=ROOT)
  check=json.loads((BASE/'checker.json').read_text())
  if check.get('status')!='pass':raise RuntimeError('Submission checker did not pass')
- publication=import_run(out,ingestion_report=grading/'ingestion.json',evaluation_path=out/'evaluation.json')
+ publication=import_run(out,ingestion_report=grading/'ingestion.json',evaluation_path=out/'evaluation.json',max_storage_bytes=700_000_000)
  atomic_json(BASE/'database-publication.json',publication)
  if publication['storage_bytes']>700_000_000:raise RuntimeError('Published database exceeds conservative storage threshold')
  subprocess.run([sys.executable,str(ROOT/'tools/reconcile_hero_publication.py'),'--run-dir',str(out),'--ingestion-report',str(grading/'ingestion.json'),'--out',str(BASE/'publication-reconciliation.json')],check=True,cwd=ROOT)

@@ -283,11 +283,14 @@ def import_run(
     *,
     ingestion_report: str | Path | None = None,
     evaluation_path: str | Path | None = None,
+    max_storage_bytes: int | None = None,
 ) -> dict[str, Any]:
     """Atomically upsert a run, bulk-copy its records, and make it current.
 
     The caller supplies DATABASE_URL; this function never prints or persists it.
     """
+    if max_storage_bytes is not None and (type(max_storage_bytes) is not int or max_storage_bytes <= 0):
+        raise ValueError("max_storage_bytes must be a positive integer or None.")
     bundle = load_run(run_dir, ingestion_report=ingestion_report, evaluation_path=evaluation_path)
     connection_string = database_url or os.environ.get("DATABASE_URL")
     if not connection_string:
@@ -351,6 +354,10 @@ def import_run(
                                    'spotify_evaluation_reports')
             """)
             size = int(cursor.fetchone()[0])
+            if max_storage_bytes is not None and size > max_storage_bytes:
+                # Raising inside the connection context rolls back the entire
+                # import, including the is_current switch and old-run deletion.
+                raise ValueError(f"Imported database size {size} exceeds {max_storage_bytes} bytes; publication rolled back.")
     return {
         "run_id": bundle.run_id,
         "imported_rows": len(bundle.records),
