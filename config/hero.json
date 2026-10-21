@@ -121,5 +121,8 @@
   "maximum_fallback_fraction": 0.15,
   "fallback_workers": 8,
   "task_references_journal_only": true,
-  "gzip_exports": true
+  "gzip_exports": true,
+  "provider_timeout_seconds": {
+    "nebius": 180
+  }
 }

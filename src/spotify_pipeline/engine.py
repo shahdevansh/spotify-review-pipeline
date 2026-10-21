@@ -75,6 +75,11 @@ def validate_config(config: dict) -> None:
     if (not isinstance(batch_limits, dict) or set(batch_limits) - set(ROLE_PROVIDERS) or
             any(type(limit) is not int or not 1 <= limit <= 50 for limit in batch_limits.values())):
         raise ValueError("max_reviews_by_role must contain role limits between 1 and 50")
+    timeouts = config.get("provider_timeout_seconds", {})
+    if (not isinstance(timeouts, dict) or set(timeouts) - {"jev", "openai", "nebius", "decisions"} or
+            any(isinstance(value, bool) or not isinstance(value, (int, float)) or
+                not math.isfinite(value) or not 0.001 <= value <= 3600 for value in timeouts.values())):
+        raise ValueError("provider_timeout_seconds must map supported providers to finite values between 0.001 and 3600")
     allowed = config.get("allowed_models", {"jev": ["jev-1.13.0"], "openai": ["gpt-6-luna"]})
     for role in ROLE_PROVIDERS:
         provider = role_provider(config, role)
@@ -311,14 +316,17 @@ class Engine:
 
     def _provider(self, name: str):
         if name not in self.providers:
+            # Transport waiting is operational: it changes neither the request
+            # body nor the label/cache fingerprint. Keep existing defaults.
+            timeout = self.config.get("provider_timeout_seconds", {}).get(name, 60.0)
             if name == "jev":
-                self.providers[name] = JevProvider(model=self.config["models"]["enrich"], jev_transport=self.config.get("jev_transport", "direct"))
+                self.providers[name] = JevProvider(model=self.config["models"]["enrich"], jev_transport=self.config.get("jev_transport", "direct"), timeout=timeout)
             elif name == "decisions":
-                self.providers[name] = DecisionsProvider()
+                self.providers[name] = DecisionsProvider(timeout=timeout)
             elif name == "openai":
-                self.providers[name] = OpenAIProvider()
+                self.providers[name] = OpenAIProvider(timeout=timeout)
             elif name == "nebius":
-                self.providers[name] = NebiusProvider()
+                self.providers[name] = NebiusProvider(timeout=timeout)
             else:
                 raise ValueError(f"Unsupported provider: {name}")
         provider = self.providers[name]
