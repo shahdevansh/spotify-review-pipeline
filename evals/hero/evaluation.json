@@ -1,0 +1,50 @@
+{
+  "n": 40000,
+  "reference": "blind independent model; not human ground truth",
+  "failed": 0,
+  "topic": {
+    "matches": 36187,
+    "denominator": 40000,
+    "agreement": 0.904675,
+    "wilson_95": [
+      0.9017581140361509,
+      0.9075141634543188
+    ]
+  },
+  "intent": {
+    "matches": 37220,
+    "denominator": 40000,
+    "agreement": 0.9305,
+    "wilson_95": [
+      0.9279662712498399,
+      0.9329510462509872
+    ]
+  },
+  "severity": {
+    "matches": 36341,
+    "denominator": 40000,
+    "agreement": 0.908525,
+    "wilson_95": [
+      0.9056604548813153,
+      0.9113110831721701
+    ]
+  },
+  "targets_met": true,
+  "status": "compared",
+  "comparison_type": "independent_model_agreement",
+  "ground_truth": false,
+  "verified_count": 40000,
+  "comparable_count": 40000,
+  "disagreement_count": 8565,
+  "field_agreement": {
+    "topic": 0.904675,
+    "intent": 0.9305,
+    "severity": 0.908525
+  },
+  "limitations": [
+    "Independent model agreement is not human accuracy.",
+    "Failed or unavailable comparisons remain in the agreement denominator.",
+    "The independent verifier and fallback share a model family; correlated errors remain possible.",
+    "Sentiment and review-flag agreement are not measured by this summary."
+  ]
+}

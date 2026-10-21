@@ -224,7 +224,9 @@ def package_evidence():
   package_sources.append((out/'handoffs'/name,'handoffs/'+name))
  for name in ('recommendations.json','memo.md','issues.json'):
   package_sources.append((out/name,name))
- for name in ('checker.json','projection.json','selection.json','database-publication.json','quality-decision.json','grading-checkpoint-provenance.json','publication-reconciliation.json','web-deployment.json','admission-migration.json','admission-performance-proof.json','operational-performance.json','runtime-upgrade-60000.json','recovery.cast',
+ for name in ('editorial-review.json','editorial-review'):
+  package_sources.append((out/name,name))
+ for name in ('checker.json','checker-acceptance.json','projection.json','selection.json','database-publication.json','quality-decision.json','grading-checkpoint-provenance.json','publication-reconciliation.json','web-deployment.json','admission-migration.json','admission-performance-proof.json','operational-performance.json','runtime-upgrade-60000.json','recovery.cast',
   'audit-timeout-stop.json','audit-timeout-repair.json','operational-final.json',
   'audit-timeout-timing-and-budget.json','audit-timeout-shutdown-audit.json','audit-timeout-post-restart-timing.json'):
   package_sources.append((BASE/name,name))
@@ -257,6 +259,94 @@ def package_evidence():
  temporary.replace(archive)
  return archive
 
+# These exact instructor files are retained unchanged; this is our publication policy.
+COURSE_CHECKER_SHA256='d60bd66d84922d934c65b3d42b2c7d36cc738e8c75e2d6f2b2f58bca3141c26d'
+COURSE_CONTRACT_SHA256='3d73772af2d4fc76b26d2548fadaceb4dd38edfe0c96e538ef4267665d476c8c'
+UNAVAILABLE_USAGE_CONTRACT='Usage/cost claims must be real or clearly marked unavailable in the README; the checker reports missing usage rather than inventing it.'
+
+def checked_file_sha(path):
+ """Hash exact evidence bytes, rejecting iCloud's premature empty reads."""
+ path=Path(path);expected=path.stat().st_size;seen=0;digest=hashlib.sha256()
+ with path.open('rb') as handle:
+  for chunk in iter(lambda:handle.read(1024*1024),b''):
+   seen+=len(chunk);digest.update(chunk)
+ if seen!=expected:raise IOError('Short evidence read: '+str(path))
+ return digest.hexdigest()
+
+def publication_checker_acceptance(report_path,grading,reference_path,checker_path,contract_path):
+ """Accept only the contract's explicit unavailable-usage case, never erase it.
+
+ This does not change the instructor checker or turn review_required into pass.
+ A separate report binds the narrow publication decision to immutable evidence.
+ """
+ report_path,grading,reference_path,checker_path,contract_path=map(Path,(report_path,grading,reference_path,checker_path,contract_path))
+ checker_report_sha=checked_file_sha(report_path)
+ check=json.loads(report_path.read_text())
+ if checked_file_sha(checker_path)!=COURSE_CHECKER_SHA256 or check.get('audit_script_sha256')!=COURSE_CHECKER_SHA256:
+  raise ValueError('Publication requires the unchanged instructor checker')
+ if checked_file_sha(contract_path)!=COURSE_CONTRACT_SHA256 or UNAVAILABLE_USAGE_CONTRACT not in contract_path.read_text():
+  raise ValueError('Unavailable-usage contract changed or missing')
+ reference_byte_sha=checked_file_sha(reference_path)
+ reference=json.loads(reference_path.read_text());digest=hashlib.sha256()
+ for chunk in json.JSONEncoder(ensure_ascii=False,separators=(',',':'),sort_keys=True,allow_nan=False).iterencode(reference):digest.update(chunk.encode('utf-8'))
+ if digest.hexdigest()!=check.get('reference_sha256'):raise ValueError('Checker reference checksum mismatch')
+ if checked_file_sha(reference_path)!=reference_byte_sha:raise ValueError('Reference changed during publication validation')
+ del reference
+ coverage=check.get('coverage',{})
+ for name,value in {'expected':200013,'received_lines':200013,'unique_expected_ids':200013,'valid_completed':200000,'quarantined':13,'labelable':200000,'missing':0,'duplicate_ids':0,'invalid_or_unresolved':0}.items():
+  if type(coverage.get(name)) is not int or coverage[name]!=value:raise ValueError('Incomplete hero coverage: '+name)
+ if coverage.get('accounted_fraction')!=1 or coverage.get('labelable_completion_fraction')!=1:
+  raise ValueError('Incomplete hero coverage fractions')
+ files=check.get('input_files_sha256')
+ actual={p.name for p in grading.iterdir() if p.is_file() and p.suffix in {'.json','.jsonl','.csv','.gz'}}
+ if not isinstance(files,dict) or set(files)!=actual:raise ValueError('Grading inventory changed after checker')
+ for name,expected in files.items():
+  if Path(name).name!=name or checked_file_sha(grading/name)!=expected:raise ValueError('Grading evidence checksum mismatch: '+name)
+ findings=check.get('issue_counts')
+ if not isinstance(findings,dict) or any(k!='invalid_usage' for k in findings):raise ValueError('Non-usage checker findings block publication')
+ expected_findings=findings.get('invalid_usage',0)
+ if type(expected_findings) is not int or expected_findings<0:raise ValueError('Malformed checker usage count')
+ if check.get('status')!=('review_required' if expected_findings else 'pass'):raise ValueError('Inconsistent checker status')
+ unavailable=[];missing_fields=0;attempts=0;known_input=0;known_output=0;request_ids=set()
+ for event in read_jsonl(grading/'calls.jsonl'):
+  attempts+=1;request_id=event.get('request_id')
+  if not isinstance(request_id,str) or not request_id or request_id in request_ids:raise ValueError('Invalid or duplicate call identity')
+  if event.get('error')=='in_flight_or_interrupted':raise ValueError('Active or unresolved call placeholder blocks publication')
+  request_ids.add(request_id);fields=[]
+  for name in ('input_tokens','output_tokens'):
+   value=event.get(name)
+   if value is None:fields.append(name)
+   elif type(value) is not int or value<0:raise ValueError('Malformed numeric usage cannot be excepted')
+   elif name=='input_tokens':known_input+=value
+   else:known_output+=value
+  if fields:
+   if event.get('outcome')!='failed':raise ValueError('Successful or unresolved calls with unavailable usage block publication')
+   missing_fields+=len(fields);unavailable.append({'request_id':request_id,'outcome':'failed','unavailable_fields':fields})
+ if missing_fields!=expected_findings:raise ValueError('Missing usage does not exactly explain all checker findings')
+ if attempts!=check.get('reported_calls') or known_input!=check.get('reported_input_tokens') or known_output!=check.get('reported_output_tokens'):
+  raise ValueError('Checker call or known-usage counters do not reconcile')
+ missing_ids={event['request_id'] for event in unavailable}
+ if any(example.get('code')!='invalid_usage' or example.get('detail') not in missing_ids for example in check.get('examples',[])):
+  raise ValueError('Checker examples include unexplained findings')
+ final_inventory={p.name for p in grading.iterdir() if p.is_file() and p.suffix in {'.json','.jsonl','.csv','.gz'}}
+ if final_inventory!=set(files) or any(checked_file_sha(grading/name)!=expected for name,expected in files.items()):
+  raise ValueError('Grading evidence changed during publication validation')
+ if checked_file_sha(report_path)!=checker_report_sha:raise ValueError('Checker report changed during publication validation')
+ return {'status':'publication_eligible_with_unknown_usage' if missing_fields else 'publication_eligible_checker_pass',
+  'instructor_checker_status':check['status'],'instructor_checker_report_sha256':checker_report_sha,
+  'instructor_checker_sha256':COURSE_CHECKER_SHA256,'contract_sha256':COURSE_CONTRACT_SHA256,
+  'contract_path':'vendor/course/GRADING_CONTRACT.md','contract_quote':UNAVAILABLE_USAGE_CONTRACT,
+  'reference_sha256':check['reference_sha256'],'reference_file_sha256':reference_byte_sha,
+  'grading_files_sha256':files,'coverage':coverage,'all_other_checker_findings_absent':True,
+  'unavailable_usage_attempts':len(unavailable),'unavailable_usage_fields':missing_fields,
+  'failed_calls_with_unavailable_usage':unavailable,'reported_attempts':attempts,
+  'known_reported_input_tokens':known_input,'known_reported_output_tokens':known_output,
+  'usage_totals_complete':not bool(missing_fields),'readme_disclosure_required':bool(missing_fields),
+  'limitations':['The unmodified instructor checker remains review_required when usage is unavailable; this publication decision is not a checker pass or a grade.',
+   'Token counters include only provider-reported usage and are incomplete when unknown usage is present. Nulls and failed attempts remain in the original call evidence.',
+   'No usage or zero-cost assumptions were synthesized. Unknown-charge holds remain in the spending ledger and are reported separately.'],
+  'validated_at':utcnow()}
+
 def finalize():
  from spotify_pipeline.export import export_grading
  from spotify_pipeline.database import import_run
@@ -267,8 +357,8 @@ def finalize():
  checker=ROOT/'vendor/course/check_submission.py'
  for command in [['reference','--full',str(source),'--analysis',str(analysis),'--out',str(BASE/'reference.json')],['check','--reference',str(BASE/'reference.json'),'--submission',str(grading),'--out',str(BASE/'checker.json')]]:
   subprocess.run([sys.executable,str(checker),*command],check=True,cwd=ROOT)
- check=json.loads((BASE/'checker.json').read_text())
- if check.get('status')!='pass':raise RuntimeError('Submission checker did not pass')
+ acceptance=publication_checker_acceptance(BASE/'checker.json',grading,BASE/'reference.json',checker,ROOT/'vendor/course/GRADING_CONTRACT.md')
+ atomic_json(BASE/'checker-acceptance.json',acceptance)
  publication=import_run(out,ingestion_report=grading/'ingestion.json',evaluation_path=out/'evaluation.json',max_storage_bytes=700_000_000)
  atomic_json(BASE/'database-publication.json',publication)
  if publication['storage_bytes']>700_000_000:raise RuntimeError('Published database exceeds conservative storage threshold')
@@ -277,6 +367,9 @@ def finalize():
  archive=package_evidence()
  notes=BASE/'release-notes.md';ev=json.loads((out/'evaluation.json').read_text());s=json.loads((out/'run_summary.json').read_text())
  notes.write_text(f"Classified {s['completed']:,} selected reviews; 13 explicit empty-text quarantines. Independent frontier audit: {ev['n']:,} original IDs (20%). Topic agreement {ev['topic']['agreement']:.2%}; intent {ev['intent']['agreement']:.2%}. These are model-agreement diagnostics, not human accuracy. Full source profiled separately. See attached grading evidence and checker. Dashboard: https://spotify-review-observatory.vercel.app\n")
+ if acceptance['unavailable_usage_attempts']:
+  with notes.open('a') as handle:
+   handle.write(f"\nThe unmodified instructor checker remains review_required solely for {acceptance['unavailable_usage_fields']} missing token-usage fields across {acceptance['unavailable_usage_attempts']} failed attempts. All other checker findings are absent and classification coverage is complete. Provider-reported token totals are incomplete; failed attempts retain null usage and unknown-charge holds remain in the spending ledger. See checker.json and checker-acceptance.json; the separate publication decision is not a checker pass or a grade.\n")
  exists=subprocess.run(['gh','release','view','hero-v1'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,cwd=ROOT).returncode==0
  if exists:
   subprocess.run(['gh','release','upload','hero-v1',str(archive),'--clobber'],check=True,cwd=ROOT)

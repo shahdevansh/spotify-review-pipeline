@@ -1,0 +1,189 @@
+{
+  "artifacts": {
+    "issues.json": {
+      "after_sha256": "98b17823059036f31d25d92b96d76386a7c24bebfa038a3a3d1c1b7a9dc356e6",
+      "before_sha256": "86c9f25d06ba27d4d5b51c88a0b1d2d8bda52269c18a4cfde23b54b85b18e6f7",
+      "original_path": "editorial-review/v1/original/issues.json"
+    },
+    "memo.md": {
+      "after_sha256": "25253ce536a7f98eabc5105871e1f13465538b2cbea644984c862e28226cf5d9",
+      "before_sha256": "cacd98af55c1dba9915b845c7b6a5ba4d2a2b064f54a55da37f31a44d6f4124f",
+      "original_path": "editorial-review/v1/original/memo.md"
+    },
+    "recommendations.json": {
+      "after_sha256": "98a029fc082ecd42fe860213f48f89a65d78c83920635adcbc1d499e8e63b1d1",
+      "before_sha256": "1e4f3e9f6f84a26e8dbcedf90a3940377950f1bb4ed7af8f5a780d1a18104691",
+      "original_path": "editorial-review/v1/original/recommendations.json"
+    }
+  },
+  "authorization": "User-authorized autonomous final publication; root explicitly authorized factual editorial correction after read-only audit.",
+  "changes": [
+    {
+      "after": "Access",
+      "artifact": "issues.json",
+      "before": "Account access and security problems",
+      "field": "title",
+      "issue_id": "issue-access"
+    },
+    {
+      "after": "All complaint and cancellation reviews labeled access are members of this issue. The following description summarizes five examples prioritized by severity; these examples do not establish subtopic prevalence. Reviewers report losing access to their accounts and saved content, including being unable to log back in after logging out, and describe unauthorized logins from unknown sources or other countries, suspected hacking, and lack of automatic account suspension for security.",
+      "artifact": "issues.json",
+      "before": "Reviewers report losing access to their accounts and saved content, including being unable to log back in after logging out, and describe unauthorized logins from unknown sources or other countries, suspected hacking, and lack of automatic account suspension for security.",
+      "field": "description",
+      "issue_id": "issue-access"
+    },
+    {
+      "after": "Billing",
+      "artifact": "issues.json",
+      "before": "Unwanted charges and cancellation difficulties",
+      "field": "title",
+      "issue_id": "issue-billing"
+    },
+    {
+      "after": "All complaint and cancellation reviews labeled billing are members of this issue. The following description summarizes five examples prioritized by severity; these examples do not establish subtopic prevalence. Reviewers report being billed after canceling or after their subscription ended, repeated deductions for unused service, double charges, and difficulty canceling or reaching support to stop payments.",
+      "artifact": "issues.json",
+      "before": "Reviewers report being billed after canceling or after their subscription ended, repeated deductions for unused service, double charges, and difficulty canceling or reaching support to stop payments.",
+      "field": "description",
+      "issue_id": "issue-billing"
+    },
+    {
+      "after": "Catalog",
+      "artifact": "issues.json",
+      "before": "Content and search issues",
+      "field": "title",
+      "issue_id": "issue-catalog"
+    },
+    {
+      "after": "All complaint and cancellation reviews labeled catalog are members of this issue. The following description summarizes five examples prioritized by severity; these examples do not establish subtopic prevalence. Reviewers report being unable to find songs they want to listen to, search failing with prompts to try again, and missing or non-loading lyrics across songs despite reinstalling and clearing data.",
+      "artifact": "issues.json",
+      "before": "Reviewers report being unable to find songs they want to listen to, search failing with prompts to try again, and missing or non-loading lyrics across songs despite reinstalling and clearing data.",
+      "field": "description",
+      "issue_id": "issue-catalog"
+    },
+    {
+      "after": "Downloads",
+      "artifact": "issues.json",
+      "before": "Downloaded music lost or not re-downloadable",
+      "field": "title",
+      "issue_id": "issue-downloads"
+    },
+    {
+      "after": "All complaint and cancellation reviews labeled downloads are members of this issue. The following description summarizes five examples prioritized by severity; these examples do not establish subtopic prevalence. Reviewers report that downloaded or offline tracks were deleted, sometimes after updates or mode changes, and that re-downloading was blocked, leaving them without their offline music when needed.",
+      "artifact": "issues.json",
+      "before": "Reviewers report that downloaded or offline tracks were deleted, sometimes after updates or mode changes, and that re-downloading was blocked, leaving them without their offline music when needed.",
+      "field": "description",
+      "issue_id": "issue-downloads"
+    },
+    {
+      "after": "Other",
+      "artifact": "issues.json",
+      "before": "Privacy and data-sharing concerns",
+      "field": "title",
+      "issue_id": "issue-other"
+    },
+    {
+      "after": "All complaint and cancellation reviews labeled other are members of this issue. The following description summarizes five examples prioritized by severity; these examples do not establish subtopic prevalence. Reviewers allege that personal data or playlists were made public or shared without consent or notification, raise general data-loss and hacking accusations, and mention concerns about artist credits and leaked songs.",
+      "artifact": "issues.json",
+      "before": "Reviewers allege that personal data or playlists were made public or shared without consent or notification, raise general data-loss and hacking accusations, and mention concerns about artist credits and leaked songs.",
+      "field": "description",
+      "issue_id": "issue-other"
+    },
+    {
+      "after": "Playback",
+      "artifact": "issues.json",
+      "before": "Playback and app stability problems",
+      "field": "title",
+      "issue_id": "issue-playback"
+    },
+    {
+      "after": "All complaint and cancellation reviews labeled playback are members of this issue. The following description summarizes five examples prioritized by severity; these examples do not establish subtopic prevalence. Reviewers report crashes, playback stopping unexpectedly, failure to connect to external speakers or devices, unresponsive controls across platforms, background data usage, and loss of saved songs or playlist content after reinstalling or updates.",
+      "artifact": "issues.json",
+      "before": "Reviewers report crashes, playback stopping unexpectedly, failure to connect to external speakers or devices, unresponsive controls across platforms, background data usage, and loss of saved songs or playlist content after reinstalling or updates.",
+      "field": "description",
+      "issue_id": "issue-playback"
+    },
+    {
+      "after": "Support",
+      "artifact": "issues.json",
+      "before": "Unresponsive or inadequate customer support",
+      "field": "title",
+      "issue_id": "issue-support"
+    },
+    {
+      "after": "All complaint and cancellation reviews labeled support are members of this issue. The following description summarizes five examples prioritized by severity; these examples do not establish subtopic prevalence. Reviewers describe being unable to reach a human, receiving only bot responses, and getting no reply or resolution on issues such as hacked accounts, overcharges, and repeated withdrawals, sometimes over long periods.",
+      "artifact": "issues.json",
+      "before": "Reviewers describe being unable to reach a human, receiving only bot responses, and getting no reply or resolution on issues such as hacked accounts, overcharges, and repeated withdrawals, sometimes over long periods.",
+      "field": "description",
+      "issue_id": "issue-support"
+    },
+    {
+      "after": "Usability",
+      "artifact": "issues.json",
+      "before": "Playlist and interface usability problems",
+      "field": "title",
+      "issue_id": "issue-usability"
+    },
+    {
+      "after": "All complaint and cancellation reviews labeled usability are members of this issue. The following description summarizes five examples prioritized by severity; these examples do not establish subtopic prevalence. Reviewers report difficulty selecting and playing specific songs, missing playlist lists, lost playlists and liked lists, accidental playlist edits from confusing controls such as the lock-screen heart button, unwanted automatic playback changes, and requests for options like deleting played songs.",
+      "artifact": "issues.json",
+      "before": "Reviewers report difficulty selecting and playing specific songs, missing playlist lists, lost playlists and liked lists, accidental playlist edits from confusing controls such as the lock-screen heart button, unwanted automatic playback changes, and requests for options like deleting played songs.",
+      "field": "description",
+      "issue_id": "issue-usability"
+    },
+    {
+      "after": "The saved baseline ranking places playlist and interface usability first by priority score, ahead of the coarse other-category bucket, playback stability, and billing. The dataset is a self-selected historical review sample. Empty source texts are quarantined, while a substantial share of completed reviews is flagged as needing review. The sample cannot establish population prevalence, revenue at risk, or causal retention effects. Expressed cancellation intent appears in several bounded examples but is not observed churn. The recommended priority is a usability reliability and control-clarity initiative, with playback stability and billing cancellation flows as compared alternatives.",
+      "artifact": "recommendations.json",
+      "before": "The saved baseline ranking places playlist and interface usability first by priority score, ahead of the coarse other-category bucket, playback stability, and billing. The dataset is a self-selected historical review sample with a large quarantined and needs-review share, so it cannot establish population prevalence, revenue at risk, or causal retention effects. Expressed cancellation intent appears in several bounded examples but is not observed churn. The recommended priority is a usability reliability and control-clarity initiative, with playback stability and billing cancellation flows as compared alternatives.",
+      "field_path": [
+        "summary"
+      ]
+    },
+    {
+      "after": "The top-ranked issue in the saved ranking combines the second-largest complaint and cancellation volume with the highest severity sum, and the bounded examples describe lost playlists and liked lists, accidental edits from confusing controls such as the lock-screen heart button, and inability to select specific songs. A quarter focused on preventing silent library loss, adding undo and recovery affordances, and clarifying destructive controls is the highest-ranked hypothesis to test. Any retention benefit is unmeasured and must be validated experimentally.",
+      "artifact": "recommendations.json",
+      "before": "The top-ranked issue in the saved ranking combines the largest complaint volume with the highest severity sum, and the bounded examples describe lost playlists and liked lists, accidental edits from confusing controls such as the lock-screen heart button, and inability to select specific songs. A quarter focused on preventing silent library loss, adding undo and recovery affordances, and clarifying destructive controls is the highest-ranked hypothesis to test. Any retention benefit is unmeasured and must be validated experimentally.",
+      "field_path": [
+        "recommendations",
+        0,
+        "rationale"
+      ]
+    },
+    {
+      "after": "The top-ranked issue in the saved ranking combines the second-largest complaint and cancellation volume with the highest severity sum, and the bounded examples describe lost playlists and liked lists, accidental edits from confusing controls such as the lock-screen heart button, and inability to select specific songs. The topic ranking supports investigating usability. Preventing silent library loss, adding undo and recovery affordances, and clarifying destructive controls are illustrative candidate interventions supported by these examples, not separately ranked subtopics; their prevalence and intervention value require further study. Any retention benefit is unmeasured and must be validated experimentally.",
+      "artifact": "recommendations.json",
+      "before": "The top-ranked issue in the saved ranking combines the second-largest complaint and cancellation volume with the highest severity sum, and the bounded examples describe lost playlists and liked lists, accidental edits from confusing controls such as the lock-screen heart button, and inability to select specific songs. A quarter focused on preventing silent library loss, adding undo and recovery affordances, and clarifying destructive controls is the highest-ranked hypothesis to test. Any retention benefit is unmeasured and must be validated experimentally.",
+      "field_path": [
+        "recommendations",
+        0,
+        "rationale"
+      ]
+    },
+    {
+      "after": "Empty source texts are quarantined. A substantial share of completed reviews is flagged as needing review, and many bounded examples carry uncertain labels, so topic assignments and severities may be unreliable.",
+      "artifact": "recommendations.json",
+      "before": "A large share of the input was quarantined or flagged as needing review, and many bounded examples carry uncertain labels, so topic assignments and severities may be unreliable.",
+      "field_path": [
+        "limitations",
+        2
+      ]
+    }
+  ],
+  "created_at_utc": "2026-10-21T06:01:45.092451+00:00",
+  "label_config": "spotify-f84b2a9afdaa455fd81d26077cab1ccebc7a62bb1b46bab461d9ae593bcb584a",
+  "protected_sha256": {
+    "claims.csv": "1fe408f1e7da701f8b2595962a4e20a747272b712b40427c26fd403e1f860dd5",
+    "handoffs/group.input.json": "fa07e7f4c4e89f4948f33def671667183bedfe68936d8808ad89bcde8e8a2d13",
+    "handoffs/group.output.json": "c5f6a9a091bf07f3e3dc19636142e7b336a24bcdf35be087cb07b518fb22b492",
+    "handoffs/memo.input.json": "3a2c31d3f65d29eaa82d373171d6bb21567f464f6ca44f4969861526a76d47d7",
+    "handoffs/memo.output.json": "1e4f3e9f6f84a26e8dbcedf90a3940377950f1bb4ed7af8f5a780d1a18104691",
+    "membership.csv": "d551d00ed9cf8e4b2a30896b5743f2200bc716000d58a8b1a527a9d280734d92",
+    "ranking.csv": "9e0952b616c37faf297cf977c2ec5a881c20a495205d9562c5dd0097b6299f27",
+    "records.jsonl.gz": "cda7fcbf845c036f0de4d214f2dd1b46e28a6771a568b344d1b06771e17e5245",
+    "verification.jsonl.gz": "a0f2db8745b9fb8eb73d5c1a31623d7e2912d9837fcc2c32f138861fde66b784"
+  },
+  "reason": "Correct false largest-volume claim, distinguish empty quarantines from review flags, avoid subtopic ranking and prevalence implications from severity-prioritized examples.",
+  "rendered_memo_note": "## Editorial provenance\n\nThe displayed issue descriptions and recommendation prose received a deterministic factual presentation review after model generation. Original model outputs, original displayed artifacts, exact field edits, and file hashes are preserved in `editorial-review.json` and `editorial-review/v1/`. Classification labels, membership, ranking, numerical claims, and independent verification remain unchanged.",
+  "run_id": "run-07e2cb4b0e3d9be0",
+  "scope": "Presentation only; preserves original model handoffs and all classification, membership, ranking, claim and independent verification evidence.",
+  "version": "hero-editorial-v1"
+}
