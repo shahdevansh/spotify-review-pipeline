@@ -290,8 +290,9 @@ class Engine:
         self._stop_dispatch = False
         self._semaphore = asyncio.Semaphore(workers)
         self._verification: list[dict] = []
-        self._task_source_request_ids: set[str] = set()
-        for prior_handoff in self.handoffs.glob("task-*.json"):
+        self._task_source_request_ids: set[str] = self.store.task_references(self.run_id)
+        prior_handoffs = [] if self.config.get("task_references_journal_only") else self.handoffs.glob("task-*.json")
+        for prior_handoff in prior_handoffs:
             previous = json.loads(prior_handoff.read_text(encoding="utf-8"))
             if previous.get("source_request_id"):
                 self._task_source_request_ids.add(previous["source_request_id"])
@@ -830,18 +831,18 @@ class Engine:
         chosen = sorted(candidates)[:quota]
         fallback_rows = [item[4] for item in chosen]
         by_id = {item[4]["review_id"]: item for item in chosen}
-        for batch in self._batches(fallback_rows, role="fallback"):
+        async def process_fallback(batch):
             try:
                 output = await self._classification_batch(batch, "fallback")
             except BudgetExceeded as exc:
                 self._stop_dispatch = True
                 self.limitations.append(str(exc))
-                break
+                return
             except AuthenticationProviderError:
                 raise
             except Exception as exc:
                 self.limitations.append(f"Fallback failed; valid initial records retained with needs_review: {exc}")
-                continue
+                return
             for item in output["reviews"]:
                 _, _, _, digest, row = by_id[item["review_id"]]
                 old = self.store.cached(self.label_config, digest)["value"]
@@ -858,6 +859,14 @@ class Engine:
                 if old["classifier_provider"] == "jev":
                     value["jev_prediction"] = old
                 self.store.save_record(self.label_config, digest, self._completed(row, value, row["review_id"]), cache_value=value)
+        semaphore = asyncio.Semaphore(min(self.workers, self.config.get("fallback_workers", 1)))
+        async def bounded_fallback(batch):
+            async with semaphore:
+                return await process_fallback(batch)
+        outcomes = await asyncio.gather(*(bounded_fallback(batch) for batch in self._batches(fallback_rows, role="fallback")), return_exceptions=True)
+        for outcome in outcomes:
+            if isinstance(outcome, BaseException):
+                raise outcome
         self.stages["fallback"] = {"eligible_unique_texts": len(candidates), "already_used": used,
                                     "maximum_unique_texts": math.floor(len(groups) * self.config.get("fallback_fraction", .05)),
                                     "selected_unique_texts": len(chosen)}
@@ -953,7 +962,10 @@ class Engine:
         async def bounded(batch):
             async with semaphore:
                 return await verify_batch(batch)
-        outcomes = await asyncio.gather(*(bounded(batch) for batch in self._batches(selected, role="verify")))
+        outcomes = await asyncio.gather(*(bounded(batch) for batch in self._batches(selected, role="verify")), return_exceptions=True)
+        for outcome in outcomes:
+            if isinstance(outcome, BaseException):
+                raise outcome
         for batch_results, batch_disagreements in outcomes:
             results.extend(batch_results)
             disagreements.extend(batch_disagreements)
@@ -1002,6 +1014,7 @@ class Engine:
                 _validator(cached["value"])
             self.task_cache_hits += 1
             self._task_source_request_ids.add(cached["request_id"])
+            self.store.save_task_reference(self.run_id, cached["request_id"])
             atomic_json(self.handoffs / f"task-{cache_key}.json", {"role": role, "purpose": purpose,
                         "cache_hit": True, "source_request_id": cached["request_id"], "input": payload,
                         "review_id_mapping": _review_id_mapping, "output": cached["value"]})
@@ -1020,6 +1033,7 @@ class Engine:
                                     validator=validate, effort=effort, review_id_mapping=_review_id_mapping)
         self.store.save_task(cache_key, role, result, request_id)
         self._task_source_request_ids.add(request_id)
+        self.store.save_task_reference(self.run_id, request_id)
         atomic_json(self.handoffs / f"task-{cache_key}.json", {"role": role, "purpose": purpose, "cache_hit": False,
                     "source_request_id": request_id, "input": payload,
                     "review_id_mapping": _review_id_mapping, "output": result})

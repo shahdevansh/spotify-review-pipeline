@@ -1,0 +1,35 @@
+{
+  "mode": "offline",
+  "passed": true,
+  "checks": {
+    "double_rates_double_api_subtotal": true,
+    "double_rates_preserve_measured_time": true,
+    "double_rates_preserve_local_cost_scenario": true,
+    "volume_preserves_all_recorded_measurements": true,
+    "volume_changes_projection": true
+  },
+  "source_calls_sha256": "5f63fb2f3a71ab17e5be39fbf6338882c28c75b9c97cfd8cdf627b4120c8442f",
+  "source_rates_sha256": "adf4bb64cc82cabf883c1a7cf09d4ddb2bb9697cc7ea9596767e0946a4f710e3",
+  "doubled_rates_sha256": "a1225a3e17ba724ed75fbd7263903956f53fa739bacf4c156639b8105907cfcd",
+  "measured_input_count": 100,
+  "base_api_usd": 0.02360475,
+  "doubled_api_usd": 0.0472095,
+  "measured_wall_seconds": 41.90341787500074,
+  "local_compute_test": {
+    "usd_per_hour": 1,
+    "estimated_cost_usd": 0.011639838298611318,
+    "status": "estimate"
+  },
+  "local_compute_note": "One USD/hour is an illustrative invariant test, not a claim of incurred local cost.",
+  "projection_volumes": [
+    {
+      "reviews": 200000,
+      "unique_texts": 152363
+    },
+    {
+      "reviews": 100000,
+      "unique_texts": 80000
+    }
+  ],
+  "reproduction": "python tools/report_hero_pilot.py --replay-only; no credentials or API calls required"
+}

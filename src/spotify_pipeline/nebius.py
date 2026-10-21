@@ -42,8 +42,8 @@ def validate_nebius_model_settings(model: str, effort: str = "none") -> None:
     if model not in NEBIUS_MODEL_CONTROLS:
         raise ValueError(f"Nebius model {model!r} has no verified request-control configuration")
     kind = NEBIUS_MODEL_CONTROLS[model]
-    if kind == "deepseek_effort" and effort not in {"none", "low", "high", "max"}:
-        raise ValueError("DeepSeek 0813 requires explicit none/low/high/max")
+    if kind == "deepseek_effort" and effort not in {"low", "high", "max"}:
+        raise ValueError("DeepSeek 0813 thinking-off was ignored in live Nebius probes; use low/high/max")
     if kind == "instruct" and effort != "none":
         raise ValueError(f"{model} is a non-thinking instruct model; effort must be none")
     if kind == "reasoning_effort" and effort not in {"low", "medium", "high"}:
@@ -114,9 +114,7 @@ class NebiusProvider(_HTTPProvider):
             "n": 1,
         }
         control = NEBIUS_MODEL_CONTROLS[model]
-        if control == "deepseek_effort" and reasoning_effort == "none":
-            body["thinking"] = {"type": "disabled"}
-        elif control in {"reasoning_effort", "glm_effort", "deepseek_effort"}:
+        if control in {"reasoning_effort", "glm_effort", "deepseek_effort"}:
             body["reasoning_effort"] = reasoning_effort
         elif control == "template_toggle":
             body["chat_template_kwargs"] = {"enable_thinking": reasoning_effort != "none"}

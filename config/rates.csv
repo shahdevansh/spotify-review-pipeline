@@ -12,3 +12,7 @@ nebius_lightning_output,nebius,nvidia/Nemotron-3_5-Lightning,output,0.24,https:/
 nebius_glm53flash_input,nebius,zai-org/GLM-5.3-Flash,input,0.15,https://tokenfactory.nebius.com/api/public/models_info,2026-10-19
 nebius_glm53flash_output,nebius,zai-org/GLM-5.3-Flash,output,0.50,https://tokenfactory.nebius.com/api/public/models_info,2026-10-19
 decisions_input,decisions,gpt-6-luna,input,0.10,https://developers.openai.com/api/docs/guides/decisions,2026-10-20
+nebius_glm53_input,nebius,zai-org/GLM-5.3,input,1.4,https://tokenfactory.nebius.com/api/public/models_info,2026-10-20
+nebius_glm53_output,nebius,zai-org/GLM-5.3,output,4.4,https://tokenfactory.nebius.com/api/public/models_info,2026-10-20
+nebius_deepseek0813_input,nebius,deepseek-ai/DeepSeek-V4-Pro-0813,input,1.32,https://tokenfactory.nebius.com/api/public/models_info,2026-10-20
+nebius_deepseek0813_output,nebius,deepseek-ai/DeepSeek-V4-Pro-0813,output,3.96,https://tokenfactory.nebius.com/api/public/models_info,2026-10-20

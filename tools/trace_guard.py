@@ -6,15 +6,23 @@ import hashlib,io,json,os,subprocess,tarfile,time
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];BASE=ROOT/'runs/hero-v1';ARCH=BASE/'trace-archives'
 def compact(directory,limit=1000):
- pairs=[]
+ pairs=[]; hydration_requests=0
  for response in directory.glob('*.response.json.gz'):
   request=response.with_name(response.name.replace('.response.','.request.'))
   if request.exists() and time.time()-response.stat().st_mtime>120:
+   missing=[p for p in (request,response) if p.stat().st_blocks==0]
+   if missing:
+    if hydration_requests<25:
+     for item in missing:
+      try:subprocess.run(['brctl','download',str(item)],timeout=3,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+      except subprocess.TimeoutExpired:pass
+     hydration_requests+=1
+    continue
    pairs.extend((request,response))
   if len(pairs)>=limit*2:break
  if not pairs:return
- for i in range(0,len(pairs),80):
-  subprocess.run(["brctl","download",*map(str,pairs[i:i+80])],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=30)
+ for path in pairs:
+  if path.stat().st_blocks==0:subprocess.run(["brctl","download",str(path)],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=5)
  ARCH.mkdir(exist_ok=True)
  temp=ARCH/f'{time.time_ns()}.tar.tmp';manifest=[]
  with tarfile.open(temp,'w') as tar:
@@ -36,7 +44,8 @@ def loop():
  while True:
   try:
    paths=[ROOT/'.env',ROOT/'src',ROOT/'prompts',ROOT/'config',ROOT/'tools/run_hero.py',ROOT/'data/hero_200000.csv',ROOT/'data/learning_1000.csv',ROOT/'data/source/cost_100.csv',ROOT/'data/source/checkpoint_500.csv',ROOT/'data/source/analysis_10000.csv']
-   subprocess.run(['brctl','download',*map(str,paths)],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=30)
+   for path in paths:
+    subprocess.run(['brctl','download',str(path)],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,timeout=5)
    for folder in BASE.glob('**/handoffs'):
     # Only closed request/response pairs, never cache tasks or checkpoints.
     compact(folder)

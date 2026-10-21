@@ -118,5 +118,7 @@
   },
   "gzip_handoffs": true,
   "verification_workers": 8,
-  "maximum_fallback_fraction": 0.15
+  "maximum_fallback_fraction": 0.15,
+  "fallback_workers": 8,
+  "task_references_journal_only": true
 }

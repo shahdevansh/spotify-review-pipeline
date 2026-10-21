@@ -1,5 +1,9 @@
 # Spotify review evidence pipeline
 
+## October 20: authorized hero run in progress
+
+The 200,000-review run uses OpenAI Decisions for System 1, Nebius for all LLM roles, a 40,000-review independent full GLM-5.3 audit, and a shared $50 total budget. The [persistent harness](HERO_RUN.md) runs outside chat. [Latest pilot comparison and measured calculator](evals/hero-pilot/report.md): 91.0% topic / 93.5% intent agreement on development; 94.0% / 93.5% on fresh-ID confirmation (200 audited reviews each). These are model-agreement diagnostics, not human accuracy. The dashboard remains on its prior published run until the final atomic database import.
+
 An auditable System-1 / System-2 pipeline for deciding where Spotify should direct
 product effort, using historical Google Play reviews from May 2022–November 2023.
 

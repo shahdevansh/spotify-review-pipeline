@@ -1,0 +1,170 @@
+{
+  "verifier_repeat_disagreements": {
+    "topic": 3,
+    "intent": 3,
+    "severity": 8
+  },
+  "same_blind_frontier_reference": {
+    "original_lightning": {
+      "topic": {
+        "matches": 156,
+        "n": 200
+      },
+      "intent": {
+        "matches": 179,
+        "n": 200
+      },
+      "severity": {
+        "matches": 160,
+        "n": 200
+      }
+    },
+    "previous_decisions": {
+      "topic": {
+        "matches": 179,
+        "n": 200
+      },
+      "intent": {
+        "matches": 185,
+        "n": 200
+      },
+      "severity": {
+        "matches": 176,
+        "n": 200
+      }
+    },
+    "hero_initial_5_percent": {
+      "topic": {
+        "matches": 178,
+        "n": 200
+      },
+      "intent": {
+        "matches": 186,
+        "n": 200
+      },
+      "severity": {
+        "matches": 177,
+        "n": 200
+      }
+    },
+    "hero_selected": {
+      "topic": {
+        "matches": 182,
+        "n": 200
+      },
+      "intent": {
+        "matches": 187,
+        "n": 200
+      },
+      "severity": {
+        "matches": 180,
+        "n": 200
+      }
+    }
+  },
+  "confirmation": {
+    "n": 200,
+    "reference": "blind independent model; not human ground truth",
+    "failed": 0,
+    "topic": {
+      "matches": 188,
+      "denominator": 200,
+      "agreement": 0.94,
+      "wilson_95": [
+        0.8980673646931491,
+        0.9653481500987285
+      ]
+    },
+    "intent": {
+      "matches": 187,
+      "denominator": 200,
+      "agreement": 0.935,
+      "wilson_95": [
+        0.8919799625008207,
+        0.9616240123502404
+      ]
+    },
+    "severity": {
+      "matches": 182,
+      "denominator": 200,
+      "agreement": 0.91,
+      "wilson_95": [
+        0.8622332538615105,
+        0.9423130212854665
+      ]
+    },
+    "targets_met": true
+  },
+  "selection": {
+    "targets_met": true,
+    "candidate_accepted": true,
+    "initial": {
+      "n": 200,
+      "reference": "blind independent model; not human ground truth",
+      "failed": 0,
+      "topic": {
+        "matches": 181,
+        "denominator": 200,
+        "agreement": 0.905,
+        "wilson_95": [
+          0.8563973488560237,
+          0.9383373863501365
+        ]
+      },
+      "intent": {
+        "matches": 186,
+        "denominator": 200,
+        "agreement": 0.93,
+        "wilson_95": [
+          0.8859442178331628,
+          0.9578482170770813
+        ]
+      },
+      "severity": {
+        "matches": 177,
+        "denominator": 200,
+        "agreement": 0.885,
+        "wilson_95": [
+          0.8333517476611362,
+          0.9221368277817569
+        ]
+      },
+      "targets_met": false
+    },
+    "candidate": {
+      "n": 200,
+      "reference": "blind independent model; not human ground truth",
+      "failed": 0,
+      "topic": {
+        "matches": 182,
+        "denominator": 200,
+        "agreement": 0.91,
+        "wilson_95": [
+          0.8622332538615105,
+          0.9423130212854665
+        ]
+      },
+      "intent": {
+        "matches": 187,
+        "denominator": 200,
+        "agreement": 0.935,
+        "wilson_95": [
+          0.8919799625008207,
+          0.9616240123502404
+        ]
+      },
+      "severity": {
+        "matches": 180,
+        "denominator": 200,
+        "agreement": 0.9,
+        "wilson_95": [
+          0.8505931364369146,
+          0.9343300588284289
+        ]
+      },
+      "targets_met": true
+    },
+    "decision": "select higher joint development agreement with at most 1pp per-field regression; fresh confirmation and full hero audit remain independent; unmet targets disclosed"
+  },
+  "warning": "Model agreement, not human accuracy; confirmation uses fresh IDs, with exact-text cache reuse disclosed."
+}

@@ -150,6 +150,7 @@ class ResultStore:
           request_id TEXT PRIMARY KEY, run_id TEXT NOT NULL, value_json TEXT NOT NULL
         );
         CREATE INDEX IF NOT EXISTS calls_run ON calls(run_id);
+        CREATE TABLE IF NOT EXISTS task_references (run_id TEXT NOT NULL, request_id TEXT NOT NULL, PRIMARY KEY(run_id,request_id));
         """)
 
     def record(self, config: str, review_id: str) -> dict | None:
@@ -161,8 +162,13 @@ class ResultStore:
         return {"origin_id": row[0], "value": json.loads(row[1])} if row else None
 
     def save_record(self, config: str, text_hash: str, record: dict, *, cache_value: dict | None = None) -> None:
+        serialized = canonical(record)
+        if cache_value is None:
+            prior = self.conn.execute("SELECT record_json FROM records WHERE config=? AND review_id=?", (config, record["review_id"])).fetchone()
+            if prior and prior[0] == serialized:
+                return
         with transaction(self.conn):
-            self.conn.execute("INSERT OR REPLACE INTO records VALUES(?,?,?,?,?)", (config, record["review_id"], record["source_sha256"], text_hash, canonical(record)))
+            self.conn.execute("INSERT OR REPLACE INTO records VALUES(?,?,?,?,?)", (config, record["review_id"], record["source_sha256"], text_hash, serialized))
             if cache_value is not None:
                 if record["status"] != "completed" or record.get("cache_source_id"):
                     raise ValueError("Only a completed direct original can establish a text cache")
@@ -178,6 +184,12 @@ class ResultStore:
         else:
             rows = self.conn.execute("SELECT value_json FROM calls ORDER BY rowid").fetchall()
         return [json.loads(row[0]) for row in rows]
+
+    def task_references(self, run_id: str):
+        return {row[0] for row in self.conn.execute("SELECT request_id FROM task_references WHERE run_id=?", (run_id,))}
+
+    def save_task_reference(self, run_id: str, request_id: str):
+        self.conn.execute("INSERT OR IGNORE INTO task_references VALUES(?,?)", (run_id, request_id))
 
     def task(self, key: str) -> dict | None:
         row = self.conn.execute("SELECT value_json,request_id FROM task_cache WHERE cache_key=?", (key,)).fetchone()

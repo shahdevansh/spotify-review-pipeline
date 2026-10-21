@@ -4,11 +4,11 @@
 Each stage is a separate process; SQLite owns recovery and total spending.
 Human labels are never loaded by this runner. Review text is untrusted data.
 """
-import argparse,asyncio,csv,hashlib,json,math,os,shutil,subprocess,sys,time,traceback
+import argparse,asyncio,csv,hashlib,json,math,os,shutil,sqlite3,subprocess,sys,time,traceback,zipfile
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'src'))
 from dotenv import load_dotenv
-from spotify_pipeline.engine import Engine,load_config
+from spotify_pipeline.engine import Engine,load_config,fingerprint,text_hash
 from spotify_pipeline.data import read_reviews
 from spotify_pipeline.storage import atomic_json,atomic_jsonl,utcnow,BudgetLedger
 from spotify_pipeline.analysis import run_analysis
@@ -29,6 +29,15 @@ def evaluation(directory):
   center=(p+z*z/(2*n))/den if n else 0;half=z*math.sqrt((p*(1-p)+z*z/(4*n))/n)/den if n else 0
   out[f]={'matches':ok,'denominator':n,'agreement':p,'wilson_95':[center-half,center+half]}
  out['targets_met']=out['topic']['agreement']>.90 and out['intent']['agreement']>.93
+ # Match the dashboard's public model-comparison schema without changing saved labels.
+ out.update(status='compared',comparison_type='independent_model_agreement',ground_truth=False,
+  verified_count=n,comparable_count=sum(x['status']=='completed' and 'enrichment_status' not in x['differences'] for x in entries),
+  disagreement_count=sum(bool(x['differences']) for x in entries),
+  field_agreement={f:out[f]['agreement'] for f in ('topic','intent','severity')},
+  limitations=['Independent model agreement is not human accuracy.',
+   'Failed or unavailable comparisons remain in the agreement denominator.',
+   'The independent verifier and fallback share a model family; correlated errors remain possible.',
+   'Sentiment and review-flag agreement are not measured by this summary.'])
  atomic_json(directory/'evaluation.json',out);return out
 
 def prepare():
@@ -83,13 +92,107 @@ def projection():
  verification=sum(x.get('cost_usd') or x.get('unknown_charge_hold_usd',0) for x in verify)/n*40000
  e=load_config(ROOT/'config/hero.json');ledger=BudgetLedger(ROOT/'data/spend.sqlite3');spent=ledger.totals();ledger.close()
  selection=json.loads((BASE/'selection.json').read_text());unique=selection['unique_texts']
+ cohort_texts={text_hash(row['review_text']) for row in read_reviews(ROOT/'data/hero_200000.csv') if row['review_text'].strip()}
+ if len(cohort_texts)!=unique:raise RuntimeError('Hero selection distinct-text count changed')
+ completed_texts=set();db=ROOT/'data/hero-v1.sqlite3'
+ if db.exists():
+  with sqlite3.connect(f'file:{db.resolve()}?mode=ro',uri=True) as connection:
+   completed_texts={row[0] for row in connection.execute("SELECT DISTINCT text_hash FROM records WHERE config=? AND json_extract(record_json,'$.status')='completed'",(fingerprint(e),))}
+ completed_unique=len(cohort_texts & completed_texts);remaining_unique=unique-completed_unique
  # Prior pilot measured ~1126 input tokens/text; use 1500 and 10% audit contingency.
- enrich=unique*1500*.1/1e6
+ # Already-paid hero work is in committed_usd; only remaining exact texts need forecasting.
+ enrich=remaining_unique*1500*.1/1e6
  estimate=spent['committed_usd']+enrich+verification*1.1+3
- out={'committed':spent,'enrichment_conservative':enrich,'frontier_audit_base':verification,'other_reserved':3,'total_conservative':estimate,'ceiling':48}
+ out={'committed':spent,'selected_unique_texts':unique,'completed_unique_texts':completed_unique,'remaining_unique_texts':remaining_unique,'enrichment_conservative':enrich,'frontier_audit_base':verification,'other_reserved':3,'total_conservative':estimate,'ceiling':48}
  atomic_json(BASE/'projection.json',out)
  if estimate>48:raise RuntimeError('Measured 20% frontier verification exceeds $48 operating budget: '+json.dumps(out))
  return out
+
+def preserve_grading_checkpoint(grading):
+ """Export a real saved initial boundary instead of the final no-op resume snapshot."""
+ choice=json.loads((BASE/'quality-decision.json').read_text())
+ initial=BASE/('candidate-v2/cold100' if choice['candidate_accepted'] else 'cold100')
+ before=json.loads((initial/'checkpoint_after.json').read_text())
+ after=json.loads((BASE/'run/checkpoint_after.json').read_text())
+ before_ids=set(before['completed_ids']);after_ids=set(after['completed_ids'])
+ if not before_ids or not before_ids<after_ids:raise RuntimeError('Saved cold checkpoint is not a strict subset of final progress')
+ if before.get('label_config')!=after.get('label_config'):raise RuntimeError('Checkpoint configurations differ')
+ completed={}
+ with (grading/'records.jsonl').open() as handle:
+  for line in handle:
+   if not line.strip():continue
+   r=json.loads(line)
+   if r['status']=='completed':completed[r['review_id']]={'label_config':r['label_config'],'cache_source_id':r.get('cache_source_id')}
+ if not after_ids<=completed.keys():raise RuntimeError('Final checkpoint contains non-completed grading IDs')
+ if any(completed[rid]['label_config']!=before.get('label_config') for rid in before_ids):raise RuntimeError('Saved checkpoint classification configuration differs from final records')
+ initial_ids=set();resumed_ids=set()
+ with (grading/'calls.jsonl').open() as handle:
+  for line in handle:
+   if not line.strip():continue
+   call=json.loads(line)
+   if call['role']!='enrich':continue
+   ids=set(call['review_ids'])
+   if call.get('phase')=='resume' and before_ids & ids:raise RuntimeError('Saved initial checkpoint was reprocessed during resume')
+   if call['outcome']=='succeeded':
+    matching={rid for rid in ids if rid in completed and call['label_config']==completed[rid]['label_config']}
+    if call.get('phase')=='initial':initial_ids.update(matching)
+    elif call.get('phase')=='resume':resumed_ids.update(matching)
+ cached={rid for rid,r in completed.items() if r.get('cache_source_id')}
+ if before_ids-cached-initial_ids or not ((after_ids-before_ids-cached)&resumed_ids):raise RuntimeError('Saved checkpoint lacks matching initial/resume call evidence')
+ shutil.copyfile(initial/'checkpoint_after.json',grading/'checkpoint_before.json')
+ atomic_json(BASE/'grading-checkpoint-provenance.json',{'before_source':str(initial.relative_to(ROOT)/'checkpoint_after.json'),'after_source':'runs/hero-v1/run/checkpoint_after.json','before_completed':len(before_ids),'after_completed':len(after_ids),'note':'Exact saved cold-run completion boundary; subsequent processes resumed this configuration from persistent SQLite. Final no-op resume snapshots are not used as interruption evidence. Separate recovery recording is packaged under recovery/.'})
+
+def package_evidence():
+ """Build the public release offline; never run inference or publish a database."""
+ out=BASE/'run';grading=BASE/'grading';pilot=ROOT/'evals/hero-pilot'
+ # Explicit destinations preserve the assignment's sibling grading/, cost/, evals/ layout.
+ required=[
+  grading/'run.json',grading/'ingestion.json',grading/'records.jsonl',grading/'calls.jsonl',
+  grading/'membership.csv',grading/'ranking.csv',grading/'claims.csv',
+  grading/'checkpoint_before.json',grading/'checkpoint_after.json',
+  pilot/'cold100/report.json',pilot/'cold100/rates.csv',pilot/'cold100/pilot_calls.jsonl',
+  pilot/'cold100/pilot_records.jsonl',pilot/'cold100/run_summary.json',
+  pilot/'warm100/report.json',pilot/'warm100/run_summary.json',
+  out/'evaluation.json',out/'verification.jsonl',out/'disagreements.jsonl',
+  out/'configuration.json',out/'run_summary.json',out/'recommendations.json',out/'memo.md',
+  BASE/'checker.json',BASE/'database-publication.json',BASE/'recovery.cast',
+  BASE/'recovery/recovery-validation.json',BASE/'recovery/checkpoint_before.json',
+  BASE/'recovery/checkpoint_after.json',BASE/'recovery/calls.jsonl',
+ ]
+ missing=[str(p.relative_to(ROOT)) for p in required if not p.is_file()]
+ if missing:raise RuntimeError('Cannot package incomplete final evidence: '+', '.join(missing))
+ package_sources=[(grading,'grading'),(pilot,'evals/hero-pilot'),
+  (pilot/'cold100','cost'),(pilot/'warm100','cost/warm100')]
+ for name in ('evaluation.json','verification.jsonl','disagreements.jsonl'):
+  package_sources.append((out/name,'evals/hero/'+name))
+ for name in ('configuration.json','run_summary.json'):
+  package_sources.append((out/name,'run/'+name))
+ for name in ('recommendations.json','memo.md','issues.json'):
+  package_sources.append((out/name,name))
+ for name in ('checker.json','projection.json','selection.json','database-publication.json','quality-decision.json','grading-checkpoint-provenance.json','recovery.cast'):
+  package_sources.append((BASE/name,name))
+ for name in ('recovery-validation.json','checkpoint_before.json','checkpoint_after.json','calls.jsonl','configuration.json','run_summary.json'):
+  package_sources.append((BASE/'recovery'/name,'recovery/'+name))
+ archive=BASE/'spotify-hero-evidence.zip';temporary=archive.with_suffix('.zip.tmp')
+ names=set()
+ # Stream directly into ZIP: avoid a second large staging copy on the constrained Mac.
+ with zipfile.ZipFile(temporary,'w',compression=zipfile.ZIP_DEFLATED,compresslevel=3) as z:
+  for source,destination in package_sources:
+   if not source.exists():continue
+   files=sorted(source.rglob('*')) if source.is_dir() else [source]
+   for child in files:
+    if not child.is_file():continue
+    if child.is_symlink():raise RuntimeError('Release evidence must not contain symlinks: '+str(child))
+    member=str(Path(destination)/child.relative_to(source)) if source.is_dir() else destination
+    if member in names:raise RuntimeError('Duplicate release member: '+member)
+    names.add(member);z.write(child,member)
+ with zipfile.ZipFile(temporary) as z:
+  bad=z.testzip()
+  if bad is not None:raise RuntimeError('Release archive integrity failure: '+bad)
+  if not all(any(n.startswith(prefix) for n in names) for prefix in ('grading/','cost/','evals/','recovery/')):
+   raise RuntimeError('Release archive is missing a required evidence directory')
+ temporary.replace(archive)
+ return archive
 
 def finalize():
  from spotify_pipeline.export import export_grading
@@ -97,6 +200,7 @@ def finalize():
  load_dotenv(ROOT/'.env')
  out=BASE/'run';grading=BASE/'grading';source=ROOT/'data/source/spotify_reviews_18months.csv';analysis=prepare()
  export_grading(out,grading,source_path=source,analysis_path=analysis)
+ preserve_grading_checkpoint(grading)
  checker=ROOT/'vendor/course/check_submission.py'
  for command in [['reference','--full',str(source),'--analysis',str(analysis),'--out',str(BASE/'reference.json')],['check','--reference',str(BASE/'reference.json'),'--submission',str(grading),'--out',str(BASE/'checker.json')]]:
   subprocess.run([sys.executable,str(checker),*command],check=True,cwd=ROOT)
@@ -106,14 +210,15 @@ def finalize():
  atomic_json(BASE/'database-publication.json',publication)
  if publication['storage_bytes']>700_000_000:raise RuntimeError('Published database exceeds conservative storage threshold')
  # Public release contains course reviews and model evidence only, never human annotations or secrets.
- package=BASE/'release';package.mkdir(exist_ok=True)
- for src in [grading,out/'evaluation.json',out/'recommendations.json',BASE/'checker.json',BASE/'projection.json',BASE/'selection.json',BASE/'database-publication.json']:
-  if src.is_dir():shutil.copytree(src,package/src.name,dirs_exist_ok=True)
-  else:shutil.copyfile(src,package/src.name)
- archive=shutil.make_archive(str(BASE/'spotify-hero-evidence'),'zip',package)
+ archive=package_evidence()
  notes=BASE/'release-notes.md';ev=json.loads((out/'evaluation.json').read_text());s=json.loads((out/'run_summary.json').read_text())
  notes.write_text(f"Classified {s['completed']:,} selected reviews; 13 explicit empty-text quarantines. Independent frontier audit: {ev['n']:,} original IDs (20%). Topic agreement {ev['topic']['agreement']:.2%}; intent {ev['intent']['agreement']:.2%}. These are model-agreement diagnostics, not human accuracy. Full source profiled separately. See attached grading evidence and checker. Dashboard: https://spotify-review-observatory.vercel.app\n")
- subprocess.run(['gh','release','create','hero-v1',archive,'--title','200,000-review hero run','--notes-file',str(notes)],check=True,cwd=ROOT)
+ exists=subprocess.run(['gh','release','view','hero-v1'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,cwd=ROOT).returncode==0
+ if exists:
+  subprocess.run(['gh','release','upload','hero-v1',str(archive),'--clobber'],check=True,cwd=ROOT)
+  subprocess.run(['gh','release','edit','hero-v1','--notes-file',str(notes),'--draft=false'],check=True,cwd=ROOT)
+ else:
+  subprocess.run(['gh','release','create','hero-v1',str(archive),'--title','200,000-review hero run','--notes-file',str(notes)],check=True,cwd=ROOT)
  status('completed',completed=s['completed'],evaluation=ev,dashboard='https://spotify-review-observatory.vercel.app',release='https://github.com/shahdevansh/spotify-review-pipeline/releases/tag/hero-v1')
 
 def supervisor():
@@ -144,14 +249,17 @@ def supervisor():
   if marker.exists():continue
   invoke('hero',count)
   shutil.copyfile(BASE/'run/run_summary.json',marker)
+  status('checkpoint_complete',count=count,completed=json.loads(marker.read_text())['completed'])
   # Each checkpoint offers a closed trace segment to the Drive offload monitor.
   atomic_json(BASE/'offload-request.json',{'checkpoint':count,'directory':str(BASE/'run/handoffs'),'preserve_task_json':True})
  invoke('final',200000);status('publishing');finalize()
 
 if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('--execute-paid',action='store_true');p.add_argument('--stage');p.add_argument('--count',type=int,default=0);p.add_argument('--config',default='config/hero.json');p.add_argument('--variant',default='');a=p.parse_args()
- if not a.execute_paid:p.error('--execute-paid is required')
+ p=argparse.ArgumentParser();mode=p.add_mutually_exclusive_group(required=True);mode.add_argument('--execute-paid',action='store_true');mode.add_argument('--package-only',action='store_true',help='Rebuild final release ZIP offline; no inference, database, or GitHub calls');p.add_argument('--stage');p.add_argument('--count',type=int,default=0);p.add_argument('--config',default='config/hero.json');p.add_argument('--variant',default='');a=p.parse_args()
  os.chdir(ROOT)
+ if a.package_only:
+  if a.stage or a.variant or a.count:p.error('--package-only cannot be combined with stage/variant/count')
+  print(package_evidence());sys.exit(0)
  if a.variant:
   if a.variant != "candidate-v2":raise ValueError("Unknown variant")
   RUNBASE=BASE/a.variant;RUNBASE.mkdir(parents=True,exist_ok=True)

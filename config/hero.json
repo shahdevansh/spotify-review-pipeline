@@ -19,7 +19,7 @@
     "memo": "low"
   },
   "max_workers": 16,
-  "requests_per_second": 24,
+  "requests_per_second": 32,
   "max_output_tokens": 6000,
   "max_reviews_per_request": 25,
   "max_reviews_by_role": {
@@ -57,7 +57,7 @@
   },
   "tokens_per_second": {
     "nebius": 200000,
-    "decisions": 200000
+    "decisions": 400000
   },
   "allowed_models": {
     "nebius": [
@@ -118,5 +118,7 @@
   },
   "gzip_handoffs": true,
   "verification_workers": 8,
-  "maximum_fallback_fraction": 0.15
+  "maximum_fallback_fraction": 0.15,
+  "fallback_workers": 8,
+  "task_references_journal_only": true
 }
