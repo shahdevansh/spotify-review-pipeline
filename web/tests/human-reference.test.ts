@@ -64,7 +64,7 @@ test("source checksum aliases are explicit and conflicts or count changes fail c
 
 test("malformed publication identities, hashes, coverage and unexpected private fields are rejected", () => {
   const p = manifest.publication;
-  for (const [key, value] of [
+  const invalidOverrides: Array<[string, unknown]> = [
     ["status", "pending"], ["run_id", "old-run"], ["label_config", "different"],
     ["source_sha256", "f".repeat(64)], ["github_commit", "main"],
     ["github_commit", "javascript:alert(1)"], ["github_commit", "../foreign"],
@@ -72,7 +72,10 @@ test("malformed publication identities, hashes, coverage and unexpected private 
     ["golden_topic_labels", 51], ["golden_intent_labels", "47"],
     ["selected_reference_rows", 49], ["selected_reference_rows", 201], ["notes", "private"],
     ["report_url", "https://example.com"],
-  ]) assert.equal(publishedHumanReference(run, source, { ...manifest, publication: { ...p, [key]: value } }), null, String(key));
+  ];
+  for (const [key, value] of invalidOverrides) {
+    assert.equal(publishedHumanReference(run, source, { ...manifest, publication: { ...p, [key]: value } }), null, key);
+  }
 });
 
 test("human reference disclosure does not turn model agreement into a quality pass", () => {
