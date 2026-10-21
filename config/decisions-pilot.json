@@ -1,0 +1,105 @@
+{
+  "schema_version": "spotify-labels-v1",
+  "prompt_version": "decisions-nebius-v1",
+  "prompts_dir": "prompts",
+  "ledger_path": "data/spend.sqlite3",
+  "global_budget_usd": 48,
+  "models": {
+    "enrich": "gpt-6-luna",
+    "fallback": "zai-org/GLM-5.3-Flash",
+    "verify": "openai/gpt-oss-120b",
+    "group": "zai-org/GLM-5.3-Flash",
+    "memo": "zai-org/GLM-5.3-Flash"
+  },
+  "reasoning_effort": {
+    "enrich": "none",
+    "fallback": "low",
+    "verify": "low",
+    "group": "low",
+    "memo": "low"
+  },
+  "max_workers": 16,
+  "requests_per_second": 8,
+  "max_output_tokens": 6000,
+  "max_reviews_per_request": 25,
+  "max_reviews_by_role": {
+    "enrich": 25,
+    "fallback": 10,
+    "verify": 10
+  },
+  "max_batch_input_bytes": 18000,
+  "transient_retries": 2,
+  "malformed_retries": 1,
+  "retry_backoff_seconds": 1.0,
+  "fallback_fraction": 0.05,
+  "uncertainty_threshold": 0.6,
+  "verification_seed": "spotify-independent-verification-v1",
+  "rates": {
+    "nebius_qwen30b_input": 0.1,
+    "nebius_qwen30b_output": 0.3,
+    "nebius_gptoss120b_input": 0.15,
+    "nebius_gptoss120b_output": 0.6,
+    "nebius_lightning_input": 0.06,
+    "nebius_lightning_output": 0.24,
+    "nebius_glm53flash_input": 0.15,
+    "nebius_glm53flash_output": 0.5,
+    "decisions_input": 0.1
+  },
+  "rates_currency": "USD",
+  "rates_as_of": "2026-10-20",
+  "rates_sources": {
+    "nebius": "https://tokenfactory.nebius.com/api/public/models_info",
+    "decisions": "https://developers.openai.com/api/docs/guides/decisions"
+  },
+  "tokens_per_second": {
+    "nebius": 10000,
+    "decisions": 200000
+  },
+  "allowed_models": {
+    "nebius": [
+      "Qwen/Qwen3-30B-A3B-Instruct-2507",
+      "openai/gpt-oss-120b",
+      "nvidia/Nemotron-3_5-Lightning",
+      "zai-org/GLM-5.3-Flash"
+    ],
+    "decisions": [
+      "gpt-6-luna"
+    ]
+  },
+  "providers": {
+    "enrich": "decisions",
+    "fallback": "nebius",
+    "verify": "nebius",
+    "group": "nebius",
+    "memo": "nebius"
+  },
+  "model_rate_keys": {
+    "nebius": {
+      "Qwen/Qwen3-30B-A3B-Instruct-2507": {
+        "input": "nebius_qwen30b_input",
+        "output": "nebius_qwen30b_output"
+      },
+      "openai/gpt-oss-120b": {
+        "input": "nebius_gptoss120b_input",
+        "output": "nebius_gptoss120b_output"
+      },
+      "nvidia/Nemotron-3_5-Lightning": {
+        "input": "nebius_lightning_input",
+        "output": "nebius_lightning_output"
+      },
+      "zai-org/GLM-5.3-Flash": {
+        "input": "nebius_glm53flash_input",
+        "output": "nebius_glm53flash_output"
+      }
+    }
+  },
+  "routing_policy": "decisions-v1-no-revisit",
+  "prompt_files": {
+    "labels": "labels-v6.md",
+    "enrich": "decisions-enrich.md"
+  },
+  "provider_budget_usd": {
+    "decisions": 23,
+    "nebius": 24
+  }
+}

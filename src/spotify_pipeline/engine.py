@@ -7,6 +7,8 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
+import gzip
+import os
 import json
 import math
 import re
@@ -25,6 +27,7 @@ from .models import Classification, CompletedRecord, SourceReview, SOURCE_FIELDS
 from .providers import (JevProvider, OpenAIProvider, ProviderError,
                         AuthenticationProviderError, MalformedProviderResponse, ProviderPolicyError,
                         normalize_usage)
+from .decisions import DecisionsProvider
 from .nebius import NebiusProvider, normalize_nebius_usage, validate_nebius_model_settings
 from .storage import (BudgetExceeded, BudgetLedger, ResultStore, atomic_json,
                       atomic_jsonl, canonical, reserve_request_slot, utcnow)
@@ -75,7 +78,7 @@ def validate_config(config: dict) -> None:
     allowed = config.get("allowed_models", {"jev": ["jev-1.13.0"], "openai": ["gpt-6-luna"]})
     for role in ROLE_PROVIDERS:
         provider = role_provider(config, role)
-        if provider not in {"jev", "openai", "nebius"} or (provider == "jev" and role != "enrich"):
+        if provider not in {"jev", "openai", "nebius", "decisions"} or (provider in {"jev", "decisions"} and role != "enrich"):
             raise ValueError(f"Unsupported provider {provider!r} for {role}")
         model = config["models"][role]
         if model not in allowed.get(provider, []):
@@ -127,7 +130,9 @@ def fingerprint(config: dict) -> str:
     templates = {}
     for role in ROLE_PROVIDERS:
         provider = role_provider(config, role)
-        if provider == "jev":
+        if provider == "decisions":
+            templates[role] = DecisionsProvider.build_request("<REVIEW_TEXT>", "<LABEL_PROMPT>")
+        elif provider == "jev":
             templates[role] = JevProvider(api_key="fingerprint-only", model=config["models"][role],
                 jev_transport=config.get("jev_transport", "direct")).build_request("<REVIEW_TEXT>", "<LABEL_PROMPT>")
         elif provider in {"openai", "nebius"}:
@@ -148,6 +153,8 @@ def fingerprint(config: dict) -> str:
     payload["classification_audit_policy"] = config.get("classification_audit_policy", CLASSIFICATION_AUDIT_VERSION)
     payload["classification_audit_implementation"] = CLASSIFICATION_AUDIT_VERSION
     payload["injection_pattern"] = INJECTION_PATTERN.pattern
+    if config.get("routing_policy"):
+        payload["routing_policy"] = config["routing_policy"]
     payload["engine_logic_version"] = "compact-bounded-alias-batches-v4"
     return "spotify-" + hashlib.sha256(canonical(payload).encode()).hexdigest()
 
@@ -260,8 +267,8 @@ class Engine:
         self.budget_usd = float(budget_usd)
         if not 1 <= workers <= min(16, self.config.get("max_workers", 16)):
             raise ValueError("workers must be between 1 and the configured maximum (at most 16)")
-        if not 0 <= self.config.get("fallback_fraction", .05) <= .05:
-            raise ValueError("fallback fraction must be between 0 and 0.05")
+        if not 0 <= self.config.get("fallback_fraction", .05) <= min(.20, self.config.get("maximum_fallback_fraction", .05)):
+            raise ValueError("fallback fraction exceeds the explicitly configured maximum (at most 0.20)")
         if not 1 <= self.config.get("max_reviews_per_request", 25) <= 50:
             raise ValueError("requests must contain between 1 and 50 reviews")
         self.workers = workers
@@ -291,10 +298,22 @@ class Engine:
         self._export_calls()
         atomic_json(self.run_dir / "configuration.json", {key: value for key, value in self.config.items() if key != "_root"})
 
+    def _save_handoff(self, path, value):
+        if self.config.get("gzip_handoffs"):
+            path = Path(str(path) + ".gz")
+            temporary = Path(str(path) + ".tmp")
+            with gzip.open(temporary, "wt", encoding="utf-8", compresslevel=1) as handle:
+                json.dump(value, handle, ensure_ascii=False, separators=(",", ":"))
+            os.replace(temporary, path)
+        else:
+            atomic_json(path, value)
+
     def _provider(self, name: str):
         if name not in self.providers:
             if name == "jev":
                 self.providers[name] = JevProvider(model=self.config["models"]["enrich"], jev_transport=self.config.get("jev_transport", "direct"))
+            elif name == "decisions":
+                self.providers[name] = DecisionsProvider()
             elif name == "openai":
                 self.providers[name] = OpenAIProvider()
             elif name == "nebius":
@@ -302,12 +321,14 @@ class Engine:
             else:
                 raise ValueError(f"Unsupported provider: {name}")
         provider = self.providers[name]
-        if isinstance(provider, (JevProvider, OpenAIProvider, NebiusProvider)) and not getattr(provider, "_api_key", None):
+        if isinstance(provider, (JevProvider, OpenAIProvider, NebiusProvider, DecisionsProvider)) and not getattr(provider, "_api_key", None):
             raise AuthenticationProviderError(f"Set {provider.env_name} before paid execution; no request was sent", usage_unknown=False)
         return provider
 
     def _prompt(self, role: str) -> str:
         prompt = self.config["_prompts"][role]
+        if role == "enrich" and role_provider(self.config, role) == "decisions":
+            return prompt
         if role in {"enrich", "fallback", "verify"}:
             prompt = self.config["_prompts"]["labels"] + "\n\n" + prompt
         return prompt
@@ -317,6 +338,8 @@ class Engine:
             if not model:
                 raise ValueError("Nebius billing requires an exact model ID")
             return self.config["model_rate_keys"]["nebius"][model]
+        if provider == "decisions":
+            return {"input": "decisions_input"}
         if provider == "jev":
             return {"input": "jev_input"}
         return {"input": "openai_input", "cached_input": "openai_cached_input", "output": "openai_output"}
@@ -332,14 +355,14 @@ class Engine:
         rates = self.config["rates"]
         keys = self._rate_keys(provider, request.get("model"))
         input_rate = max(rates[keys[category]] for category in ("input", "cached_input") if category in keys)
-        if provider == "jev":
+        if provider in {"jev", "decisions"}:
             return input_bound * input_rate / 1_000_000
         return (input_bound * input_rate + self._output_cap(request) * rates[keys["output"]]) / 1_000_000
 
     def _billing(self, provider: str, raw_usage: dict | None, raw_response: dict | None = None,
                  *, model: str | None = None) -> dict:
         try:
-            normalized = normalize_nebius_usage(raw_usage) if provider == "nebius" else normalize_usage(provider, raw_usage)
+            normalized = normalize_nebius_usage(raw_usage) if provider == "nebius" else normalize_usage("openai" if provider == "decisions" else provider, raw_usage)
         except (ValueError, TypeError) as exc:
             self.limitations.append(f"Provider reported inconsistent usage: {exc}; full reservation retained")
             normalized = None
@@ -352,9 +375,9 @@ class Engine:
         keys = self._rate_keys(provider, model)
         items = []
         known = total is not None
-        if provider == "jev":
+        if provider in {"jev", "decisions"}:
             if total is not None:
-                items.append({"category": "input", "units": total, "rate_key": "jev_input"})
+                items.append({"category": "input", "units": total, "rate_key": keys["input"]})
         elif provider == "nebius" and "cached_input" not in keys:
             # Published flat input rate bills the reported total. Unknown cache
             # breakdown remains unknown; no invented zero or discounted tokens.
@@ -434,9 +457,10 @@ class Engine:
             request_id = uuid.uuid4().hex
             reserve = self._reserve_cost(provider, request)
             self.ledger.reserve(request_id, self.run_id, reserve,
-                                global_cap_usd=self.config.get("global_budget_usd", 18), run_cap_usd=self.budget_usd)
+                                global_cap_usd=self.config.get("global_budget_usd", 18), run_cap_usd=self.budget_usd,
+                                provider=provider, provider_cap_usd=self.config.get("provider_budget_usd", {}).get(provider))
             estimated_input_bound = len(canonical(request).encode("utf-8")) + 2048
-            estimated_output_bound = 0 if provider == "jev" else self._output_cap(request)
+            estimated_output_bound = 0 if provider in {"jev", "decisions"} else self._output_cap(request)
             limits = self.config.get("tokens_per_second", {"jev": 20000, "openai": 20000})
             token_rate = limits.get(provider, 20000) if isinstance(limits, dict) else limits
             delay = reserve_request_slot(self.ledger, provider, self.config.get("requests_per_second", 5),
@@ -458,7 +482,7 @@ class Engine:
                 call.update(review_id_mapping=review_id_mapping, model_input_ids=list(review_id_mapping),
                             review_id_policy="validated_per_request_aliases_to_original_ids")
             self.store.save_call(call)
-            atomic_json(self.handoffs / f"{request_id}.request.json", {"role": role, "purpose": purpose,
+            self._save_handoff(self.handoffs / f"{request_id}.request.json", {"role": role, "purpose": purpose,
                         "provider": provider, "body": request, "review_id_mapping": review_id_mapping})
             timer = time.monotonic()
             response = None
@@ -476,7 +500,7 @@ class Engine:
                     validator(data)
                 call.update(self._billing(provider, response.usage, response.raw, model=model))
                 call.update(outcome="succeeded", model=response.model, error=None, provider_request_id=getattr(response, "request_id", None))
-                atomic_json(self.handoffs / f"{request_id}.response.json", response.raw)
+                self._save_handoff(self.handoffs / f"{request_id}.response.json", response.raw)
             except asyncio.CancelledError:
                 if api_timer is None:
                     error = "cancelled_before_dispatch"
@@ -491,7 +515,7 @@ class Engine:
                 call["error"] = f"invalid_output: {exc}"
                 if response is not None:
                     call.update(self._billing(provider, response.usage, response.raw, model=model))
-                    atomic_json(self.handoffs / f"{request_id}.response.json", response.raw)
+                    self._save_handoff(self.handoffs / f"{request_id}.response.json", response.raw)
                 malformed_count += 1
                 retry = malformed_count <= min(1, self.config.get("malformed_retries", 1))
             except ProviderError as exc:
@@ -505,7 +529,7 @@ class Engine:
                     call.update(cost_usd=0.0, usage_source="not_dispatched", input_tokens=0, output_tokens=0,
                                 dispatch_status="not_dispatched")
                 if exc.raw is not None:
-                    atomic_json(self.handoffs / f"{request_id}.response.json", exc.raw)
+                    self._save_handoff(self.handoffs / f"{request_id}.response.json", exc.raw)
                 if isinstance(exc, (AuthenticationProviderError, ProviderPolicyError)):
                     self._stop_dispatch = True
                     if isinstance(exc, ProviderPolicyError):
@@ -649,7 +673,8 @@ class Engine:
         result["needs_review"] = False  # Jev has no model-supplied ambiguity flag.
         result = self._audit_classification(result, row, source_role="enrich", extra_reasons=reasons)
         return {**result, "confidence": confidence, "uncertainty_score": uncertainty,
-                "classifier_provider": "jev", "classifier_model": self._provider("jev").model,
+                "probabilities": data.get("probabilities"), "confidence_source": "provider_uncalibrated",
+                "classifier_provider": role_provider(self.config, "enrich"), "classifier_model": self.config["models"]["enrich"],
                 "classifier_transport": self.config.get("jev_transport", "direct"),
                 "fallback_used": False}
 
@@ -673,6 +698,7 @@ class Engine:
         self._stop_dispatch = False
         timer = time.monotonic()
         before = [row["review_id"] for row in self.rows if (old := self.store.record(self.label_config, row["review_id"])) and old.get("status") == "completed" and old["source_sha256"] == row_sha(row)]
+        self._previous_completed_ids = set(before)
         atomic_json(self.run_dir / ("checkpoint_before.json" if phase == "resume" else "checkpoint_start.json"),
                     {"run_id": self.run_id, "label_config": self.label_config, "completed_ids": before, "created_at": utcnow()})
         groups: dict[str, list[dict]] = {}
@@ -702,7 +728,7 @@ class Engine:
             pending.append((digest, members[0]))
         selected = pending if stop_after is None else pending[:stop_after]
         primary_provider = role_provider(self.config, "enrich")
-        work_items = ([[item] for item in selected] if primary_provider == "jev" else
+        work_items = ([[item] for item in selected] if primary_provider in {"jev", "decisions"} else
                       [[(text_hash(row["review_text"]), row) for row in batch]
                        for batch in self._batches([row for _, row in selected], primary=True)])
         queue = asyncio.Queue()
@@ -716,12 +742,12 @@ class Engine:
                 except asyncio.QueueEmpty:
                     break
                 try:
-                    if primary_provider == "jev":
+                    if primary_provider in {"jev", "decisions"}:
                         digest, row = batch_items[0]
-                        provider = self._provider("jev")
+                        provider = self._provider(primary_provider)
                         prompt = self._prompt("enrich")
                         request = provider.build_request(row["review_text"], prompt)
-                        result, _ = await self._invoke(provider="jev", role="enrich", purpose="initial_classification",
+                        result, _ = await self._invoke(provider=primary_provider, role="enrich", purpose="initial_classification",
                                                     model=self.config["models"]["enrich"], review_ids=[row["review_id"]], request=request,
                                                     dispatch=lambda: provider.classify(row["review_text"], prompt),
                                                     validator=lambda data: self._jev_result(data, row))
@@ -790,8 +816,14 @@ class Engine:
             if value.get("fallback_used"):
                 used += 1
             elif value.get("needs_review"):
+                if self.config.get("routing_policy") in {"decisions-v1-no-revisit", "hero-probability-risk-v1"} and any(m["review_id"] in self._previous_completed_ids for m in members):
+                    continue
                 contradictions = sum(reason != "low_provider_confidence" for reason in value.get("review_reasons", []))
                 score = value.get("uncertainty_score")
+                if self.config.get("routing_policy") == "hero-probability-risk-v1":
+                    confidence = value.get("confidence", {})
+                    # Rank whole-record escalations by task priorities; these are not calibrated accuracy probabilities.
+                    score = sum(weight * confidence.get(field, 0) for field, weight in (("topic", .5), ("intent", .4), ("severity", .1)))
                 origin = next(row for row in members if row["review_id"] == cached["origin_id"])
                 candidates.append((-contradictions, score if score is not None else -1, origin["review_id"], digest, origin))
         quota = max(0, math.floor(len(groups) * self.config.get("fallback_fraction", .05)) - used)
@@ -890,7 +922,8 @@ class Engine:
         eligible.sort(key=lambda row: hashlib.sha256(f"{seed}:{row['review_id']}".encode()).digest())
         selected = eligible[:max(0, sample_count)]
         results, disagreements = [], []
-        for batch in self._batches(selected, role="verify"):
+        async def verify_batch(batch):
+            results, disagreements = [], []
             try:
                 response = await self._classification_batch(batch, "verify")
                 for prediction in response["reviews"]:
@@ -910,12 +943,20 @@ class Engine:
                         disagreements.append(entry)
             except BudgetExceeded as exc:
                 self.limitations.append(f"Verification stopped: {exc}")
-                break
             except AuthenticationProviderError:
                 raise
             except Exception as exc:
                 for row in batch:
                     results.append({"review_id": row["review_id"], "status": "failed", "reason": str(exc), "blind": True})
+            return results, disagreements
+        semaphore = asyncio.Semaphore(min(self.workers, self.config.get("verification_workers", 1)))
+        async def bounded(batch):
+            async with semaphore:
+                return await verify_batch(batch)
+        outcomes = await asyncio.gather(*(bounded(batch) for batch in self._batches(selected, role="verify")))
+        for batch_results, batch_disagreements in outcomes:
+            results.extend(batch_results)
+            disagreements.extend(batch_disagreements)
         self._verification = results
         atomic_jsonl(self.run_dir / "verification.jsonl", results)
         atomic_jsonl(self.run_dir / "disagreements.jsonl", disagreements)

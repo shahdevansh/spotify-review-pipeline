@@ -65,6 +65,7 @@ class BudgetLedger:
           created_at TEXT NOT NULL, settled_at TEXT
         );
         CREATE INDEX IF NOT EXISTS spend_run ON spend(run_id);
+        CREATE TABLE IF NOT EXISTS spend_provider (request_id TEXT PRIMARY KEY, provider TEXT NOT NULL);
         """)
 
     @classmethod
@@ -87,8 +88,11 @@ class BudgetLedger:
                 "attempts": row["attempts"]}
 
     def reserve(self, request_id: str, run_id: str, amount_usd: float,
-                *, global_cap_usd: float, run_cap_usd: float) -> None:
+                *, global_cap_usd: float, run_cap_usd: float, provider: str | None = None,
+                provider_cap_usd: float | None = None) -> None:
         amount = self._nano(amount_usd)
+        if provider_cap_usd is not None and not provider:
+            raise ValueError("Provider cap requires a provider name")
         caps = [(None, self._nano(global_cap_usd)), (run_id, self._nano(run_cap_usd))]
         with transaction(self.conn):
             for selected_run, cap in caps:
@@ -97,7 +101,18 @@ class BudgetLedger:
                 if current + amount > cap:
                     scope = "global" if selected_run is None else "run"
                     raise BudgetExceeded(f"{scope} budget: committed ${current / 1e9:.6f} + next reservation ${amount / 1e9:.6f} exceeds ${cap / 1e9:.2f}")
+            if provider_cap_usd is not None:
+                cap = self._nano(provider_cap_usd)
+                # Historical untagged attempts count conservatively against each
+                # provider cap; they are never silently assumed to be free.
+                current = self.conn.execute("""SELECT COALESCE(SUM(COALESCE(s.charged_nano,s.reserved_nano)),0)
+                    FROM spend s LEFT JOIN spend_provider p ON s.request_id=p.request_id
+                    WHERE p.provider=? OR p.provider IS NULL""", (provider,)).fetchone()[0]
+                if current + amount > cap:
+                    raise BudgetExceeded(f"{provider} provider budget exceeds ${cap / 1e9:.2f}")
             self.conn.execute("INSERT INTO spend VALUES(?,?,?,?,?,?,?)", (request_id, run_id, amount, None, "reserved", utcnow(), None))
+            if provider:
+                self.conn.execute("INSERT INTO spend_provider VALUES(?,?)", (request_id,provider))
 
     def settle(self, request_id: str, actual_usd: float | None) -> None:
         """Unknown usage is never converted to zero spend; preserve its hold."""
