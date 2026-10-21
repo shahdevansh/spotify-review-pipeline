@@ -368,7 +368,7 @@ export default function Dashboard() {
         {error && <div className="notice notice-error" role="alert"><div><strong>We couldn’t load this run.</strong><p>{error}</p></div><button className="button button-small" onClick={() => setLoadVersion((version) => version + 1)}>Try again</button></div>}
         {!loading && !error && overview?.status !== "ready" && <div className="notice" role="status"><Icon name="database" /><div><strong>No results have been published yet.</strong><p>{overview?.message || "This dashboard displays saved pipeline results. No review counts or model outcomes are simulated."}</p></div><button className="text-button" onClick={() => setLoadVersion((version) => version + 1)}>Refresh <Icon name="arrow" size={16} /></button></div>}
         {loading && <p className="loading-message" role="status">Reading saved analysis…</p>}
-        {ready && <QualityGateNotice report={evaluation.report} compact />}
+        {ready && <QualityGateNotice report={evaluation.report} legacyEvaluation={overview?.evaluation} compact />}
 
         <section className="metrics-grid" aria-label="Run measurements">
           <Metric label="Selected input" value={count(run?.input_count)} detail="Records in this run’s analysis scope" accent />
@@ -411,7 +411,7 @@ export default function Dashboard() {
 
         <section id="recommendations" className="section-block" aria-labelledby="recommendations-title">
           <div className="section-heading"><div><p className="eyebrow section-eyebrow">02 / THE PRODUCT READOUT</p><h2 id="recommendations-title">What deserves attention next</h2><p>Saved AI recommendations, connected to measurable claims and source reviews.</p></div><span className="subtle-label">No live model calls</span></div>
-          {ready && <QualityGateNotice report={evaluation.report} compact />}
+          {ready && <QualityGateNotice report={evaluation.report} legacyEvaluation={overview?.evaluation} compact />}
           {recommendations ? <>
             {recommendations.summary && <div className="recommendation-summary"><span className="summary-marker"><Icon name="arrow" size={24} /></span><div><p className="eyebrow">THE READOUT</p><p>{recommendations.summary}</p></div></div>}
             <div className="recommendation-grid">{recommendations.recommendations.map((recommendation, index) => <article className="recommendation-card" key={`${recommendation.title}-${index}`}><div className="recommendation-number">{String(index + 1).padStart(2, "0")}</div><h3>{recommendation.title}</h3><p>{recommendation.rationale}</p><div className="recommendation-links">{(recommendation.claim_ids || []).map((id) => <a className="claim-link" key={id} href={`#claim-${id}`}>{id}<Icon name="arrow" size={12} /></a>)}{(recommendation.review_ids || []).slice(0, 3).map((id, reviewIndex) => <button className="claim-link review-link" key={id} onClick={() => setActiveReviewId(id)}>Review {reviewIndex + 1}<Icon name="arrow" size={12} /></button>)}</div></article>)}</div>

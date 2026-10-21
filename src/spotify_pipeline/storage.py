@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
+import zlib
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from decimal import Decimal, ROUND_CEILING
@@ -17,6 +18,40 @@ from typing import Any
 
 def canonical(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False)
+
+
+# Result records, calls, and text-cache payloads use this binary envelope.
+# Legacy JSON TEXT remains readable; task_cache and the ledger are untouched.
+COMPRESSED_JSON_PREFIX = b"SPJZ1\x00"
+
+
+def compress_json_text(serialized: str) -> bytes:
+    """Pack exact UTF-8 JSON bytes; migration does not reformat old evidence."""
+    raw = serialized.encode("utf-8")
+    return COMPRESSED_JSON_PREFIX + zlib.compress(raw, level=6)
+
+
+def stored_json_text(value: str | bytes | bytearray | memoryview) -> str:
+    """Read legacy JSON TEXT and versioned compressed BLOB payloads."""
+    if isinstance(value, str):
+        return value
+    raw = bytes(value)
+    if raw.startswith(COMPRESSED_JSON_PREFIX):
+        raw = zlib.decompress(raw[len(COMPRESSED_JSON_PREFIX):])
+    return raw.decode("utf-8")
+
+
+def encode_stored_json(value: Any) -> bytes:
+    return compress_json_text(canonical(value))
+
+
+def decode_stored_json(value: str | bytes | bytearray | memoryview) -> Any:
+    return json.loads(stored_json_text(value))
+
+
+def register_storage_functions(conn: sqlite3.Connection) -> None:
+    """Enable explicit JSON SQL queries on mixed legacy/packed result rows."""
+    conn.create_function("stored_json_text", 1, stored_json_text, deterministic=True)
 
 
 def utcnow() -> str:
@@ -132,6 +167,7 @@ class BudgetLedger:
 class ResultStore:
     def __init__(self, path: str | Path):
         self.conn = _connect(path)
+        register_storage_functions(self.conn)
         self.conn.executescript("""
         CREATE TABLE IF NOT EXISTS records (
           config TEXT NOT NULL, review_id TEXT NOT NULL, source_sha TEXT NOT NULL,
@@ -155,35 +191,35 @@ class ResultStore:
 
     def record(self, config: str, review_id: str) -> dict | None:
         row = self.conn.execute("SELECT record_json FROM records WHERE config=? AND review_id=?", (config, review_id)).fetchone()
-        return json.loads(row[0]) if row else None
+        return decode_stored_json(row[0]) if row else None
 
     def cached(self, config: str, text_hash: str) -> dict | None:
         row = self.conn.execute("SELECT origin_id,value_json FROM text_cache WHERE config=? AND text_hash=?", (config, text_hash)).fetchone()
-        return {"origin_id": row[0], "value": json.loads(row[1])} if row else None
+        return {"origin_id": row[0], "value": decode_stored_json(row[1])} if row else None
 
     def save_record(self, config: str, text_hash: str, record: dict, *, cache_value: dict | None = None) -> None:
         serialized = canonical(record)
         if cache_value is None:
             prior = self.conn.execute("SELECT record_json FROM records WHERE config=? AND review_id=?", (config, record["review_id"])).fetchone()
-            if prior and prior[0] == serialized:
+            if prior and stored_json_text(prior[0]) == serialized:
                 return
         with transaction(self.conn):
-            self.conn.execute("INSERT OR REPLACE INTO records VALUES(?,?,?,?,?)", (config, record["review_id"], record["source_sha256"], text_hash, serialized))
+            self.conn.execute("INSERT OR REPLACE INTO records VALUES(?,?,?,?,?)", (config, record["review_id"], record["source_sha256"], text_hash, compress_json_text(serialized)))
             if cache_value is not None:
                 if record["status"] != "completed" or record.get("cache_source_id"):
                     raise ValueError("Only a completed direct original can establish a text cache")
-                self.conn.execute("INSERT OR REPLACE INTO text_cache VALUES(?,?,?,?)", (config, text_hash, record["review_id"], canonical(cache_value)))
+                self.conn.execute("INSERT OR REPLACE INTO text_cache VALUES(?,?,?,?)", (config, text_hash, record["review_id"], encode_stored_json(cache_value)))
 
     def save_call(self, call: dict):
         with transaction(self.conn):
-            self.conn.execute("INSERT OR REPLACE INTO calls VALUES(?,?,?)", (call["request_id"], call["run_id"], canonical(call)))
+            self.conn.execute("INSERT OR REPLACE INTO calls VALUES(?,?,?)", (call["request_id"], call["run_id"], encode_stored_json(call)))
 
     def calls(self, run_id: str | None = None) -> list[dict]:
         if run_id:
             rows = self.conn.execute("SELECT value_json FROM calls WHERE run_id=? ORDER BY rowid", (run_id,)).fetchall()
         else:
             rows = self.conn.execute("SELECT value_json FROM calls ORDER BY rowid").fetchall()
-        return [json.loads(row[0]) for row in rows]
+        return [decode_stored_json(row[0]) for row in rows]
 
     def task_references(self, run_id: str):
         return {row[0] for row in self.conn.execute("SELECT request_id FROM task_references WHERE run_id=?", (run_id,))}

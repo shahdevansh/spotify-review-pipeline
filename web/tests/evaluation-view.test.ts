@@ -81,6 +81,30 @@ test("a hold is never styled as success, even with no reasons and complete proce
   assert.equal(qualityPresentation({ ...report().quality_gate, status: "pass", recommendations_provisional: false }).tone, "success");
 });
 
+test("published model verification is distinct from unavailable human accuracy and a quality pass", () => {
+  const comparison = {
+    comparison_type: "independent_model_agreement", verified_count: 40000, comparable_count: 40000,
+    field_agreement: { topic: 0.91, intent: 0.935 }, ground_truth: false,
+  };
+  const result = qualityPresentation(null, comparison);
+  assert.equal(result.status, "model_verification_available");
+  assert.equal(result.tone, "neutral");
+  assert.equal(result.provisional, true);
+  assert.match(result.label, /Model verification published/);
+  assert.match(result.label, /Human accuracy not evaluated/);
+  assert.match(result.summary, /40,000 original review IDs/);
+  assert.equal(qualityPresentation(report().quality_gate, comparison).status, "hold");
+  assert.equal(qualityPresentation({ ...report().quality_gate, status: "pass" }, comparison).status, "pass");
+  for (const invalid of [
+    { ...comparison, verified_count: 0 },
+    { ...comparison, comparable_count: 0 },
+    { ...comparison, comparable_count: 40001 },
+    { ...comparison, field_agreement: {} },
+    { ...comparison, field_agreement: { topic: 1.2 } },
+    { human_ground_truth: true, metrics: { accuracy: 1 } },
+  ]) assert.equal(qualityPresentation(null, invalid).status, "not_evaluated");
+});
+
 test("missing or zero numeric-signal coverage means unknown confidence, not zero uncertainty", () => {
   assert.equal(confidencePresentation(null).label, "Numeric confidence unknown");
   assert.equal(confidencePresentation(0).label, "Numeric confidence unknown");

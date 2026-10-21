@@ -10,7 +10,7 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'src'))
 from dotenv import load_dotenv
 from spotify_pipeline.engine import Engine,load_config,fingerprint,text_hash
 from spotify_pipeline.data import read_reviews
-from spotify_pipeline.storage import atomic_json,atomic_jsonl,utcnow,BudgetLedger
+from spotify_pipeline.storage import atomic_json,atomic_jsonl,utcnow,BudgetLedger,register_storage_functions
 from spotify_pipeline.analysis import run_analysis
 BASE=ROOT/'runs/hero-v1'
 RUNBASE=BASE
@@ -97,7 +97,8 @@ def projection():
  completed_texts=set();db=ROOT/'data/hero-v1.sqlite3'
  if db.exists():
   with sqlite3.connect(f'file:{db.resolve()}?mode=ro',uri=True) as connection:
-   completed_texts={row[0] for row in connection.execute("SELECT DISTINCT text_hash FROM records WHERE config=? AND json_extract(record_json,'$.status')='completed'",(fingerprint(e),))}
+   register_storage_functions(connection)
+   completed_texts={row[0] for row in connection.execute("SELECT DISTINCT text_hash FROM records WHERE config=? AND json_extract(stored_json_text(record_json),'$.status')='completed'",(fingerprint(e),))}
  completed_unique=len(cohort_texts & completed_texts);remaining_unique=unique-completed_unique
  # Prior pilot measured ~1126 input tokens/text; use 1500 and 10% audit contingency.
  # Already-paid hero work is in committed_usd; only remaining exact texts need forecasting.
@@ -155,6 +156,8 @@ def package_evidence():
   pilot/'warm100/report.json',pilot/'warm100/run_summary.json',
   out/'evaluation.json',out/'verification.jsonl',out/'disagreements.jsonl',
   out/'configuration.json',out/'run_summary.json',out/'recommendations.json',out/'memo.md',
+  out/'handoffs/group.input.json',out/'handoffs/group.output.json',
+  out/'handoffs/memo.input.json',out/'handoffs/memo.output.json',
   BASE/'checker.json',BASE/'database-publication.json',BASE/'recovery.cast',
   BASE/'recovery/recovery-validation.json',BASE/'recovery/checkpoint_before.json',
   BASE/'recovery/checkpoint_after.json',BASE/'recovery/calls.jsonl',
@@ -167,6 +170,8 @@ def package_evidence():
   package_sources.append((out/name,'evals/hero/'+name))
  for name in ('configuration.json','run_summary.json'):
   package_sources.append((out/name,'run/'+name))
+ for name in ('group.input.json','group.output.json','memo.input.json','memo.output.json'):
+  package_sources.append((out/'handoffs'/name,'handoffs/'+name))
  for name in ('recommendations.json','memo.md','issues.json'):
   package_sources.append((out/name,name))
  for name in ('checker.json','projection.json','selection.json','database-publication.json','quality-decision.json','grading-checkpoint-provenance.json','recovery.cast'):

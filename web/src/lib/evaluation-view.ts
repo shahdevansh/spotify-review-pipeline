@@ -14,7 +14,7 @@ const object = (value: unknown): Record<string, unknown> =>
     ? value as Record<string, unknown> : {};
 const numberOrNull = (value: unknown): number | null => finite(value) ? value : null;
 
-export function qualityPresentation(gate: PilotAuditReport["quality_gate"] | null) {
+export function qualityPresentation(gate: PilotAuditReport["quality_gate"] | null, legacyEvaluation: unknown = null) {
   if (gate?.status === "hold") {
     return {
       status: "hold" as const,
@@ -31,6 +31,20 @@ export function qualityPresentation(gate: PilotAuditReport["quality_gate"] | nul
       label: "Saved quality gate passed",
       summary: gate.summary,
       provisional: gate.recommendations_provisional,
+    };
+  }
+  const comparison = gate ? null : legacyModelComparison(legacyEvaluation);
+  if (comparison && finite(comparison.verified) && Number.isInteger(comparison.verified) &&
+      comparison.verified > 0 && finite(comparison.comparable) && comparison.comparable > 0 &&
+      comparison.comparable <= comparison.verified && comparison.metrics.some((metric) =>
+        metric.unit === "fraction" && finite(metric.final_value) &&
+        metric.final_value >= 0 && metric.final_value <= 1)) {
+    return {
+      status: "model_verification_available" as const,
+      tone: "neutral" as const,
+      label: "Model verification published · Human accuracy not evaluated",
+      summary: `Saved independent model comparison covers ${integer.format(comparison.verified)} original review IDs. Human accuracy is not established by model agreement; no run-matched human benchmark is published here.`,
+      provisional: true,
     };
   }
   return {

@@ -2,6 +2,10 @@
 from __future__ import annotations
 
 import csv
+import ctypes
+import os
+import sys
+import uuid
 import hashlib
 import json
 import shutil
@@ -20,6 +24,33 @@ def file_sha(path: str | Path) -> str:
         for block in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def _copy_evidence(source: Path, destination: Path) -> None:
+    """Atomically snapshot bytes, using APFS copy-on-write when available.
+
+    A clone has a separate inode: later edits to either file cannot change the
+    other snapshot. This avoids both the extra disk allocation of a full copy
+    and the mutable aliasing of hard links. Other filesystems retain the same
+    byte-for-byte export through an ordinary copy.
+    """
+    temporary = destination.with_name(f".{destination.name}.{uuid.uuid4().hex}.tmp")
+    try:
+        cloned = False
+        if sys.platform == "darwin":
+            try:
+                clonefile = ctypes.CDLL(None, use_errno=True).clonefile
+                clonefile.argtypes = [ctypes.c_char_p, ctypes.c_char_p, ctypes.c_int]
+                clonefile.restype = ctypes.c_int
+                cloned = clonefile(os.fsencode(source), os.fsencode(temporary), 0) == 0
+            except (AttributeError, OSError):
+                pass
+        if not cloned:
+            temporary.unlink(missing_ok=True)
+            shutil.copyfile(source, temporary)
+        os.replace(temporary, destination)
+    finally:
+        temporary.unlink(missing_ok=True)
 
 
 def export_grading(run_dir: str | Path, output_dir: str | Path,
@@ -72,7 +103,7 @@ def export_grading(run_dir: str | Path, output_dir: str | Path,
         if candidate.exists():
             destination = output / candidate.name
             if candidate.resolve() != destination.resolve():
-                shutil.copyfile(candidate, destination)
+                _copy_evidence(candidate, destination)
             copied.append(candidate.name)
         else:
             missing.append(name)
@@ -81,7 +112,7 @@ def export_grading(run_dir: str | Path, output_dir: str | Path,
         calls_path = source / "calls.jsonl"
     if calls_path.exists():
         if calls_path.resolve() != (output / "calls.jsonl").resolve():
-            shutil.copyfile(calls_path, output / "calls.jsonl")
+            _copy_evidence(calls_path, output / "calls.jsonl")
         copied.append("calls.jsonl")
     else:
         missing.append("calls.jsonl")

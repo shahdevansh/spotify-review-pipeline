@@ -18,12 +18,14 @@ const title = (value: string) => value.replace(/^issue-/, "").replaceAll("_", " 
 
 export function QualityGateNotice({
   report,
+  legacyEvaluation = null,
   compact = false,
 }: {
   report: PilotAuditReport | null;
+  legacyEvaluation?: unknown;
   compact?: boolean;
 }) {
-  const quality = qualityPresentation(report?.quality_gate || null);
+  const quality = qualityPresentation(report?.quality_gate || null, legacyEvaluation);
   return (
     <div className={`quality-notice quality-${quality.tone}`} role="status">
       <div>
@@ -106,9 +108,9 @@ export default function EvaluationPanel({
     <section id="evaluation" className="section-block evaluation-section" aria-labelledby="evaluation-title">
       <div className="section-heading">
         <div><p className="eyebrow section-eyebrow">03 / EVALUATION</p><h2 id="evaluation-title">What has actually been established</h2><p>Human labels, model comparisons, development inspection, and integrity checks answer different questions.</p></div>
-        <span className="subtle-label">{report ? "Versioned, run-matched report" : "Evaluation report not published"}</span>
+        <span className="subtle-label">{report ? "Versioned, run-matched report" : legacy ? "Saved model comparison available" : "Evaluation report not published"}</span>
       </div>
-      <QualityGateNotice report={report} />
+      <QualityGateNotice report={report} legacyEvaluation={legacyEvaluation} />
       {warning && <p className="evaluation-publication-warning" role="status">{warning}</p>}
       {report && <p className="evaluation-identity"><span className="mono">{report.report_id}</span><span>Generated {utcTimestamp(report.generated_at)}</span><span>Run <span className="mono">{report.run_id}</span></span></p>}
 
