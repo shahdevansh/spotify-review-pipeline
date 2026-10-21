@@ -1,5 +1,5 @@
 import type { PilotAuditReport } from "../lib/evaluation-report";
-import { humanReferenceCoverage, type HumanReferenceLink } from "../lib/human-reference";
+import { humanReferenceCoverage, humanReferenceDisclosure, type HumanReferenceLink } from "../lib/human-reference";
 import {
   comparisonMetricDisplay,
   confidencePresentation,
@@ -113,6 +113,7 @@ export default function EvaluationPanel({
   humanReference?: HumanReferenceLink | null;
 }) {
   const human = humanBenchmarkSummary(report?.human || null);
+  const humanDisclosure = humanReference ? humanReferenceDisclosure(humanReference) : null;
   const legacy = report ? null : legacyModelComparison(legacyEvaluation);
   const comparison = report?.model_comparison;
   const confidence = confidencePresentation(report?.routing.numeric_signal_available ?? null);
@@ -131,14 +132,14 @@ export default function EvaluationPanel({
       {report && <p className="evaluation-identity"><span className="mono">{report.report_id}</span><span>Generated {utcTimestamp(report.generated_at)}</span><span>Run <span className="mono">{report.run_id}</span></span></p>}
 
       {humanReference ? <article className="panel evaluation-card">
-        <div className="panel-heading"><h3>Human reference evaluation</h3><span className="outcome outcome-unknown">Posthoc adjudicated · Sparse labels</span></div>
+        <div className="panel-heading"><h3>{humanDisclosure!.heading}</h3><span className="outcome outcome-unknown">{humanDisclosure!.badge}</span></div>
         <div className="evaluation-card-body">
-          <p className="evaluation-lead">Agreement with a corrected human reference is published separately. <strong>This is not blind population accuracy.</strong></p>
-          <p>The reference was corrected after earlier model predictions were inspected. Blank fields remain unannotated; severity was selectively assigned to functional issues.</p>
+          <p className="evaluation-lead">Agreement with the versioned reference is published separately. <strong>This is not blind population accuracy.</strong></p>
+          <p>{humanDisclosure!.context}</p>
           <p>{humanReferenceCoverage(humanReference)}</p>
-          <p>{count(humanReference.selected_reference_rows)} worksheet records are inside the selected hero cohort. Each field has its own evaluated denominator; the report separates golden reviews from additional reviews.</p>
-          <p><a className="text-button" href={humanReference.report_url} target="_blank" rel="noopener noreferrer">Read the verified aggregate human evaluation →</a></p>
-          <p className="evaluation-note">The linked snapshot contains field agreement, error counts, missingness, and limitations. No individual human answers or notes are exposed. Model agreement below remains a separate diagnostic; recommendations remain provisional.</p>
+          <p>{count(humanReference.selected_reference_rows)} worksheet records are inside the selected hero cohort. {humanDisclosure!.scope}</p>
+          <p><a className="text-button" href={humanReference.report_url} target="_blank" rel="noopener noreferrer">Read the verified reference evaluation →</a></p>
+          <p className="evaluation-note">{humanDisclosure!.note}</p>
         </div>
       </article> : <article className="panel evaluation-card">
         <div className="panel-heading"><h3>Human benchmark</h3><span className="outcome outcome-unknown">{human.label}</span></div>
