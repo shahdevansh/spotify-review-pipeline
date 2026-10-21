@@ -1,3 +1,5 @@
+> **Historical v5 pilot snapshot.** The status and figures below describe the original 1,000-review experiment. For the completed 200,000-review hero inference, 40,000-ID independent audit, human-reference limitations, final accounting and publication evidence, use the [current project README](../README.md). Statements below about unstarted expansion and blank labels apply only to this historical snapshot.
+
 # Implementation status
 
 The frozen v5 pipeline has completed the fixed 100-review cold/warm sequence,

@@ -1,3 +1,5 @@
+> **Historical first-1,000 release guide.** This page documents `v0.1.0-pilot`; its future-scope and blank-label statements describe that release. The [current project README](../README.md) links the separate hero-v1 evidence ZIP for 200,000 completed nonempty reviews and 40,000 independent audits.
+
 # First-1,000 review learning release
 
 **This package contains 1,000 completed development reviews. The 210,000-review cohort is a future target, not a completed run.**

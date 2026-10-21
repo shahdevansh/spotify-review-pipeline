@@ -1,3 +1,5 @@
+> **Historical v5 pilot evidence.** The measurements and commands below describe the earlier Lightning/GPT-OSS experiment. Current hero-v1 uses Decisions plus Nebius GLM, 200,000 selected nonempty reviews and 20% independent verification. See the [current results and verified offline commands](../README.md), [hero pilot comparison](../evals/hero-pilot/report.md), and the final hero release's root `cost/` and `cost/warm100/` folders. The selected hero cold100 measured $0.02360475, 105 attempts and 41.9034 seconds; warm100 made zero calls at $0 in 0.2137 seconds. Do not use the old scope, models, budget or default projection settings below as hero-run results.
+
 # Cost and runtime evidence
 
 The implementation is `src/spotify_pipeline/cost.py`; editable dated prices are

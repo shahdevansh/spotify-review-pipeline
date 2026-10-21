@@ -81,6 +81,6 @@ Exactly **20 field-level edits** were recorded in `runs/hero-v1/run/editorial-re
 
 ## Reproduction and evidence
 
-`work/hero_final_business_audit.py` independently streams final records, checks the exact audit selection and all ranking/membership/claim joins, and saves bounded actual call traces. `work/hero-final-business-audit.json` contains the complete case records, request identifiers, source hashes, accepted editorial manifest and artifact hashes. The accompanying precheck preserves the independent pre-memo ranking and deterministic case selection.
+The published [README](../../README.md#inspect-and-reproduce-the-final-evidence-without-api-calls) provides credential-free reranking and unmodified course-checker commands for the final evidence ZIP. [business-audit.json](business-audit.json) contains the saved bounded case inspections, actual request identifiers, source hashes, accepted editorial manifest and artifact hashes, together with the independent arithmetic and selection checks. Qualitative case judgments are saved assistant inspections; they are not newly supplied human labels and are not reproduced by the numerical reranker. No unpublished working script is required by the documented reproduction commands.
 
 Run: `run-07e2cb4b0e3d9be0`. Configuration: `spotify-f84b2a9afdaa455fd81d26077cab1ccebc7a62bb1b46bab461d9ae593bcb584a`. Audit completed: `2026-10-21T06:05:29.774625+00:00`.

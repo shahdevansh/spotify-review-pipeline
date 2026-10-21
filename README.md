@@ -1,383 +1,294 @@
-# Spotify review evidence pipeline
+# Spotify reviews: an auditable product-priority pipeline
 
-## October 20: authorized hero run in progress
+**Prioritize usability reliability and control clarity; validate specific library-recovery fixes through further investigation.** This pipeline turns historical Spotify app-store reviews into a product recommendation with saved classifications, independent verification, deterministic calculations, and review-level evidence.
 
-The 200,000-review run uses OpenAI Decisions for System 1, Nebius for all LLM roles, a 40,000-review independent full GLM-5.3 audit, and a shared $50 total budget. The [persistent harness](HERO_RUN.md) runs outside chat. [Latest pilot comparison and measured calculator](evals/hero-pilot/report.md): 91.0% topic / 93.5% intent agreement on development; 94.0% / 93.5% on fresh-ID confirmation (200 audited reviews each). These are model-agreement diagnostics, not human accuracy. The dashboard remains on its prior published run until the final atomic database import.
+- **Live dashboard:** [Spotify Review Observatory](https://spotify-review-observatory.vercel.app). Public and read-only; no login or paid model call is required to inspect results.
+- **Final evidence:** [hero-v1 release](https://github.com/shahdevansh/spotify-review-pipeline/releases/tag/hero-v1), including the memo, grading export, cost calculator measurements, evaluation, and recovery evidence. ZIP SHA-256: `950fe1f6fcb1b53a3cc6ce634b071411669b930e5aba05f0c623ea871947049d`.
+- **Publication receipt:** [final verification receipt](https://github.com/shahdevansh/spotify-review-pipeline/releases/download/hero-v1/publication-receipt.json), published separately from the ZIP, records its final checksum, code/documentation revisions, deployment identity and final QA timestamp.
+- **Decision memo:** [AI-generated and factually reviewed recommendation](docs/hero-decision-memo.md). Material issue-level numbers cite claim IDs; recommendations cite issue and review IDs.
+- **Final run:** `hero-v1`, configuration `spotify-f84b2a9afdaa455fd81d26077cab1ccebc7a62bb1b46bab461d9ae593bcb584a`. Verified pipeline code revision: `b354b75b95570e7485192011f5de89f0104c19de`; later documentation commits do not change the frozen inference configuration.
 
-An auditable System-1 / System-2 pipeline for deciding where Spotify should direct
-product effort, using historical Google Play reviews from May 2022–November 2023.
+## Results and scope
 
-**The first milestone is a measured 1,000-review learning run.** Scaling to the
-210,000-review cohort is a separate decision after inspecting errors, costs, and
-throughput. No command silently launches the larger run.
+The complete source was ingested and profiled. Classification covers a reproducible **200,000-review subset**, plus all 13 empty source texts as explicit quarantines. This follows the amended assignment allowance of at least 100,000 reviews. It is not a classification of all 660,609 nonempty source reviews.
 
-## Current evidence status
+| Measure | Final result | Evidence inside the release ZIP |
+|---|---:|---|
+| Full source rows / nonempty / empty | 660,622 / 660,609 / 13 | `grading/ingestion.json` |
+| Selected nonempty reviews / exact distinct texts | 200,000 / 152,363 | `selection.json` |
+| Completed / quarantined / unresolved selected rows | 200,000 / 13 / 0 | `grading/run.json`, `grading/records.jsonl.gz` |
+| Actual direct exact-text cache aliases | 47,637 | `grading/records.jsonl.gz` |
+| Independent full GLM-5.3 audit | 40,000 / 40,000 selected IDs; zero unresolved comparisons | `evals/hero/evaluation.json` |
+| Audit topic / intent / severity agreement | 36,187/40,000 (90.4675%) / 37,220/40,000 (93.0500%) / 36,341/40,000 (90.8525%) | `evals/hero/evaluation.json` |
+| Golden human topic / intent agreement | 33/47 (70.21%) / 41/47 (87.23%) | `evals/hero-human/report.json` |
+| Golden human topic / intent coverage | 47 of 50 | `evals/hero-human/report.json` |
+| Project-wide recorded token-rate spend / unresolved charge hold | $35.319959027 / $1.563189415 | `run/run_summary.json` → `global_spending` |
+| Recorded hero workflow through first public release, including checkpoints and recovery | approximately 4 h 10 min through the first public release (14,986.278 s); final documentation/release-refresh QA is separate | `operational-final.json` |
+| Course checker / hosted API reconciliation | `review_required`: 48 failed requests lack usage; all other checks pass / pass: all saved issue members and 19 detail samples reconciled | `checker.json`, `checker-acceptance.json`, `publication-reconciliation.json` |
 
-**October 20 evaluation update:** the [audit and next-run report](docs/audit-and-next-run-v6.md)
-reviews traces, routing failures, ranking sensitivity, and five matched model
-configurations. All five completed the same 200 development reviews; this is
-model-comparison evidence, not human accuracy. GLM is the provisional next
-candidate, while repeat and batch-size tests still show semantic instability.
-The total authorized budget is now **$50**, with a $48 operating ceiling and
-$2 uncertainty reserve for a future scale run. Cost fit does not establish
-deadline feasibility.
+The 40,000-review audit reports **model agreement, not human accuracy**. The verifier receives original text and the rubric without production predictions or confidence scores. Its GLM model family is also used for fallback, so correlated mistakes remain possible. Failed comparisons remain in the denominator. There were **8,565 categorical disagreements**: at least one of topic, intent or severity differed. Separately, 14,175 records had an absolute sentiment difference above 0.25; 4,169 also had a categorical disagreement. Their union is 18,571 records, including 10,006 with only the sentiment-threshold disagreement. These are different definitions, not duplicate counts. The [final business and trace audit](evals/hero/business-audit.md) reconciles both counters.
 
-The [blind 200-review worksheet](evals/human-evaluation-v1/combined_200.html)
-contains the mandatory 50 plus a separately sampled fresh 150. Download the
-HTML and open it in a browser, or serve the directory locally. Enter an
-annotator ID and download JSON backups. Answers stay private; model settings
-and predictions are frozen before answer access. See the
-[human protocol](docs/human-evaluation-protocol.md) and
-[offline evaluation harness](docs/evaluation-harness.md).
+Topic and intent point estimates exceed the requested 90% and 93% thresholds, respectively. The reported 95% Wilson intervals are 90.1758–90.7514% for topic, 92.7966–93.2951% for intent, and 90.5660–91.1311% for severity. **Intent's interval crosses 93%; this does not establish population agreement above that threshold with 95% confidence.** These binomial intervals also do not eliminate uncertainty from repeated texts or correlated model errors.
 
-The live dashboard now serves a [versioned evaluation API](https://spotify-review-observatory.vercel.app/api/evaluation)
-with a persisted quality hold, human-label status, explicit metric denominators,
-development inspection, synthetic failures, and alternate model rankings.
-The original pilot labels and business aggregates are preserved.
+**Complete structural coverage does not mean semantic uncertainty is resolved.** An independent arithmetic precheck of all 200,013 selected records found 200,000 valid completed classifications, 13 quarantines, no foreign IDs or source-hash mismatches, and 47,637 direct exact-text aliases. Nevertheless, **51,293/200,000 records (25.6465%) retain `needs_review`**. Whole-record fallback covered 22,854/152,363 distinct texts (14.9997%), represented by 24,990 original review IDs. The fallback cap limited model escalation; it did not clear every review flag. One complaint labeled severity 1 remains a flagged rubric-consistency warning even though its schema is valid. These records remain visible in the saved result and business aggregates.
 
-The [v0.2.0 evaluation evidence release](https://github.com/shahdevansh/spotify-review-pipeline/releases/tag/v0.2.0-evaluation)
-adds the development experiments, audit, blank annotation kit, and evaluation
-harness. It is an overlay on the original pilot package, not a replacement.
-Private human answers and sealed prediction contents are excluded; the
-[public sealing receipt](validation/sealed_human_predictions_v1.json) records
-completion and artifact identities without revealing labels.
+The saved baseline contains 87,897 complaint/cancellation memberships with total severity 229,857. It places usability first (25,563 reviews; severity sum 68,258), followed by other (51,774), playback (39,445), and billing (35,437), where the latter three numbers are severity sums. A separate streaming Counter/Decimal implementation subsequently reproduced all 87,897 memberships, eight issue rankings and 32 claims **byte for byte**, including six-decimal half-up means and tie-breaking. This establishes arithmetic consistency on the saved labels, not their semantic correctness. The release includes the independent proof in `validation/offline-validation.json`; the saved membership, ranking and claim files and the [final business audit](evals/hero/business-audit.md) retain the results. The credential-free commands below reproduce their arithmetic. The corrected decision memo remains subject to the editorial provenance checks below.
 
-The frozen v5 configuration has completed the fixed 100-review cold/warm
-measurement, the 500-review checkpoint, and all **1,000 learning reviews with
-1,000 independent verifications**. There are no pending or quarantined learning
-records. The pilot is published to the database-backed dashboard, and a real
-interruption/resume test passed.
-Human golden-set accuracy remains unmeasured, and neither the 10,000 nor
-210,000 expansion has run. See
-[implementation status](docs/IMPLEMENTATION_STATUS.md) for the evidence and gates.
+The human reference is sparse and was corrected after model comparisons, including 43 approved topic changes. Reported scores are **posthoc adjudicated reference agreement**, not a blind estimate of population accuracy. Each metric uses only explicitly annotated fields and states its denominator; missing severity, sentiment, or entities are not imputed. Three of the mandatory 50 still lack both topic and intent, so the corresponding denominators are 47. The original annotation exports and corrected versions remain private and unchanged. Only aggregate human results are public; individual human labels, notes, and IDs are excluded.
 
-**Decision: fix the observed label errors before expanding.** The
-[learning report](docs/learning-report.md) explains the topic/intent/severity
-errors, weak uncertainty routing, measured agreement and next development test.
-The current business ranking is provisional because incorrect topic assignments
-can change which issue ranks first. A separate live synthetic test also exposed
-prompt-injection susceptibility in the fast classifier; deterministic flags
-caught the suspicious input but did not correct its unsupported labels.
+| Human-reference comparison | Golden 50 | All annotated worksheet records inside hero cohort |
+|---|---:|---:|
+| Topic exact agreement | 33/47 (70.21%) | 48/65 (73.85%) |
+| Intent exact agreement | 41/47 (87.23%) | 54/65 (83.08%) |
+| Severity exact agreement | 4/13 (30.77%) | 5/18 (27.78%) |
+| Severity mean absolute error | 1.0769, n=13 | 1.0556, n=18 |
+| Sentiment mean absolute error | 0.2020, n=42 | 0.2052, n=59 |
 
-Start with the [learning report](docs/learning-report.md),
-[qualitative quality review](docs/learning-quality-review.md),
-[scaling economics](docs/scaling-economics.md),
-[measured cold/warm calculator](cost/README.md), and
-[live synthetic evaluation](evals/synthetic-live/README.md).
+These results are materially weaker than model agreement. Selective annotation and documented rubric/reference differences prevent treating the severity score as population accuracy. Only 99 of the 200 worksheet IDs occur in the selected hero cohort; field denominators are smaller because many fields were not annotated. There are no explicit human entity labels, so entity accuracy is unavailable. On the 47 jointly annotated golden records, `needs_review` flagged only 5 of 17 topic/intent reference disagreements (29.41% capture). An unflagged prediction is not thereby validated correct. See the [aggregate human report](evals/hero-human/report.md) for cohort separation, missingness and interpretation limits.
 
-Detailed `runs/` artifacts are excluded from Git. The paths below identify files
-inside the evidence package. Download and extract the
-[v0.1.0-pilot evidence release](https://github.com/shahdevansh/spotify-review-pipeline/releases/tag/v0.1.0-pilot)
-to inspect those files. Committed reports summarize the measurements without linking to
-nonexistent GitHub run directories.
+The operational API admission ceiling was $48 against a $50 total project budget. Reservations and uncertain timeout charges count against admission. At the completed inference accounting snapshot, recorded usage plus the unresolved-charge hold totaled **$36.883148442**, with zero active reservations. Reported spend prices saved provider usage; it must not be described as reconciled cash expenditure without provider-billing evidence. Hosting used free plans. The final stage's `run/run_summary.json` wall time is **not** the elapsed time of the entire hero run. The recorded workflow runs from the original cold-100 checkpoint at 02:20:33 UTC to initial publication at 06:30:20 UTC on October 21. It includes candidate/pilot/confirmation work, scaling, recovery, final audit and first publication; earlier project setup, prior experiments, labeling and approximately eight seconds of supervisor setup are excluded. Scaling alone took approximately four hours and reused pilot caches, so this is not a cold-from-empty 200,000-review benchmark. Final documentation and release-refresh QA occur after this initial-publication timing boundary. `operational-final.json` records the anchors and exact scopes.
 
-| Source-data fact | Count |
-|---|---:|
-| Full original source | 660,622 |
-| Nonempty source reviews | 660,609 |
-| Empty source texts | 13 |
-| Selected nonempty reviews | 210,000 |
-| Selected distinct exact texts | 159,657 |
-| Exact-text reuse opportunities | 50,343 |
-| Learning sample reviews / distinct texts | 1,000 / 926 |
+**The supplied checker remains `review_required`, not `pass`.** Its sole exception is 96 missing token-usage fields across 48 genuinely failed requests; all other coverage, source, ranking and numerical-claim checks pass. Failed calls remain in the evidence with unavailable usage, rather than invented zeros or omitted rows. The [course contract](vendor/course/GRADING_CONTRACT.md) explicitly requires real usage or a README disclosure of unavailable usage. A separate, narrow publication gate accepts only this validated missing-usage exception and records its decision in `checker-acceptance.json`; it preserves the original checker report. The $1.563189415 uncertain-charge hold remains reserved in accounting. This execution-accounting limitation is separate from semantic label accuracy.
 
-These are source-data counts, not completed classifications. The [ingestion
-report](data/ingestion_report.json) records checksum and scope reconciliation.
-The selected input
-includes all 13 empty texts in addition to the 210,000 nonempty reviews.
+## Recommendation and evidence trail
 
-**Live dashboard:** [Spotify Review Observatory](https://spotify-review-observatory.vercel.app)
+The accepted memo prioritizes `issue-usability`: 25,563 complaint/cancellation reviews (`claim-usability-complaint-count`) contribute the highest baseline severity sum, 68,258 (`claim-usability-severity-sum`). Its proposed usability reliability and control-clarity initiative includes investigating undo/recovery affordances and protection of user-curated library state. Those interventions are supported by examples, not separately measured subtopic prevalence. Playback stability is a credible alternative: its score is 39,445 (`claim-playback-priority-score`), with a higher mean severity of 3.143529 (`claim-playback-mean-severity`) than usability's 2.670187 (`claim-usability-mean-severity`). The memo also compares billing and access. The recommendation would change if targeted validation showed that label errors or a different product objective outweigh this topic-level baseline.
 
-The application and API are public and backed by the published 1,000-review
-pilot in Neon. [Hosted reconciliation](validation/pilot_publication.json)
-matched all 1,000 database records, eight issue rankings, 32 claims and all
-445 issue-membership records across 14 API pages. A subsequent
-[observed sleep/wake check](validation/neon_sleep_recovery.json) passed:
-the first public overview request returned the 1,000-review result in 1.009 seconds.
-[Browser QA](validation/dashboard_visual_qa.json) verified the corrected duplicate
-and cache-reuse counts, quality-hold notice and review detail modal.
+**The recommendations are AI-generated and factually reviewed.** The original GLM memo incorrectly called usability the largest complaint-volume group; `other` actually has 25,992 eligible reviews versus usability's 25,563 (`claim-other-complaint-count`, `claim-usability-complaint-count`). The accepted prose correctly states second-largest volume and highest severity sum. A guarded editorial postprocessor also broadened issue titles to their full primary-topic categories, qualified descriptions as summaries of severity-prioritized examples, separated quarantines from completed review flags, and marked library-state interventions as hypotheses rather than ranked subtopics. Exactly 20 field-level edits are recorded in [editorial-review.json](evals/hero/editorial-review.json); original display artifacts remain in the release's `editorial-review/v1/original/`. Nine protected artifacts—including production classifications, verifier output, membership, ranking, claims and all four raw group/memo handoffs—retain identical hashes. Five focused synthetic tests, a dry run on saved outputs, application and idempotence verification passed. No new model calls or human-label changes were made by this correction. The [business audit](evals/hero/business-audit.md) documents the accepted result and remaining semantic limitations.
 
-**Provider adaptation:** the owner supplied Nebius credits. The selected
-[v5 configuration](validation/frozen_pilot_configuration.json) uses
-`nvidia/Nemotron-3_5-Lightning` without thinking for initial classification,
-`openai/gpt-oss-120b` at low reasoning effort for fallback, independent
-verification and grouping, and `zai-org/GLM-5.3-Flash` at low effort for the memo.
-Nebius hosts all these calls. This implements fast and deliberative model roles;
-Lightning is not Jev and its review flags are not calibrated confidence.
-The original Jev/OpenAI adapters remain available. See
-[model selection, failures, and measured probes](docs/nebius-adaptation.md).
+One completed review is traced through every stage:
 
-The fixed-100 cold run completed eight model requests in **39.803 seconds** at
-**$0.00654034** of nominal token value. Its identical warm replay completed in
-**0.0785 seconds with zero new requests and zero incremental API value**.
-Cold evidence (`runs/pilot/100-cold/run_summary.json`) and
-warm evidence (`runs/pilot/100-warm/run_summary.json`) include all pipeline stages.
-These amounts price reported usage; provider credit debits and new cash expense
-have not been reconciled.
+| Step | Saved evidence |
+|---|---|
+| Original source and identity | Review `07f60ec3-2a42-4903-862a-4de5265803d6`; source-row SHA `041f78ab0cf597fee206532d79665b3666f11471ad8a723ae3f370558425f135`; full original text in `grading/records.jsonl.gz` |
+| Enrichment | Decisions request `a67721cfaced4d4782bc2a96c11c2d0d`: usability / complaint / severity 5, `needs_review=true`; model/configuration and provenance in the saved record and `grading/calls.jsonl.gz` |
+| Independent verification | Full GLM request `3b35008194c34bd8a9b8daad26dcb801`: playback / complaint / severity 4; topic and severity disagreements retained in `evals/hero/verification.jsonl.gz` |
+| Group membership | Original review belongs to `issue-usability` in `grading/membership.csv`; actual group request `b501e979618346f59f783db8c2f36c12` includes it in bounded evidence |
+| Ranking | Its severity contributes 5 to usability's 68,258 score and one review to its 25,563 count |
+| Memo claim | `claim-usability-severity-sum`, `claim-usability-priority-score`, `claim-usability-complaint-count` and `claim-usability-mean-severity`; memo request `4ada7d0430bd41779f6d79a0c4553637` cites the review in both library-state recommendations |
 
-The complete cold/warm/500/1,000 sequence used **156 requests, no failed
-attempts, $0.118772214 of nominal API value, and 448.697 seconds of active wall
-time**. Later checkpoints reused prior outputs; their timings are incremental.
-The final 1,000 records represent 926 distinct texts, with 74 exact-text aliases,
-46 fallback classifications and 60 `needs_review` flags.
+The traced review describes unavailable song-selection controls and alleged playlist/account deletion. Its root cause and permanence are unverified, making the topic and severity disagreement meaningful. Production remains frozen; the verifier did not overwrite it.
 
-Independent final-label agreement was **82.8% topic, 90.6% intent and 83.8%
-severity**; severity mean absolute difference was 0.201. These compare model
-predictions, not human answers. The learning report keeps expansion gated while
-the observed label errors and routing weaknesses are addressed.
+A separate qualitative failure inspection found review `424a25d7-50ab-4971-8128-c68821cc5d25`: “Wow, 5 long ads behind each other, and you made shuffle for premium again!” Production labeled it usability, complaint, severity 3, with provider topic confidence 0.99, no fallback, and `needs_review=false`. Under the rubric's highest-severity-specific-problem rule, the Premium restriction supports billing more strongly than the advertising annoyance supports usability. The actual independent verifier returned billing / complaint / severity 3, consistent with two assistant inspections. This is a concrete likely error escaping uncertainty-based routing; it is a qualitative judgment, not a population error-rate estimate or new human annotation. The review contributes to the aggregate but is not a quoted memo example. No inspection or verifier answer is substituted into production.
 
-The current full Python suite has **441 passed and three documented environment
-or fixture skips**; see the [test receipt](validation/evaluation_v6_full_tests.json).
-Separate dashboard checks passed 24 web tests and 37 publication tests, including
-PostgreSQL integration. Earlier pilot checks remain in
-[validation evidence](validation/README.md). Automated tests establish software
-behavior, not human-label accuracy.
+The memo's bounded evidence contains 40 severity-prioritized examples, including 30 flagged records and 35 severity-5 labels. This deliberately selective pack illustrates severe concerns; it cannot estimate the prevalence of library loss or any other subtopic. The numerical ranking remains at the primary-topic level.
 
-The unchanged course checker returns `review_required` for both the main pilot
-and separate recovery evidence. The main run has no interruption/resume
-checkpoint. Recovery preserves unknown usage for the deliberately cancelled
-call, and later scheduled fallback requests touch three checkpoint IDs. The
-recovery helper confirms no lost IDs or repeated **first-pass** classification;
-it does not claim that every later paid call excludes previously completed IDs.
-See [validation details](validation/README.md).
+## Architecture and frozen model roles
 
-## Setup
-
-Requires Python 3.11+, Node.js 22+, and `uv` (or equivalent Python environment
-management). Dependencies are pinned in `uv.lock` and `web/package-lock.json`.
-
-```sh
-uv venv venv
-uv pip install --python venv/bin/python --link-mode copy -e '.[dev]'
-source venv/bin/activate
-cp .env.example .env
-spotify-pipeline preflight
+```mermaid
+flowchart TD
+    A[Original CSV and course manifest] --> B[Code: parse, profile, hash, select, exact-text deduplicate]
+    B --> C[System 1: OpenAI Decisions / GPT-6 Luna]
+    C --> D[Code: validate, score routing risk, save atomically]
+    D --> E[System 2: bounded whole-record GLM-5.3-Flash fallback]
+    D --> F[Saved production records and provenance]
+    E --> F
+    B --> V[Full GLM-5.3: independent original-text audit]
+    F --> W[Code: compare with independent audit]
+    V --> W
+    F --> G[Code: stable issue membership]
+    G --> H[GLM-5.3-Flash: bounded issue descriptions]
+    G --> I[Code: exact aggregates, ranking and claims]
+    I --> J[GLM-5.3-Flash: recommendation memo]
+    H --> J
+    F --> K[(Neon Postgres)]
+    I --> K
+    J --> K
+    K --> L[Next.js read-only API on Vercel]
+    L --> M[Public dashboard and review drill-down]
+    D --> R[Bounded retry or explicit unresolved status]
+    R --> F
+    D --> S[Shared spend admission gate]
+    S --> T[Stop dispatch at cap; durable resume]
 ```
 
-Populate only the keys used in the ignored `.env`: `NEBIUS_API_KEY` for the
-Nebius configuration, or TypeSafe/Vercel Gateway and OpenAI keys for the
-original configuration. The hosted Postgres uses `DATABASE_URL`. A separate
-`DATABASE_READONLY_URL` is recommended for the deployed dashboard.
-Never put these values into browser JavaScript, committed files, or logs.
+| Role | Provider/model and instructions | Saved output |
+|---|---|---|
+| Prepare | Python/SQL; no model | Full ingestion profile, source hashes, deterministic cohort |
+| Enrich | OpenAI Decisions, `gpt-6-luna`; original review text only | Topic, intent, severity, sentiment, provenance and status |
+| Fallback | Nebius `zai-org/GLM-5.3-Flash`, low effort | Whole-record replacement for at most 15% of unique texts |
+| Verify | Nebius `zai-org/GLM-5.3`, low effort; no enrichment answers or human labels | Independent predictions and per-field disagreements |
+| Group | Code fixes membership; separately prompted GLM-5.3-Flash describes bounded examples | `issues.json`, group input/output, membership |
+| Rank | Python/SQL; no model | Counts, severity sums, means, baseline ordering, numerical claim IDs |
+| Recommend | Separately prompted GLM-5.3-Flash receives aggregates and bounded evidence | Structured recommendations, memo input/output and rendered memo |
 
-Download the instructor's
-[complete dataset ZIP](https://drive.google.com/file/d/1P0rUoAS_wVjp3BYKqXMEyD4u0uJP1Bvf/view)
-and extract all eleven files into `data/source/`. The raw source is intentionally
-not committed. Its SHA-256 is
-`1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6`.
+The selected configuration is saved in `run/configuration.json`; the runnable configuration is [config/hero.json](config/hero.json). Role prompts and the shared schema are versioned in [prompts/](prompts/) and [src/spotify_pipeline/](src/spotify_pipeline/). Ratings and other source metadata do not enter classification prompts. Human annotations never enter enrichment, routing, grouping, or memo inputs.
+
+Whole-record fallback is prioritized by a weighted risk score using topic, intent and severity confidence weights 0.5/0.4/0.1, with contradiction rules and a 0.70 eligibility threshold. This score is **not a calibrated error probability**. Every request contains at most 50 reviews; the Decisions pass uses one review per request. Concurrency increased only after measured trials to 32 enrichment workers under 32 requests/second and shared token pacing; independent verification uses eight workers. Model identity, prompts, schema and routing are part of cache identity. Direct aliases reference completed originals; duplicate texts retain separate review counts.
+
+Each request atomically saves validated results and status. Bounded repair/retry attempts, usage and unresolved charge holds are logged. A shared SQLite ledger admits work only within global/run/provider caps. Storage compression, gzip exports, indexed admission and the resident execution mirror changed operation without changing the frozen classification fingerprint. See [operational recovery notes](docs/hero-operational-recovery.md) and the release's operational proofs.
+
+### Final-audit timeout recovery
+
+Classification reached 200,000 completed nonempty reviews plus 13 empty quarantines, with zero pending records, at 05:29:20 UTC on October 21. The subsequent full GLM audit encountered a materially slower service response than the pilot: its first 17 successful calls averaged 45.23 seconds, compared with 6.39 seconds across eight pilot verifier calls. Another 23 requests reached the existing 60-second timeout. The successful-call average is censored by those timeouts and cannot establish the uncensored mean or a reliable completion forecast.
+
+The audit was interrupted at 05:35:57 UTC to stop repeating uncertain charges. Its 17 successful requests covering 425 original IDs were confirmed in the task cache; eight requests canceled in flight retained unknown-charge holds. After shutdown, no requests or reservations remained active. Project-wide recorded token-rate spend at that point was $20.916047134, with a separate $1.563189415 unknown-charge hold. These are a historical accounting snapshot, not final totals or confirmed cash charges.
+
+A tested operational repair raised the Nebius transport timeout from 60 to 180 seconds, retained the 60-second default for other providers, and preserved request bodies, labels and the frozen classification fingerprint. Eight focused offline tests passed. The audit resumed at 05:39:51 UTC with eight workers and successful task-cache reuse. The saved final evaluation subsequently accounted for all 40,000 independent comparisons with zero unresolved results. Historical failed attempts and uncertain charges remain in the ledger; successful final coverage does not erase them. The completed hero run's ledger records 154,595 attempts and 56 failed attempts; its own nominal usage is $33.782901124. Project-wide accounting includes earlier experiments: 159,820 attempts, $35.319959027 recorded usage and $1.563189415 unresolved-charge hold, with no active reservations. The grading export additionally retains historical cache-origin evidence, so its 156,446 call rows have a different scope from either ledger attempt total and must not be summed as newly billed calls. The checker identifies 48 failed requests without usage in that export. Evidence: `audit-timeout-stop.json`, `audit-timeout-repair.json`, `audit-timeout-timing-and-budget.json`, `audit-timeout-shutdown-audit.json`, `audit-timeout-post-restart-timing.json`, and `run/run_summary.json`.
+
+A later operational observation at 05:45:50 UTC recorded 132 new successful calls covering 3,300 IDs, in addition to the 425 cached IDs, with no new failures. The latest 16 calls averaged 3.984 seconds. Eight workers were retained. This temporal recovery does not establish that the longer timeout caused the provider's latency to improve; final audit completion and accounting remain separate checks.
+
+## What improved after the pilot
+
+All development configurations below use the same 200 blind full GLM-5.3 reference judgments. They are not human-accuracy measurements.
+
+| Configuration | Topic agreement | Intent agreement |
+|---|---:|---:|
+| Earlier Lightning | 78.0% | 89.5% |
+| Earlier Decisions | 89.5% | 92.5% |
+| Hero initial, 5% fallback | 89.0% | 93.0% |
+| Selected hero, 15% fallback | 91.0% | 93.5% |
+| Fresh 1,000-review confirmation, 200 audited | 94.0% | 93.5% |
+| Hero run, 40,000 audited original IDs | 90.4675% | 93.0500% |
+
+The chosen change increased fallback coverage and risk eligibility while retaining whole-record decisions. The last two table rows use fresh, differently sized samples; they are not matched-record improvements over the development rows. A repeated verifier changed 3/200 topic and 3/200 intent judgments, demonstrating reference instability. [Pilot comparison and intervals](evals/hero-pilot/report.md) and the final 40,000-ID audit show the evidence separately. The final topic estimate was 0.5325 percentage points below the selected development result, and intent was 0.45 points lower; both point estimates still met the requested targets, subject to the uncertainty above. Additional model calls and higher spend do not themselves earn rubric credit.
+
+The selected fixed-100 cold run measured **$0.02360475**, **105 attempts**, and **41.9034 seconds**; its identical warm replay made **zero calls**, cost **$0**, and took **0.2137 seconds**. A separate credential-free replay from copied frozen release inputs reproduced those measurements (`validation/clean-release-calculator.json`). Saved gzip reranking and exact full-source cohort-regeneration receipts are `validation/pilot-rerank-validation.json` and `validation/selection-validation.json`. The release contains dated rates, the complete input IDs, usage, actual call outcomes, separate cold/warm summaries, and five passing replay invariants. The strict cost sensitivity scenario and operational forecast are retained as forecasts, not rewritten to match the eventual spend.
+
+## What should improve next
+
+The evidence supports four priorities for a subsequent version, rather than retroactively repairing this frozen evaluation:
+
+- **Resolve rubric boundaries and obtain a fresh blind human sample.** Complete the three missing golden topic/intent labels in a new annotation version, report that completion separately, and use a new untouched sample for a credible future accuracy estimate. Existing posthoc agreement is insufficient to establish the requested human-accuracy thresholds.
+- **Validate routing risk against observed errors.** The confident Premium/shuffle error and low human-reference discrepancy capture show that confidence-weighted fallback misses meaningful mistakes. Evaluate calibration and error capture on development data, retain a random independent audit, and test targeted billing/access/functional-impact consistency rules before freezing another version.
+- **Separate severity semantics from structural validation.** Add a clearly versioned check for complaint/severity-one inconsistency and measure severity against an explicit functional-impact rubric. Do not silently fill missing human severity values or rewrite this run's saved labels.
+- **Keep narrative claims mechanically constrained.** The editorial audit caught a false volume superlative and over-specific topic descriptions. Require checked aggregate-backed superlatives, retain raw model handoffs, and label example-derived interventions as hypotheses until finer memberships and prevalence are actually measured.
+
+## Setup and source data
+
+Requires Python 3.11+, Node.js 22+ for the web app, and `uv` or an equivalent Python environment. Dependencies are pinned in [uv.lock](uv.lock) and [web/package-lock.json](web/package-lock.json).
 
 ```sh
-spotify-pipeline prepare
+uv sync --frozen --extra dev --link-mode copy
+source .venv/bin/activate
 ```
 
-Preparation verifies all supplied file checksums, preserves six original field
-strings, profiles the complete source, writes a source-ID ledger, and creates
-`data/learning_1000.csv` and `data/selected_210000.csv`. Selection uses the course's
-seed and SHA-256 ordering. The latter CSV contains 210,013 rows including empties.
+The setup command uses the committed lockfile; a fresh installation was not rerun during final validation. Offline inspection, calculator replay, ranking and the course checker require no API credentials. Paid execution separately requires ignored `.env` values; copy [.env.example](.env.example), populate `OPENAI_API_KEY` and `NEBIUS_API_KEY`, and use `DATABASE_URL` only for database publication. The deployed API uses a server-side read-only database connection. Real credentials are never committed or included in artifacts.
 
-The unchanged course contract and zero-API checker are in
-[vendor/course](vendor/course/GRADING_CONTRACT.md).
+Download the instructor's [complete dataset ZIP](https://drive.google.com/file/d/1P0rUoAS_wVjp3BYKqXMEyD4u0uJP1Bvf/view) and extract its eleven files into `data/source/`. The source is the course's historical May 2022–November 2023 extract of BwandoWando's Spotify Google Store reviews, published as CC0. Source CSV SHA-256:
 
-## Human labels
+```text
+1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6
+```
 
-Open [the blind golden-label worksheet](evals/golden-labels.html). A person must
-label all 50 reviews before final evaluation; the form does not show predictions.
-It saves progress locally and exports labels. Keep the answer file out of prompt
-tuning and issue-discovery inputs.
+The source CSV is not committed. Recreate the hero cohort without model calls:
 
 ```sh
-spotify-pipeline evaluate --gold /path/to/human_labels.csv \
-  --records runs/final/records.jsonl --out evals/golden-results \
-  --human-labels-confirmed
+spotify-pipeline prepare --target 210000
+python -c 'from tools.run_hero import prepare; print(prepare())'
 ```
 
-Do not set the confirmation flag for model-generated labels. Verifier agreement
-is reported separately and is not human-label accuracy.
+The first command verifies source files and writes the original SHA-256-ordered cohort. The second selects its first 200,000 nonempty records and appends the 13 empty records. An offline reconstruction of the selection and writer from the complete source reproduced the exact hero CSV bytes. It writes `data/hero_200000.csv`; expected SHA-256:
 
-## Bounded pilot
+```text
+9ba77c9312b4c11146f3303eecdcd4dd3a92a50ae32244e31dbb81e89fc3cd5b
+```
 
-Paid execution requires an explicit flag. The pilot includes the real fixed
-100-review cold run, its warm replay, 500 reviews, then 1,000 reviews with an
-independent model comparison. It uses one shared $1.50 spending ceiling.
+Preserve original six-field strings and use the supplied row-hash convention. Missing app version alone does not remove a review. Non-selected source IDs remain outside the declared classification scope.
+
+## Inspect and reproduce the final evidence without API calls
+
+Download `spotify-hero-evidence.zip` from the final release and extract it into `evidence/`. The repository contains runnable code, dependency locks, prompts and the unchanged course checker; the ZIP contains the large saved outputs. ZIP-relative paths below are not uncommitted GitHub links.
+
+Reprice the measured cold-100 calls with the explicit hero projection settings:
 
 ```sh
-spotify-pipeline pilot --config config/nebius-pilot.json \
-  --execute-paid --budget 1.50 --workers 4 \
-  --out runs/my-pilot --db data/my-pilot-cache.sqlite3
+python - <<'PY'
+from pathlib import Path
+from spotify_pipeline.cost import calculate_cost
+report = calculate_cost(
+    Path('evidence/cost/pilot_calls.jsonl'),
+    Path('evidence/cost/rates.csv'),
+    output_dir=Path('work/hero-cost-replay'),
+    selected_reviews=200000, selected_unique_texts=152363,
+    verification_fraction=.20, fallback_fraction=.15,
+    spending_limit_usd=48,
+)
+print(report['measurements'])
+PY
 ```
 
-Each stage writes separate artifacts below the chosen output directory. The cold run uses one
-worker; the warm run reuses saved results and downstream handoffs. Inspect
-`learning_report.md`, per-case disagreement evidence, actual costs, and
-throughput before further work.
+Repeat with `evidence/cost/warm100/` for the warm run. Edit a copy of `rates.csv` to test prices. Doubling API rates must double the API subtotal without altering recorded time or local costs; changing projected volume must leave all pilot measurements unchanged. The historical generic CLI defaults describe the earlier experiment, so the explicit projection arguments above are intentional. The saved invariants are in `evals/hero-pilot/replay-validation.json` inside the ZIP.
 
-The recorded v5 pilot uses `data/pilot_v5_cache.sqlite3`; the CLI default is
-`data/pilot_cache.sqlite3`. A cold run rejects a
-populated cache. Completed stages are immutable and skipped on restart; partial
-stages resume against their original input, configuration, and cache. For a new
-configuration experiment, choose a fresh `--out` and `--db`; retain the shared
-spending ledger. Do not delete the ledger to reset an experiment's budget.
+Regenerate ranking from a working copy of the saved records and membership:
 
-The pilot stops between stages if classifications, independent verification, or
-billed usage remain unresolved. It ends at 1,000; expansion requires inspecting
-the learning package and making a separate run decision.
+```sh
+mkdir -p work/hero-rerank
+cp evidence/grading/records.jsonl.gz evidence/grading/membership.csv work/hero-rerank/
+spotify-pipeline rerank --run work/hero-rerank
+cmp evidence/grading/ranking.csv work/hero-rerank/ranking.csv
+cmp evidence/grading/claims.csv work/hero-rerank/claims.csv
+```
 
-The CLI also accepts an arbitrary six-column input CSV:
+The required baseline is `priority_score = severity_sum`, descending score and ascending issue ID on ties. Every complaint/cancellation belongs to one stable primary-topic issue. Counts retain all original reviews, including exact-text aliases. Means use decimal half-up rounding to six places. Group descriptions do not alter code-defined membership. Saved ranking and all issue-level memo numbers are checked against these calculations.
+
+Run the unmodified course checker after recreating the selected CSV:
+
+```sh
+python vendor/course/check_submission.py reference \
+  --full data/source/spotify_reviews_18months.csv \
+  --analysis data/hero_200000.csv --out work/hero-reference.json
+python vendor/course/check_submission.py check \
+  --reference work/hero-reference.json --submission evidence/grading \
+  --out work/hero-self-check.json
+```
+
+`records.jsonl.gz` contains both completed records and explicit quarantines. Saved historical cache-origin call evidence is distinguished from newly billed calls. Raw provider traces are privately backed up with coverage limits. The final-audit tail was downloaded and SHA-256 verified; the inventory records 18 private GitHub draft assets and five historically verified Drive bundles, with zero pending compacted TARs. It also retains 3,448 older offloaded request/response pairs and 38 request-only files locally; complete remote coverage of every raw trace is not claimed. The inventory is included as `validation/trace-backup-inventory.json`. The grader receives structured call evidence and saved role handoffs. Private Drive and unpublished GitHub backup assets are not public submission links. `publication-artifact-availability.json` lists 19 verified resident publication snapshots and no omitted proofs. Both maintenance files initially stalled by iCloud were successfully hydrated before final packaging; their originals remain intact. Required grading, cost, evaluation, recovery, timeout and final-validation evidence is included.
+
+## Run the staged pipeline and dashboard
+
+Paid execution is explicit and uses the shared spending ledger:
+
+```sh
+python tools/run_hero.py --execute-paid
+```
+
+The supervisor measures the required checkpoints, records separate role handoffs, and resumes saved work with the same configuration. [HERO_RUN.md](HERO_RUN.md) describes its operation. Do not reset the ledger or launch a second supervisor against the same state. The arbitrary-input program is also available:
 
 ```sh
 spotify-pipeline run --execute-paid --input /path/to/reviews.csv \
-  --config config/nebius-pilot.json \
-  --out runs/custom --db data/custom.sqlite3 --budget 1.50 \
-  --workers 1 --verify-count 10
+  --config config/hero.json --out runs/custom --db data/custom.sqlite3 \
+  --budget 1.50 --global-budget 48 --workers 1 --verify-count 20
 ```
 
-The operational global ceiling is $18, leaving $2 within the total $20 budget.
-All attempts, including failures, are logged. A shared ledger reserves estimated
-maximum in-flight cost before dispatch. Unknown timeout charges remain visible
-and must be reconciled; the ledger does not turn estimates into provider bills.
+Choose a verification count suitable for that input. The command above is an example for a small controlled run; it does not silently launch the hero cohort.
 
-## Architecture
-
-```mermaid
-flowchart LR
-    A[Original CSV + manifest] --> B[Code: profile / hash / select / deduplicate]
-    B --> C[Lightning: topic / intent / severity / sentiment]
-    C --> D[Code: validate / exact quote / cache / checkpoint]
-    D --> E[GPT-OSS: capped difficult cases]
-    D --> F[GPT-OSS: blind independent verifier]
-    E --> G[Saved enriched records]
-    D --> G
-    G --> H[Code membership + separate grouping model]
-    H --> I[Code ranking and numerical claims]
-    I --> J[GLM memo model + claim checks]
-    G --> K[(Postgres)]
-    I --> K
-    J --> K
-    K --> L[Next.js deployed read-only API]
-    L --> M[Dashboard with review-level evidence]
-```
-
-- **Enrich:** Lightning with GPT-OSS fallback capped at five percent of distinct
-  texts. Only original review text informs classification; ratings stay
-  analysis metadata. Requests contain at most 25 reviews.
-- **Verify:** original text and rubric, without first-pass predictions.
-  GPT-OSS fallback and verification use batches of at most ten. Because the
-  fallback and verifier share a model, their agreement must be interpreted
-  separately from first-pass agreement.
-- **Group:** stable `issue-<topic>` membership for complaints/cancellations,
-  separately prompted issue descriptions from bounded evidence.
-- **Memo:** GLM receives saved ranking, claim IDs, and bounded evidence. Dynamic
-  schemas restrict allowed identifiers and numeral-free prose; code checks
-  cross-issue references and renders numerical claims. Semantic review remains
-  necessary even when structural checks pass.
-
-Every role has separate prompts, inputs, outputs, and call evidence. Code owns
-accounting and arithmetic. Completed or quarantined records preserve original
-IDs and source hashes. Direct exact-text reuse never merges business counts.
-
-## Offline reproducibility and calculator
-
-Opening/importing the calculator does not require credentials or make calls.
-Prices are editable in [config/rates.csv](config/rates.csv).
+The application in [web/](web/) is deployed to Vercel and reads saved Neon Postgres data through read-only API routes. Dashboard visits never invoke models. The final publication validates the course export through the documented checker acceptance gate, checks the 700 MB storage gate inside the database transaction, and reconciles the hosted result before publishing the release. The database import contains **200,013 records and eight issues** and occupies **269,041,664 bytes (269.04 MB)**, below the 700 MB gate.
 
 ```sh
-spotify-pipeline replay --calls runs/pilot/100-cold/calls.jsonl \
-  --rates config/rates.csv --out cost/replay
-spotify-pipeline rerank --run runs/pilot/1000
-spotify-pipeline learning-report --pilot runs/pilot
-```
-
-The required baseline is `priority_score = severity_sum`, ordered descending
-score and ascending issue ID. Each complaint/cancellation contributes once to
-one issue. Means use decimal half-up rounding to six places.
-
-The calculator distinguishes reported usage, estimated/missing usage, cached-input
-categories, one-time overhead, and measured wall time. Doubling rates must double
-only API spend; changing projected volume must not alter pilot measurements.
-
-## Export and check
-
-```sh
-spotify-pipeline export --run runs/final --out grading \
-  --analysis data/selected_210000.csv
-python vendor/course/check_submission.py reference \
-  --full data/source/spotify_reviews_18months.csv \
-  --analysis data/selected_210000.csv --out data/local-reference.json
-python vendor/course/check_submission.py check \
-  --reference data/local-reference.json --submission grading \
-  --out data/self-check.json
-```
-
-The checker supports a declared subset while still checking the full-source
-profile. This follows the amended minimum of 100,000 reviews. The README and
-dashboard must report the actual selected/classified scope, rather than imply
-that all 660,609 nonempty source reviews were classified.
-
-Actual current-run calls and historical cache-origin evidence are separate:
-reusing a saved result is not a new billed call. Large grading exports, source
-selection artifacts, and run evidence can be distributed as GitHub release
-assets with checksums.
-
-## Dashboard deployment
-
-The Next.js app in `web/` exposes database-backed overview, ranking, review
-evidence, and saved recommendation APIs. Missing database/results produce an
-explicit unavailable state, never sample business figures.
-
-```sh
-spotify-pipeline publish-data --run runs/pilot/1000
 cd web
 npm ci
 npm run build
 vercel deploy
 ```
 
-Configure the hosted `DATABASE_READONLY_URL` in Vercel server-side environment
-variables. Bulk import uses the local pipeline's writer connection. The public
-app makes no model calls and does not offer public write endpoints.
+Configure a fresh deployment's server-side `DATABASE_READONLY_URL` and provision the database using the setup in the repository. A database writer connection is used only by the pipeline import. Public endpoints expose overview, issues, cursor-paginated issue reviews, original review details, recommendations, and evaluation. `publication-reconciliation.json` checks counts, ranking, claims, recommendations, every issue-membership page, sampled original/alias/quarantine provenance, and stable run identity. The final unauthenticated reconciliation passed at 06:09:26 UTC on October 21: 1,784 GET requests, zero retries, all 87,897 members across 1,761 pages, and 19 sampled review details including original, alias and quarantine provenance. All eight issues, 32 claims, recommendations, overview counts, independent-audit metadata and stable run identity matched saved outputs. Non-issue detail endpoints are sampled rather than exhaustively compared. The display update was deployed from `01527c3f10b58b7acd68ca0e3832f41ae5ddd6d5`; remote TypeScript and production build passed. Thirty-three focused web tests passed, and five separate unauthenticated HTTP checks returned 200. Rendered browser inspection confirmed the 200,000/13/0 counts, total spend and unresolved hold, 47/50 human-reference coverage, 40,000-ID model agreement, categorical-disagreement definition, and the original-review dialog's labels/source hash/provenance. The receipt is `web-deployment.json`, with its remote log at `validation/vercel-build.log`. No fresh sleep/wake measurement was performed for the hero database. The saved pilot sleep/wake check is historical evidence, not a new 200,000-review observation.
 
-The application is connected to Neon with a dedicated read-only role. A fresh
-deployment needs its own credentials. Local PostgreSQL tests do not establish
-final-volume capacity. Hosted reconciliation and observed sleep/wake recovery
-are saved for the 1,000-review pilot. Its application tables occupy 1,425,408 bytes;
-a simple 210,000-review projection is 299,335,680 bytes, below the 700 MB gate,
-but that projection must be refreshed at the 10,000-review checkpoint.
+## Rubric evidence map
 
-## Evaluation and rubric map
+All artifact paths in this table are relative to the final evidence ZIP unless they are repository links.
 
-| Rubric evidence | Location |
+| Criterion | Inspectable evidence |
 |---|---|
-| Code, setup, architecture, provenance | This README, `src/`, `prompts/`, `config/` |
-| Human golden labels and per-field evaluation | `evals/` after human labeling |
-| Independent verification and inspected failures | Run `verification.jsonl`, `disagreements.jsonl`, inspection sheet |
-| Cold/warm calculator and editable rates | `cost/`, pilot run folders, `config/rates.csv` |
-| Retry, spending, injection, planted-error tests | `tests/`; synthetic tests are explicitly separate |
-| Actual interruption/resume | Run checkpoints plus terminal recording after execution |
-| Classification and source coverage | `grading/`, source manifests and checker report |
-| Deterministic ranking and checked memo | Run membership/ranking/claims/memo |
-| Database-backed working dashboard | `web/`, live URL, hosted reconciliation evidence |
+| Deliverable quality: accessible code, setup and artifacts | This README, [source](src/), [dependency lock](uv.lock), blank environment template, public dashboard, final release and checksum |
+| Deliverable quality: architecture, shared schema and provenance | Diagram above, [labels](config/labels.json), [prompts](prompts/), `run/configuration.json`, `grading/records.jsonl.gz`, `grading/calls.jsonl.gz`, saved `handoffs/` |
+| Deliverable quality: memo numbers linked to source calculations | `memo.md`, `grading/claims.csv`, `grading/ranking.csv`, `grading/membership.csv`, source/quote hashes, end-to-end review trace above |
+| Deliverable quality: recommendation, alternatives and limits | `memo.md`, `recommendations.json`, interpretation limits below, inspected failure |
+| Testing: human labels, field comparisons and error analysis | `evals/hero-human/report.json` and `.md`; sparse posthoc reference, field denominators and confusion counts; private labels excluded; topic/intent coverage 47/50, not 50 completed golden labels |
+| Testing: independent verifier, planted error and injection | `evals/hero/evaluation.json`, verification/disagreement JSONL; [historical live synthetic evidence](evals/synthetic-live/README.md), [tests](tests/); distinguish historical-model tests from final-model results |
+| Testing: cold/warm pilot, calculator, retry/spend/recovery | `cost/`, `cost/warm100/`, `evals/hero-pilot/replay-validation.json`, `recovery/`, `recovery.cast`, operational proofs, [tests](tests/) |
+| Working result: full ingestion and declared classification coverage | `grading/ingestion.json`, `grading/run.json`, `grading/records.jsonl.gz`, `selection.json`, `checker.json` |
+| Working result: staged program, bounded calls, handoffs and resume | [supervisor](tools/run_hero.py), [engine](src/spotify_pipeline/engine.py), `handoffs/`, call evidence, `grading/checkpoint_before.json`, `grading/checkpoint_after.json`, `grading-checkpoint-provenance.json`, recorded recovery |
+| Working result: reproducible ranking and deployed database-backed recommendations | Offline commands above, membership/ranking/claims, `database-publication.json`, `publication-reconciliation.json`, live dashboard and API |
 
-```sh
-python -m pytest
-cd web && npm run build
-```
+System tests include malformed outputs, missing text, instruction injection, planted wrong labels, transient failures, exhausted retries, spending admission, and interruption/resume. Synthetic records are excluded from business aggregates. The final focused Python run passed **127 test functions and 10 subtests (137 JUnit-reported cases), with zero failures, errors or skips**. It covers checker acceptance, editorial guards, operational evidence, timeout controls, compression/short reads, admission indexing, trace backup, database publication safeguards and API reconciliation. This was credential-free synthetic testing with fake HTTP transports and temporary databases; it was neither a full historical-suite rerun nor new live-provider behavior testing. The exact receipt and log are `validation/focused-tests.json` and `.txt`. A separate 22-case packaging/gzip regression run passed after the final resident-publication hardening (`validation/packaging-recovery-tests.json`, which also preserves the preceding seven-case check). These overlapping focused runs are not added to the earlier 137 count as a new full suite. Five calculator replay invariants passed separately. Historical full-suite counts and live synthetic model tests remain dated evidence rather than being presented as new hero-model results. The real recovery recording shows persisted work, interruption, and new completed work under the same configuration; it is distinct from a simulated unit test.
 
-Use `tools/record_command.py` to record a real recovery demonstration. A synthetic
-unit test is not a substitute for recording actual saved work and paid-run resume.
+## Interpretation limits and historical evidence
 
-```sh
-python tools/record_command.py --out runs/recovery.cast -- \
-  bash tools/recovery_demo.sh --execute-paid
-```
+These are self-selected historical app-store reviews, not a representative sample of Spotify customers. Cancellation wording expresses intent rather than confirmed churn. The data has no revenue, verified account tier, or causal retention outcome. Stars and angry language do not define severity. The first and last calendar months are partial; trend comparisons require compatible periods and denominators.
 
-## Interpretation limits
+Primary-topic grouping is a transparent baseline, not a discovered fine-grained issue taxonomy. Severe but rare failures and high-volume annoyances can rank differently under other objectives. Incorrect topic or severity judgments can change the winning issue, so the recommendation must be read alongside the human and independent-model disagreement evidence. Whole-review quotes establish source membership, not the correctness of the interpretation. Entity extraction is conservative and source-matched; sparse human entity annotations do not establish entity accuracy.
 
-These are self-selected historical app-store reviews, not a random customer
-sample. Cancellation language is stated intent, not observed churn. The dataset
-has no revenue, verified subscription tier, or causal retention outcomes.
-Review-star ratings do not define severity. The first and last calendar months
-are partial; any trend comparison must show appropriate denominators.
+Earlier reports are retained as dated experiment history, not the current run's status: [initial learning report](docs/learning-report.md), [v6 audit](docs/audit-and-next-run-v6.md), [original pilot release](https://github.com/shahdevansh/spotify-review-pipeline/releases/tag/v0.1.0-pilot), and [evaluation release](https://github.com/shahdevansh/spotify-review-pipeline/releases/tag/v0.2.0-evaluation). Their old budgets, models, scope, checker outcomes and database counts must not be mistaken for hero-v1 results.
 
-The analysis asks where product effort should go at the end of the historical
-window. Recommendations must remain grounded in saved issue counts, severity,
-and traceable review evidence.
+Submit this public repository URL through the course portal. Repository publication does not itself submit the assignment.

@@ -1,3 +1,5 @@
+> **Historical v5 pilot validation.** Counts, labels, costs, deployment state and test totals below describe that saved experiment. They are not the final hero result. See the [current project README](../README.md) for the final 200,000-review evidence, actual checker exception, independent audit and human-reference results. Historical validation files are retained unchanged.
+
 # Implementation validation
 
 This evidence distinguishes software correctness, actual provider execution and
