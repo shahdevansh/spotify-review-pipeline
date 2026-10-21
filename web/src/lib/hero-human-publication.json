@@ -1,0 +1,16 @@
+{
+  "schema_version": "spotify-hero-human-reference-link-v1",
+  "publication": {
+    "status": "verified_public_aggregate",
+    "run_id": "run-07e2cb4b0e3d9be0",
+    "label_config": "spotify-f84b2a9afdaa455fd81d26077cab1ccebc7a62bb1b46bab461d9ae593bcb584a",
+    "github_commit": "55b60fe5512f19a593315110b187c820683dba5e",
+    "report_sha256": "1222b0bbbc7229535870553707f1a9ebc928d1e0fba962bfbe8cae209157f585",
+    "prediction_sha256": "8c23941a34abf7c09e279cb6dc49f0778638b25cc7e6a2a05f83b30daee4246c",
+    "source_sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6",
+    "golden_rows": 50,
+    "golden_topic_labels": 47,
+    "golden_intent_labels": 47,
+    "selected_reference_rows": 99
+  }
+}

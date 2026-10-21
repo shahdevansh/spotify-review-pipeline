@@ -1,4 +1,5 @@
 import type { PilotAuditReport } from "../lib/evaluation-report";
+import { humanReferenceCoverage, type HumanReferenceLink } from "../lib/human-reference";
 import {
   comparisonMetricDisplay,
   confidencePresentation,
@@ -6,6 +7,7 @@ import {
   humanBenchmarkSummary,
   legacyModelComparison,
   qualityPresentation,
+  savedProjectSpending,
   utcTimestamp,
   type DisplayComparisonMetric,
 } from "../lib/evaluation-view";
@@ -19,13 +21,15 @@ const title = (value: string) => value.replace(/^issue-/, "").replaceAll("_", " 
 export function QualityGateNotice({
   report,
   legacyEvaluation = null,
+  humanReference = null,
   compact = false,
 }: {
   report: PilotAuditReport | null;
   legacyEvaluation?: unknown;
+  humanReference?: HumanReferenceLink | null;
   compact?: boolean;
 }) {
-  const quality = qualityPresentation(report?.quality_gate || null, legacyEvaluation);
+  const quality = qualityPresentation(report?.quality_gate || null, legacyEvaluation, humanReference);
   return (
     <div className={`quality-notice quality-${quality.tone}`} role="status">
       <div>
@@ -41,9 +45,19 @@ export function QualityGateNotice({
   );
 }
 
-export function CostSnapshotContext({ report }: { report: PilotAuditReport | null }) {
+export function CostSnapshotContext({ report, globalSpending = null }: { report: PilotAuditReport | null; globalSpending?: unknown }) {
   if (!report) {
-    return <p>Project ledger snapshot date and scope are not published in a matched evaluation report. The incremental run amount above is a separate, immutable measurement.</p>;
+    const snapshot = savedProjectSpending(globalSpending);
+    return snapshot ? <>
+      <p><strong>Project ledger at saved run snapshot</strong></p>
+      <dl className="cost-snapshot-grid">
+        <div><dt>Recorded nominal usage</dt><dd>{money(snapshot.spent)}</dd></div>
+        <div><dt>Unknown-charge hold</dt><dd>{money(snapshot.unknownHold)}</dd></div>
+        <div><dt>In-flight reservations</dt><dd>{money(snapshot.reserved)}</dd></div>
+        <div><dt>Committed total</dt><dd>{money(snapshot.committed)}</dd></div>
+      </dl>
+      <p>Saved project-wide accounting includes other experiments and uncertain-charge holds. These are nominal usage estimates at the saved snapshot, not a current provider balance or reconciled cash bill.</p>
+    </> : <p>Project ledger amounts are not available in this API response. Consult the final release evidence for project accounting. The saved-run amount above is separate from full-project totals.</p>;
   }
   const snapshot = report.cost_snapshot;
   return (
@@ -91,10 +105,12 @@ export default function EvaluationPanel({
   report,
   legacyEvaluation,
   warning,
+  humanReference = null,
 }: {
   report: PilotAuditReport | null;
   legacyEvaluation: Record<string, unknown> | null;
   warning: string | null;
+  humanReference?: HumanReferenceLink | null;
 }) {
   const human = humanBenchmarkSummary(report?.human || null);
   const legacy = report ? null : legacyModelComparison(legacyEvaluation);
@@ -110,11 +126,21 @@ export default function EvaluationPanel({
         <div><p className="eyebrow section-eyebrow">03 / EVALUATION</p><h2 id="evaluation-title">What has actually been established</h2><p>Human labels, model comparisons, development inspection, and integrity checks answer different questions.</p></div>
         <span className="subtle-label">{report ? "Versioned, run-matched report" : legacy ? "Saved model comparison available" : "Evaluation report not published"}</span>
       </div>
-      <QualityGateNotice report={report} legacyEvaluation={legacyEvaluation} />
+      <QualityGateNotice report={report} legacyEvaluation={legacyEvaluation} humanReference={humanReference} />
       {warning && <p className="evaluation-publication-warning" role="status">{warning}</p>}
       {report && <p className="evaluation-identity"><span className="mono">{report.report_id}</span><span>Generated {utcTimestamp(report.generated_at)}</span><span>Run <span className="mono">{report.run_id}</span></span></p>}
 
-      <article className="panel evaluation-card">
+      {humanReference ? <article className="panel evaluation-card">
+        <div className="panel-heading"><h3>Human reference evaluation</h3><span className="outcome outcome-unknown">Posthoc adjudicated · Sparse labels</span></div>
+        <div className="evaluation-card-body">
+          <p className="evaluation-lead">Agreement with a corrected human reference is published separately. <strong>This is not blind population accuracy.</strong></p>
+          <p>The reference was corrected after earlier model predictions were inspected. Blank fields remain unannotated; severity was selectively assigned to functional issues.</p>
+          <p>{humanReferenceCoverage(humanReference)}</p>
+          <p>{count(humanReference.selected_reference_rows)} worksheet records are inside the selected hero cohort. Each field has its own evaluated denominator; the report separates golden reviews from additional reviews.</p>
+          <p><a className="text-button" href={humanReference.report_url} target="_blank" rel="noopener noreferrer">Read the verified aggregate human evaluation →</a></p>
+          <p className="evaluation-note">The linked snapshot contains field agreement, error counts, missingness, and limitations. No individual human answers or notes are exposed. Model agreement below remains a separate diagnostic; recommendations remain provisional.</p>
+        </div>
+      </article> : <article className="panel evaluation-card">
         <div className="panel-heading"><h3>Human benchmark</h3><span className="outcome outcome-unknown">{human.label}</span></div>
         <div className="evaluation-card-body">
           <p className="evaluation-lead">Accuracy against human labels: <strong>{human.metric.toLowerCase()}.</strong></p>
@@ -124,7 +150,7 @@ export default function EvaluationPanel({
           </> : <p>Human label counts and results are not published in a matched versioned report. Model agreement cannot substitute for human accuracy.</p>}
           <p className="evaluation-note">No human answer rows are exposed here. Pending labels are not zero errors, and no accuracy score has been inferred.</p>
         </div>
-      </article>
+      </article>}
 
       <article className="panel evaluation-card">
         <div className="panel-heading"><h3>Blind model comparison</h3><span className="tag">Agreement, not accuracy</span></div>
@@ -132,15 +158,15 @@ export default function EvaluationPanel({
           {comparison ? <>
             <p>Verifier: <strong>{comparison.verifier_provider} · {comparison.verifier_model}</strong>. Answer-blind protocol: <strong>{comparison.answer_blind ? "reported" : "not established"}</strong>. {count(report?.coverage.compared)} original review IDs compared.</p>
             {comparison.shared_fallback_verifier_model && <p className="evaluation-caution">Escalation and verification use the same model, {comparison.verifier_model}. Their errors may be correlated; increased agreement after escalation does not establish increased accuracy.</p>}
-          </> : legacy ? <p>Legacy saved comparison: {count(legacy.verified)} returned verifier entries; {count(legacy.comparable)} comparable completed reviews. A versioned definition and quality decision have not been published.</p> : <p>No recognized model comparison has been published for this run.</p>}
+          </> : legacy ? <p>{legacy.format === "hero_categorical" ? "Compact saved model comparison" : "Legacy saved comparison"}: {count(legacy.verified)} returned verifier entries; {count(legacy.comparable)} comparable completed reviews. {legacy.format === "hero_categorical" ? <>Methodology and the saved quality decision are in the <a href="https://github.com/shahdevansh/spotify-review-pipeline/releases/tag/hero-v1" target="_blank" rel="noopener noreferrer">published hero evidence</a>.</> : "A versioned definition and quality decision have not been published."}</p> : <p>No recognized model comparison has been published for this run.</p>}
         </div>
         {comparison?.status === "compared" ? <ComparisonTable metrics={comparison.metrics} /> : legacy ? <ComparisonTable metrics={legacy.metrics} /> : <p className="evaluation-empty">No model-comparison measurements available.</p>}
-        <p className="method-note">Initial labels precede escalation; final labels include any escalated answers. Exact sentiment agreement means exact numeric equality. Mean absolute differences use comparable entries; each metric retains its published denominator.</p>
+        <p className="method-note">{legacy?.format === "hero_categorical" ? "This compact summary publishes final topic, intent, and severity agreement only, with saved match counts and denominators. Sentiment and review-flag agreement are not measured in this summary. Initial labels are not reported here." : "Initial labels precede escalation; final labels include any escalated answers. Exact sentiment agreement means exact numeric equality. Mean absolute differences use comparable entries; each metric retains its published denominator."}</p>
         {disagreements.length > 0 && <div className="disagreement-list">
           <h4>Disagreement definitions</h4>
           {disagreements.map((metric) => <div key={metric.id} className={operational(metric.id) ? "primary-disagreement" : ""}><div><strong>{operational(metric.id) ? "Operational disagreements" : metric.label}</strong><span>{formatRatio(metric.count, metric.denominator)}</span></div><p>{metric.definition}</p></div>)}
         </div>}
-        {legacy && <div className="disagreement-list"><h4>Legacy flag-inclusive disagreement</h4><p>Initial: {legacy.initialDisagreements === null ? "Not published" : `${count(legacy.initialDisagreements)}/${count(legacy.verified)}`}. Final: {legacy.finalDisagreements === null ? "Not published" : `${count(legacy.finalDisagreements)}/${count(legacy.verified)}`}.</p><p>Any exact topic, intent, severity, sentiment, or review-flag difference; non-comparable entries count as differences in this legacy export. These are not human errors or the operational sentiment-threshold metric.</p><p>Fallback and verifier may share a model; check the saved model table. Shared-model agreement can conceal correlated errors.</p><p>Calibrated confidence has not been published. Review flags are uncalibrated; an absent flag does not establish correctness.</p></div>}
+        {legacy && <div className="disagreement-list"><h4>{legacy.format === "hero_categorical" ? "Categorical model disagreement" : "Legacy flag-inclusive disagreement"}</h4><p>{legacy.format !== "hero_categorical" && <>Initial: {legacy.initialDisagreements === null ? "Not published" : `${count(legacy.initialDisagreements)}/${count(legacy.verified)}`}. </>}Final: {legacy.finalDisagreements === null ? "Not published" : `${count(legacy.finalDisagreements)}/${count(legacy.verified)}`}.</p><p>{legacy.format === "hero_categorical" ? "Any exact topic, intent, or severity difference, including a missing enrichment when recorded in the saved differences. This count excludes sentiment and review flags. The broader stage audit also counts sentiment absolute error above 0.25 and is a different measure." : "Any exact topic, intent, severity, sentiment, or review-flag difference; non-comparable entries count as differences in this legacy export. These are not human errors or the operational sentiment-threshold metric."}</p><p>Fallback and verifier may share a model family; check the saved model table. Correlated model errors can conceal quality problems.</p><p>Calibrated confidence has not been published. Review flags are uncalibrated; an absent flag does not establish correctness.</p></div>}
       </article>
 
       {report && <>

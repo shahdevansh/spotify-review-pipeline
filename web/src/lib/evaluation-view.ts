@@ -5,6 +5,7 @@ import {
   type EvaluationResponse,
   type PilotAuditReport,
 } from "./evaluation-report.ts";
+import type { HumanReferenceLink } from "./human-reference.ts";
 
 const integer = new Intl.NumberFormat("en-US");
 const finite = (value: unknown): value is number =>
@@ -14,7 +15,7 @@ const object = (value: unknown): Record<string, unknown> =>
     ? value as Record<string, unknown> : {};
 const numberOrNull = (value: unknown): number | null => finite(value) ? value : null;
 
-export function qualityPresentation(gate: PilotAuditReport["quality_gate"] | null, legacyEvaluation: unknown = null) {
+export function qualityPresentation(gate: PilotAuditReport["quality_gate"] | null, legacyEvaluation: unknown = null, humanReference: HumanReferenceLink | null = null) {
   if (gate?.status === "hold") {
     return {
       status: "hold" as const,
@@ -42,8 +43,10 @@ export function qualityPresentation(gate: PilotAuditReport["quality_gate"] | nul
     return {
       status: "model_verification_available" as const,
       tone: "neutral" as const,
-      label: "Model verification published · Human accuracy not evaluated",
-      summary: `Saved independent model comparison covers ${integer.format(comparison.verified)} original review IDs. Human accuracy is not established by model agreement; no run-matched human benchmark is published here.`,
+      label: humanReference ? "Model verification and adjudicated human reference published" : "Model verification published · Human accuracy not evaluated",
+      summary: humanReference
+        ? `Saved independent model comparison covers ${integer.format(comparison.verified)} original review IDs. A separate sparse, posthoc adjudicated human reference is linked below. Neither result establishes blind population accuracy.`
+        : `Saved independent model comparison covers ${integer.format(comparison.verified)} original review IDs. Human accuracy is not established by model agreement; no run-matched human benchmark is published here.`,
       provisional: true,
     };
   }
@@ -191,7 +194,7 @@ export function matchedEvaluation(
   if (!response || response.status !== "ready" || !response.report) {
     return {
       report: null,
-      warning: "Versioned evaluation report not published or unavailable. Any legacy comparison below remains model agreement only.",
+      warning: "Versioned pilot-audit overlay not published or unavailable. Saved model agreement and any linked human-reference report remain separate evidence.",
     };
   }
   if (response.run_id !== run.run_id || response.label_config !== run.label_config ||
@@ -211,6 +214,7 @@ export function matchedEvaluation(
 }
 
 export type LegacyComparison = {
+  format: "hero_categorical" | "legacy_flag_inclusive";
   metrics: DisplayComparisonMetric[];
   verified: number | null;
   comparable: number | null;
@@ -236,6 +240,20 @@ export function legacyModelComparison(value: unknown): LegacyComparison | null {
   const comparable = numberOrNull(legacy.comparable_count);
   const final = object(legacy.field_agreement);
   const initial = object(legacy.initial_model_field_agreement);
+  const categoricalFields = ["topic", "intent", "severity"];
+  const categoricalMarker = Array.isArray(legacy.limitations) && legacy.limitations.includes("Sentiment and review-flag agreement are not measured by this summary.");
+  const heroCategorical = legacy.n === verified && finite(verified) && verified > 0 && Number.isInteger(verified) &&
+    legacy.reference === "blind independent model; not human ground truth" && legacy.ground_truth === false &&
+    categoricalMarker &&
+    Object.keys(final).length === 3 && categoricalFields.every((field) => {
+      const metric = object(legacy[field]);
+      return finite(metric.matches) && Number.isInteger(metric.matches) && metric.matches >= 0 && metric.matches <= verified &&
+        metric.denominator === verified && finite(metric.agreement) && metric.agreement === final[field] &&
+        Math.abs(metric.agreement - metric.matches / verified) < 1e-10;
+    });
+  if (categoricalMarker && (!heroCategorical || !finite(comparable) || !Number.isInteger(comparable) || comparable < 0 || comparable > verified! ||
+      !finite(legacy.disagreement_count) || !Number.isInteger(legacy.disagreement_count) ||
+      legacy.disagreement_count < 0 || legacy.disagreement_count > verified!)) return null;
   const fields = [
     ["topic", "Topic exact agreement"],
     ["intent", "Intent exact agreement"],
@@ -243,13 +261,15 @@ export function legacyModelComparison(value: unknown): LegacyComparison | null {
     ["sentiment", "Sentiment exact numeric equality"],
     ["needs_review", "Review-flag exact agreement"],
   ];
-  const metrics: DisplayComparisonMetric[] = fields.map(([id, label]) => ({
-    id, label, initial_numerator: null, final_numerator: null,
+  const metrics: DisplayComparisonMetric[] = (heroCategorical ? fields.slice(0, 3) : fields).map(([id, label]) => ({
+    id, label, initial_numerator: null, final_numerator: heroCategorical ? numberOrNull(object(legacy[id]).matches) : null,
     denominator: verified, unit: "fraction",
-    initial_value: numberOrNull(initial[id]), final_value: numberOrNull(final[id]),
-    definition: "Exact equality against the blind verifier. Denominator is returned verifier entries; unavailable comparisons do not count as agreements. Numerators were not published in this legacy report.",
+    initial_value: heroCategorical ? null : numberOrNull(initial[id]), final_value: numberOrNull(final[id]),
+    definition: heroCategorical
+      ? "Exact categorical equality against the blind independent verifier. The numerator is the saved match count; the denominator includes all returned verifier entries, including unavailable comparisons."
+      : "Exact equality against the blind verifier. Denominator is returned verifier entries; unavailable comparisons do not count as agreements. Numerators were not published in this legacy report.",
   }));
-  for (const [field, unit] of [["severity", "severity_points"], ["sentiment", "sentiment_points"]] as const) {
+  for (const [field, unit] of (heroCategorical ? [] : [["severity", "severity_points"], ["sentiment", "sentiment_points"]] as const)) {
     metrics.push({
       id: `${field}_difference`, label: `${field === "severity" ? "Severity" : "Sentiment"} mean absolute difference`,
       initial_numerator: null, final_numerator: null, denominator: comparable, unit,
@@ -258,10 +278,23 @@ export function legacyModelComparison(value: unknown): LegacyComparison | null {
     });
   }
   return {
-    metrics, verified, comparable,
+    format: heroCategorical ? "hero_categorical" : "legacy_flag_inclusive", metrics, verified, comparable,
     finalDisagreements: numberOrNull(legacy.disagreement_count),
     initialDisagreements: numberOrNull(legacy.initial_disagreement_count),
   };
+}
+
+/** Saved project totals are usage accounting, not a provider balance or live bill. */
+export function savedProjectSpending(value: unknown): {
+  spent: number; unknownHold: number; reserved: number; committed: number;
+} | null {
+  const snapshot = object(value);
+  const spent = snapshot.spent_usd, unknownHold = snapshot.unknown_charge_hold_usd;
+  const reserved = snapshot.reserved_usd, committed = snapshot.committed_usd;
+  if (![spent, unknownHold, reserved, committed].every((number) => finite(number) && number >= 0)) return null;
+  if (!finite(spent) || !finite(unknownHold) || !finite(reserved) || !finite(committed) ||
+      Math.abs(committed - spent - unknownHold - reserved) > 1e-8) return null;
+  return { spent, unknownHold, reserved, committed };
 }
 
 export function publicPredictionProvenance(value: unknown): {

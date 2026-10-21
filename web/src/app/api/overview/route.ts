@@ -1,11 +1,12 @@
 import { currentRun, readTransaction } from "@/lib/database";
 import { apiResponse, json, noRun } from "@/lib/responses";
 import { publicRunSummary } from "@/lib/public-data";
+import { publishedHumanReference } from "@/lib/human-reference";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const empty = { run: null, source: null, evaluation: null, claims: [], storage: null, scope: null };
+const empty = { run: null, source: null, evaluation: null, human_reference: null, claims: [], storage: null, scope: null };
 
 export async function GET() {
   return apiResponse(empty, () => readTransaction(async (client) => {
@@ -35,11 +36,12 @@ export async function GET() {
       },
       source: stored.source_profile ?? { total_rows: null, nonempty_rows: null, empty_rows: null },
       evaluation: stored.evaluation,
+      human_reference: publishedHumanReference({ ...stored.summary, run_id: stored.run_id, imported_rows: stored.imported_rows }, stored.source_profile),
       claims,
       storage: {
         bytes,
         projected_bytes_210k: inputCount > 0 ? Math.ceil(bytes * 210_000 / inputCount) : null,
-        projection_note: "Linear estimate from current table and index size; verify again at 10,000 reviews.",
+        projection_note: "Linear estimate from the current table and index size; actual future storage must be measured.",
       },
       scope: inputCount <= 1_000 ? "pilot" : inputCount <= 10_000 ? "development" : "selected-cohort",
     });

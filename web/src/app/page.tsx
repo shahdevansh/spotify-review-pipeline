@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { savedModelRoles } from "../lib/run-display";
 import type { EvaluationResponse } from "../lib/evaluation-report";
+import type { HumanReferenceLink } from "../lib/human-reference";
 import { matchedEvaluation, publicPredictionProvenance, responseMatchesRun } from "../lib/evaluation-view";
 import EvaluationPanel, { CostSnapshotContext, QualityGateNotice } from "../components/evaluation-panel";
 
@@ -45,6 +46,7 @@ type Overview = Envelope & {
     empty_rows: number | null;
   } | null;
   evaluation: Record<string, unknown> | null;
+  human_reference?: HumanReferenceLink | null;
   claims: Claim[];
   storage?: { bytes: number | null; projected_bytes_210k: number | null };
   scope?: string;
@@ -368,15 +370,15 @@ export default function Dashboard() {
         {error && <div className="notice notice-error" role="alert"><div><strong>We couldn’t load this run.</strong><p>{error}</p></div><button className="button button-small" onClick={() => setLoadVersion((version) => version + 1)}>Try again</button></div>}
         {!loading && !error && overview?.status !== "ready" && <div className="notice" role="status"><Icon name="database" /><div><strong>No results have been published yet.</strong><p>{overview?.message || "This dashboard displays saved pipeline results. No review counts or model outcomes are simulated."}</p></div><button className="text-button" onClick={() => setLoadVersion((version) => version + 1)}>Refresh <Icon name="arrow" size={16} /></button></div>}
         {loading && <p className="loading-message" role="status">Reading saved analysis…</p>}
-        {ready && <QualityGateNotice report={evaluation.report} legacyEvaluation={overview?.evaluation} compact />}
+        {ready && <QualityGateNotice report={evaluation.report} legacyEvaluation={overview?.evaluation} humanReference={overview?.human_reference} compact />}
 
         <section className="metrics-grid" aria-label="Run measurements">
           <Metric label="Selected input" value={count(run?.input_count)} detail="Records in this run’s analysis scope" accent />
-          <Metric label="API usage · incremental this run" value={dollars(run?.api_cost_usd)} detail={run?.api_cost_complete === false ? "Nominal USD · incomplete; uncertain charges excluded" : "Nominal USD at saved rates · cash spend unverified"} />
+          <Metric label="API usage · saved run" value={dollars(run?.api_cost_usd)} detail={run?.api_cost_complete === false ? "Nominal USD · incomplete; uncertain charges excluded" : "Nominal USD at saved rates · cash spend unverified"} />
           <Metric label="Exact-text duplicates" value={count(exactTextDuplicates)} detail={run ? `${count(run.unique_texts)} distinct texts · ${count(run.cache_hits)} saved results reused` : "Duplicates within this selected input"} />
-          <Metric label="Pipeline wall time" value={duration(run?.wall_seconds)} detail={run ? `${count(run.requests)} requests · ${count(run.attempts)} attempts` : "Measured execution time"} />
+          <Metric label="Latest invocation wall time" value={duration(run?.wall_seconds)} detail="Includes resumed work; full workflow timing is in release evidence." />
         </section>
-        {run && <div className="cost-context"><p>Earlier cached results add no new model usage to this run. Their original cost belongs to the earlier experiment.</p><CostSnapshotContext report={evaluation.report} /></div>}
+        {run && <div className="cost-context"><p>Cumulative recorded calls for this run ID; other experiments and unresolved charges are accounted separately in the final evidence.</p><CostSnapshotContext report={evaluation.report} globalSpending={run.global_spending} /></div>}
 
         <section className="coverage-strip" aria-label="Source and analysis coverage">
           <div className="coverage-heading"><Icon name="database" size={19} /><span>Coverage at a glance</span></div>
@@ -411,7 +413,7 @@ export default function Dashboard() {
 
         <section id="recommendations" className="section-block" aria-labelledby="recommendations-title">
           <div className="section-heading"><div><p className="eyebrow section-eyebrow">02 / THE PRODUCT READOUT</p><h2 id="recommendations-title">What deserves attention next</h2><p>Saved AI recommendations, connected to measurable claims and source reviews.</p></div><span className="subtle-label">No live model calls</span></div>
-          {ready && <QualityGateNotice report={evaluation.report} legacyEvaluation={overview?.evaluation} compact />}
+          {ready && <QualityGateNotice report={evaluation.report} legacyEvaluation={overview?.evaluation} humanReference={overview?.human_reference} compact />}
           {recommendations ? <>
             {recommendations.summary && <div className="recommendation-summary"><span className="summary-marker"><Icon name="arrow" size={24} /></span><div><p className="eyebrow">THE READOUT</p><p>{recommendations.summary}</p></div></div>}
             <div className="recommendation-grid">{recommendations.recommendations.map((recommendation, index) => <article className="recommendation-card" key={`${recommendation.title}-${index}`}><div className="recommendation-number">{String(index + 1).padStart(2, "0")}</div><h3>{recommendation.title}</h3><p>{recommendation.rationale}</p><div className="recommendation-links">{(recommendation.claim_ids || []).map((id) => <a className="claim-link" key={id} href={`#claim-${id}`}>{id}<Icon name="arrow" size={12} /></a>)}{(recommendation.review_ids || []).slice(0, 3).map((id, reviewIndex) => <button className="claim-link review-link" key={id} onClick={() => setActiveReviewId(id)}>Review {reviewIndex + 1}<Icon name="arrow" size={12} /></button>)}</div></article>)}</div>
@@ -419,7 +421,7 @@ export default function Dashboard() {
           </> : <div className="panel"><EmptyState icon="arrow" title="Recommendations follow the analysis">The recommendation stage will use ranked issues and a bounded evidence pack. Its saved conclusions will appear here.</EmptyState></div>}
         </section>
 
-        <EvaluationPanel report={evaluation.report} legacyEvaluation={overview?.evaluation || null} warning={loading ? null : evaluation.warning} />
+        <EvaluationPanel report={evaluation.report} legacyEvaluation={overview?.evaluation || null} humanReference={overview?.human_reference} warning={loading ? null : evaluation.warning} />
 
         <section id="method" className="section-block" aria-labelledby="method-title">
           <div className="section-heading"><div><p className="eyebrow section-eyebrow">04 / SHOW THE WORK</p><h2 id="method-title">Built to be checked</h2><p>Model judgments, numerical calculations, and human evaluation remain distinct.</p></div><Icon name="shield" size={26} /></div>

@@ -11,6 +11,7 @@ import {
   publicPredictionProvenance,
   qualityPresentation,
   responseMatchesRun,
+  savedProjectSpending,
   utcTimestamp,
 } from "../src/lib/evaluation-view.ts";
 
@@ -139,6 +140,7 @@ test("legacy comparison uses named fields and never reconstructs unpublished num
     field_agreement: { topic: 0.8 }, initial_model_field_agreement: { topic: 0.7 },
     severity_mean_absolute_difference: 0, disagreement_count: 3,
   })!;
+  assert.equal(legacy.format, "legacy_flag_inclusive");
   assert.equal(legacy.metrics[0].final_numerator, null);
   assert.match(comparisonMetricDisplay(legacy.metrics[0], "final").detail, /Denominator 10 · numerator not published/);
   assert.equal(legacy.metrics.find((metric) => metric.id === "severity_difference")?.denominator, 8);
@@ -146,6 +148,42 @@ test("legacy comparison uses named fields and never reconstructs unpublished num
   const missingCounts = legacyModelComparison({ comparison_type: "independent_model_agreement" })!;
   assert.equal(missingCounts.metrics[0].denominator, null);
   assert.equal(comparisonMetricDisplay(missingCounts.metrics[0], "final").value, "Not measured");
+});
+
+test("compact hero summary preserves categorical counts without inventing sentiment or flag agreement", () => {
+  const hero = {
+    comparison_type: "independent_model_agreement", n: 100, verified_count: 100, comparable_count: 100,
+    reference: "blind independent model; not human ground truth", ground_truth: false,
+    field_agreement: { topic: 0.9, intent: 0.94, severity: 0.88 },
+    topic: { matches: 90, denominator: 100, agreement: 0.9 },
+    intent: { matches: 94, denominator: 100, agreement: 0.94 },
+    severity: { matches: 88, denominator: 100, agreement: 0.88 },
+    disagreement_count: 17,
+    limitations: ["Sentiment and review-flag agreement are not measured by this summary."],
+  };
+  const result = legacyModelComparison(hero)!;
+  assert.equal(result.format, "hero_categorical");
+  assert.deepEqual(result.metrics.map((metric) => metric.id), ["topic", "intent", "severity"]);
+  assert.deepEqual(result.metrics.map((metric) => metric.final_numerator), [90, 94, 88]);
+  assert.equal(result.finalDisagreements, 17);
+  assert.equal(comparisonMetricDisplay(result.metrics[0], "final").detail, "90/100");
+  assert.ok(result.metrics.every((metric) => metric.initial_value === null));
+  assert.equal(legacyModelComparison({ ...hero, n: 101 }), null);
+  assert.equal(legacyModelComparison({ ...hero, comparable_count: 99.5 }), null);
+  assert.equal(legacyModelComparison({ ...hero, topic: { ...hero.topic, matches: 99 } }), null);
+  assert.equal(legacyModelComparison({ ...hero, disagreement_count: 101 }), null);
+  assert.equal(legacyModelComparison({ ...hero, field_agreement: { ...hero.field_agreement, sentiment: 1 } }), null);
+});
+
+test("saved project ledger requires finite nonnegative amounts and reconciled commitment", () => {
+  const snapshot = { spent_usd: 10.25, unknown_charge_hold_usd: 0.5, reserved_usd: 0.125, committed_usd: 10.875 };
+  assert.deepEqual(savedProjectSpending(snapshot), { spent: 10.25, unknownHold: 0.5, reserved: 0.125, committed: 10.875 });
+  assert.deepEqual(savedProjectSpending({ spent_usd: 0, unknown_charge_hold_usd: 0, reserved_usd: 0, committed_usd: 0 }), { spent: 0, unknownHold: 0, reserved: 0, committed: 0 });
+  assert.equal(savedProjectSpending({ ...snapshot, committed_usd: 11 }), null);
+  for (const field of Object.keys(snapshot)) for (const value of [undefined, null, "0", -1, NaN, Infinity]) {
+    assert.equal(savedProjectSpending({ ...snapshot, [field]: value }), null, `${field}: ${value}`);
+  }
+  for (const invalid of [null, {}, [], { balance: 100 }]) assert.equal(savedProjectSpending(invalid), null);
 });
 
 test("review and page response identities cannot contradict the displayed run", () => {
