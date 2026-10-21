@@ -18,7 +18,7 @@
     "group": "low",
     "memo": "low"
   },
-  "max_workers": 16,
+  "max_workers": 32,
   "requests_per_second": 32,
   "max_output_tokens": 6000,
   "max_reviews_per_request": 25,
@@ -120,5 +120,6 @@
   "verification_workers": 8,
   "maximum_fallback_fraction": 0.15,
   "fallback_workers": 8,
-  "task_references_journal_only": true
+  "task_references_journal_only": true,
+  "gzip_exports": true
 }

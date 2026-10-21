@@ -14,6 +14,8 @@ from decimal import ROUND_HALF_UP, Decimal
 from pathlib import Path
 from typing import Any
 
+from .storage import read_jsonl, resolve_jsonl
+
 SOURCE_FIELDS = (
     "review_id", "review_text", "review_rating", "review_likes",
     "app_version", "review_timestamp",
@@ -102,19 +104,10 @@ def load_run(
     summary = _json(directory / "run_summary.json", required=True)
     if not isinstance(summary, dict) or not isinstance(summary.get("run_id"), str) or not summary["run_id"]:
         raise ValueError("run_summary.json must contain a nonempty run_id.")
-    records_path = directory / "records.jsonl"
+    records_path = resolve_jsonl(directory / "records.jsonl")
     if not records_path.exists():
         raise ValueError("Required run artifact is missing: records.jsonl")
-    records = []
-    with records_path.open(encoding="utf-8") as handle:
-        for line_number, line in enumerate(handle, 1):
-            if not line.strip():
-                continue
-            try:
-                record = json.loads(line)
-            except json.JSONDecodeError as exc:
-                raise ValueError(f"Invalid records.jsonl line {line_number}") from exc
-            records.append(record)
+    records = list(read_jsonl(records_path))
 
     raw_issues = _json(directory / "issues.json") or []
     if isinstance(raw_issues, dict):

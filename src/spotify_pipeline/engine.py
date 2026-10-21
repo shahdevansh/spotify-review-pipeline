@@ -265,8 +265,8 @@ class Engine:
                 self.run_id = previous["run_id"]
                 self.run_identity_version = previous.get("run_identity_version", "legacy-output-path-v1")
         self.budget_usd = float(budget_usd)
-        if not 1 <= workers <= min(16, self.config.get("max_workers", 16)):
-            raise ValueError("workers must be between 1 and the configured maximum (at most 16)")
+        if not 1 <= workers <= min(32, self.config.get("max_workers", 16)):
+            raise ValueError("workers must be between 1 and the configured maximum (at most 32)")
         if not 0 <= self.config.get("fallback_fraction", .05) <= min(.20, self.config.get("maximum_fallback_fraction", .05)):
             raise ValueError("fallback fraction exceeds the explicitly configured maximum (at most 0.20)")
         if not 1 <= self.config.get("max_reviews_per_request", 25) <= 50:
@@ -556,7 +556,10 @@ class Engine:
                 self.store.save_call(call)
                 # SQLite is the durable journal. Append completed attempts in
                 # O(1), rebuilding the export only at startup/checkpoints.
-                with (self.run_dir / "calls.jsonl").open("a", encoding="utf-8") as handle:
+                calls_path = self._jsonl_path("calls.jsonl")
+                opener = gzip.open if calls_path.suffix == ".gz" else open
+                options = {"compresslevel": 6} if calls_path.suffix == ".gz" else {}
+                with opener(calls_path, "at", encoding="utf-8", **options) as handle:
                     handle.write(canonical(call) + "\n")
             if error is None:
                 return data, request_id
@@ -895,7 +898,7 @@ class Engine:
                     self.store.save_record(self.label_config, digest, record)
             self.records.append(record)
         self.stages["exact_text_aliases"] = reused_new
-        atomic_jsonl(self.run_dir / "records.jsonl", self.records)
+        atomic_jsonl(self._jsonl_path("records.jsonl"), self.records)
 
     def _batches(self, rows: list[dict], *, primary: bool = False, role: str | None = None):
         batch = []
@@ -970,8 +973,8 @@ class Engine:
             results.extend(batch_results)
             disagreements.extend(batch_disagreements)
         self._verification = results
-        atomic_jsonl(self.run_dir / "verification.jsonl", results)
-        atomic_jsonl(self.run_dir / "disagreements.jsonl", disagreements)
+        atomic_jsonl(self._jsonl_path("verification.jsonl"), results)
+        atomic_jsonl(self._jsonl_path("disagreements.jsonl"), disagreements)
         self.stages["verify"] = {"requested_sample_count": sample_count, "selected": len(selected),
                                  "completed": sum(row["status"] == "completed" for row in results),
                                  "failed": sum(row["status"] == "failed" for row in results),
@@ -1039,8 +1042,11 @@ class Engine:
                     "review_id_mapping": _review_id_mapping, "output": result})
         return result
 
+    def _jsonl_path(self, name: str) -> Path:
+        return self.run_dir / (name + ".gz" if self.config.get("gzip_exports", False) else name)
+
     def _export_calls(self):
-        atomic_jsonl(self.run_dir / "calls.jsonl", self.store.calls(self.run_id))
+        atomic_jsonl(self._jsonl_path("calls.jsonl"), self.store.calls(self.run_id))
 
     def summary(self) -> dict:
         calls = self.store.calls(self.run_id)
@@ -1068,7 +1074,7 @@ class Engine:
         historic = [call for call in self.store.calls() if call["label_config"] == self.label_config and
                     (call["run_id"] == self.run_id or call["request_id"] in self._task_source_request_ids or
                      (call["role"] == "enrich" and set(call["review_ids"]) & ids))]
-        atomic_jsonl(self.run_dir / "evidence_calls.jsonl", historic)
+        atomic_jsonl(self._jsonl_path("evidence_calls.jsonl"), historic)
         summary = self.summary()
         atomic_json(self.run_dir / "run_summary.json", summary)
         return summary

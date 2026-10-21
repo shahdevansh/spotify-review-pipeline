@@ -10,10 +10,13 @@ from __future__ import annotations
 import csv
 import json
 import math
+import shutil
 from collections import defaultdict
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any, Iterable
+
+from .storage import open_jsonl, resolve_jsonl
 
 MILLION = Decimal(1_000_000)
 RATE_COLUMNS = ("rate_key", "provider", "model", "category", "usd_per_million", "source_url", "as_of")
@@ -49,10 +52,11 @@ def load_rates(path: str | Path) -> dict[str, dict[str, Any]]:
 
 
 def _read_jsonl(path: Path) -> list[dict[str, Any]]:
+    path = resolve_jsonl(path)
     if not path.exists():
         raise FileNotFoundError(path)
     rows = []
-    with path.open(encoding="utf-8") as stream:
+    with open_jsonl(path) as stream:
         for number, line in enumerate(stream, 1):
             if line.strip():
                 item = json.loads(line)
@@ -404,12 +408,12 @@ def calculate_cost(calls_path: str | Path, rates_path: str | Path, output_dir: s
     _decimal(prior_spend_usd, "prior spend")
     if local_compute_usd_per_hour is not None:
         _decimal(local_compute_usd_per_hour, "local compute rate")
-    path = Path(calls_path)
+    path = resolve_jsonl(calls_path)
     calls = _read_jsonl(path)
     rates = load_rates(rates_path)
     summary_path = path.parent / "run_summary.json"
     summary = json.loads(summary_path.read_text()) if summary_path.exists() else {}
-    record_path = path.parent / ("pilot_records.jsonl" if path.name == "pilot_calls.jsonl" else "records.jsonl")
+    record_path = resolve_jsonl(path.parent / ("pilot_records.jsonl" if path.name in {"pilot_calls.jsonl", "pilot_calls.jsonl.gz"} else "records.jsonl"))
     records = _read_jsonl(record_path) if record_path.exists() else []
     has_jev = any(c.get("role") == "enrich" and c.get("provider") in {"jev", "typesafe"}
                   and any(str(rate["model"]).startswith("jev-") and _rate_model_matches(c, rate["model"])
@@ -501,8 +505,14 @@ def _write_report(out: Path, report: dict[str, Any], priced: list[dict[str, Any]
     for source, dest in ((calls_path, out / "pilot_calls.jsonl"), (rates_path, out / "rates.csv"),
                          (record_path, out / "pilot_records.jsonl"),
                          (calls_path.parent / "run_summary.json", out / "run_summary.json")):
-        if source.exists() and source.resolve() != dest.resolve():
-            dest.write_bytes(source.read_bytes())
+        if source.suffix == ".gz":
+            dest = dest.with_name(dest.name + ".gz")
+        if source.exists():
+            if source.resolve() != dest.resolve():
+                shutil.copyfile(source, dest)
+            if ".jsonl" in dest.name:
+                alternate = dest.with_suffix("") if dest.suffix == ".gz" else dest.with_name(dest.name + ".gz")
+                alternate.unlink(missing_ok=True)
     m = report["measurements"]
     lines = ["# Offline cost and runtime replay", "", "All amounts are USD; rates are editable per million billed units. This command makes no paid calls.", "",
              f"Measured inputs: {m['input_count']}; completed: {m['completed_records']}; attempted calls: {m['attempts']}.",

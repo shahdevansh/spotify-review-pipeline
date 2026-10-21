@@ -12,6 +12,7 @@ from contextlib import contextmanager
 from pathlib import Path
 
 from dotenv import load_dotenv
+from .storage import read_jsonl, resolve_jsonl
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -107,7 +108,7 @@ def _prepare_run(out: Path, identity: dict) -> tuple[dict, dict | None]:
         previous = json.loads(summary_path.read_text()) if summary_path.exists() else None
         if previous and previous.get("execution_status") == "completed":
             required = ("records.jsonl", "calls.jsonl", "verification.jsonl", "issues.json", "recommendations.json")
-            missing = [name for name in required if not (out / name).is_file()]
+            missing = [name for name in required if not resolve_jsonl(out / name).is_file()]
             if missing:
                 raise ValueError(f"Completed run is missing saved artifacts: {missing}. Restore them before continuing.")
         return manifest, previous
@@ -127,7 +128,7 @@ def _postprocess_run(out: Path, args, result: dict) -> dict:
     """All reporting is offline and uses incremental calls, never evidence-call copies."""
     from .cost import calculate_cost
     from .evaluation import compare_verifier, learning_report
-    verifier_path = out / "verification.jsonl"
+    verifier_path = resolve_jsonl(out / "verification.jsonl")
     if verifier_path.exists():
         compare_verifier(out / "records.jsonl", verifier_path, out / "evals")
     cost = calculate_cost(
@@ -243,7 +244,7 @@ async def _pilot(args):
         result = await _run(run_args)
         _pilot_stage_ready(result, name, verify)
         if name == "100-warm":
-            calls = [json.loads(line) for line in (out / name / "calls.jsonl").read_text().splitlines() if line.strip()]
+            calls = list(read_jsonl(out / name / "calls.jsonl"))
             if any(call.get("role") == "enrich" for call in calls):
                 raise ValueError("Warm replay made enrichment calls; investigate changed or incomplete cached results.")
     from .learning import learning_report

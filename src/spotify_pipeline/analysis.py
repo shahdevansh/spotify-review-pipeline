@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import csv
 import copy
-import gzip
 import hashlib
 import json
 import re
@@ -16,6 +15,8 @@ from collections import defaultdict
 from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
 from typing import Any, Awaitable, Callable, Iterable, Mapping
+
+from .storage import read_jsonl
 
 TOPICS = ("access", "usability", "playback", "downloads", "catalog", "billing", "support", "other")
 COMPLAINT_INTENTS = {"complaint", "cancellation"}
@@ -28,10 +29,7 @@ ANALYSIS_LOGIC_VERSION = "constrained-references-v2"
 def load_records(records: Iterable[Mapping] | str | Path) -> list[dict]:
     """Load saved JSONL, gzip JSONL, mappings, or Pydantic records."""
     if isinstance(records, (str, Path)):
-        path = Path(records)
-        opener = gzip.open if path.suffix == ".gz" else open
-        with opener(path, "rt", encoding="utf-8") as handle:
-            return [json.loads(line) for line in handle if line.strip()]
+        return list(read_jsonl(records))
     return [r.model_dump() if hasattr(r, "model_dump") else dict(r) for r in records]
 
 

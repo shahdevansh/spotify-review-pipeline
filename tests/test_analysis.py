@@ -229,7 +229,8 @@ def test_export_preserves_historical_calls(tmp_path):
     assert (tmp_path / "grading" / "calls.jsonl").read_text() == '{"request_id":"historical"}\n'
 
 
-def test_synthetic_adapter_passes_unmodified_course_checker(tmp_path):
+@pytest.mark.parametrize("compressed", [False, True])
+def test_synthetic_adapter_passes_unmodified_course_checker(tmp_path, compressed):
     """A contract test, not evidence of a real model run or recovery recording."""
     checker_path = Path(__file__).resolve().parents[1] / "vendor/course/check_submission.py"
     spec = importlib.util.spec_from_file_location("course_checker_for_synthetic_test", checker_path)
@@ -261,7 +262,20 @@ def test_synthetic_adapter_passes_unmodified_course_checker(tmp_path):
         ])
     ]
     (run / "calls.jsonl").write_text("".join(json.dumps(call) + "\n" for call in calls))
+    if compressed:
+        from spotify_pipeline.storage import atomic_jsonl
+        atomic_jsonl(run / "records.jsonl.gz", rows)
+        atomic_jsonl(run / "evidence_calls.jsonl.gz", calls)
+        # Stale plain output from an earlier export must not win at grading.
+        grading.mkdir()
+        (grading / "records.jsonl").write_text("{}\n")
+        (grading / "calls.jsonl").write_text("{}\n")
     export_grading(run, grading, source_path=source, analysis_path=source)
+    if compressed:
+        assert (grading / "records.jsonl.gz").exists()
+        assert (grading / "calls.jsonl.gz").exists()
+        assert not (grading / "records.jsonl").exists()
+        assert not (grading / "calls.jsonl").exists()
     result = checker.audit(grading, checker.reference(source, source))
     assert result["status"] == "pass", result["issue_counts"]
     assert result["coverage"]["valid_completed"] == 2

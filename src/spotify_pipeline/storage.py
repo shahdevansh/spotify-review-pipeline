@@ -6,6 +6,7 @@ silently resetting expenditure. Unknown bills retain their full reservation.
 """
 from __future__ import annotations
 
+import gzip
 import json
 import sqlite3
 import zlib
@@ -102,6 +103,58 @@ class BudgetLedger:
         CREATE INDEX IF NOT EXISTS spend_run ON spend(run_id);
         CREATE TABLE IF NOT EXISTS spend_provider (request_id TEXT PRIMARY KEY, provider TEXT NOT NULL);
         """)
+        self._ensure_provider_admission_cache()
+
+    def _ensure_provider_admission_cache(self) -> None:
+        """Index provider admission without duplicating monetary balances.
+
+        spend_provider remains the authoritative provider mapping. Triggers
+        maintain its denormalized tag; all money is still summed directly from
+        the original integer spend columns inside the admission transaction.
+        Existing connections using the old positional INSERT fail closed after
+        migration; they must be stopped before deploying this schema revision.
+        """
+        with transaction(self.conn):
+            columns = {row[1] for row in self.conn.execute("PRAGMA table_info(spend)")}
+            added = "admission_provider" not in columns
+            if added:
+                self.conn.execute("ALTER TABLE spend ADD COLUMN admission_provider TEXT")
+                self.conn.execute("""UPDATE spend SET admission_provider=(
+                    SELECT provider FROM spend_provider p WHERE p.request_id=spend.request_id)""")
+            statements = (
+                """CREATE TRIGGER IF NOT EXISTS spend_provider_admission_insert_v1
+                   AFTER INSERT ON spend_provider BEGIN
+                     UPDATE spend SET admission_provider=NEW.provider WHERE request_id=NEW.request_id;
+                   END""",
+                """CREATE TRIGGER IF NOT EXISTS spend_provider_admission_delete_v1
+                   AFTER DELETE ON spend_provider BEGIN
+                     UPDATE spend SET admission_provider=NULL WHERE request_id=OLD.request_id;
+                   END""",
+                """CREATE TRIGGER IF NOT EXISTS spend_provider_admission_update_v1
+                   AFTER UPDATE ON spend_provider BEGIN
+                     UPDATE spend SET admission_provider=(SELECT provider FROM spend_provider p
+                       WHERE p.request_id=spend.request_id)
+                       WHERE request_id IN (OLD.request_id,NEW.request_id);
+                   END""",
+                """CREATE TRIGGER IF NOT EXISTS spend_admission_insert_v1
+                   AFTER INSERT ON spend BEGIN
+                     UPDATE spend SET admission_provider=(SELECT provider FROM spend_provider p
+                       WHERE p.request_id=NEW.request_id) WHERE request_id=NEW.request_id;
+                   END""",
+                """CREATE INDEX IF NOT EXISTS spend_commitment_cover_v1
+                   ON spend(charged_nano,reserved_nano)""",
+                """CREATE INDEX IF NOT EXISTS spend_run_commitment_cover_v1
+                   ON spend(run_id,charged_nano,reserved_nano)""",
+                """CREATE INDEX IF NOT EXISTS spend_provider_commitment_cover_v1
+                   ON spend(admission_provider,charged_nano,reserved_nano)""",
+            )
+            for statement in statements:
+                self.conn.execute(statement)
+            mismatches = self.conn.execute("""SELECT COUNT(*) FROM spend s
+                LEFT JOIN spend_provider p ON s.request_id=p.request_id
+                WHERE s.admission_provider IS NOT p.provider""").fetchone()[0]
+            if mismatches:
+                raise RuntimeError("Provider admission cache disagrees with the authoritative ledger mapping")
 
     @classmethod
     def _nano(cls, usd: float | Decimal) -> int:
@@ -140,12 +193,18 @@ class BudgetLedger:
                 cap = self._nano(provider_cap_usd)
                 # Historical untagged attempts count conservatively against each
                 # provider cap; they are never silently assumed to be free.
-                current = self.conn.execute("""SELECT COALESCE(SUM(COALESCE(s.charged_nano,s.reserved_nano)),0)
-                    FROM spend s LEFT JOIN spend_provider p ON s.request_id=p.request_id
-                    WHERE p.provider=? OR p.provider IS NULL""", (provider,)).fetchone()[0]
+                # Two disjoint covering-index ranges preserve the historical
+                # rule that every untagged reservation counts against each cap.
+                current = self.conn.execute("""SELECT
+                    (SELECT COALESCE(SUM(COALESCE(charged_nano,reserved_nano)),0)
+                     FROM spend WHERE admission_provider=?) +
+                    (SELECT COALESCE(SUM(COALESCE(charged_nano,reserved_nano)),0)
+                     FROM spend WHERE admission_provider IS NULL)""", (provider,)).fetchone()[0]
                 if current + amount > cap:
                     raise BudgetExceeded(f"{provider} provider budget exceeds ${cap / 1e9:.2f}")
-            self.conn.execute("INSERT INTO spend VALUES(?,?,?,?,?,?,?)", (request_id, run_id, amount, None, "reserved", utcnow(), None))
+            self.conn.execute("""INSERT INTO spend
+                (request_id,run_id,reserved_nano,charged_nano,state,created_at,settled_at)
+                VALUES(?,?,?,?,?,?,?)""", (request_id, run_id, amount, None, "reserved", utcnow(), None))
             if provider:
                 self.conn.execute("INSERT INTO spend_provider VALUES(?,?)", (request_id,provider))
 
@@ -248,13 +307,70 @@ def atomic_json(path: str | Path, value: Any):
 
 
 def atomic_jsonl(path: str | Path, values):
+    """Atomically export canonical JSONL, losslessly gzipped for a .gz path.
+
+    The alternate format is removed only after its replacement is complete.
+    This prevents a stale plain export from shadowing a newer compressed one.
+    SQLite remains the durable request/result journal during export.
+    """
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(path.name + ".tmp")
-    with temporary.open("w", encoding="utf-8") as handle:
-        for value in values:
-            handle.write(canonical(value) + "\n")
-    temporary.replace(path)
+    try:
+        opener = gzip.open if path.suffix == ".gz" else open
+        options = {"compresslevel": 6} if path.suffix == ".gz" else {}
+        with opener(temporary, "wt", encoding="utf-8", newline="\n", **options) as handle:
+            for value in values:
+                handle.write(canonical(value) + "\n")
+        temporary.replace(path)
+        alternate = path.with_suffix("") if path.suffix == ".gz" else path.with_name(path.name + ".gz")
+        alternate.unlink(missing_ok=True)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def resolve_jsonl(path: str | Path) -> Path:
+    """Resolve an explicit JSONL path, accepting its compressed sibling."""
+    path = Path(path)
+    if path.exists() or path.suffix == ".gz":
+        return path
+    compressed = path.with_name(path.name + ".gz")
+    return compressed if compressed.exists() else path
+
+
+def open_jsonl(path: str | Path):
+    """Open plain or gzip JSONL as UTF-8 text; caller owns the context."""
+    path = resolve_jsonl(path)
+    opener = gzip.open if path.suffix == ".gz" else open
+    return opener(path, "rt", encoding="utf-8")
+
+
+def open_jsonl_bytes(path: str | Path):
+    """Open the original JSONL bytes, transparently decompressing if needed."""
+    path = resolve_jsonl(path)
+    opener = gzip.open if path.suffix == ".gz" else open
+    return opener(path, "rb")
+
+
+def read_jsonl(path: str | Path):
+    """Yield JSONL values without materializing a second large text copy."""
+    path = resolve_jsonl(path)
+    expected_bytes = path.stat().st_size
+    with open_jsonl(path) as handle:
+        for line_number, line in enumerate(handle, 1):
+            if not line.strip():
+                continue
+            try:
+                yield json.loads(line)
+            except json.JSONDecodeError as exc:
+                raise ValueError(f"Invalid {path.name} line {line_number}") from exc
+        # iCloud can return an immediate EOF for a nonempty offloaded file.
+        # Check physical source progress, including gzip's underlying stream,
+        # so silent short reads cannot become empty evaluation/cost evidence.
+        consumed_bytes = handle.buffer.fileobj.tell() if path.suffix == ".gz" else handle.tell()
+        if consumed_bytes < expected_bytes:
+            raise OSError(f"Incomplete JSONL read for {path}: consumed {consumed_bytes} of "
+                          f"{expected_bytes} source bytes; hydrate the exact file and retry")
 
 
 def reserve_request_slot(ledger: BudgetLedger, provider: str, requests_per_second: float,

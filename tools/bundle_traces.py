@@ -4,7 +4,7 @@ After download-and-hash verification, receipt files can mark remote_verified.
 """
 import hashlib,json,time,zipfile,subprocess
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[1];BASE=ROOT/'runs/hero-v1';archives=BASE/'trace-archives';out=BASE/'drive-offload';out.mkdir(exist_ok=True)
+ROOT=Path(__file__).resolve().parents[1];BASE=(ROOT/'runs/hero-v1').resolve();archives=BASE/'trace-archives';out=BASE/'drive-offload';out.mkdir(exist_ok=True)
 files=[]
 for receipt in archives.glob('*.json'):
  if receipt.stat().st_blocks==0:

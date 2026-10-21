@@ -12,8 +12,13 @@ import csv
 import hashlib
 import json
 import math
+import sys
 from collections import Counter
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+from spotify_pipeline.storage import open_jsonl_bytes, read_jsonl
 
 SOURCE_FIELDS = ("review_id", "review_text", "review_rating", "review_likes", "app_version", "review_timestamp")
 TOPICS = {"access", "usability", "playback", "downloads", "catalog", "billing", "support", "other"}
@@ -178,14 +183,18 @@ def run(args):
     annotation_bytes = args.annotations.read_bytes()
     document = json.loads(annotation_bytes)
     wanted = {row["review_id"] for row in document["labels"]}
-    with args.source.open(encoding="utf-8-sig", newline="") as handle:
-        source_rows = (json.loads(line) for line in handle if line.strip()) if args.source.suffix == ".jsonl" else csv.DictReader(handle)
-        sources = {}
+    sources = {}
+    def accept_sources(source_rows):
         for row in source_rows:
             if row["review_id"] in wanted:
                 if row["review_id"] in sources:
                     raise ValueError("Duplicate original source IDs.")
                 sources[row["review_id"]] = row
+    if args.source.name.endswith((".jsonl", ".jsonl.gz")):
+        accept_sources(read_jsonl(args.source))
+    else:
+        with args.source.open(encoding="utf-8-sig", newline="") as handle:
+            accept_sources(csv.DictReader(handle))
     with args.selected.open(encoding="utf-8-sig", newline="") as handle:
         selected = [row["review_id"] for row in csv.DictReader(handle)]
     if len(set(selected)) != len(selected):
@@ -195,7 +204,7 @@ def run(args):
     if len(golden) != 50 or len(wanted) != 200 or not golden <= wanted:
         raise ValueError("Expected the original 200-row worksheet and official golden 50.")
     predictions, seen, configurations, records_digest = {}, set(), set(), hashlib.sha256()
-    with args.predictions.open("rb") as handle:
+    with open_jsonl_bytes(args.predictions) as handle:
         for line in handle:
             records_digest.update(line)
             if not line.strip():
@@ -215,6 +224,7 @@ def run(args):
     report = evaluate(document, sources, predictions, set(selected), golden)
     report["artifacts"] = {"annotation_sha256": hashlib.sha256(annotation_bytes).hexdigest(),
                            "prediction_sha256": records_digest.hexdigest(), "label_config": args.label_config,
+                           "prediction_sha256_scope": "uncompressed_jsonl_bytes",
                            "selected_rows": len(selected), "exported_prediction_rows": len(seen),
                            "full_selected_export_present": seen == set(selected)}
     if args.annotations.read_bytes() != annotation_bytes:

@@ -10,12 +10,16 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'src'))
 from dotenv import load_dotenv
 from spotify_pipeline.engine import Engine,load_config,fingerprint,text_hash
 from spotify_pipeline.data import read_reviews
-from spotify_pipeline.storage import atomic_json,atomic_jsonl,utcnow,BudgetLedger,register_storage_functions
+from spotify_pipeline.storage import atomic_json,atomic_jsonl,utcnow,BudgetLedger,register_storage_functions,read_jsonl,resolve_jsonl
 from spotify_pipeline.analysis import run_analysis
 BASE=ROOT/'runs/hero-v1'
 RUNBASE=BASE
 
-def jl(p):return [json.loads(x) for x in Path(p).read_text().splitlines() if x.strip()]
+def jl(p):return list(read_jsonl(p))
+def evidence_path(p):
+ """Keep compressed evidence names intact; plain paths remain compatible."""
+ p=Path(p)
+ return resolve_jsonl(p) if p.suffix=='.jsonl' else p
 def status(state,**details):
  BASE.mkdir(parents=True,exist_ok=True)
  atomic_json(BASE/'status.json',{'state':state,'updated_at':utcnow(),'supervisor_pid':os.getpid(),**details})
@@ -64,7 +68,7 @@ async def stage(args):
  else:
   allrows=list(read_reviews(prepare()));rows=allrows if args.count==200000 else allrows[:args.count];sample=40000 if name=='final' else 2000 if args.count==10000 else 0
  out=RUNBASE/('run' if name in ('hero','final') else name)
- e=Engine(c,db,out,budget_usd=46,workers=1 if name in ('cold100','warm100') else 16)
+ e=Engine(c,db,out,budget_usd=46,workers=1 if name in ('cold100','warm100') else min(32,c.get('max_workers',16)))
  try:
   if shutil.disk_usage(ROOT).free<500_000_000:raise RuntimeError('Less than 500 MB free; offload verified trace archives before continuing')
   records=await e.enrich(rows,phase='initial' if name=='cold100' else 'resume')
@@ -87,8 +91,10 @@ def invoke(stage_name,count=0,config='config/hero.json',variant=''):
  with (BASE/f'{stage_name}-{count}.log').open('a') as h:subprocess.run(cmd,cwd=ROOT,stdout=h,stderr=subprocess.STDOUT,check=True)
 
 def projection():
- calls=jl(BASE/'pilot1000/calls.jsonl')
+ resident=ROOT/'runtime-evidence/pilot1000-calls.jsonl'
+ calls=jl(resident if resident.exists() else BASE/'pilot1000/calls.jsonl')
  verify=[x for x in calls if x['role']=='verify'];n=sum(len(x['review_ids']) for x in verify if x['outcome']=='succeeded')
+ if not n:raise RuntimeError('Pilot verifier call evidence is empty or unavailable; hydrate the exact calls file before restarting')
  verification=sum(x.get('cost_usd') or x.get('unknown_charge_hold_usd',0) for x in verify)/n*40000
  e=load_config(ROOT/'config/hero.json');ledger=BudgetLedger(ROOT/'data/spend.sqlite3');spent=ledger.totals();ledger.close()
  selection=json.loads((BASE/'selection.json').read_text());unique=selection['unique_texts']
@@ -119,25 +125,19 @@ def preserve_grading_checkpoint(grading):
  if not before_ids or not before_ids<after_ids:raise RuntimeError('Saved cold checkpoint is not a strict subset of final progress')
  if before.get('label_config')!=after.get('label_config'):raise RuntimeError('Checkpoint configurations differ')
  completed={}
- with (grading/'records.jsonl').open() as handle:
-  for line in handle:
-   if not line.strip():continue
-   r=json.loads(line)
-   if r['status']=='completed':completed[r['review_id']]={'label_config':r['label_config'],'cache_source_id':r.get('cache_source_id')}
+ for r in read_jsonl(grading/'records.jsonl'):
+  if r['status']=='completed':completed[r['review_id']]={'label_config':r['label_config'],'cache_source_id':r.get('cache_source_id')}
  if not after_ids<=completed.keys():raise RuntimeError('Final checkpoint contains non-completed grading IDs')
  if any(completed[rid]['label_config']!=before.get('label_config') for rid in before_ids):raise RuntimeError('Saved checkpoint classification configuration differs from final records')
  initial_ids=set();resumed_ids=set()
- with (grading/'calls.jsonl').open() as handle:
-  for line in handle:
-   if not line.strip():continue
-   call=json.loads(line)
-   if call['role']!='enrich':continue
-   ids=set(call['review_ids'])
-   if call.get('phase')=='resume' and before_ids & ids:raise RuntimeError('Saved initial checkpoint was reprocessed during resume')
-   if call['outcome']=='succeeded':
-    matching={rid for rid in ids if rid in completed and call['label_config']==completed[rid]['label_config']}
-    if call.get('phase')=='initial':initial_ids.update(matching)
-    elif call.get('phase')=='resume':resumed_ids.update(matching)
+ for call in read_jsonl(grading/'calls.jsonl'):
+  if call['role']!='enrich':continue
+  ids=set(call['review_ids'])
+  if call.get('phase')=='resume' and before_ids & ids:raise RuntimeError('Saved initial checkpoint was reprocessed during resume')
+  if call['outcome']=='succeeded':
+   matching={rid for rid in ids if rid in completed and call['label_config']==completed[rid]['label_config']}
+   if call.get('phase')=='initial':initial_ids.update(matching)
+   elif call.get('phase')=='resume':resumed_ids.update(matching)
  cached={rid for rid,r in completed.items() if r.get('cache_source_id')}
  if before_ids-cached-initial_ids or not ((after_ids-before_ids-cached)&resumed_ids):raise RuntimeError('Saved checkpoint lacks matching initial/resume call evidence')
  shutil.copyfile(initial/'checkpoint_after.json',grading/'checkpoint_before.json')
@@ -162,22 +162,25 @@ def package_evidence():
   BASE/'recovery/recovery-validation.json',BASE/'recovery/checkpoint_before.json',
   BASE/'recovery/checkpoint_after.json',BASE/'recovery/calls.jsonl',
  ]
- missing=[str(p.relative_to(ROOT)) for p in required if not p.is_file()]
+ missing=[str(p.relative_to(ROOT)) for p in required if not evidence_path(p).is_file()]
  if missing:raise RuntimeError('Cannot package incomplete final evidence: '+', '.join(missing))
  package_sources=[(grading,'grading'),(pilot,'evals/hero-pilot'),
   (pilot/'cold100','cost'),(pilot/'warm100','cost/warm100')]
  for name in ('evaluation.json','verification.jsonl','disagreements.jsonl'):
-  package_sources.append((out/name,'evals/hero/'+name))
+  source=evidence_path(out/name)
+  package_sources.append((source,'evals/hero/'+source.name))
  for name in ('configuration.json','run_summary.json'):
   package_sources.append((out/name,'run/'+name))
  for name in ('group.input.json','group.output.json','memo.input.json','memo.output.json'):
   package_sources.append((out/'handoffs'/name,'handoffs/'+name))
  for name in ('recommendations.json','memo.md','issues.json'):
   package_sources.append((out/name,name))
- for name in ('checker.json','projection.json','selection.json','database-publication.json','quality-decision.json','grading-checkpoint-provenance.json','recovery.cast'):
+ for name in ('checker.json','projection.json','selection.json','database-publication.json','quality-decision.json','grading-checkpoint-provenance.json','publication-reconciliation.json','web-deployment.json','admission-migration.json','admission-performance-proof.json','operational-performance.json','runtime-upgrade-60000.json','recovery.cast'):
   package_sources.append((BASE/name,name))
  for name in ('recovery-validation.json','checkpoint_before.json','checkpoint_after.json','calls.jsonl','configuration.json','run_summary.json'):
-  package_sources.append((BASE/'recovery'/name,'recovery/'+name))
+  source=evidence_path(BASE/'recovery'/name)
+  package_sources.append((source,'recovery/'+source.name))
+ if (ROOT/'evals/hero-human').is_dir():package_sources.append((ROOT/'evals/hero-human','evals/hero-human'))
  archive=BASE/'spotify-hero-evidence.zip';temporary=archive.with_suffix('.zip.tmp')
  names=set()
  # Stream directly into ZIP: avoid a second large staging copy on the constrained Mac.
@@ -190,7 +193,9 @@ def package_evidence():
     if child.is_symlink():raise RuntimeError('Release evidence must not contain symlinks: '+str(child))
     member=str(Path(destination)/child.relative_to(source)) if source.is_dir() else destination
     if member in names:raise RuntimeError('Duplicate release member: '+member)
+    expected_bytes=child.stat().st_size
     names.add(member);z.write(child,member)
+    if z.getinfo(member).file_size!=expected_bytes:raise IOError('Evidence read did not match source size; hydrate and retry: '+str(child.resolve()))
  with zipfile.ZipFile(temporary) as z:
   bad=z.testzip()
   if bad is not None:raise RuntimeError('Release archive integrity failure: '+bad)
@@ -214,6 +219,7 @@ def finalize():
  publication=import_run(out,ingestion_report=grading/'ingestion.json',evaluation_path=out/'evaluation.json')
  atomic_json(BASE/'database-publication.json',publication)
  if publication['storage_bytes']>700_000_000:raise RuntimeError('Published database exceeds conservative storage threshold')
+ subprocess.run([sys.executable,str(ROOT/'tools/reconcile_hero_publication.py'),'--run-dir',str(out),'--ingestion-report',str(grading/'ingestion.json'),'--out',str(BASE/'publication-reconciliation.json')],check=True,cwd=ROOT)
  # Public release contains course reviews and model evidence only, never human annotations or secrets.
  archive=package_evidence()
  notes=BASE/'release-notes.md';ev=json.loads((out/'evaluation.json').read_text());s=json.loads((out/'run_summary.json').read_text())

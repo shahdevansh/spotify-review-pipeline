@@ -77,9 +77,13 @@ def write_bundle(tmp_path, bundle):
     (tmp_path / "recommendations.json").write_text(json.dumps(bundle.recommendations))
 
 
-def test_saved_bundle_loads_without_database_or_provider(tmp_path):
+@pytest.mark.parametrize("compressed", [False, True])
+def test_saved_bundle_loads_without_database_or_provider(tmp_path, compressed):
     bundle = synthetic_bundle()
     write_bundle(tmp_path, bundle)
+    if compressed:
+        from spotify_pipeline.storage import atomic_jsonl
+        atomic_jsonl(tmp_path / "records.jsonl.gz", bundle.records)
     loaded = load_run(tmp_path)
     assert loaded.run_id == "synthetic-run"
     assert loaded.records[0]["app_version"] == ""

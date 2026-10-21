@@ -11,8 +11,9 @@ import json
 import shutil
 from pathlib import Path
 
-from .analysis import load_records, write_json
+from .analysis import write_json
 from .data import profile_csv
+from .storage import read_jsonl, resolve_jsonl
 
 REQUIRED_COPY = ("records.jsonl", "membership.csv", "ranking.csv", "claims.csv",
                  "checkpoint_before.json", "checkpoint_after.json")
@@ -97,29 +98,31 @@ def export_grading(run_dir: str | Path, output_dir: str | Path,
     write_json(output / "ingestion.json", ingestion)
     copied, missing = [], []
     for name in REQUIRED_COPY:
-        candidate = source / name
-        if name.endswith(".jsonl") and not candidate.exists():
-            candidate = source / (name + ".gz")
+        candidate = resolve_jsonl(source / name) if name.endswith(".jsonl") else source / name
         if candidate.exists():
             destination = output / candidate.name
             if candidate.resolve() != destination.resolve():
                 _copy_evidence(candidate, destination)
+            if name.endswith(".jsonl"):
+                alternate = output / (name if candidate.suffix == ".gz" else name + ".gz")
+                alternate.unlink(missing_ok=True)
             copied.append(candidate.name)
         else:
             missing.append(name)
-    calls_path = source / "evidence_calls.jsonl"
+    calls_path = resolve_jsonl(source / "evidence_calls.jsonl")
     if not calls_path.exists():
-        calls_path = source / "calls.jsonl"
+        calls_path = resolve_jsonl(source / "calls.jsonl")
     if calls_path.exists():
-        if calls_path.resolve() != (output / "calls.jsonl").resolve():
-            _copy_evidence(calls_path, output / "calls.jsonl")
-        copied.append("calls.jsonl")
+        destination = output / ("calls.jsonl.gz" if calls_path.suffix == ".gz" else "calls.jsonl")
+        if calls_path.resolve() != destination.resolve():
+            _copy_evidence(calls_path, destination)
+        alternate = output / ("calls.jsonl" if destination.suffix == ".gz" else "calls.jsonl.gz")
+        alternate.unlink(missing_ok=True)
+        copied.append(destination.name)
     else:
         missing.append("calls.jsonl")
-    record_path = output / "records.jsonl"
-    if not record_path.exists():
-        record_path = output / "records.jsonl.gz"
-    records = load_records(record_path) if record_path.exists() else []
+    record_path = resolve_jsonl(output / "records.jsonl")
+    records = list(read_jsonl(record_path)) if record_path.exists() else []
     exported_ids = [row.get("review_id") for row in records]
     report = {
         "status": "exported" if not missing else "incomplete_evidence",

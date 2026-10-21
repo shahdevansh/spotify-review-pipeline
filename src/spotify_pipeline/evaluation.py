@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from .analysis import TOPICS, load_records, write_csv, write_json
+from .storage import resolve_jsonl
 
 FIELDS = ("topic", "intent", "severity", "sentiment", "needs_review")
 INTENTS = ("cancellation", "complaint", "request", "praise", "unclear")
@@ -280,14 +281,14 @@ def learning_report(run_dir: str | Path, output_dir: str | Path | None = None,
     """Create an honest pilot decision record and a blank qualitative inspection sheet."""
     source = Path(run_dir)
     output = Path(output_dir) if output_dir is not None else source / "evals"
-    record_path = source / "records.jsonl"
+    record_path = resolve_jsonl(source / "records.jsonl")
     records = load_records(record_path) if record_path.exists() else []
     completed = [r for r in records if r.get("status") == "completed"]
     verifier_path = output / "verifier_report.json"
     verifier = json.loads(verifier_path.read_text(encoding="utf-8")) if verifier_path.exists() else {}
     summary_path = source / "run_summary.json"
     summary = json.loads(summary_path.read_text(encoding="utf-8")) if summary_path.exists() else {}
-    disagreement_path = output / "disagreements.jsonl"
+    disagreement_path = resolve_jsonl(output / "disagreements.jsonl")
     disagreements = load_records(disagreement_path) if disagreement_path.exists() else []
     random_cases = sorted(completed, key=lambda row: hashlib.sha256(
         ("pilot-inspection-v1:" + row["review_id"]).encode()).hexdigest())[:30]
