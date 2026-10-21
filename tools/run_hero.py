@@ -224,7 +224,9 @@ def package_evidence():
   package_sources.append((out/'handoffs'/name,'handoffs/'+name))
  for name in ('recommendations.json','memo.md','issues.json'):
   package_sources.append((out/name,name))
- for name in ('checker.json','projection.json','selection.json','database-publication.json','quality-decision.json','grading-checkpoint-provenance.json','publication-reconciliation.json','web-deployment.json','admission-migration.json','admission-performance-proof.json','operational-performance.json','runtime-upgrade-60000.json','recovery.cast'):
+ for name in ('checker.json','projection.json','selection.json','database-publication.json','quality-decision.json','grading-checkpoint-provenance.json','publication-reconciliation.json','web-deployment.json','admission-migration.json','admission-performance-proof.json','operational-performance.json','runtime-upgrade-60000.json','recovery.cast',
+  'audit-timeout-stop.json','audit-timeout-repair.json','operational-final.json',
+  'audit-timeout-timing-and-budget.json','audit-timeout-shutdown-audit.json','audit-timeout-post-restart-timing.json'):
   package_sources.append((BASE/name,name))
  for name in ('recovery-validation.json','checkpoint_before.json','checkpoint_after.json','calls.jsonl','configuration.json','run_summary.json'):
   source=support.resolve(BASE/'recovery'/name)
