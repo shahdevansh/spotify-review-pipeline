@@ -1,0 +1,864 @@
+{
+  "schema_version": "human-reference-grader-export-v1",
+  "publication_approved": true,
+  "scope": "all",
+  "evaluation_status": "posthoc_ai_assisted_course_reference_completion_not_blind_accuracy",
+  "groups": {
+    "all_annotated_worksheet": {
+      "worksheet_rows": 200,
+      "inside_selected_cohort": 99,
+      "outside_selected_cohort": 101,
+      "fields": {
+        "topic": {
+          "explicitly_annotated": 100,
+          "not_explicitly_annotated": 100,
+          "inside_selected_cohort": 68,
+          "outside_selected_cohort": 32,
+          "valid_prediction_count": 68,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 51,
+            "denominator": 68,
+            "value": 0.75
+          },
+          "confusion": [
+            {
+              "human": "access",
+              "prediction": "access",
+              "count": 1
+            },
+            {
+              "human": "billing",
+              "prediction": "billing",
+              "count": 6
+            },
+            {
+              "human": "billing",
+              "prediction": "downloads",
+              "count": 1
+            },
+            {
+              "human": "billing",
+              "prediction": "other",
+              "count": 1
+            },
+            {
+              "human": "billing",
+              "prediction": "usability",
+              "count": 7
+            },
+            {
+              "human": "catalog",
+              "prediction": "catalog",
+              "count": 5
+            },
+            {
+              "human": "catalog",
+              "prediction": "other",
+              "count": 4
+            },
+            {
+              "human": "catalog",
+              "prediction": "usability",
+              "count": 1
+            },
+            {
+              "human": "other",
+              "prediction": "other",
+              "count": 34
+            },
+            {
+              "human": "playback",
+              "prediction": "billing",
+              "count": 1
+            },
+            {
+              "human": "playback",
+              "prediction": "catalog",
+              "count": 1
+            },
+            {
+              "human": "playback",
+              "prediction": "playback",
+              "count": 5
+            },
+            {
+              "human": "playback",
+              "prediction": "usability",
+              "count": 1
+            }
+          ]
+        },
+        "intent": {
+          "explicitly_annotated": 101,
+          "not_explicitly_annotated": 99,
+          "inside_selected_cohort": 68,
+          "outside_selected_cohort": 33,
+          "valid_prediction_count": 68,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 57,
+            "denominator": 68,
+            "value": 0.8382352941176471
+          },
+          "confusion": [
+            {
+              "human": "cancellation",
+              "prediction": "cancellation",
+              "count": 2
+            },
+            {
+              "human": "complaint",
+              "prediction": "complaint",
+              "count": 26
+            },
+            {
+              "human": "complaint",
+              "prediction": "unclear",
+              "count": 5
+            },
+            {
+              "human": "praise",
+              "prediction": "praise",
+              "count": 26
+            },
+            {
+              "human": "praise",
+              "prediction": "unclear",
+              "count": 3
+            },
+            {
+              "human": "request",
+              "prediction": "complaint",
+              "count": 3
+            },
+            {
+              "human": "request",
+              "prediction": "request",
+              "count": 1
+            },
+            {
+              "human": "unclear",
+              "prediction": "unclear",
+              "count": 2
+            }
+          ]
+        },
+        "severity": {
+          "explicitly_annotated": 67,
+          "not_explicitly_annotated": 133,
+          "inside_selected_cohort": 55,
+          "outside_selected_cohort": 12,
+          "valid_prediction_count": 55,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 41,
+            "denominator": 55,
+            "value": 0.7454545454545455
+          },
+          "mean_absolute_error": 0.36363636363636365,
+          "mae_denominator": 55,
+          "confusion": [
+            {
+              "human": "1",
+              "prediction": "1",
+              "count": 25
+            },
+            {
+              "human": "2",
+              "prediction": "2",
+              "count": 6
+            },
+            {
+              "human": "3",
+              "prediction": "1",
+              "count": 2
+            },
+            {
+              "human": "3",
+              "prediction": "3",
+              "count": 7
+            },
+            {
+              "human": "3",
+              "prediction": "4",
+              "count": 2
+            },
+            {
+              "human": "4",
+              "prediction": "2",
+              "count": 2
+            },
+            {
+              "human": "4",
+              "prediction": "3",
+              "count": 4
+            },
+            {
+              "human": "4",
+              "prediction": "4",
+              "count": 3
+            },
+            {
+              "human": "5",
+              "prediction": "3",
+              "count": 2
+            },
+            {
+              "human": "5",
+              "prediction": "4",
+              "count": 2
+            }
+          ]
+        },
+        "sentiment": {
+          "explicitly_annotated": 97,
+          "not_explicitly_annotated": 103,
+          "inside_selected_cohort": 67,
+          "outside_selected_cohort": 30,
+          "valid_prediction_count": 67,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 10,
+            "denominator": 67,
+            "value": 0.14925373134328357
+          },
+          "mean_absolute_error": 0.20134328358208956,
+          "mae_denominator": 67,
+          "within_0_25": {
+            "numerator": 49,
+            "denominator": 67,
+            "value": 0.7313432835820896
+          }
+        },
+        "needs_review": {
+          "explicitly_annotated": 6,
+          "not_explicitly_annotated": 194,
+          "inside_selected_cohort": 6,
+          "outside_selected_cohort": 0,
+          "valid_prediction_count": 6,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 5,
+            "denominator": 6,
+            "value": 0.8333333333333334
+          }
+        },
+        "ambiguous": {
+          "explicitly_annotated": 5,
+          "not_explicitly_annotated": 195,
+          "inside_selected_cohort": 5,
+          "outside_selected_cohort": 0,
+          "valid_prediction_count": 0,
+          "missing_or_invalid_prediction_count": 5,
+          "exact_agreement": {
+            "numerator": 0,
+            "denominator": 5,
+            "value": 0.0
+          }
+        },
+        "entities": {
+          "explicitly_annotated": 0,
+          "not_explicitly_annotated": 200,
+          "inside_selected_cohort": 0,
+          "outside_selected_cohort": 0,
+          "valid_prediction_count": 0,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 0,
+            "denominator": 0,
+            "value": null
+          }
+        }
+      },
+      "declared_default_false_needs_review": {
+        "numerator": 66,
+        "denominator": 93,
+        "value": 0.7096774193548387
+      },
+      "needs_review_detection_of_topic_or_intent_errors": {
+        "jointly_explicit_reference_rows": 68,
+        "missing_or_invalid_predictions": 0,
+        "observed_errors_including_missing_predictions": 24,
+        "flagged_predictions": 16,
+        "error_capture_recall": {
+          "numerator": 9,
+          "denominator": 24,
+          "value": 0.375
+        },
+        "flag_precision": {
+          "numerator": 9,
+          "denominator": 16,
+          "value": 0.5625
+        },
+        "interpretation": "Flag performance against observed topic/intent errors, independent of the human default-false needs_review convention. Missing predictions are errors and cannot be captured by an absent flag."
+      },
+      "mechanical_evidence_checks": {
+        "completed_prediction_count": 99,
+        "exact_quote_substring": {
+          "numerator": 99,
+          "denominator": 99,
+          "value": 1.0
+        },
+        "unsupported_literal_entity_cases": 0,
+        "semantic_evidence_accuracy": null
+      }
+    },
+    "mandatory_golden_50": {
+      "worksheet_rows": 50,
+      "inside_selected_cohort": 50,
+      "outside_selected_cohort": 0,
+      "fields": {
+        "topic": {
+          "explicitly_annotated": 50,
+          "not_explicitly_annotated": 0,
+          "inside_selected_cohort": 50,
+          "outside_selected_cohort": 0,
+          "valid_prediction_count": 50,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 36,
+            "denominator": 50,
+            "value": 0.72
+          },
+          "confusion": [
+            {
+              "human": "billing",
+              "prediction": "billing",
+              "count": 3
+            },
+            {
+              "human": "billing",
+              "prediction": "downloads",
+              "count": 1
+            },
+            {
+              "human": "billing",
+              "prediction": "other",
+              "count": 1
+            },
+            {
+              "human": "billing",
+              "prediction": "usability",
+              "count": 7
+            },
+            {
+              "human": "catalog",
+              "prediction": "catalog",
+              "count": 5
+            },
+            {
+              "human": "catalog",
+              "prediction": "other",
+              "count": 2
+            },
+            {
+              "human": "catalog",
+              "prediction": "usability",
+              "count": 1
+            },
+            {
+              "human": "other",
+              "prediction": "other",
+              "count": 23
+            },
+            {
+              "human": "playback",
+              "prediction": "catalog",
+              "count": 1
+            },
+            {
+              "human": "playback",
+              "prediction": "playback",
+              "count": 5
+            },
+            {
+              "human": "playback",
+              "prediction": "usability",
+              "count": 1
+            }
+          ]
+        },
+        "intent": {
+          "explicitly_annotated": 50,
+          "not_explicitly_annotated": 0,
+          "inside_selected_cohort": 50,
+          "outside_selected_cohort": 0,
+          "valid_prediction_count": 50,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 44,
+            "denominator": 50,
+            "value": 0.88
+          },
+          "confusion": [
+            {
+              "human": "cancellation",
+              "prediction": "cancellation",
+              "count": 1
+            },
+            {
+              "human": "complaint",
+              "prediction": "complaint",
+              "count": 21
+            },
+            {
+              "human": "complaint",
+              "prediction": "unclear",
+              "count": 3
+            },
+            {
+              "human": "praise",
+              "prediction": "praise",
+              "count": 20
+            },
+            {
+              "human": "praise",
+              "prediction": "unclear",
+              "count": 2
+            },
+            {
+              "human": "request",
+              "prediction": "complaint",
+              "count": 1
+            },
+            {
+              "human": "request",
+              "prediction": "request",
+              "count": 1
+            },
+            {
+              "human": "unclear",
+              "prediction": "unclear",
+              "count": 1
+            }
+          ]
+        },
+        "severity": {
+          "explicitly_annotated": 50,
+          "not_explicitly_annotated": 0,
+          "inside_selected_cohort": 50,
+          "outside_selected_cohort": 0,
+          "valid_prediction_count": 50,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 40,
+            "denominator": 50,
+            "value": 0.8
+          },
+          "mean_absolute_error": 0.3,
+          "mae_denominator": 50,
+          "confusion": [
+            {
+              "human": "1",
+              "prediction": "1",
+              "count": 25
+            },
+            {
+              "human": "2",
+              "prediction": "2",
+              "count": 6
+            },
+            {
+              "human": "3",
+              "prediction": "1",
+              "count": 2
+            },
+            {
+              "human": "3",
+              "prediction": "3",
+              "count": 7
+            },
+            {
+              "human": "3",
+              "prediction": "4",
+              "count": 2
+            },
+            {
+              "human": "4",
+              "prediction": "2",
+              "count": 2
+            },
+            {
+              "human": "4",
+              "prediction": "3",
+              "count": 2
+            },
+            {
+              "human": "4",
+              "prediction": "4",
+              "count": 2
+            },
+            {
+              "human": "5",
+              "prediction": "3",
+              "count": 1
+            },
+            {
+              "human": "5",
+              "prediction": "4",
+              "count": 1
+            }
+          ]
+        },
+        "sentiment": {
+          "explicitly_annotated": 50,
+          "not_explicitly_annotated": 0,
+          "inside_selected_cohort": 50,
+          "outside_selected_cohort": 0,
+          "valid_prediction_count": 50,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 7,
+            "denominator": 50,
+            "value": 0.14
+          },
+          "mean_absolute_error": 0.1974,
+          "mae_denominator": 50,
+          "within_0_25": {
+            "numerator": 37,
+            "denominator": 50,
+            "value": 0.74
+          }
+        },
+        "needs_review": {
+          "explicitly_annotated": 6,
+          "not_explicitly_annotated": 44,
+          "inside_selected_cohort": 6,
+          "outside_selected_cohort": 0,
+          "valid_prediction_count": 6,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 5,
+            "denominator": 6,
+            "value": 0.8333333333333334
+          }
+        },
+        "ambiguous": {
+          "explicitly_annotated": 5,
+          "not_explicitly_annotated": 45,
+          "inside_selected_cohort": 5,
+          "outside_selected_cohort": 0,
+          "valid_prediction_count": 0,
+          "missing_or_invalid_prediction_count": 5,
+          "exact_agreement": {
+            "numerator": 0,
+            "denominator": 5,
+            "value": 0.0
+          }
+        },
+        "entities": {
+          "explicitly_annotated": 0,
+          "not_explicitly_annotated": 50,
+          "inside_selected_cohort": 0,
+          "outside_selected_cohort": 0,
+          "valid_prediction_count": 0,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 0,
+            "denominator": 0,
+            "value": null
+          }
+        }
+      },
+      "declared_default_false_needs_review": {
+        "numerator": 35,
+        "denominator": 44,
+        "value": 0.7954545454545454
+      },
+      "needs_review_detection_of_topic_or_intent_errors": {
+        "jointly_explicit_reference_rows": 50,
+        "missing_or_invalid_predictions": 0,
+        "observed_errors_including_missing_predictions": 17,
+        "flagged_predictions": 10,
+        "error_capture_recall": {
+          "numerator": 5,
+          "denominator": 17,
+          "value": 0.29411764705882354
+        },
+        "flag_precision": {
+          "numerator": 5,
+          "denominator": 10,
+          "value": 0.5
+        },
+        "interpretation": "Flag performance against observed topic/intent errors, independent of the human default-false needs_review convention. Missing predictions are errors and cannot be captured by an absent flag."
+      },
+      "mechanical_evidence_checks": {
+        "completed_prediction_count": 50,
+        "exact_quote_substring": {
+          "numerator": 50,
+          "denominator": 50,
+          "value": 1.0
+        },
+        "unsupported_literal_entity_cases": 0,
+        "semantic_evidence_accuracy": null
+      }
+    },
+    "additional_150": {
+      "worksheet_rows": 150,
+      "inside_selected_cohort": 49,
+      "outside_selected_cohort": 101,
+      "fields": {
+        "topic": {
+          "explicitly_annotated": 50,
+          "not_explicitly_annotated": 100,
+          "inside_selected_cohort": 18,
+          "outside_selected_cohort": 32,
+          "valid_prediction_count": 18,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 15,
+            "denominator": 18,
+            "value": 0.8333333333333334
+          },
+          "confusion": [
+            {
+              "human": "access",
+              "prediction": "access",
+              "count": 1
+            },
+            {
+              "human": "billing",
+              "prediction": "billing",
+              "count": 3
+            },
+            {
+              "human": "catalog",
+              "prediction": "other",
+              "count": 2
+            },
+            {
+              "human": "other",
+              "prediction": "other",
+              "count": 11
+            },
+            {
+              "human": "playback",
+              "prediction": "billing",
+              "count": 1
+            }
+          ]
+        },
+        "intent": {
+          "explicitly_annotated": 51,
+          "not_explicitly_annotated": 99,
+          "inside_selected_cohort": 18,
+          "outside_selected_cohort": 33,
+          "valid_prediction_count": 18,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 13,
+            "denominator": 18,
+            "value": 0.7222222222222222
+          },
+          "confusion": [
+            {
+              "human": "cancellation",
+              "prediction": "cancellation",
+              "count": 1
+            },
+            {
+              "human": "complaint",
+              "prediction": "complaint",
+              "count": 5
+            },
+            {
+              "human": "complaint",
+              "prediction": "unclear",
+              "count": 2
+            },
+            {
+              "human": "praise",
+              "prediction": "praise",
+              "count": 6
+            },
+            {
+              "human": "praise",
+              "prediction": "unclear",
+              "count": 1
+            },
+            {
+              "human": "request",
+              "prediction": "complaint",
+              "count": 2
+            },
+            {
+              "human": "unclear",
+              "prediction": "unclear",
+              "count": 1
+            }
+          ]
+        },
+        "severity": {
+          "explicitly_annotated": 17,
+          "not_explicitly_annotated": 133,
+          "inside_selected_cohort": 5,
+          "outside_selected_cohort": 12,
+          "valid_prediction_count": 5,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 1,
+            "denominator": 5,
+            "value": 0.2
+          },
+          "mean_absolute_error": 1.0,
+          "mae_denominator": 5,
+          "confusion": [
+            {
+              "human": "4",
+              "prediction": "3",
+              "count": 2
+            },
+            {
+              "human": "4",
+              "prediction": "4",
+              "count": 1
+            },
+            {
+              "human": "5",
+              "prediction": "3",
+              "count": 1
+            },
+            {
+              "human": "5",
+              "prediction": "4",
+              "count": 1
+            }
+          ]
+        },
+        "sentiment": {
+          "explicitly_annotated": 47,
+          "not_explicitly_annotated": 103,
+          "inside_selected_cohort": 17,
+          "outside_selected_cohort": 30,
+          "valid_prediction_count": 17,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 3,
+            "denominator": 17,
+            "value": 0.17647058823529413
+          },
+          "mean_absolute_error": 0.21294117647058822,
+          "mae_denominator": 17,
+          "within_0_25": {
+            "numerator": 12,
+            "denominator": 17,
+            "value": 0.7058823529411765
+          }
+        },
+        "needs_review": {
+          "explicitly_annotated": 0,
+          "not_explicitly_annotated": 150,
+          "inside_selected_cohort": 0,
+          "outside_selected_cohort": 0,
+          "valid_prediction_count": 0,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 0,
+            "denominator": 0,
+            "value": null
+          }
+        },
+        "ambiguous": {
+          "explicitly_annotated": 0,
+          "not_explicitly_annotated": 150,
+          "inside_selected_cohort": 0,
+          "outside_selected_cohort": 0,
+          "valid_prediction_count": 0,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 0,
+            "denominator": 0,
+            "value": null
+          }
+        },
+        "entities": {
+          "explicitly_annotated": 0,
+          "not_explicitly_annotated": 150,
+          "inside_selected_cohort": 0,
+          "outside_selected_cohort": 0,
+          "valid_prediction_count": 0,
+          "missing_or_invalid_prediction_count": 0,
+          "exact_agreement": {
+            "numerator": 0,
+            "denominator": 0,
+            "value": null
+          }
+        }
+      },
+      "declared_default_false_needs_review": {
+        "numerator": 31,
+        "denominator": 49,
+        "value": 0.6326530612244898
+      },
+      "needs_review_detection_of_topic_or_intent_errors": {
+        "jointly_explicit_reference_rows": 18,
+        "missing_or_invalid_predictions": 0,
+        "observed_errors_including_missing_predictions": 7,
+        "flagged_predictions": 6,
+        "error_capture_recall": {
+          "numerator": 4,
+          "denominator": 7,
+          "value": 0.5714285714285714
+        },
+        "flag_precision": {
+          "numerator": 4,
+          "denominator": 6,
+          "value": 0.6666666666666666
+        },
+        "interpretation": "Flag performance against observed topic/intent errors, independent of the human default-false needs_review convention. Missing predictions are errors and cannot be captured by an absent flag."
+      },
+      "mechanical_evidence_checks": {
+        "completed_prediction_count": 49,
+        "exact_quote_substring": {
+          "numerator": 49,
+          "denominator": 49,
+          "value": 1.0
+        },
+        "unsupported_literal_entity_cases": 0,
+        "semantic_evidence_accuracy": null
+      }
+    }
+  },
+  "artifacts": {
+    "reference_sha256": "dd95152c33ac420e77d54688af9b0904432100d7824b849489eb17f9ab5dfc21",
+    "prediction_sha256": "8c23941a34abf7c09e279cb6dc49f0778638b25cc7e6a2a05f83b30daee4246c",
+    "label_config": "spotify-f84b2a9afdaa455fd81d26077cab1ccebc7a62bb1b46bab461d9ae593bcb584a",
+    "run_id": "run-07e2cb4b0e3d9be0",
+    "evaluator_sha256": "d204530c2a81b157c34ee8060bf34262a8f19594cbb67ac0034f6376f4f02175",
+    "golden_source_sha256": "1a125c3e509f58b0246ba16d0ea332675a53ffadb1928be4338a0bd7053a11c7"
+  },
+  "limitations": [
+    "This posthoc reference includes 51 originally missing field values across 40 reviews that were drafted with AI and then explicitly confirmed by the user, including any user edits. Per-field annotation_method preserves that assistance. These are not independent blind human labels. Frozen hero predictions were not inputs to the draft review or importer.",
+    "The human reference was corrected after inspecting earlier model predictions, including 43 approved topic changes; this is posthoc adjudicated agreement, not blind accuracy.",
+    "Each field uses only explicitly annotated values. Blank severity, sentiment, and entities are not negative labels and are never imputed.",
+    "The completed golden 50 use the course severity rubric for every record; the additional 150 retain sparse original annotations.",
+    "Only reference IDs inside the selected hero cohort enter agreement denominators. Outside-cohort references are separately counted; missing/invalid in-cohort predictions count as incorrect for exact agreement.",
+    "Numeric MAE uses valid available predictions only and states its denominator. Selective annotation and small nonrandom subgroups prevent a population-accuracy claim.",
+    "Explicit primary labels are scored; alternative accepted labels and notes are not substituted for the primary label.",
+    "Default-false flags and full-source evidence are reported separately from explicit annotations. Literal quote/entity checks do not establish semantic evidence support.",
+    "Human labels are read only by this offline evaluation after inference; they are not inputs to enrichment, routing, verification, or prompt selection."
+  ],
+  "reference_completion": {
+    "ai_draft_sha256": "8801f4ef33f5cf0069ccfba3620632281f2caa9376b1cc520a434855b3021efe",
+    "evaluation_status": "posthoc_ai_assisted_course_reference_completion_not_blind_accuracy",
+    "frozen_hero_predictions_consulted": false,
+    "golden_rows": 50,
+    "human_confirmed_ai_fields": 51,
+    "human_confirmed_ai_rows": 40,
+    "new_labels_inferred_by_importer": 0,
+    "parent_reference_sha256": "6629c11019cebc40e1a311d62b99a0b80b347d24bb337440980068972a1bbb16",
+    "raw_ai_suggestions_counted_without_human_confirmation": 0,
+    "required_fields_complete": [
+      "topic",
+      "intent",
+      "severity",
+      "sentiment"
+    ],
+    "rubric_sha256": "55f5830e87b45b79060f282520887f2b3ddca535b7abac3b24f19361d174e794",
+    "scope": "official_golden_50_only",
+    "snapshot_sha256": "d1dbcf69aca1473ff1d6c6ee3d10be1672260e8af11ef6a347f6fb7fd49e2c74",
+    "supplement_sha256": "3f2ee5e43107b9ae10f41abaabf79599e9fab4fa16b3e152d3529d48db0dbb53",
+    "version": "course-ai-reviewed-v3"
+  }
+}

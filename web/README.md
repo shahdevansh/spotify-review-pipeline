@@ -65,8 +65,14 @@ the size gate rolls back an oversized import. It must be run from this repositor
 checkout. Keep the published source artifacts unchanged. For the web deployment,
 create a dedicated reader role using the grants below, set its server-only
 `DATABASE_READONLY_URL`, and deploy `web/` to Vercel. Human-reference evidence remains
-a separately versioned, run-bound publication; the old `pilot_audit` example below
-is not the hero human report.
+a separately versioned, run-bound publication. The current
+[AI-assisted, human-confirmed reference](../evals/human-reference-v3/) completes
+all four required golden-50 fields and preserves the
+[earlier partial reference](../evals/human-reference-v2/). It does not change
+production data or imply blind accuracy. Its dashboard link must use the exact
+verified publication commit, report hash, reference kind and path after public
+read-back verification; changing a link does not require a database import.
+The old `pilot_audit` example below is not the hero human report.
 
 ## Local preview
 

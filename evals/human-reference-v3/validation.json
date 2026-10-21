@@ -1,0 +1,70 @@
+{
+  "passed": true,
+  "golden_records": 50,
+  "exported_records": 200,
+  "other_worksheet_records_exported": 150,
+  "outside_selected_predictions_null_and_unscored": true,
+  "forbidden_private_fields_absent": true,
+  "per_case_aggregate_matches_frozen_evaluator": true,
+  "reference_unchanged": true,
+  "reference_sha256": "dd95152c33ac420e77d54688af9b0904432100d7824b849489eb17f9ab5dfc21",
+  "files": {
+    "README.md": {
+      "sha256": "08fa29b955d352561328069a8af342ce8a26cf158afc739904182697b0896033",
+      "bytes": 3384
+    },
+    "aggregate.json": {
+      "sha256": "9c4aa13e6aba8f2a88809a98c6143346e7348ee7ce101fdb97e230b6558197b5",
+      "bytes": 26901
+    },
+    "all200-comparison.csv": {
+      "sha256": "d3928ced2271d68fb8f3e9ead46be0a0b07288ea684ab34cea3bf14e490c2700",
+      "bytes": 267623
+    },
+    "all200-comparison.jsonl": {
+      "sha256": "5b9d128eea28318e310623913f320a5b487df802d7beb9e6a64007ae548c78be",
+      "bytes": 850566
+    },
+    "golden50-comparison.csv": {
+      "sha256": "734195d3c17c89cc09f51fde77f0914508a4ebff2d7eb11f5937b8e8f9903031",
+      "bytes": 71905
+    },
+    "golden50-comparison.jsonl": {
+      "sha256": "7f155732d3a79c9b535eedb40dc0724ead671fd31a8f9234af3695130d731e3c",
+      "bytes": 218635
+    },
+    "index.html": {
+      "sha256": "15e30772613e0d1da0f6cb59024babd665ddd93d40650fc3d45605060eee4694",
+      "bytes": 428409
+    },
+    "report.md": {
+      "sha256": "263648bd66e9c5d075c3f08e18897518491cadaeb34285acaa24337c8830523b",
+      "bytes": 3825
+    }
+  },
+  "course_completion_provenance_disclosed": true,
+  "evaluation_status": "posthoc_ai_assisted_course_reference_completion_not_blind_accuracy",
+  "ai_assistance_disclosed": true,
+  "reference_completion": {
+    "ai_draft_sha256": "8801f4ef33f5cf0069ccfba3620632281f2caa9376b1cc520a434855b3021efe",
+    "evaluation_status": "posthoc_ai_assisted_course_reference_completion_not_blind_accuracy",
+    "frozen_hero_predictions_consulted": false,
+    "golden_rows": 50,
+    "human_confirmed_ai_fields": 51,
+    "human_confirmed_ai_rows": 40,
+    "new_labels_inferred_by_importer": 0,
+    "parent_reference_sha256": "6629c11019cebc40e1a311d62b99a0b80b347d24bb337440980068972a1bbb16",
+    "raw_ai_suggestions_counted_without_human_confirmation": 0,
+    "required_fields_complete": [
+      "topic",
+      "intent",
+      "severity",
+      "sentiment"
+    ],
+    "rubric_sha256": "55f5830e87b45b79060f282520887f2b3ddca535b7abac3b24f19361d174e794",
+    "scope": "official_golden_50_only",
+    "snapshot_sha256": "d1dbcf69aca1473ff1d6c6ee3d10be1672260e8af11ef6a347f6fb7fd49e2c74",
+    "supplement_sha256": "3f2ee5e43107b9ae10f41abaabf79599e9fab4fa16b3e152d3529d48db0dbb53",
+    "version": "course-ai-reviewed-v3"
+  }
+}
