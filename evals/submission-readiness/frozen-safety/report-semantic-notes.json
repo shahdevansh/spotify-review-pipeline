@@ -1,0 +1,49 @@
+{
+  "synthetic": true,
+  "business_evidence": false,
+  "original_records": "original-synthetic-records.json",
+  "independent_original_comparison": "baseline-verification.json",
+  "planted_baseline_copy_description": "planted-copy.json",
+  "planted_comparison": "planted-comparison.json",
+  "generic_run_verification_interpretation": "run/verification.jsonl.gz and run/disagreements.jsonl.gz are the last invocation: cached independent predictions compared with the deliberately corrupted synthetic copy. run_summary stages.verify is this cached comparison, not the first paid audit. Originals and original baselines remain unchanged.",
+  "initial_live_verifier_api_duration_seconds": 1.716547999996692,
+  "initial_live_verifier_api_duration_scope": "One successful provider request duration, not whole stage wall time.",
+  "cached_planted_replay_wall_seconds": 0.002819874993292615,
+  "baseline_completed": 9,
+  "baseline_categorical_disagreements": 0,
+  "baseline_sentiment_difference_above_0_25": 4,
+  "baseline_topic_agreement": {
+    "numerator": 9,
+    "denominator": 9
+  },
+  "baseline_intent_agreement": {
+    "numerator": 9,
+    "denominator": 9
+  },
+  "baseline_severity_agreement": {
+    "numerator": 9,
+    "denominator": 9
+  },
+  "sentiment_accuracy_claimed": false,
+  "deterministic_tests": {
+    "count": 5,
+    "status": "passed",
+    "provider_calls": 0,
+    "actual_ledger_access": false,
+    "config_fingerprint_matches_frozen_hero": true,
+    "coverage": [
+      "one malformed repair then quarantine",
+      "transient retry retains simulated unknown hold",
+      "transient retry exhaustion",
+      "budget stops before dispatch",
+      "empty text uses no request"
+    ]
+  },
+  "independent_review": {
+    "status": "passed_with_reporting_note",
+    "reviewer": "separate Codex subagent review_frozen_smoke",
+    "scope": "Read-only source, cost bound, request payload, configuration, result and ledger reconciliation",
+    "reporting_note_resolved_by": "This separate semantic note and report.md; no raw output edited or model rerun."
+  },
+  "configuration_snapshot_timing": "run/configuration.json was saved by Engine construction with original global cap 48. Before any paid dispatch, the run tightened its effective global cap to 37.633148442; preflight.json, allocation.json and run/run_summary.json record this effective cap. The classification fingerprint excludes these operational spending controls."
+}

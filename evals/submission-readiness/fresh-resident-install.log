@@ -1,0 +1,27 @@
+Using CPython 3.13.11
+Creating virtual environment at: .venv
+   Building spotify-review-pipeline @ file:///private/tmp/spotify-submission-clean-20261021
+      Built spotify-review-pipeline @ file:///private/tmp/spotify-submission-clean-20261021
+Prepared 1 package in 420ms
+Installed 21 packages in 80ms
+ + annotated-types==0.8.0
+ + anyio==4.15.1
+ + certifi==2026.10.19
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + iniconfig==2.3.1
+ + packaging==26.3
+ + pluggy==1.7.0
+ + psycopg==3.3.6
+ + psycopg-binary==3.3.6
+ + pydantic==2.14.1
+ + pydantic-core==2.50.1
+ + pygments==2.21.0
+ + pytest==9.1.1
+ + pytest-asyncio==1.4.0
+ + python-dotenv==1.2.4
+ + spotify-review-pipeline==0.1.0 (from file:///private/tmp/spotify-submission-clean-20261021)
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.4

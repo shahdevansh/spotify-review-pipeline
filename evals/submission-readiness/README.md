@@ -1,0 +1,15 @@
+# Submission readiness checks — 21 October 2026
+
+These follow-up checks preserve the frozen hero outputs and the original release archive. The [grader entry point](../../SUBMISSION.md) maps all ten rubric criteria to evidence.
+
+- **Fresh setup and offline reproduction:** [receipt](fresh-resident-repro.json), [locked-install log](fresh-resident-install.log), and [audit](repro-audit.md). Fresh CPython 3.13.11 environment at code revision `f135fe5b8b22da06cbe9075414909ded94b13289`; no copied runtime or PYTHONPATH override. Calculator and full saved-output reranking used unset credentials and blocked network sockets. Ranking and claims matched byte for byte. An earlier iCloud-path import failure is disclosed in the audit.
+- **Fixed cold/warm input identity:** [sidecar](hero-cost-source-validation.json) verifies all 100 review IDs/source-row hashes and the supplied CSV checksum. Historical null checksum metadata remains unchanged.
+- **Arbitrary-input CLI repair:** [before](hero-cli-guard-reproduction.json), [repair receipt](cli-decisions-credentials-repair.json), and [11 regression cases](../../tests/test_cli_decisions_credentials.py). The CLI now admits the Decisions provider and checks OPENAI_API_KEY, matching the existing engine. No model request bodies, classification settings, predictions, or labels changed. The completed hero supervisor had bypassed this faulty CLI guard.
+- **Frozen-model safety smoke:** [results](frozen-safety/report.md), [allowed artifact manifest](frozen-safety/public-manifest.json). Ten predeclared integration cases passed; five offline failure simulations passed. Eleven successful live attempts cost $0.005504154. Four of nine sentiment comparisons exceeded 0.25, and this tiny partly rubric-derived smoke is not an accuracy or broad robustness estimate. Production records were untouched.
+- **Public access/archive checks:** [HTTP checks](readonly-access-check.json), [original archive inventory](archive-member-audit.json).
+
+The older audit's proposed CLI and web-documentation repairs are incorporated in this submission revision. See the current [hero database instructions](../../web/README.md) and [explicit calculator settings](../../cost/hero-replay.md); legacy pilot recipes are labeled as historical and require separate retained inputs.
+
+All 200 worksheet records are now exposed in the user-approved [minimal human-reference export](../human-reference-v2/), excluding private notes. Missing human fields remain missing. AI-assisted draft suggestions, when created for user review, are kept separate and are not scored as human labels until explicitly reviewed.
+
+The shared ledger after the tiny follow-up smoke records $35.325463181 plus $1.563189415 in unresolved-charge holds: **$36.888652596 committed**, below the $50 total budget and $48 admission ceiling. No new unknown holds or reservations were added. These are nominal usage costs, not reconciled cash invoices. The original hero release retains its earlier dated cost snapshot.

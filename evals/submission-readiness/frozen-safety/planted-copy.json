@@ -1,0 +1,8 @@
+{
+  "synthetic_only": true,
+  "field": "topic",
+  "before": "access",
+  "after": "billing",
+  "review_id": "hero-synthetic-20261021-login-control",
+  "reference_predictions_unchanged": true
+}

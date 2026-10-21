@@ -1,0 +1,41 @@
+{
+  "commit": "f135fe5b8b22da06cbe9075414909ded94b13289",
+  "checks": {
+    "ranking.csv": {
+      "equal_bytes": true,
+      "sha256": "9e0952b616c37faf297cf977c2ec5a881c20a495205d9562c5dd0097b6299f27"
+    },
+    "claims.csv": {
+      "equal_bytes": true,
+      "sha256": "1fe408f1e7da701f8b2595962a4e20a747272b712b40427c26fd403e1f860dd5"
+    }
+  },
+  "rerank_elapsed_seconds": 6.668235457997071,
+  "network_blocked": true,
+  "credentials_unset": true,
+  "pythonpath_override": false,
+  "python": "3.13.11 (main, Jan 27 2026, 23:31:20) [Clang 21.1.4 ]",
+  "fresh_environment": "Fresh isolated resident temporary checkout; not the original project environment",
+  "measurements": {
+    "cold": {
+      "api_cost_usd": 0.02360475,
+      "input_count": 100,
+      "completed_records": 100,
+      "attempts": 105,
+      "wall_seconds": 41.90341787500074,
+      "cache_hits": 0,
+      "input_sha256": null
+    },
+    "warm": {
+      "api_cost_usd": 0.0,
+      "input_count": 100,
+      "completed_records": 100,
+      "attempts": 0,
+      "wall_seconds": 0.2137402079970343,
+      "cache_hits": 100,
+      "input_sha256": null
+    }
+  },
+  "validated_at_utc": "2026-10-21T18:12:47.684678+00:00",
+  "elapsed_scope": "The elapsed field includes deterministic reranking plus the two calculator replays, not only reranking."
+}

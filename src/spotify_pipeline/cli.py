@@ -39,7 +39,7 @@ def _require_paid(args):
     if not isinstance(declared, dict) or set(declared) - set(ROLE_PROVIDERS):
         raise ValueError("Unsupported provider role configuration; no calls made.")
     providers = {role_provider(config, role) for role in ROLE_PROVIDERS}
-    if providers - {"jev", "openai", "nebius"}:
+    if providers - {"jev", "openai", "nebius", "decisions"}:
         raise ValueError("Unsupported provider; no calls made.")
     required = set()
     if "jev" in providers:
@@ -47,7 +47,7 @@ def _require_paid(args):
         if transport not in {"direct", "vercel_gateway"}:
             raise ValueError("Unsupported Jev transport; no calls made.")
         required.add("VERCEL_TYPESAFE_API_KEY" if transport == "vercel_gateway" else "TYPESAFE_API_KEY")
-    required.update({"openai": "OPENAI_API_KEY", "nebius": "NEBIUS_API_KEY"}[provider]
+    required.update({"openai": "OPENAI_API_KEY", "decisions": "OPENAI_API_KEY", "nebius": "NEBIUS_API_KEY"}[provider]
                     for provider in providers - {"jev"})
     missing = [key for key in sorted(required) if not available.get(key)]
     if missing:

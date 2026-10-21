@@ -1,0 +1,44 @@
+[
+  {
+    "name": "readme",
+    "status": 200,
+    "bytes": 39769,
+    "url": "https://raw.githubusercontent.com/shahdevansh/spotify-review-pipeline/main/README.md"
+  },
+  {
+    "name": "pyproject",
+    "status": 200,
+    "bytes": 633,
+    "url": "https://raw.githubusercontent.com/shahdevansh/spotify-review-pipeline/main/pyproject.toml"
+  },
+  {
+    "name": "release",
+    "status": 200,
+    "bytes": 9617,
+    "url": "https://api.github.com/repos/shahdevansh/spotify-review-pipeline/releases/tags/hero-v1"
+  },
+  {
+    "name": "overview",
+    "status": 200,
+    "bytes": 7444,
+    "url": "https://spotify-review-observatory.vercel.app/api/overview"
+  },
+  {
+    "name": "receipt",
+    "status": 200,
+    "bytes": 7745,
+    "url": "https://github.com/shahdevansh/spotify-review-pipeline/releases/download/hero-v1/publication-receipt.json"
+  },
+  {
+    "name": "cost_readme",
+    "status": 200,
+    "bytes": 5733,
+    "url": "https://raw.githubusercontent.com/shahdevansh/spotify-review-pipeline/main/cost/README.md"
+  },
+  {
+    "name": "grading_readme",
+    "status": 200,
+    "bytes": 745,
+    "url": "https://raw.githubusercontent.com/shahdevansh/spotify-review-pipeline/main/grading/README.md"
+  }
+]

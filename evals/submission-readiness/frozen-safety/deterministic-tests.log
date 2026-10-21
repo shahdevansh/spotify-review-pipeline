@@ -1,0 +1,10 @@
+test_budget_stops_before_dispatch (__main__.FrozenFailureChecks.test_budget_stops_before_dispatch) ... ok
+test_empty_text_uses_no_call (__main__.FrozenFailureChecks.test_empty_text_uses_no_call) ... ok
+test_one_malformed_repair_then_quarantine (__main__.FrozenFailureChecks.test_one_malformed_repair_then_quarantine) ... ok
+test_transient_retry_exhaustion (__main__.FrozenFailureChecks.test_transient_retry_exhaustion) ... ok
+test_transient_retry_retains_unknown_hold (__main__.FrozenFailureChecks.test_transient_retry_retains_unknown_hold) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.067s
+
+OK

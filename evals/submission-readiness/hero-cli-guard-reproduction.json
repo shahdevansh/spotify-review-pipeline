@@ -1,0 +1,9 @@
+{
+  "status": "reproduced_defect",
+  "exception": "Unsupported provider; no calls made.",
+  "source_commit": "f135fe5b8b22da06cbe9075414909ded94b13289",
+  "validated_at_utc": "2026-10-21T18:19:47.139556+00:00",
+  "scope": "No-network credential-guard call with fake credential availability; no real credentials loaded or model calls attempted",
+  "fix_needed": "Allow decisions in CLI provider validation and map it to OPENAI_API_KEY, preserving engine restriction to enrich role",
+  "model_calls": 0
+}

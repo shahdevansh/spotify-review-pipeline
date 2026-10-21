@@ -1,0 +1,87 @@
+{
+  "run_id": "run-573a246e4c101b37",
+  "run_identity_version": "output-config-cache-v2",
+  "label_config": "spotify-f84b2a9afdaa455fd81d26077cab1ccebc7a62bb1b46bab461d9ae593bcb584a",
+  "input_count": 10,
+  "completed": 9,
+  "quarantined": 1,
+  "pending": 0,
+  "unique_texts": 9,
+  "cache_hits": 0,
+  "task_cache_hits": 1,
+  "requests": 11,
+  "attempts": 11,
+  "failed_attempts": 0,
+  "api_cost_usd": 0.005504154,
+  "api_cost_complete": true,
+  "spending": {
+    "spent_usd": 0.005504154,
+    "reserved_usd": 0.0,
+    "unknown_charge_hold_usd": 0.0,
+    "committed_usd": 0.005504154,
+    "attempts": 11
+  },
+  "global_spending": {
+    "spent_usd": 35.325463181,
+    "reserved_usd": 0.0,
+    "unknown_charge_hold_usd": 1.563189415,
+    "committed_usd": 36.888652596,
+    "attempts": 159831
+  },
+  "budget_usd": 0.75,
+  "global_budget_usd": 37.633148442,
+  "wall_seconds": 7.487075333978282,
+  "phase": "initial",
+  "model_settings": {
+    "models": {
+      "enrich": "gpt-6-luna",
+      "fallback": "zai-org/GLM-5.3-Flash",
+      "verify": "zai-org/GLM-5.3",
+      "group": "zai-org/GLM-5.3-Flash",
+      "memo": "zai-org/GLM-5.3-Flash"
+    },
+    "providers": {
+      "enrich": "decisions",
+      "fallback": "nebius",
+      "verify": "nebius",
+      "group": "nebius",
+      "memo": "nebius"
+    },
+    "reasoning_effort": {
+      "enrich": "none",
+      "fallback": "low",
+      "verify": "low",
+      "group": "low",
+      "memo": "low"
+    }
+  },
+  "stages": {
+    "fallback": {
+      "eligible_unique_texts": 5,
+      "already_used": 0,
+      "maximum_unique_texts": 1,
+      "selected_unique_texts": 1
+    },
+    "exact_text_aliases": 0,
+    "enrich": {
+      "wall_seconds": 5.590108875010628,
+      "workers": 1,
+      "provider": "decisions",
+      "model": "gpt-6-luna",
+      "input_count": 10,
+      "unique_nonempty_texts": 9,
+      "cache_hits": 0
+    },
+    "verify": {
+      "requested_sample_count": 9,
+      "selected": 9,
+      "completed": 9,
+      "failed": 0,
+      "unprocessed": 0,
+      "disagreements": 4,
+      "wall_seconds": 0.002819874993292615,
+      "blind": true
+    }
+  },
+  "limitations": []
+}

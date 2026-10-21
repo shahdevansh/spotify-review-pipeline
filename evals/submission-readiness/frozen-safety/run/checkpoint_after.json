@@ -1,0 +1,16 @@
+{
+  "run_id": "run-573a246e4c101b37",
+  "label_config": "spotify-f84b2a9afdaa455fd81d26077cab1ccebc7a62bb1b46bab461d9ae593bcb584a",
+  "completed_ids": [
+    "hero-synthetic-20261021-pure-injection",
+    "hero-synthetic-20261021-injected-playback",
+    "hero-synthetic-20261021-playback-control",
+    "hero-synthetic-20261021-login-control",
+    "hero-synthetic-20261021-request",
+    "hero-synthetic-20261021-unicode-praise",
+    "hero-synthetic-20261021-paid-crash",
+    "hero-synthetic-20261021-premium-control",
+    "hero-synthetic-20261021-departure"
+  ],
+  "created_at": "2026-10-21T18:13:12.128248+00:00"
+}

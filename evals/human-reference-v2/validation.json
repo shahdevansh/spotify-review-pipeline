@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "golden_records": 50,
+  "exported_records": 200,
+  "other_worksheet_records_exported": 150,
+  "outside_selected_predictions_null_and_unscored": true,
+  "forbidden_private_fields_absent": true,
+  "per_case_aggregate_matches_frozen_evaluator": true,
+  "reference_unchanged": true,
+  "reference_sha256": "6629c11019cebc40e1a311d62b99a0b80b347d24bb337440980068972a1bbb16",
+  "files": {
+    "README.md": {
+      "sha256": "3edd9981ff17e48bc277b3539456afa11913534b8058b6bf233e1294a6e3272b",
+      "bytes": 2648
+    },
+    "aggregate.json": {
+      "sha256": "bb098623e8904fa07bd842d63311595bfa44069a1f553702f76a6b421391487a",
+      "bytes": 25034
+    },
+    "all200-comparison.csv": {
+      "sha256": "a84611a1c7ba26b2d253c32d8ba5973eab49ec59438f9ac185607d7aa8f6a0bf",
+      "bytes": 225633
+    },
+    "all200-comparison.jsonl": {
+      "sha256": "75183c040f318ea96096c81873eb88caadb845a53babd76a6191197d995c8129",
+      "bytes": 593895
+    },
+    "golden50-comparison.csv": {
+      "sha256": "004e5ffb95732422c7a9b6660c0d5c9f438d32ea9e4243c5bb9cac48c145d734",
+      "bytes": 61115
+    },
+    "golden50-comparison.jsonl": {
+      "sha256": "9713a21401684a56e8ef8c8a391615d7a2378b1d057801b04ce9ec74964b57e7",
+      "bytes": 154414
+    },
+    "index.html": {
+      "sha256": "81477f4fab7881c9cb48b8010ff33a78e683ed197e291b253ad18d5ed519f173",
+      "bytes": 333025
+    },
+    "report.md": {
+      "sha256": "5346e45608489b47b0529798b33d0a14848cb975e42ad475496e87f8017ef816",
+      "bytes": 3067
+    }
+  }
+}

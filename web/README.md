@@ -4,6 +4,70 @@ Next.js reads saved analysis results from PostgreSQL. It has no model SDK, provi
 key, inference endpoint, or paid call path. Missing data is shown as unavailable;
 there are no embedded example results.
 
+## Current submitted run: hero-v1
+
+The public dashboard now serves **200,000 completed nonempty reviews plus 13 empty
+quarantines**, with a 40,000-review independent audit. The old pilot publication
+and v5 evaluation examples below are retained as historical recipes; they do not
+recreate the submitted hero run. See the [current results](../README.md) and
+[verified final release](https://github.com/shahdevansh/spotify-review-pipeline/releases/tag/hero-v1).
+
+To inspect the saved hero data, use the public dashboard; no credentials or model
+calls are needed. To reproduce the database on **your own fresh PostgreSQL database**,
+first install the repository dependencies, verify the release checksum shown in
+the root README, and extract its ZIP into `evidence/` at the repository root. The
+release separates grading and run artifacts; assemble a working copy before import:
+
+```sh
+mkdir -p work/hero-import
+cp evidence/grading/records.jsonl.gz evidence/grading/membership.csv \
+  evidence/grading/ranking.csv evidence/grading/claims.csv work/hero-import/
+cp evidence/issues.json evidence/recommendations.json work/hero-import/
+cp evidence/run/run_summary.json evidence/run/configuration.json work/hero-import/
+```
+
+Validate the copied files offline, without a database connection or model calls:
+
+```sh
+python - <<'PY_VALIDATE'
+from spotify_pipeline.database import load_run
+bundle = load_run(
+    'work/hero-import',
+    ingestion_report='evidence/grading/ingestion.json',
+    evaluation_path='evidence/evals/hero/evaluation.json',
+)
+assert bundle.run_id == 'run-07e2cb4b0e3d9be0'
+assert len(bundle.records) == 200013 and len(bundle.issues) == 8
+assert len(bundle.membership) == 87897 and len(bundle.claims) == 32
+print('Hero artifact validation passed; no database changes.')
+PY_VALIDATE
+```
+
+Then configure your new database's writer `DATABASE_URL` in the ignored root `.env`
+and explicitly import. This command writes the database but makes no model calls:
+
+```sh
+python - <<'PY_IMPORT'
+from dotenv import load_dotenv
+from spotify_pipeline.database import import_run
+load_dotenv('.env', override=False)
+print(import_run(
+    'work/hero-import',
+    ingestion_report='evidence/grading/ingestion.json',
+    evaluation_path='evidence/evals/hero/evaluation.json',
+    max_storage_bytes=700_000_000,
+))
+PY_IMPORT
+```
+
+The importer creates tables from `web/database/schema.sql` and switches the saved run atomically;
+the size gate rolls back an oversized import. It must be run from this repository
+checkout. Keep the published source artifacts unchanged. For the web deployment,
+create a dedicated reader role using the grants below, set its server-only
+`DATABASE_READONLY_URL`, and deploy `web/` to Vercel. Human-reference evidence remains
+a separately versioned, run-bound publication; the old `pilot_audit` example below
+is not the hero human report.
+
 ## Local preview
 
 ```sh
@@ -58,21 +122,14 @@ The full source remains in the local ingestion ledger. The hosted database store
 the selected analysis input and its persisted results, with separate source and
 selection counts.
 
-## Publish an aggregate evaluation report
+## Historical pilot aggregate publication
 
-The versioned evaluation report is separate from the frozen review labels,
-ranking, recommendations, and legacy overview measurements. Build the v5 audit
-offline from its saved evidence:
-
-```sh
-python web/scripts/publish_evaluation.py
-# Explicit database publication after reviewing the offline result:
-python web/scripts/publish_evaluation.py --publish \
-  --receipt validation/dashboard_evaluation_publication.json
-```
-
-The publishing command reads `DATABASE_URL` from the environment or the ignored
-repository `.env`. It never prints credentials. The Python interface is:
+This older v5 recipe requires local pilot evidence under `runs/pilot/1000`; those
+ignored files are not part of a clean clone or the hero release. It does not
+reproduce the final hero audit or human-reference publication. Use the current
+hero import recipe above for the submitted run. The former
+`web/scripts/publish_evaluation.py` wrapper is not distributed; the supported
+module interface, for users who retain the historical pilot inputs, is:
 
 ```python
 from pathlib import Path
