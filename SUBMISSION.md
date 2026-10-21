@@ -13,6 +13,8 @@
 
 The [full README](README.md) provides architecture, model/settings rationale, one complete review trace, error analysis, results, limitations and commands. [Publication receipt](https://github.com/shahdevansh/spotify-review-pipeline/releases/download/hero-v1/publication-receipt.json) identifies the original final run, release checksum and public verification. Supplemental evidence is an additional dated validation layer.
 
+The [current reference and dashboard receipt](evals/submission-readiness/course-reference-v3/receipt.json) verifies the v3 archive readback, 50/50 required-field coverage, unchanged production results, and deployed evaluation link. It includes [visual verification](evals/submission-readiness/course-reference-v3/dashboard.png) and a [successful production build](evals/submission-readiness/course-reference-v3/vercel-build.log).
+
 ## Results and qualifications
 
 | Measure | Frozen hero result |

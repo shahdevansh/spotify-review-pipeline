@@ -14,6 +14,8 @@ Start with [SUBMISSION.md](SUBMISSION.md) for the ten rubric criteria, current e
 
 ## Results and scope
 
+The completed reference and dashboard update were verified on October 21, 2026. The [publication receipt](evals/submission-readiness/course-reference-v3/receipt.json), [rendered dashboard](evals/submission-readiness/course-reference-v3/dashboard.png), and [production build log](evals/submission-readiness/course-reference-v3/vercel-build.log) document the immutable v3 report link, complete golden-field coverage, anonymous API checks, 18 offline import/export tests, and 39 web tests. This update made no model calls or database writes.
+
 The complete source was ingested and profiled. Classification covers a reproducible **200,000-review subset**, plus all 13 empty source texts as explicit quarantines. This follows the amended assignment allowance of at least 100,000 reviews. It is not a classification of all 660,609 nonempty source reviews.
 
 | Measure | Final result | Evidence (ZIP paths unless linked) |

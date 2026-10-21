@@ -1,0 +1,78 @@
+{
+  "schema_version": "spotify-course-reference-v3-publication-receipt",
+  "verified_at": "2026-10-21T18:48:56.209578+00:00",
+  "status": "verified",
+  "reference": {
+    "version": "course-ai-reviewed-v3",
+    "sha256": "dd95152c33ac420e77d54688af9b0904432100d7824b849489eb17f9ab5dfc21",
+    "golden_complete": 50,
+    "required_fields": [
+      "topic",
+      "intent",
+      "severity",
+      "sentiment"
+    ],
+    "additions": 51,
+    "human_confirmed_reviews": 40,
+    "user_edited_suggestions": 5,
+    "other150_unchanged": true,
+    "parent_reference_unchanged": true,
+    "evaluation_status": "posthoc_ai_assisted_course_reference_completion_not_blind_accuracy"
+  },
+  "frozen_prediction_sha256": "8c23941a34abf7c09e279cb6dc49f0778638b25cc7e6a2a05f83b30daee4246c",
+  "new_model_calls": 0,
+  "archive": {
+    "github_commit": "8c027c7c1c3b683517a84ebb1aabd96874a4d59f",
+    "archive_bytes": 179782,
+    "archive_sha256": "8685a7821e41464de5272d66776f12e8b94cb7812530287f214e6c1e0f241df8",
+    "members": 18,
+    "report_sha256": "263648bd66e9c5d075c3f08e18897518491cadaeb34285acaa24337c8830523b",
+    "verified_at": "2026-10-21T18:45:58.753264+00:00",
+    "url": "https://github.com/shahdevansh/spotify-review-pipeline/releases/download/hero-v1/spotify-course-reference-v3.zip",
+    "http": 200,
+    "anonymous": true,
+    "member_hashes_verified": 17
+  },
+  "website": {
+    "production_url": "https://spotify-review-observatory.vercel.app",
+    "deployment_id": "dpl_Ee3RZx5yhc3Zyfh3MZJmqhY6SFcB",
+    "code_commit": "e58973eb99f24ff5a4cc556d1db338f1141034df",
+    "typecheck": "passed",
+    "build": "passed",
+    "node_tests_passed": 39,
+    "rendered_coverage_verified": true,
+    "report_url": "https://github.com/shahdevansh/spotify-review-pipeline/blob/8c027c7c1c3b683517a84ebb1aabd96874a4d59f/evals/human-reference-v3/report.md",
+    "http_status": {
+      "/api/overview": 200,
+      "/api/evaluation": 200,
+      "/api/issues": 200
+    },
+    "unchanged_completed": 200000,
+    "unchanged_quarantined": 13,
+    "unchanged_pending": 0,
+    "unchanged_issues": 8,
+    "unchanged_issue_members": 87897,
+    "unchanged_model_audit": 40000,
+    "database_writes": 0,
+    "strict_legacy_evaluation_overlay": "unchanged; unsupported hero overlay remains empty; independent model summary and reference link come from overview"
+  },
+  "offline_tests_passed": 18,
+  "independent_reviews": [
+    "input and version-preserving import",
+    "public source and frozen predictions",
+    "all group metrics and privacy",
+    "HTML per-field methods",
+    "web provenance gates"
+  ],
+  "course_submission_status": "pending_user_submission",
+  "evidence_files": {
+    "dashboard.png": {
+      "sha256": "50a56b7df78299c19c773e228edf2f39d57c7332db6b4b4bfbe3dbbfc610deed",
+      "bytes": 78148
+    },
+    "vercel-build.log": {
+      "sha256": "1e0ae02fb14eab3145b20fd62a42ffccc7925247f0adce4ba71b8422d62ecda5",
+      "bytes": 3693
+    }
+  }
+}
