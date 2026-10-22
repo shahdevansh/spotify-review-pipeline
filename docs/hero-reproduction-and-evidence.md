@@ -44,6 +44,8 @@ The [submission supplement](https://github.com/shahdevansh/spotify-review-pipeli
 
 Paths beginning `grading/`, `run/`, `handoffs/`, `validation/`, or `recovery/` below refer to files inside the extracted hero archive unless linked directly to the repository. Its root `cost/` directory preserves the selected cold-100 measurement, with warm measurements in `cost/warm100/`.
 
+The [report presentation receipt](../evals/submission-readiness/golden-report-presentation/receipt.json) records the refreshed golden-review archive and dashboard wording, including verified checksums and confirmation that the structured labels, predictions, and metrics stayed unchanged.
+
 ## Calculator replay and deterministic ranking
 
 Reprice the measured cold-100 calls with explicit hero projection settings:

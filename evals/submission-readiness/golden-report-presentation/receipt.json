@@ -1,0 +1,38 @@
+{
+  "schema": "golden-review-report-presentation-v1",
+  "verified_at": "2026-10-22T00:42:51.059374+00:00",
+  "change": "Neutral report headings, concise methods section and matching dashboard display.",
+  "report_commit": "693ef750cf0a6c6de4fceb69da25a14879ca028a",
+  "report_sha256": "a2f620a6f8340ac81d7e489c7a41fce6dae86ad6810ef8d85f52306803a96054",
+  "unchanged_reference_sha256": "dd95152c33ac420e77d54688af9b0904432100d7824b849489eb17f9ab5dfc21",
+  "unchanged_predictions_sha256": "8c23941a34abf7c09e279cb6dc49f0778638b25cc7e6a2a05f83b30daee4246c",
+  "structured_files_byte_identical": true,
+  "rendered_case_values_unchanged": 200,
+  "new_model_calls": 0,
+  "archive": {
+    "url": "https://github.com/shahdevansh/spotify-review-pipeline/releases/download/hero-v1/spotify-golden-review-set.zip",
+    "http_status": 200,
+    "sha256": "f81cf81001cd9f4de112264c002d66e42b9fee913736e10443a21b6b530b42a5",
+    "bytes": 130019,
+    "member_hashes_verified": 9,
+    "verified_utc": "2026-10-22T00:41:53.129628+00:00"
+  },
+  "dashboard": {
+    "code_commit": "af7f6fa74006a21a638f4f227d5d96fe110415d0",
+    "deployment_id": "dpl_GRYdTL9bE8B2GtuKRV7m4v1CZwyr",
+    "url": "https://spotify-review-observatory.vercel.app",
+    "ready_state": "READY",
+    "deployment_exit_code": 0,
+    "manifest_report_commit": "693ef750cf0a6c6de4fceb69da25a14879ca028a",
+    "manifest_report_sha256": "a2f620a6f8340ac81d7e489c7a41fce6dae86ad6810ef8d85f52306803a96054",
+    "production_build": "passed",
+    "typescript": "passed"
+  },
+  "validation": {
+    "python_tests": 18,
+    "web_tests": 39,
+    "independent_review": "passed",
+    "git_diff_check": "passed"
+  },
+  "historical_archives_retained": true
+}
