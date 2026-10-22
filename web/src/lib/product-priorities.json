@@ -1,0 +1,120 @@
+{
+  "schema_version": "spotify-product-priorities-v1",
+  "run_id": "run-07e2cb4b0e3d9be0",
+  "label_config": "spotify-f84b2a9afdaa455fd81d26077cab1ccebc7a62bb1b46bab461d9ae593bcb584a",
+  "prediction_sha256": "8c23941a34abf7c09e279cb6dc49f0778638b25cc7e6a2a05f83b30daee4246c",
+  "source_sha256": "1fc85de68a304dd8978b537cfa58793d5f41cbaf417fa32cb53899f83a2fcef6",
+  "completed": 200000,
+  "source_period": {
+    "first_review": "2022-05-17 00:01:07",
+    "last_review": "2023-11-15 23:16:10",
+    "label": "May 2022–November 2023",
+    "evidence": "grading/ingestion.json"
+  },
+  "title": "Spotify review intelligence",
+  "context": "200,000 historical app reviews reveal where Spotify can make listening easier, more reliable and more predictable.",
+  "recommendation": "Prioritize everyday listening controls, playback reliability and the Premium experience.",
+  "selection_reason": "These are the three highest-scoring actionable product areas; the broader Other category combines unrelated complaints.",
+  "metric_note": "Counts cover complaint and cancellation reviews in each topic; the examples illustrate specific problems.",
+  "priorities": [
+    {
+      "issue_id": "issue-usability",
+      "title": "Make everyday listening easier",
+      "problem": "Song selection, playlist controls and navigation can make basic listening tasks harder.",
+      "action": "Make shuffle and queue controls predictable, simplify library access, and add undo for accidental changes.",
+      "themes": [
+        "Song selection and shuffle",
+        "Finding saved music",
+        "Accidental library changes"
+      ],
+      "evidence": [
+        {
+          "review_id": "003e336c-5580-48f6-9ad3-986bbca4f9b8",
+          "quote": "it keeps turning on the shuffle that adds songs that aren't even in my playlist",
+          "source_sha256": "18f81b137a068551ebd4e5a3fa925ad82c3d7fd12390c8027324d676c8d2e3cb",
+          "label": "Unwanted shuffle"
+        },
+        {
+          "review_id": "00522fc8-c978-477d-a1e4-6de53458fcec",
+          "quote": "I literally cannot navigate this app and put music on before getting irritated and giving up",
+          "source_sha256": "0fa963b31d0a9b05fef385c7eae34c3778f73419f2cc936c734a253bf5618536",
+          "label": "Finding music"
+        },
+        {
+          "review_id": "40484260-50c5-4a14-b4fd-0983b1e7e16a",
+          "quote": "I just decimated part of my playlist by accident because I thought I was hitting backwards instead of removing songs.",
+          "source_sha256": "e92b9e6b0a48ef1885518fd84d6478ae1746ea7aa91c41147810fea5a7d87dc4",
+          "label": "Accidental changes"
+        }
+      ],
+      "success_measure": "Track successful song and playlist starts, time to find saved music, and accidental changes reversed.",
+      "baseline_rank": 1
+    },
+    {
+      "issue_id": "issue-playback",
+      "title": "Keep playback uninterrupted",
+      "problem": "Reviews describe crashes, songs stopping in the background and failed device connections.",
+      "action": "Prioritize background playback, connection recovery and regression tests for common listening sessions.",
+      "themes": [
+        "Background interruptions",
+        "App crashes",
+        "Speaker connections"
+      ],
+      "evidence": [
+        {
+          "review_id": "0021f5c8-6a24-4eaf-8173-14a41e6f6b1a",
+          "quote": "cutting out if it's not open on top or if my screen's been locked a while",
+          "source_sha256": "3d846b1f9efdd5ec04ad7baf3bb503be5b5aad4d8d9ab7451d75946b5c478a1e",
+          "label": "Background playback"
+        },
+        {
+          "review_id": "00aaf668-a2f8-4ad5-90cb-b6b5d2c8d345",
+          "quote": "Relentless crashing, after about 2 mins into a song, then restarts the app or has to restart the song.",
+          "source_sha256": "2671e207e44e8edaaf529271e114d408477045c40d01de0b234c9f9f3757bd70",
+          "label": "Crashes"
+        },
+        {
+          "review_id": "001082d6-de00-4a8d-a3b8-c3e3720280c1",
+          "quote": "It's connected to a speaker via Bluetooth. But when I play my liked song playlist, nothing comes out.",
+          "source_sha256": "7e1fd2b68f0943b0399619c99f995afe9181fcb35df447db4d193f1c1d3e5397",
+          "label": "Speaker connection"
+        }
+      ],
+      "success_measure": "Track uninterrupted listening sessions, crash-free sessions and successful device handoffs.",
+      "baseline_rank": 3
+    },
+    {
+      "issue_id": "issue-billing",
+      "title": "Make Premium value and billing clear",
+      "problem": "Reviews question paid feature limits and report missing benefits or charges after cancellation.",
+      "action": "Clarify free and paid features, verify access after payment, and make cancellation status and refunds easy to resolve.",
+      "themes": [
+        "Free versus paid features",
+        "Paid benefits unavailable",
+        "Charges after cancellation"
+      ],
+      "evidence": [
+        {
+          "review_id": "007c7722-46ea-4d1c-bcff-47ae71824581",
+          "quote": "removing repeat song mode, tapping back and play in order features...",
+          "source_sha256": "6fa73813b4b64ec3b56b77bec1d81e40e0e38e22359059a6c454b5558de92385",
+          "label": "Feature expectations"
+        },
+        {
+          "review_id": "002e1349-46a5-4616-9a8a-f0c8df17a6a1",
+          "quote": "I have a premium account and can't access premium features.",
+          "source_sha256": "f71d79fa339033dba577c1968c7ca24c6f5af3c6ca47b6b0cf73fadbdbded191",
+          "label": "Paid access"
+        },
+        {
+          "review_id": "82928fd7-ae00-4aaf-b381-b3c9444db38a",
+          "quote": "When I talk to chat they told me that they closed my account but then my account was charged a second time",
+          "source_sha256": "09fe7fcad62f0668a01718c7cd4174ea7dd37d007f1574007852931b168e8cc8",
+          "label": "Cancellation charges"
+        }
+      ],
+      "success_measure": "Track paid-feature activation, cancellation completion, repeat charge complaints and refund resolution time.",
+      "baseline_rank": 4
+    }
+  ]
+}

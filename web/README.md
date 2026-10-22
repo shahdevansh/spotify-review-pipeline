@@ -1,8 +1,16 @@
-# Spotify review observatory
+# Spotify review intelligence
 
 Next.js reads saved analysis results from PostgreSQL. It has no model SDK, provider
 key, inference endpoint, or paid call path. Missing data is shown as unavailable;
 there are no embedded example results.
+
+The dashboard opens with three product priorities, showing review volume and
+average severity alongside concrete examples and proposed improvements. The
+review explorer supports topic comparison, sorting, pagination, and search within
+the reviews already loaded. Recommendations explain the proposed actions, while
+How we analyzed contains the model roles, experiment comparisons, verification
+results, and calculation details. Product summaries are tied to the published
+hero run; a different run cannot inherit these interpretations.
 
 ## Current submitted run: hero-v1
 
@@ -66,7 +74,7 @@ checkout. Keep the published source artifacts unchanged. For the web deployment,
 create a dedicated reader role using the grants below, set its server-only
 `DATABASE_READONLY_URL`, and deploy `web/` to Vercel. Human-reference evidence remains
 a separately versioned, run-bound publication. The current
-[AI-assisted, human-confirmed reference](../evals/human-reference-v3/) completes
+[golden review set comparison](../evals/human-reference-v3/) completes
 all four required golden-50 fields and preserves the
 [earlier partial reference](../evals/human-reference-v2/). It does not change
 production data or imply blind accuracy. Its dashboard link must use the exact
