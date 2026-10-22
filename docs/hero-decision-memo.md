@@ -1,5 +1,9 @@
 # Spotify review intelligence
 
+**[Open the live dashboard →](https://spotify-review-observatory.vercel.app/)**
+
+Explore the product priorities, results from 200,000 reviews, and original review evidence. Public access; no sign-in or API key required.
+
 ## Recommendation
 
 Prioritize making everyday listening easier, with playback reliability and clearer Premium billing as the next two areas of work. Across **200,000 Spotify reviews**, usability produced the highest combined frequency and severity score, while playback complaints described more serious disruption on average. Billing feedback adds a distinct concern about what customers receive, what they pay, and how they cancel.

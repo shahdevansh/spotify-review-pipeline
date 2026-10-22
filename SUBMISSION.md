@@ -1,5 +1,9 @@
 # Spotify review pipeline: submission guide
 
+**[Open the live dashboard →](https://spotify-review-observatory.vercel.app/)**
+
+Explore the product priorities, results from 200,000 reviews, and original review evidence. Public access; no sign-in or API key required.
+
 ## Summary and recommendation
 
 I recommend that Spotify make everyday listening easier, improve playback reliability, and clarify Premium access and billing. Usability leads the analysis with 25,563 complaint or cancellation reviews and the highest combined severity score of 68,258. Playback contributes 12,548 reviews with more severe disruption on average, while 12,794 billing reviews raise problems with paid features, access, and charges. The proposed changes focus on predictable listening controls, uninterrupted sessions, and payment flows that customers can understand and resolve.
@@ -51,4 +55,4 @@ The unchanged course checker returns `review_required` because 48 failed request
 
 The [original hero archive](https://github.com/shahdevansh/spotify-review-pipeline/releases/download/hero-v1/spotify-hero-evidence.zip) contains frozen run evidence, the [submission supplement](https://github.com/shahdevansh/spotify-review-pipeline/releases/download/hero-v1/spotify-submission-supplement.zip) adds reproduction and safety checks, and the [current golden review archive](https://github.com/shahdevansh/spotify-review-pipeline/releases/download/hero-v1/spotify-golden-review-set.zip) contains the completed comparison with the updated report. Earlier artifacts remain available so changes can be inspected.
 
-This 200,000-review cohort exceeds the assignment's amended 100,000-review minimum. Submit the [public repository URL](https://github.com/shahdevansh/spotify-review-pipeline) through the [course assignment form](https://bcourses.berkeley.edu/courses/1555592/assignments/9130940); publication of these materials does not confirm submission.
+This 200,000-review cohort exceeds the assignment's amended 100,000-review minimum. Open the [assignment in bCourses](https://bcourses.berkeley.edu/courses/1555592/assignments/9130940), follow its course submission-portal link, select the final assignment, and submit the [public repository URL](https://github.com/shahdevansh/spotify-review-pipeline). The repository and its linked artifacts are the single deliverable, so the dashboard does not require a separate submission. Publication of these materials does not confirm submission.

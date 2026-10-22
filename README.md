@@ -1,5 +1,9 @@
 # What 200,000 Spotify reviews suggest we should fix next
 
+**[Open the live dashboard →](https://spotify-review-observatory.vercel.app/)**
+
+Explore the product priorities, results from 200,000 reviews, and original review evidence. Public access; no sign-in or API key required.
+
 ## Summary
 
 I recommend prioritizing **easier everyday listening controls**, followed by **more reliable playback** and **clearer Premium access and billing**. Usability leads the analysis with 25,563 complaint or cancellation reviews and a combined severity score of 68,258. Playback problems appear in 12,548 reviews and are more severe on average, while 12,794 billing reviews point to confusion about paid features, missing benefits, and unwanted charges. Together, these three areas account for 50,905 review reports and give Spotify a focused starting point for product improvements.
