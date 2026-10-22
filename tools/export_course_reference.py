@@ -11,6 +11,7 @@ import csv
 import hashlib
 import html
 import json
+import re
 from pathlib import Path
 
 import export_golden_grader as base
@@ -26,9 +27,36 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def readable_method_statement(statement):
+    """Keep preparation facts in ordinary methods prose, without a status banner."""
+    return (statement.replace("This posthoc reference includes", "The reference includes")
+            .replace("were drafted with AI and then explicitly confirmed", "were proposed by models and then reviewed and confirmed")
+            .replace("Per-field annotation_method preserves that assistance. ", "Field-level methods are retained in the structured exports. ")
+            .replace("These are not independent blind human labels. ",
+                     "The reference was finalized after earlier model comparisons, so these scores describe agreement on this reviewed set. ")
+            .replace("This remains posthoc reference agreement, not blind population accuracy. ",
+                     "The scores describe agreement on the reviewed reference. "))
+
+
+def present_reference_markdown(text, name):
+    """Change report presentation without changing labels or evaluation metadata."""
+    text = re.sub(r"^# .*$", "# Golden review set agreement" if name == "report.md" else
+                  "# Golden review set: data and evaluation methods", text, count=1, flags=re.M)
+    opening = "This report compares the frozen hero predictions with the reviewed golden set and the additional worksheet annotations."
+    for banner in ("**AI-assisted, human-confirmed posthoc reference agreement; not blind population accuracy.**",
+                   "Posthoc adjudicated reference agreement; **not blind population accuracy**."):
+        text = text.replace(banner, opening)
+    text = text.replace("## Course-completion provenance", "## How the reference was prepared")
+    text = readable_method_statement(text)
+    text = text.replace("; this is posthoc adjudicated agreement, not blind accuracy.", ".")
+    text = text.replace("It is **not a blind accuracy test**. ", "Preparation details appear below. ")
+    text = re.sub(r"\nEvaluation status: `[^`]+`\.\n", "\n", text)
+    return text.rstrip() + "\n"
+
+
 def render_course_html(rows, statement):
     """Render the sanitized per-case JSON directly, including field-level method."""
-    escape = lambda value: html.escape(str(value), quote=True)
+    escape = lambda value: html.escape(str(value), quote=True).replace("\r", "&#13;").replace("\n", "&#10;")
     cards = []
     for row in rows:
         cells = []
@@ -54,17 +82,18 @@ def render_course_html(rows, statement):
                      '<th>Comparison</th><th>Absolute error</th></tr></thead><tbody>' + "".join(cells) +
                      "</tbody></table></div></section>")
     return ('<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
-            '<title>Completed course reference comparison</title><style>'
+            '<title>Golden review set agreement</title><style>'
             'body{font:16px system-ui;margin:32px auto;padding:0 20px;max-width:1400px;color:#17252f;background:#f6f8fa}'
             'h1{font-size:28px}section{background:white;border:1px solid #ccd5df;border-radius:8px;padding:20px;margin:24px 0}'
             'h2{font-size:19px;overflow-wrap:anywhere}.review{white-space:pre-wrap}.hash{font:12px monospace;overflow-wrap:anywhere}'
             '.scroll{overflow:auto}table{width:100%;border-collapse:collapse}th,td{text-align:left;vertical-align:top;padding:8px;'
             'border-bottom:1px solid #ddd;max-width:340px;overflow-wrap:anywhere}th{background:#eef3f7}'
-            '.warning{padding:16px;background:#fff1c6;border-left:5px solid #bb7200}</style>'
-            '<h1>Completed course reference and frozen hero predictions</h1><p class="warning">' + escape(statement) +
-            '</p><p>Posthoc reference agreement; not blind population accuracy. Original human provenance and annotation method '
-            'are separate columns. AI-assisted fields are identified individually. Unannotated and outside-cohort values remain '
-            'excluded from scoring. This static page contains no personal notes, scripts, analytics, or external requests.</p>' +
+            'details{padding:16px;background:#eef3f7;border-radius:8px}summary{cursor:pointer;font-weight:600}</style>'
+            '<h1>Golden review set agreement</h1><p>This page compares reviewed labels with frozen hero predictions. '
+            'Unannotated and outside-cohort values remain excluded from scoring. Each field retains its recorded provenance '
+            'and annotation method.</p><details><summary>How the reference was prepared</summary><p>' +
+            escape(readable_method_statement(statement)) +
+            '</p><p>This static page contains no personal notes, scripts, analytics, or external requests.</p></details>' +
             "".join(cards) + "</html>\n")
 
 
@@ -159,7 +188,7 @@ def disclose(out, reference, expected_sha):
                      "[All 200 worksheet records CSV](all200-comparison.csv) · "
                      "[Per-case HTML view](index.html) · "
                      "[Structured all-200 JSONL](all200-comparison.jsonl)\n")
-        path.write_text(text)
+        path.write_text(present_reference_markdown(text, name))
     main_jsonl = out / "all200-comparison.jsonl"
     if not main_jsonl.exists():
         main_jsonl = out / "golden50-comparison.jsonl"

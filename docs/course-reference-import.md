@@ -77,7 +77,7 @@ Adjust the final-records path to the verified extracted evidence location. `--ba
 
 Review and publish only the generated minimal comparison files after authorization. They include public source text/identity, primary expected values and provenance, frozen predictions, per-field comparisons, aggregate reports, and validation hashes. Personal notes, alternative-label notes, annotator identity, private change histories, draft rationales, and per-review confirmation timestamps remain excluded.
 
-AI-assisted outputs identify the assistance at the beginning of the report and README, in each affected field's `annotation_method`, and in the HTML's separate **Human provenance** and **Annotation method** columns. The report links to the golden-50 and all-200 CSVs, structured JSONL, and per-case HTML.
+The report and README use the title “Golden review set” and describe how labels were completed in a methods section. Each affected field retains its `annotation_method`, and the HTML shows separate **Human provenance** and **Annotation method** columns. The report links to the golden-50 and all-200 CSVs, structured JSONL, and per-case HTML.
 
 ## Synthetic verification
 

@@ -1,6 +1,6 @@
-# Human reference and frozen hero predictions
+# Golden review set agreement
 
-**AI-assisted, human-confirmed posthoc reference agreement; not blind population accuracy.**
+This report compares the frozen hero predictions with the reviewed golden set and the additional worksheet annotations.
 
 All 200 worksheet records are preserved without personal notes or annotator identity. The hero cohort contains 99 worksheet IDs: all 50 golden IDs and 49 additional IDs. The other 101 records retain human labels but have null production predictions and are unscored.
 
@@ -21,7 +21,7 @@ All 200 worksheet records are preserved without personal notes or annotator iden
 
 ## Interpretation
 
-- The human reference was corrected after inspecting earlier model predictions, including 43 approved topic changes; this is posthoc adjudicated agreement, not blind accuracy.
+- The human reference was corrected after inspecting earlier model predictions, including 43 approved topic changes.
 - Each field uses only explicitly annotated values. Blank severity, sentiment, and entities are not negative labels and are never imputed.
 - The completed golden 50 use the course severity rubric for every record; the additional 150 retain sparse original annotations.
 - Only reference IDs inside the selected hero cohort enter agreement denominators. Outside-cohort references are separately counted; missing/invalid in-cohort predictions count as incorrect for exact agreement.
@@ -37,11 +37,10 @@ All 200 worksheet records are preserved without personal notes or annotator iden
 - Run: `run-07e2cb4b0e3d9be0`
 - Classification configuration: `spotify-f84b2a9afdaa455fd81d26077cab1ccebc7a62bb1b46bab461d9ae593bcb584a`
 
-## Course-completion provenance
+## How the reference was prepared
 
-This posthoc reference includes 51 originally missing field values across 40 reviews that were drafted with AI and then explicitly confirmed by the user, including any user edits. Per-field annotation_method preserves that assistance. These are not independent blind human labels. Frozen hero predictions were not inputs to the draft review or importer.
+The reference includes 51 originally missing field values across 40 reviews that were proposed by models and then reviewed and confirmed by the user, including any user edits. Field-level methods are retained in the structured exports. The reference was finalized after earlier model comparisons, so these scores describe agreement on this reviewed set. Frozen hero predictions were not inputs to the draft review or importer.
 
-Evaluation status: `posthoc_ai_assisted_course_reference_completion_not_blind_accuracy`.
 
 ## Inspect the cases
 

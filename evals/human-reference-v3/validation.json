@@ -10,8 +10,8 @@
   "reference_sha256": "dd95152c33ac420e77d54688af9b0904432100d7824b849489eb17f9ab5dfc21",
   "files": {
     "README.md": {
-      "sha256": "08fa29b955d352561328069a8af342ce8a26cf158afc739904182697b0896033",
-      "bytes": 3384
+      "sha256": "4bfc341fdd8e8637a6e407b36eaaec27f10dd11110910e866ca21301d3b2f993",
+      "bytes": 3402
     },
     "aggregate.json": {
       "sha256": "9c4aa13e6aba8f2a88809a98c6143346e7348ee7ce101fdb97e230b6558197b5",
@@ -34,12 +34,12 @@
       "bytes": 218635
     },
     "index.html": {
-      "sha256": "15e30772613e0d1da0f6cb59024babd665ddd93d40650fc3d45605060eee4694",
-      "bytes": 428409
+      "sha256": "990d52855194d0b4fa2b5213e118a16e6ddfb9c5ce763857a096e22ffd568dd4",
+      "bytes": 428490
     },
     "report.md": {
-      "sha256": "263648bd66e9c5d075c3f08e18897518491cadaeb34285acaa24337c8830523b",
-      "bytes": 3825
+      "sha256": "a2f620a6f8340ac81d7e489c7a41fce6dae86ad6810ef8d85f52306803a96054",
+      "bytes": 3763
     }
   },
   "course_completion_provenance_disclosed": true,

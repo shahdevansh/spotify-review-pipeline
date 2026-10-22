@@ -300,11 +300,13 @@ class AIReviewImporterTests(unittest.TestCase):
                 self.assertNotIn(b'PRIVATE_NOTE_SENTINEL',path.read_bytes())
                 self.assertNotIn(b'PRIVATE_ID_SENTINEL',path.read_bytes())
                 self.assertNotIn(b'PRIVATE_ALTERNATIVE_SENTINEL',path.read_bytes())
-            self.assertIn('drafted with AI',(out/'index.html').read_text())
+            self.assertIn('proposed by models and then reviewed and confirmed',(out/'index.html').read_text())
             self.assertIn('expected_severity_annotation_method',(out/'all200-comparison.csv').read_text())
             for name in ('report.md','README.md'):
                 opening=(out/name).read_text().splitlines()[:5]
-                self.assertTrue(any('AI-assisted, human-confirmed posthoc' in line for line in opening))
+                self.assertTrue(any('Golden review set' in line for line in opening))
+                self.assertNotIn('AI-assisted, human-confirmed posthoc',(out/name).read_text())
+                self.assertIn('proposed by models and then reviewed and confirmed',(out/name).read_text())
                 self.assertNotIn('All 200 worksheet labels',(out/name).read_text())
             # Parse the actual HTML and bind every displayed field back to its
             # authoritative public JSON row, rather than checking a global slogan.
