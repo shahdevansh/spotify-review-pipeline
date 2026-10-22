@@ -143,12 +143,16 @@ test("new publication retains every exact hero identity and source completeness 
   assert.equal(publishedHumanReference(run, source, { ...aiManifest, publication: null }), null);
 });
 
-test("AI-assisted reference states provenance, complete golden scope, and remaining missingness", () => {
+test("golden review display uses a neutral heading while preserving methods and scope", () => {
   const ref = publishedHumanReference(run, source, aiManifest)!;
   const copy = humanReferenceDisclosure(ref);
-  assert.equal(copy.heading, "AI-assisted, human-confirmed reference agreement");
-  assert.match(copy.context, /explicitly reviewed and confirmed by the user/);
-  assert.match(copy.context, /not a blind human benchmark/);
+  assert.equal(copy.heading, "Golden review set agreement");
+  assert.equal(copy.badge, "50 reviewed records");
+  assert.doesNotMatch(`${copy.heading} ${copy.badge}`, /AI-assisted|posthoc|blind population/i);
+  assert.match(copy.context, /model-generated suggestions for 51 missing fields/);
+  assert.match(copy.context, /edited them where needed, and confirmed the completed labels/);
+  assert.match(copy.context, /earlier adjudications made after model predictions were inspected/);
+  assert.match(copy.context, /size and annotation history limit conclusions/);
   assert.match(copy.scope, /Additional-review labels remain selectively annotated/);
   assert.match(copy.note, /authorized individual-label export/);
   assert.match(copy.note, /Personal notes are excluded/);
@@ -158,13 +162,15 @@ test("AI-assisted reference states provenance, complete golden scope, and remain
   assert.equal(historical.badge, "Posthoc adjudicated · Sparse labels");
 });
 
-test("completed AI-reviewed labels do not imply quality pass or independent human accuracy", () => {
+test("golden review summary preserves the existing quality gate", () => {
   const ref = publishedHumanReference(run, source, aiManifest)!;
   const comparison = { comparison_type: "independent_model_agreement", verified_count: 40000,
     comparable_count: 40000, field_agreement: { topic: 0.91, intent: 0.935 }, ground_truth: false };
   const result = qualityPresentation(null, comparison, ref);
-  assert.match(result.label, /AI-assisted, human-confirmed reference agreement/);
-  assert.match(result.summary, /Neither result establishes blind population accuracy/);
+  assert.equal(result.label, "Model verification and golden review set agreement published");
+  assert.match(result.summary, /40,000 original review IDs/);
+  assert.match(result.summary, /separate comparison against 50 reviewed records/);
+  assert.doesNotMatch(`${result.label} ${result.summary}`, /AI-assisted|posthoc|blind population/i);
   assert.equal(result.tone, "neutral");
   assert.equal(result.provisional, true);
   assert.equal(qualityPresentation({ status: "hold", summary: "Prior hold", reasons: [], recommendations_provisional: true }, comparison, ref).status, "hold");

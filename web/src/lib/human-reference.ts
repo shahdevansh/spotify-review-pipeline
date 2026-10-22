@@ -98,9 +98,9 @@ export function humanReferenceCoverage(reference: HumanReferenceLink): string {
 /** The reference provenance does not upgrade model agreement to human accuracy. */
 export function humanReferenceDisclosure(reference: HumanReferenceLink) {
   if (reference.reference_type === "ai_assisted_human_confirmed") return {
-    heading: "AI-assisted, human-confirmed reference agreement",
-    badge: "AI-assisted · Human-confirmed · Posthoc",
-    context: "Earlier annotations include corrections made after model predictions were inspected. Missing golden-review fields were then drafted with AI and explicitly reviewed and confirmed by the user. This mixed-provenance reference is not a blind human benchmark.",
+    heading: "Golden review set agreement",
+    badge: "50 reviewed records",
+    context: "The author reviewed model-generated suggestions for 51 missing fields, edited them where needed, and confirmed the completed labels, alongside earlier adjudications made after model predictions were inspected. This comparison measures agreement with that reviewed set; its size and annotation history limit conclusions about accuracy across the full dataset.",
     scope: "All four required fields are complete for the golden 50 under the course rubric. Additional-review labels remain selectively annotated; each field retains its own evaluated denominator.",
     note: "The linked report includes agreement, differences, provenance, and links to the authorized individual-label export. Personal notes are excluded. Production predictions and model-agreement results remain unchanged; recommendations remain provisional.",
   };

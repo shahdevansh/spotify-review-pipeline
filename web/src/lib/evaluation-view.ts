@@ -44,10 +44,10 @@ export function qualityPresentation(gate: PilotAuditReport["quality_gate"] | nul
       status: "model_verification_available" as const,
       tone: "neutral" as const,
       label: humanReference?.reference_type === "ai_assisted_human_confirmed"
-        ? "Model verification and AI-assisted, human-confirmed reference agreement published"
+        ? "Model verification and golden review set agreement published"
         : humanReference ? "Model verification and adjudicated human reference published" : "Model verification published · Human accuracy not evaluated",
       summary: humanReference?.reference_type === "ai_assisted_human_confirmed"
-        ? `Saved independent model comparison covers ${integer.format(comparison.verified)} original review IDs. A separate posthoc reference includes AI-drafted labels explicitly reviewed and confirmed by the user. Neither result establishes blind population accuracy.`
+        ? `Independent model verification covers ${integer.format(comparison.verified)} original review IDs, while the golden review set provides a separate comparison against 50 reviewed records. The results and evaluation methods are available below.`
         : humanReference
         ? `Saved independent model comparison covers ${integer.format(comparison.verified)} original review IDs. A separate sparse, posthoc adjudicated human reference is linked below. Neither result establishes blind population accuracy.`
         : `Saved independent model comparison covers ${integer.format(comparison.verified)} original review IDs. Human accuracy is not established by model agreement; no run-matched human benchmark is published here.`,
